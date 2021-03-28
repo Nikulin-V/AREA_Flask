@@ -13,7 +13,6 @@ login_manager.init_app(app)
 
 
 def main():
-    db_session.global_init("db/database.sqlite")
     app.run(debug=True)
 
 
@@ -21,7 +20,7 @@ def main():
 @app.route('/index')
 @app.route('/main')
 def index():
-    pass
+    return render_template('index.html')
 
 
 @app.route('/login', methods=['GET', 'POST'])
