@@ -1,4 +1,6 @@
 from flask import Flask, render_template, redirect
+from flask_login import logout_user, login_required, LoginManager
+
 from data import db_session
 from data.users import User
 from forms.login import LoginForm
@@ -6,6 +8,8 @@ from forms.register import RegisterForm
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
+login_manager = LoginManager()
+login_manager.init_app(app)
 
 
 def main():
@@ -54,6 +58,19 @@ def register():
         db_sess.commit()
         return redirect('/login')
     return render_template('register.html', title='Регистрация', form=form)
+
+
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect("/")
+
+
+@login_manager.user_loader
+def load_user(user_id):
+    db_sess = db_session.create_session()
+    return db_sess.query(User).get(user_id)
 
 
 if __name__ == '__main__':
