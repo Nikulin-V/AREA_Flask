@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>{{ title }}</h1>
+    <table>
+        <tr>
+            <th>№</th>
+            <th>Время</th>
+            <th>Понедельник</th>
+            <th>Вторник</th>
+            <th>Среда</th>
+            <th>Четверг</th>
+            <th>Пятница</th>
+            <th>Суббота</th>
+        </tr>
+        {% for lesson_id in range(8) %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                {% for day_id in range(7) %}
+                    <td>{{ table[lesson_id][day_id] if table[lesson_id][day_id] else '' }}</td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
