@@ -2,24 +2,21 @@
 
 {% block content %}
     <h1>{{ title }}</h1>
-    <table>
-        <tr>
-            <th>№</th>
-            <th>Время</th>
-            <th>Понедельник</th>
-            <th>Вторник</th>
-            <th>Среда</th>
-            <th>Четверг</th>
-            <th>Пятница</th>
-            <th>Суббота</th>
-        </tr>
-        {% for lesson_id in range(8) %}
-            <tr>
-                <td>{{ loop.index }}</td>
-                {% for day_id in range(7) %}
-                    <td>{{ table[lesson_id][day_id] if table[lesson_id][day_id] else '' }}</td>
-                {% endfor %}
-            </tr>
-        {% endfor %}
-    </table>
+    {% for day_id in range(7) %}
+        <table class="dairy-table table-hover table-info">
+        <caption style="caption-side: top">{{ days[day_id] }}</caption>
+            {% for subject_id in range(subjects[day_id]|length) %}
+                <tr id="row">
+                    <td style="width: 15px; text-align: center">{{ loop.index }}</td>
+                    <td style="width: 20%;text-align: center">{{ subjects[day_id][subject_id] }}</td>
+                    {% if homework[day_id][subject_id] %}
+                        <td>{{ homework[day_id][subject_id] }}</td>
+                    {% else %}
+                        <td></td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+        </table>
+        <p></p>
+    {% endfor %}
 {% endblock %}

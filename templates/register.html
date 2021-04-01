@@ -60,7 +60,7 @@
     </p>
     <p>
         {{ form.date_of_birth.label }}<br>
-        {{ form.date_of_birth(class="form-control", type="password") }}<br>
+        {{ form.date_of_birth(class="form-control") }}<br>
         {% for error in form.date_of_birth.errors %}
             <p class="alert alert-danger" role="alert">
                 {{ error }}

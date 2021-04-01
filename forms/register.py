@@ -14,6 +14,6 @@ class RegisterForm(FlaskForm):
                        choices=['Ученик', 'Учитель', 'Родитель'])
     password = PasswordField('Пароль', validators=[DataRequired()])
     password_again = PasswordField('Повторите пароль', validators=[DataRequired()])
-    date_of_birth = DateField('Дата рождения')
+    date_of_birth = DateField('Дата рождения', format='%d.%m.%Y')
     about = TextAreaField('О себе')
     submit = SubmitField('Войти')
