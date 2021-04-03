@@ -13,7 +13,7 @@ login_manager.init_app(app)
 
 
 def main():
-    db_session.global_init('C:/Users/Vasiliy/PycharmProjects/edu-area/db/database.db')
+    db_session.global_init('db/database.db')
     app.run(debug=True)
 
 
@@ -116,8 +116,10 @@ def homework_page():
 @app.errorhandler(404)
 def page_not_found(error):
     messages = {
-        401: ['Вы не авторизованы', 'Через 5 секунд Вы будете направлены на страницу авторизации'],
-        404: ['Страница не найдена', 'Проверьте правильность введённого адреса']
+        401: ['Вы не авторизованы',
+              'Через несколько секунд Вы будете направлены на страницу авторизации'],
+        404: ['Страница не найдена',
+              'Проверьте правильность введённого адреса']
     }
     return render_template("error-page.html",
                            code=error.code,

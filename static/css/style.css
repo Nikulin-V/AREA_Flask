@@ -23,14 +23,64 @@ td, th {
     height: auto;
 }
 
-#error-title {
+#error-message {
     text-align: center;
 }
 
+.parallax {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+}
+
+#office-background {
+    background: url(../images/Office.jpg) repeat-x;
+    z-index: 1;
+    left: 0;
+    background-size: auto 100%;
+}
+
+#logo-background {
+    background: url(../images/Logo.png) no-repeat;
+    top: 50%;
+    left: 50%;
+    z-index: 2;
+    filter: blur(30);
+}
+
+#error-block {
+    z-index: 3;
+    top: 25%;
+    left: 0;
+}
+
 #error-code {
+    font-size: 30px;
+    letter-spacing: -1px;
+    color: #162730;
+    text-transform: uppercase;
+    text-shadow: 1px 1px 0 #000;
+    margin: 10px 0 24px;
+    text-align: center;
+    line-height: 50px;
+}
+
+#error-title {
+    color: #162730;
+    font-family: ‘Righteous’, cursive;
+    font-size: 50px; font-weight: normal;
+    line-height: 60px;
+    margin: 10px 0 20px;
+    text-transform: uppercase;
+    text-shadow: 2px 2px 0 #000;
     text-align: center;
 }
 
 #error-message {
-    text-align: center;
+    color: #162730;
+    text-decoration: none;
+    padding: 15px;
+    font-size: 20px;
+    font-weight: bold;
 }
+
