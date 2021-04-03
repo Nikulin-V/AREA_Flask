@@ -17,3 +17,20 @@ td, th {
 .dairy-table {
     width: 80%;
 }
+
+.error-img {
+    max-width: 100%;
+    height: auto;
+}
+
+#error-title {
+    text-align: center;
+}
+
+#error-code {
+    text-align: center;
+}
+
+#error-message {
+    text-align: center;
+}
