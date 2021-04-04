@@ -1,3 +1,38 @@
+header {
+    display: flex;
+}
+
+main {
+    margin-top: 70px;
+}
+
+#logo-header {
+    height: 40px;
+}
+
+#username {
+    right: 10px;
+    top: 10px;
+    position: fixed;
+}
+
+#sign-up-btn {
+    right: 10px;
+    top: 10px;
+    position: fixed;
+}
+
+#sign-in-btn {
+    right: 200px;
+    top: 10px;
+    position: fixed;
+}
+
+.vl {
+    border-left: 1px solid;
+    width: 20px;
+}
+
 .table_title {
     text-align: center;
     alignment: center;
@@ -41,7 +76,7 @@ td, th {
 }
 
 #logo-background {
-    background: url(../images/Logo.png) no-repeat;
+    background: url(../images/Wolf.png) no-repeat;
     top: 50%;
     left: 50%;
     z-index: 2;
@@ -84,3 +119,33 @@ td, th {
     font-weight: bold;
 }
 
+.navbar {
+    display: inline;
+    padding: 3px;
+    background-color: #86cfda;
+}
+
+form {
+    width: 30%;
+}
+
+#brand-name {
+    font-size: large;
+    margin-top: 5%;
+    margin-right: 1%;
+}
+
+.nav-link {
+    display: inline;
+}
+
+#header-hr {
+    margin: 0;
+}
+
+footer {
+    height: 20%;
+    position: relative;
+    top: 85%;
+    bottom: auto;
+}

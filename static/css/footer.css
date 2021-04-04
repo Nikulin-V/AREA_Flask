@@ -1,0 +1,142 @@
+.top-nav.bottom-w3lnav {
+    margin-bottom: 1em;
+    padding: 0 0 1em;
+}
+
+.top-nav.bottom-w3lnav {
+    background: none;
+    border-bottom: 1px solid #404040;
+    margin-bottom: 2em;
+    padding-bottom: 2em;
+}
+
+.copy-w3right {
+    background: #191919;
+    padding: 1.5em 0;
+    text-align: center;
+}
+
+.copy-w3right p {
+    color: #fff;
+    text-align: center;
+    letter-spacing: 2px;
+}
+
+.copy-w3right p a {
+    color: #86cfda;
+    -webkit-transition: 0.5s all;
+    -moz-transition: 0.5s all;
+    transition: 0.5s all;
+}
+.copy-w3right p a:hover {
+    color: #fff;
+}
+
+/*-- social-icons --*/
+.w3ls-bnr-icons.social-icon {
+    margin-top: 0.4em;
+}
+
+.social-icon a {
+    font-size: 0.9em;
+    color: #fff;
+    margin: 0 .5em;
+    border: 1px solid transparent;
+    width: 30px;
+    height: 28px;
+    display: inline-block;
+    text-align: center;
+    line-height: 2.4em;
+    position: relative;
+    z-index: 999;
+}
+
+.social-icon a:before {
+    content: '';
+    display: block;
+    height: 28px;
+    width: 28px;
+    border: 1px solid #fff;
+    -webkit-transform: rotate(45deg);
+    transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    position: absolute;
+    z-index: -1;
+    -webkit-transition: .5s all;
+    -moz-transition: .5s all;
+    transition: .5s all;
+}
+
+.social-icon a:hover {
+    color: #86cfda;
+}
+
+.social-icon a:hover:before {
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    border-color: #86cfda;
+}
+
+/*-- //social-icons --*/
+.top-nav.bottom-w3lnav {
+    background: none;
+    border-bottom: 1px solid #404040;
+    margin-bottom: 2em;
+    padding-bottom: 2em;
+}
+
+.copy-w3right {
+    background: #191919;
+    padding: 1.5em 0;
+    text-align: center;
+}
+
+.copy-w3right p {
+    color: #fff;
+    text-align: center;
+    letter-spacing: 2px;
+}
+
+.copy-w3right p a {
+    color: #86cfda;
+    -webkit-transition: 0.5s all;
+    -moz-transition: 0.5s all;
+    transition: 0.5s all;
+}
+
+.copy-w3right p a:hover {
+    color: #fff;
+}
+
+.bottom-w3lnav{
+    width: 1140px;
+    max-width: 100%;
+    margin-bottom: 1em;
+    border-bottom: 1px solid #404040;
+}
+
+.bottom-w3lnav ul{
+    list-style: none;
+    display: flex;
+    justify-content: space-around;
+}
+
+.bottom-w3lnav ul li a:hover{
+    background: #86cfda;
+}
+
+.bottom-w3lnav ul li a{
+    text-decoration: none;
+    letter-spacing: 4px;
+    font-size: 1.1em;
+    color: #fff;
+    position: relative;
+    font-weight: 400;
+    padding: .5em 1.1em;
+    display: inline-block;
+    border-radius: 2px;
+    transition: .5s;
+}
