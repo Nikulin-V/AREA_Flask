@@ -12,12 +12,12 @@
 
 
 let hostUrl = window.location.pathname;
-let options = 'no-repeat fixed left 29%'
+let options = 'fixed left 29%'
 let main = document.getElementsByTagName('body')[0]
 if(hostUrl === '/login' || hostUrl === '/register'){
-    main.style.background = "#fff url(\"/static/images/Books.jpg\") " + options;
+    main.style.background = "#fff url(\"/static/images/Обои.jpg\") " + options;
 }
 if(hostUrl === '/'){
-    main.style.background = "#fff url(\"/static/images/Books.jpg\") " + options;
+    main.style.background = "#fff url(\"/static/images/Обои.jpg\") " + options;
 }
 main.style.backgroundSize = 'auto 80%'
