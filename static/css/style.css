@@ -2,8 +2,10 @@ header {
     display: flex;
 }
 
+
 main {
     margin-top: 70px;
+    height: calc(100vh - 170px);
 }
 
 #logo-header {
@@ -141,8 +143,4 @@ form {
 
 #header-hr {
     margin: 0;
-}
-
-footer {
-
 }
