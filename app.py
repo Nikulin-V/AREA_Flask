@@ -15,7 +15,7 @@ login_manager.init_app(app)
 
 
 def main():
-    db_session.global_init('db/database.sqlite')
+    db_session.global_init('C:/Users/Vasiliy/PycharmProjects/edu-area/db/database.sqlite')
     print(
         'http://127.0.0.1:5000/homework',
         'http://127.0.0.1:5000/ho'
