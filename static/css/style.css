@@ -1,10 +1,4 @@
-header {
-    display: flex;
-}
-
-
 main {
-    margin-top: 70px;
     height: calc(100vh - 170px);
 }
 
@@ -79,10 +73,10 @@ td, th {
 
 #logo-background {
     background: url(../images/Wolf.png) no-repeat;
-    top: 50%;
-    left: 50%;
+    background-size: 250px auto;
+    top: 57%;
+    left: 40%;
     z-index: 2;
-    filter: blur(30);
 }
 
 #error-block {
@@ -125,6 +119,7 @@ td, th {
     display: inline;
     padding: 3px;
     background-color: #86cfda;
+    height: 60px;
 }
 
 form {
