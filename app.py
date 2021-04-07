@@ -1,6 +1,5 @@
-from flask import Flask, render_template, redirect, abort, url_for
+from flask import Flask, render_template, redirect, abort
 from flask_login import logout_user, login_required, LoginManager, login_user, current_user
-# from flask_ngrok import run_with_ngrok
 
 from data import db_session
 from data.users import User
@@ -11,15 +10,15 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
 login_manager = LoginManager()
 login_manager.init_app(app)
-# run_with_ngrok(app)
 
 
 def main():
-    db_session.global_init('C:/Users/Vasiliy/PycharmProjects/edu-area/db/database.sqlite')
+    db_session.global_init('C:/Users/79630/PycharmProjects/edu-area/db/database.sqlite')
     print(
         'http://127.0.0.1:5000/homework',
         'http://127.0.0.1:5000/ho'
     )
+    app.run(debug=True)
     app.run()
 
 
