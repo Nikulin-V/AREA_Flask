@@ -2,7 +2,7 @@
 
 {% block content %}
     <h1>{{ title }}</h1>
-    {% for day_id in range(7) %}
+    {% for day_id in range(6) %}
         <table class="dairy-table table-hover table-info">
         <caption style="caption-side: top">{{ days[day_id] }}</caption>
             {% for subject_id in range(subjects[day_id]|length) %}

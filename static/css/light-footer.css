@@ -1,0 +1,80 @@
+.top-nav.bottom-w3lnav {
+    margin-bottom: 1em;
+    padding: 0 0 1em;
+}
+
+.top-nav.bottom-w3lnav {
+    background: none;
+    border-bottom: 1px solid #404040;
+    margin-bottom: 2em;
+    padding-bottom: 2em;
+}
+
+.copy-w3right {
+    background: #ffffff;
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 60px;
+}
+/*-- //social-icons --*/
+.top-nav.bottom-w3lnav {
+    background: none;
+    border-bottom: 1px solid #404040;
+    margin-bottom: 2em;
+    padding-bottom: 2em;
+}
+
+.copy-w3right p {
+    color: #000000;
+    text-align: center;
+    letter-spacing: 2px;
+    padding-bottom: 5px;
+}
+
+.copy-w3right p a {
+    color: #86cfda;
+    -webkit-transition: 0.5s all;
+    -moz-transition: 0.5s all;
+    transition: 0.5s all;
+}
+
+.copy-w3right p a:hover {
+    color: #000000;
+}
+
+.bottom-w3lnav {
+    width: 1140px;
+    height: 30px;
+    max-width: 100%;
+    border-bottom: 1px solid #404040;
+}
+
+footer div div div ul {
+    margin-bottom: .1em;
+}
+
+.bottom-w3lnav ul{
+    list-style: none;
+    display: flex;
+    justify-content: space-around;
+}
+
+.bottom-w3lnav ul li a:hover{
+    background: #86cfda;
+}
+
+.bottom-w3lnav ul li a{
+    text-decoration: none;
+    letter-spacing: 4px;
+    font-size: 1.1em;
+    color: #000000;
+    position: relative;
+    font-weight: 400;
+    margin-bottom: .1em;
+    padding: 0 .1em 0 .2em;
+    display: inline-block;
+    border-radius: 2px;
+    transition: .5s;
+}
