@@ -197,3 +197,14 @@ body{
 	justify-content: center;
 	font-size: 28px;
 }
+
+#icon-light{
+	height: 70px;
+	top: 1.15%;
+	position: fixed;
+}
+
+#icon-dark{
+	height: 0;
+	width: 0;
+}
