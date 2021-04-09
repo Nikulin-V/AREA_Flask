@@ -2,32 +2,7 @@ main {
     margin-bottom: 100px;
 }
 
-#logo-header {
-    height: 40px;
-}
 
-#username {
-    right: 10px;
-    top: 10px;
-    position: fixed;
-}
-
-#sign-up-btn {
-    right: 10px;
-    top: 10px;
-    position: fixed;
-}
-
-#sign-in-btn {
-    right: 200px;
-    top: 10px;
-    position: fixed;
-}
-
-.vl {
-    border-left: 1px solid;
-    width: 20px;
-}
 
 #slider { /*положение слайдера*/
     position: relative;
@@ -292,3 +267,9 @@ form {
 #header-hr {
     margin: 0;
 }
+
+#register-form {
+    background-image: url(../images/Books.jpg);
+}
+
+.abcRioButton {}

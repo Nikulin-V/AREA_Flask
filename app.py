@@ -1,7 +1,13 @@
-from flask import Flask, render_template, redirect, abort
+import json
+
+import requests
+from flask import Flask, render_template, redirect, abort, url_for
 from flask_login import logout_user, login_required, LoginManager, login_user, current_user
+# from flask_ngrok import run_with_ngrok
+from oauth2client.service_account import ServiceAccountCredentials
 
 from data import db_session
+from data.get_epos_cookies import get_epos_cookies
 from data.users import User
 from forms.login import LoginForm
 from forms.register import RegisterForm
@@ -10,15 +16,23 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
 login_manager = LoginManager()
 login_manager.init_app(app)
+db_session.global_init('C:/Users/Vasily/PycharmProjects/edu-area/db/database.sqlite')
+
+
+# run_with_ngrok(app)
 
 
 def main():
-    db_session.global_init('C:/Users/79630/PycharmProjects/edu-area/db/database.sqlite')
+    credentials_file = 'credentials.json'
+    credentials = ServiceAccountCredentials.from_json_keyfile_name(credentials_file, [
+        'https://www.googleapis.com/auth/spreadsheets',
+        'https://www.googleapis.com/auth/drive'])
+
+    print(db_session)
     print(
         'http://127.0.0.1:5000/homework',
         'http://127.0.0.1:5000/ho'
     )
-    app.run(debug=True)
     app.run()
 
 
@@ -33,7 +47,10 @@ def index():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+
     form = LoginForm()
+    # print(json.dumps(requests.get("https://school.permkrai.ru/core/api/bells_timetables",
+    # cookies=get_epos_cookies('nikulinvasiliy.n2017@yandex.ru', 'Ybrekby0108')).json(), indent=4))
     if form.validate_on_submit():
         db_sess = db_session.create_session()
         user: User
