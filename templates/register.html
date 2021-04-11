@@ -87,6 +87,24 @@
             {% endfor %}
         </p>
         <p>
+            {{ form.epos_login.label }}<br>
+            {{ form.epos_login(class="form-control") }}<br>
+            {% for error in form.epos_login.errors %}
+                <p class="alert alert-danger" role="alert">
+                    {{ error }}
+                </p>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.epos_password.label }}<br>
+            {{ form.epos_password(class="form-control", type="password") }}<br>
+            {% for error in form.epos_password.errors %}
+                <p class="alert alert-danger" role="alert">
+                    {{ error }}
+                </p>
+            {% endfor %}
+        </p>
+        <p>
             {{ form.about.label }}<br>
             {{ form.about(class="form-control") }}<br>
             {% for error in form.about.errors %}

@@ -19,6 +19,9 @@ class User(SqlAlchemyBase, UserMixin):
     email = sqlalchemy.Column(sqlalchemy.String, index=True, unique=True)
     hashed_password = sqlalchemy.Column(sqlalchemy.String)
 
+    epos_login = sqlalchemy.Column(sqlalchemy.String)
+    epos_password = sqlalchemy.Column(sqlalchemy.String)
+
     def set_password(self, password):
         self.hashed_password = generate_password_hash(password)
 
