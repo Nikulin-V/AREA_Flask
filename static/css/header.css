@@ -10,6 +10,13 @@ header {
     right: 10px;
     top: 10px;
     position: fixed;
+    background-color: white;
+}
+
+.dropdown-menu {
+    width: min-content;
+    left: auto;
+    right: 5px;
 }
 
 #sign-up-btn {
@@ -69,4 +76,8 @@ span.buttonText {
     font-size: 1rem;
     font-weight: 400;
     color: black;
+}
+
+.dropdown-menu {
+    text-align: center;
 }

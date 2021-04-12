@@ -17,5 +17,5 @@ class RegisterForm(FlaskForm):
     epos_login = StringField('Логин / Email для входа в ЭПОС.Школа', validators=[DataRequired()])
     epos_password = PasswordField('Пароль для входа в ЭПОС.Школа', validators=[DataRequired()])
     date_of_birth = DateField('Дата рождения', format='%d.%m.%Y')
-    about = TextAreaField('О себе')
-    submit = SubmitField('Войти')
+    about = StringField('О себе')
+    submit = SubmitField()

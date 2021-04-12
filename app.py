@@ -58,14 +58,18 @@ def register():
     form = RegisterForm()
     if form.validate_on_submit():
         if form.password.data != form.password_again.data:
-            return render_template('register.html', title='Регистрация',
+            return render_template('register.html',
+                                   title='Регистрация',
                                    form=form,
-                                   message="Пароли не совпадают")
+                                   message="Пароли не совпадают",
+                                   btn_label='Войти')
         db_sess = db_session.create_session()
         if db_sess.query(User).filter(User.email == form.email.data).first():
-            return render_template('register.html', title='Регистрация',
+            return render_template('register.html',
+                                   title='Регистрация',
                                    form=form,
-                                   message="Такой пользователь уже есть")
+                                   message="Такой пользователь уже есть",
+                                   btn_label='Войти')
         user = User(
             surname=form.surname.data,
             name=form.name.data,
@@ -73,14 +77,64 @@ def register():
             date_of_birth=form.date_of_birth.data,
             email=form.email.data,
             epos_login=form.epos_login.data,
-            epos_password=form.epos_password.data
+            epos_password=form.epos_password.data,
+            school=form.school.data,
+            about=form.about.data
         )
         user.set_password(form.password.data)
         db_sess.add(user)
         db_sess.commit()
         login_user(user)
+        return redirect('/profile')
+    return render_template('register.html',
+                           title='Регистрация',
+                           form=form,
+                           btn_label='Войти')
+
+
+@app.route('/profile')
+@login_required
+def profile():
+    form = RegisterForm()
+    if form.validate_on_submit():
+        user = current_user
+        user.surname = form.surname.data
+        user.name = form.name.data
+        user.last_name = form.last_name.data
+        user.email = form.email.data
+        user.school = form.school.data
+        user.role = form.role.data
+        user.epos_login = form.epos_login.data
+        user.date_of_birth = form.date_of_birth.data.date()
+        user.about = form.about.data
+        if form.epos_password.data:
+            user.epos_password = form.epos_password.data
+        if form.password.data != form.password_again.data:
+            return render_template('register.html',
+                                   title='Регистрация',
+                                   form=form,
+                                   message="Пароли не совпадают",
+                                   date=current_user.date_of_birth.date(),
+                                   btn_label='Сохранить')
+        db_sess = db_session.create_session()
+        if db_sess.query(User).filter(User.email == form.email.data).first():
+            return render_template('register.html',
+                                   title='Регистрация',
+                                   form=form,
+                                   message="Такой пользователь уже есть",
+                                   date=current_user.date_of_birth.date(),
+                                   btn_label='Сохранить')
+        user = current_user
+        user.set_password(form.password.data)
+        db_sess.add(user)
+        db_sess.commit()
+        login_user(user)
         return redirect('/login')
-    return render_template('register.html', title='Регистрация', form=form)
+    return render_template('profile.html',
+                           title='Профиль',
+                           form=form,
+                           date=current_user.date_of_birth.date(),
+                           btn_label='Сохранить')
 
 
 @app.route('/logout')
@@ -96,8 +150,8 @@ def load_user(user_id):
     return db_sess.query(User).get(user_id)
 
 
-@login_required
 @app.route('/homework')
+@login_required
 def homework_page():
     if not current_user.is_authenticated:
         return abort(401)
