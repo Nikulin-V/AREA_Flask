@@ -61,7 +61,7 @@ span.label {
 }
 
 #google-icon {
-    background: url(static/images/Google.png) transparent 5px 50% no-repeat;
+    background: url(/images/Google.png) transparent 5px 50% no-repeat;
     display: inline-block;
     vertical-align: middle;
     margin-left: .375rem;
@@ -80,4 +80,13 @@ span.buttonText {
 
 .dropdown-menu {
     text-align: center;
+}
+
+.dropdown-item:focus {
+    background-color: #17a2b8;
+    visibility: visible;
+}
+
+.nav-item {
+    color: black;
 }

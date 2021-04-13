@@ -26,10 +26,11 @@
                     <a class="vl"></a>
                 </a>
                 <a href="\index" class="nav-item nav-link">Главная</a>
+                <a href="\homework" class="nav-item nav-link">Дневник</a>
                 {% if current_user.is_authenticated %}
-                    <div class="dropdown nav-item">
-                        <a id="username" class="btn btn-info dropdown-toggle">{{ current_user.name }}</a>
-                        <ul class="dropdown-menu">
+                    <div class="dropdown">
+                        <a id="username" class="btn btn-info dropdown-toggle" data-bs-toggle="dropdown">{{ current_user.name }}</a>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                             <li><a class="dropdown-item" href="\profile">Профиль</a></li>
                             <li><a class="dropdown-item" href="\logout">Выйти</a></li>
                         </ul>

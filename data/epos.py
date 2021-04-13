@@ -1,3 +1,4 @@
+import selenium.common.exceptions
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as ec
@@ -25,17 +26,25 @@ class EPOS:
         self.get_cookies(login, password)
 
     def get_schedule(self):
-        self.driver.get('https://school.permkrai.ru/student_diary/')
+        try:
+            self.driver.get('https://school.permkrai.ru/student_diary/')
+        except selenium.common.exceptions.InvalidSessionIdException:
+            return 'bad password'
+        except selenium.common.exceptions.TimeoutException:
+            return 'timeout'
         schedule = {}
         tables = []
         for i in range(1, 7):
-            tables.append(WebDriverWait(self.driver, 10).until(
-                ec.presence_of_element_located((By.XPATH,
-                                                f'html[1]/body[1]/diary-root[1]/ezd-main-layout['
-                                                f'1]/div[1]/section[1]/ezd-base-layout['
-                                                f'1]/section[1]/div[1]/div[2]/div['
-                                                f'1]/diary-student-diary-content[1]/div[1]/div['
-                                                f'1]/diary-student-diary-day[{i}]/div[1]'))))
+            try:
+                tables.append(WebDriverWait(self.driver, 10).until(
+                    ec.presence_of_element_located((By.XPATH,
+                                                    f'html[1]/body[1]/diary-root[1]/ezd-main-layout['
+                                                    f'1]/div[1]/section[1]/ezd-base-layout['
+                                                    f'1]/section[1]/div[1]/div[2]/div['
+                                                    f'1]/diary-student-diary-content[1]/div[1]/div['
+                                                    f'1]/diary-student-diary-day[{i}]/div[1]'))))
+            except selenium.common.exceptions.TimeoutException:
+                return 'timeout'
         for table in tables:
             data = table.text.split('\n')
             schedule[data[0]] = {'lessons': [],
