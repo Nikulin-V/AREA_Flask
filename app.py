@@ -1,10 +1,6 @@
-import os
-
 from flask import Flask, render_template, redirect, abort
 from flask_login import logout_user, login_required, LoginManager, login_user, current_user
 from flask_ngrok import run_with_ngrok
-from google.oauth2.credentials import Credentials
-from google_auth_oauthlib.flow import InstalledAppFlow
 
 
 from data import db_session
@@ -13,7 +9,6 @@ from data.users import User
 from forms.login import LoginForm
 from forms.profile import ProfileForm
 from forms.register import RegisterForm
-from googleapiclient.discovery import build
 
 SCOPES = ['https://www.googleapis.com/auth/classroom.coursework.me.readonly']
 
@@ -216,9 +211,6 @@ def homework_page():
         abort(408)
     else:
         schedule = response
-
-    # time_start = ['9:00', '9:55', '10:50', '11:55', '13:00', '13:55', '14:50', '15:45']
-    # time_end = ['9:45', '10:40', '11:35', '12:40', '13:45', '14:40', '15:35', '16:30']
 
     return render_template('homework.html', title='Дневник', schedule=schedule)
 
