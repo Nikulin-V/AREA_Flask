@@ -125,7 +125,24 @@
         <p>{{ form.submit(type="submit", class="btn btn-primary", value=btn_label) }}</p>
     </form>
     {% if message %}
-        <script>alert('<div style="color: red;">Заголовок</div><div class="alertm_text">{{message}} Текст внутри alert() - допускается использовать html (даже input поля формы) и <a href="https://blogjquery.ru">ссылки</a></div>')</script>
+        <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Сообщение от сайта</h5>
+                <button type="button" class="close" id="modal-close-btn" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                {{ message }}
+              </div>
+              <div class="modal-footer" id="modal-ok-btn">
+                <button type="button" class="btn btn-primary">ОК</button>
+              </div>
+            </div>
+          </div>
+        </div>
     {% endif %}
 </div>
 {% endblock %}

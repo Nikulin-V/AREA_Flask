@@ -14,7 +14,14 @@
         <link rel="stylesheet" href="static/css/style.css">
         <link rel="stylesheet" href="static/css/header.css">
         <link rel="stylesheet" href="static/css/light-footer.css">
-        <script src="https://apis.google.com/js/platform.js" defer></script>
+        <script src="https://apis.google.com/js/platform.js?onload=onLoadCallback"></script>
+        <script>
+        window.onLoadCallback = function(){
+          gapi.auth2.init({
+              client_id: '1031432130164-7eqo0g4hj6mht75nljoin36gs991lgjf.apps.googleusercontent.com'
+            });
+        }
+        </script>
         <title>{{ title }}</title>
     </head>
     <body>
@@ -26,7 +33,10 @@
                     <a class="vl"></a>
                 </a>
                 <a href="\index" class="nav-item nav-link">Главная</a>
-                <a href="\homework" class="nav-item nav-link">Дневник</a>
+                <a href="\homework" id="homework-link" class="nav-item nav-link">
+                    Дневник
+                    <span id="homework-spinner" style="visibility: hidden" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                </a>
                 {% if current_user.is_authenticated %}
                     <div class="dropdown">
                         <a id="username" class="btn btn-info dropdown-toggle" data-bs-toggle="dropdown">{{ current_user.name }}</a>
@@ -36,7 +46,7 @@
                         </ul>
                     </div>
                     <script src="static/js/customize_google_btn.js"></script>
-                    <div id="customBtn" class="customGPlusSignIn">
+                    <div id="customBtn" class="customGPlusSignIn" onloadeddata="">
                         <span class="icon"></span>
                         <img id="google-icon" src="static/images/Google.png">
                         <span class="buttonText" id="name">Авторизоваться</span>
@@ -70,5 +80,13 @@
         <script src="https://use.fontawesome.com/df966d76e1.js"></script>
         <script>startApp();</script>
         <script src="static/js/scripts.js"></script>
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+        <script>
+            $(document).ready(function(){
+                $("#myModal").modal('show');
+            });
+        </script>
     </body>
 </html>
