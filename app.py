@@ -17,7 +17,7 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
 login_manager = LoginManager()
 login_manager.init_app(app)
-db_session.global_init('C:/Users/Vasily/PycharmProjects/edu-area/db/database.sqlite')
+db_session.global_init('D:/PycharmProjects/pythonProject/edu-area/db/database.sqlite')
 epos = EPOS()
 
 run_with_ngrok(app)
