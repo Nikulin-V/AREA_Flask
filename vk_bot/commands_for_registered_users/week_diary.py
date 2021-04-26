@@ -1,6 +1,3 @@
-import os
-import sys
-
 from flask import abort
 from PIL import Image, ImageDraw, ImageFont
 from vk_api import VkApi
@@ -8,11 +5,7 @@ from vk_api.upload import VkUpload
 
 import command_system
 
-
-scriptpath = "D:/PycharmProjects/pythonProject/edu-area"
-sys.path.append(os.path.abspath(scriptpath))
-
-from Vk_bot.credentials import TOKEN
+from vk_bot.credentials import TOKEN
 from data import epos, db_session
 from data.vk_users import VkUser
 
@@ -20,9 +13,9 @@ from data.vk_users import VkUser
 epos = epos.EPOS()
 
 
-def week_schedule():
-    """функция для формирования недельного расписания"""
-    im = Image.new('RGB', (280, 1040), color=('#CCEEFF'))
+def week_diary():
+    """функция для формирования неделбного дневника"""
+    im = Image.new('RGB', (1920, 1080), color=('#CCEEFF'))
 
     font = ImageFont.truetype("arial.ttf", 14)
     x = 50
@@ -31,7 +24,7 @@ def week_schedule():
 
     db_sess = db_session.create_session()
 
-    user_vk_id = week_schedule_command.id
+    user_vk_id = week_diary_command.id
 
     login = db_sess.query(VkUser.epos_login).filter(VkUser.vk_id == user_vk_id).first()[0]
     password = db_sess.query(VkUser.epos_password).filter(VkUser.vk_id == user_vk_id).first()[0]
@@ -43,6 +36,7 @@ def week_schedule():
         abort(408)
         return 'Сайт ЭПОС.Школа не отвечает. Пожалуйста, повторите запрос.'
 
+    flag = False
     for day in response.keys():  # создание картинки с данными
         y += 2
         if response[day]['lessons']:
@@ -52,15 +46,27 @@ def week_schedule():
         for lesson_id in range(len(response[day]['lessons'])):
             message = response[day]['lessons'][lesson_id].split(' ')
             if message[0] == 'Алгебра':
+                flag = True
                 draw.text((x, y), ' '.join(message[:3]), font=font, fill='#1C0606')
                 draw.text((x, y + 18), ' '.join(message[3:]), font=font, fill='#1C0606')
-                y += 36
             elif len(message) > 2:
+                flag = True
                 draw.text((x, y), ' '.join(message[:2]), font=font, fill='#1C0606')
                 draw.text((x, y + 18), ' '.join(message[2:]), font=font, fill='#1C0606')
-                y += 36
             else:
                 draw.text((x, y), ' '.join(message), font=font, fill='#1C0606')
+            if response[day]['homeworks'][lesson_id]:
+                message = response[day]['homeworks'][lesson_id].split(' ')
+                if len(message) > 33:
+                    draw.text((x + 180, y), ' '.join(message[:34]), font=font, fill='#1C0606')
+                    y += 18
+                    draw.text((x + 180, y), ' '.join(message[34:]), font=font, fill='#1C0606')
+                else:
+                    draw.text((x + 180, y), ' '.join(message), font=font, fill='#1C0606')
+            if flag:
+                y += 36
+                flag = False
+            else:
                 y += 20
 
     im.save('photo.jpg')
@@ -80,8 +86,8 @@ def week_schedule():
     return message, attachment
 
 
-week_schedule_command = command_system.Command()
+week_diary_command = command_system.Command()
 
-week_schedule_command.keys = ['расписание на неделю']
-week_schedule_command.description = 'отправлю фото расписания на текущую неделю'
-week_schedule_command.process = week_schedule
+week_diary_command.keys = ['дневник на неделю']
+week_diary_command.description = 'отправлю фото дневника на текущую неделю'
+week_diary_command.process = week_diary

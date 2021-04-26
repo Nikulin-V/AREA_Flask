@@ -1,16 +1,10 @@
 import importlib
 import os
-import sys
 import vkapi
-
-scriptpath = "D:/PycharmProjects/pythonProject/edu-area"
-sys.path.append(os.path.abspath(scriptpath))
 
 from data.users import User
 from data.vk_users import VkUser
 from data import db_session
-
-
 from command_system import command_list
 
 
@@ -46,15 +40,15 @@ def create_answer(is_registered, data, token):
 def load_modules(is_registered):
     """функция для импортирования файлов с ответными сообщениями"""
     if is_registered:
-        files = os.listdir("D:/PycharmProjects/pythonProject/edu-area/Vk_bot/commands-for-registered-users")
+        files = os.listdir("vk_bot/commands_for_registered_users")
         modules = filter(lambda x: x.endswith('.py'), files)
         for m in modules:
-            importlib.import_module("commands-for-registered-users." + m[0:-3])
+            importlib.import_module("commands_for_registered_users." + m[0:-3])
     else:
-        files = os.listdir("D:/PycharmProjects/pythonProject/edu-area/Vk_bot/commands-for-not-registered-users")
+        files = os.listdir("vk_bot/commands_for_not_registered_users")
         modules = filter(lambda x: x.endswith('.py'), files)
         for m in modules:
-            importlib.import_module("commands-for-not-registered-users." + m[0:-3])
+            importlib.import_module("commands_for_not_registered_users." + m[0:-3])
 
 
 def register(data):

@@ -1,6 +1,3 @@
-import os
-import sys
-
 from flask import abort
 from PIL import Image, ImageDraw, ImageFont
 from vk_api import VkApi
@@ -9,11 +6,7 @@ from datetime import datetime
 
 import command_system
 
-
-scriptpath = "D:/PycharmProjects/pythonProject/edu-area"
-sys.path.append(os.path.abspath(scriptpath))
-
-from Vk_bot.credentials import TOKEN
+from vk_bot.credentials import TOKEN
 from data import epos, db_session
 from data.vk_users import VkUser
 

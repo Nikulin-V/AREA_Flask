@@ -1,6 +1,4 @@
-import os
 import json
-import sys
 
 import message_handler
 
@@ -8,16 +6,13 @@ from flask import Flask, request
 
 from credentials import TOKEN, confirmation_token
 from data import db_session
-
-scriptpath = "D:/PycharmProjects/pythonProject/edu-area"
-sys.path.append(os.path.abspath(scriptpath))
-
 from data.vk_users import VkUser
+
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
 
-db_session.global_init('D:/PycharmProjects/pythonProject/edu-area/db/database.sqlite')
+db_session.global_init('db/database.sqlite')
 db_sess = db_session.create_session()
 
 
