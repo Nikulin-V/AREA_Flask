@@ -1,6 +1,5 @@
 from .db_session import SqlAlchemyBase
 import sqlalchemy
-from sqlalchemy import orm
 
 
 class Class(SqlAlchemyBase):
@@ -11,4 +10,4 @@ class Class(SqlAlchemyBase):
     school = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey("schools.id"))
     teacher_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey("users.id"))
     students_ids = sqlalchemy.Column(sqlalchemy.String)
-    user = orm.relation('User')
+    groups = sqlalchemy.Column(sqlalchemy.String)
