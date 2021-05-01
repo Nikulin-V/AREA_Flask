@@ -1,4 +1,5 @@
-from . import users
 from . import schools
-from . import school_classes
+from . import classes
+from . import groups
+from . import users
 from . import vk_users
