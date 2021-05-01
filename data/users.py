@@ -12,7 +12,7 @@ class User(SqlAlchemyBase, UserMixin):
 
     surname = sqlalchemy.Column(sqlalchemy.String)
     name = sqlalchemy.Column(sqlalchemy.String)
-    last_name = sqlalchemy.Column(sqlalchemy.String, nullable=True)
+    patronymic = sqlalchemy.Column(sqlalchemy.String, nullable=True)
 
     date_of_birth = sqlalchemy.Column(sqlalchemy.DateTime)
 

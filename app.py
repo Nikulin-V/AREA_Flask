@@ -45,13 +45,16 @@ def login():
         db_sess = db_session.create_session()
         user: User
         user = db_sess.query(User).filter(User.email == form.email.data).first()
-        if user and user.check_password(form.password.data):
+        if not user:
+            return render_template('login.html',
+                                   message="Вы не зарегистрированы в системе",
+                                   form=form)
+        if user.check_password(form.password.data):
             login_user(user, remember=form.remember_me.data)
             return redirect("/homework")
         return render_template('login.html',
                                message="Неправильный логин или пароль",
                                form=form)
-
     return render_template('login.html',
                            title='Авторизация',
                            form=form)
@@ -113,7 +116,7 @@ def profile():
         user = current_user
         user.surname = form.surname.data
         user.name = form.name.data
-        user.last_name = form.last_name.data
+        user.patronymic = form.last_name.data
         user.email = form.email.data
         user.school = form.school.data
         user.role = form.role.data
