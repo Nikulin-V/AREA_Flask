@@ -10,3 +10,4 @@ class School(SqlAlchemyBase):
     country = sqlalchemy.Column(sqlalchemy.String)
     director_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey("users.id"))
     head_teacher_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey("users.id"))
+    address = sqlalchemy.Column(sqlalchemy.String, nullable=True)
