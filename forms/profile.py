@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import PasswordField, StringField, SubmitField, SelectField, DateField, TextAreaField
+from wtforms import PasswordField, StringField, SubmitField, SelectField, DateField
 from wtforms.fields.html5 import EmailField
 from wtforms.validators import DataRequired
 
@@ -7,7 +7,7 @@ from wtforms.validators import DataRequired
 class ProfileForm(FlaskForm):
     surname = StringField('Фамилия', validators=[DataRequired()])
     name = StringField('Имя', validators=[DataRequired()])
-    last_name = StringField('Отчество', validators=[DataRequired()])
+    patronymic = StringField('Отчество', validators=[DataRequired()])
     email = EmailField('Почта', validators=[DataRequired()])
     school = StringField('Учебное заведение', validators=[DataRequired()])
     role = SelectField('Роль', validators=[DataRequired()],

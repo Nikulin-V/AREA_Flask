@@ -60,9 +60,9 @@
             {% endfor %}
         </p>
         <p>
-            {{ form.last_name.label }}<br>
-            {{ form.last_name(class="form-control", value=current_user.last_name) }}<br>
-            {% for error in form.last_name.errors %}
+            {{ form.patronymic.label }}<br>
+            {{ form.patronymic(class="form-control", value=current_user.patronymic) }}<br>
+            {% for error in form.patronymic.errors %}
                 <p class="alert alert-danger" role="alert">
                     {{ error }}
                 </p>
