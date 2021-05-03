@@ -2,16 +2,17 @@ from flask import Flask, render_template, redirect, abort
 from flask_login import logout_user, login_required, LoginManager, login_user, current_user
 from flask_ngrok import run_with_ngrok
 
-
 from data import db_session
 from data.epos import EPOS
+from data.groups import Group
+from data.schools import School
+from data.students import Student
 from data.users import User
 from forms.login import LoginForm
 from forms.profile import ProfileForm
 from forms.register import RegisterForm
 
 SCOPES = ['https://www.googleapis.com/auth/classroom.coursework.me.readonly']
-
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
@@ -31,7 +32,8 @@ def main():
 @app.route('/index')
 @app.route('/main')
 def index():
-    return render_template("index.html")
+    return render_template("index.html",
+                           title='Главная')
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -47,12 +49,14 @@ def login():
         user = db_sess.query(User).filter(User.email == form.email.data).first()
         if not user:
             return render_template('login.html',
+                                   title='Авторизация',
                                    message="Вы не зарегистрированы в системе",
                                    form=form)
         if user.check_password(form.password.data):
             login_user(user, remember=form.remember_me.data)
             return redirect("/index")
         return render_template('login.html',
+                               title='Авторизация',
                                message="Неправильный логин или пароль",
                                form=form)
     return render_template('login.html',
@@ -91,7 +95,7 @@ def register():
             email=form.email.data,
             epos_login=form.epos_login.data,
             epos_password=form.epos_password.data,
-            school=form.school.data,
+            school_id=db_sess.query(School.id).filter(School.title == form.school.data),
             about=form.about.data
         )
         user.set_password(form.password.data)
@@ -195,9 +199,28 @@ def load_user(user_id):
     return db_sess.query(User).get(user_id)
 
 
-@app.route('/homework')
+@app.route('/area-diary')
 @login_required
-def homework_page():
+def area_diary():
+    db_sess = db_session.create_session()
+    days = ['пн', 'вт', 'ср', 'чт', 'пт', 'сб']
+    schedule = dict()
+    for day in days:
+        schedule[day] = ['-' for _ in range(8)]
+    group_ids = list(db_sess.query(Student.group_id).filter(Student.user_id == current_user.id))
+    for group_id in group_ids:
+        group = db_sess.query(Group).get(group_id)
+        for day_n, lesson_n in list(map(lambda x: (int(x[0]), int(x[1])),
+                                        group.schedule.split(','))):
+            schedule[days[day_n - 1]][lesson_n - 1] = group.subject
+    return render_template('diary.html',
+                           title='Дневник AREA',
+                           schedule=schedule)
+
+
+@app.route('/epos-diary')
+@login_required
+def epos_diary():
     if not current_user.is_authenticated:
         return abort(401)
 
@@ -215,7 +238,9 @@ def homework_page():
     else:
         schedule = response
 
-    return render_template('homework.html', title='Дневник', schedule=schedule)
+    return render_template('homework.html',
+                           title='Дневник ЭПОСа',
+                           schedule=schedule)
 
 
 @app.errorhandler(401)

@@ -3,7 +3,7 @@ import sqlalchemy
 
 
 class Student(SqlAlchemyBase):
-    __tablename__ = 'student'
+    __tablename__ = 'students'
 
     id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True, autoincrement=True)
     user_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey("users.id"), unique=True)

@@ -22,7 +22,7 @@ class User(SqlAlchemyBase, UserMixin):
     epos_login = sqlalchemy.Column(sqlalchemy.String)
     epos_password = sqlalchemy.Column(sqlalchemy.String)
 
-    school = sqlalchemy.Column(sqlalchemy.String)
+    school_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey("schools.id"))
     about = sqlalchemy.Column(sqlalchemy.Text)
 
     def set_password(self, password):

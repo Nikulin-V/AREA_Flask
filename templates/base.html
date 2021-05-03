@@ -14,15 +14,13 @@
         <link rel="stylesheet" href="static/css/style.css">
         <link rel="stylesheet" href="static/css/header.css">
         <link rel="stylesheet" href="static/css/light-footer.css">
-        <script src="https://apis.google.com/js/platform.js?onload=onLoadCallback"></script>
-        <script>
+        <script src="https://apis.google.com/js/platform.js?onload=onLoadCallback" async defer>
         window.onLoadCallback = function(){
           gapi.auth2.init({
               client_id: '1031432130164-7eqo0g4hj6mht75nljoin36gs991lgjf.apps.googleusercontent.com'
             });
         }
         </script>
-        <script src="static/js/scripts.js"></script>
         <title>{{ title }}</title>
     </head>
     <body>
@@ -34,9 +32,12 @@
                     <a class="vl"></a>
                 </a>
                 <a href="\index" class="nav-item nav-link">Главная</a>
-                <a href="\homework" id="homework-link" class="nav-item nav-link">
-                    Дневник
-                    <span id="homework-spinner" style="visibility: hidden" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                <a href="\area-diary" class="nav-item nav-link">
+                    Дневник AREA
+                </a>
+                <a href="\epos-diary" id="epos-diary" class="nav-item nav-link">
+                    Дневник ЭПОСа
+                    <span id="epos-spinner" style="visibility: hidden" class="spinner-border spinner-border-sm" role="status"></span>
                 </a>
                 {% if current_user.is_authenticated %}
                     <div class="dropdown">
@@ -78,6 +79,7 @@
 
                 </div>
         </footer>
+        <script src="static/js/scripts.js"></script>
         <script src="https://use.fontawesome.com/df966d76e1.js"></script>
         <script>startApp();</script>
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
@@ -88,10 +90,6 @@
             $(document).ready(function(){
                 $("#myModal").modal('show');
             });
-        </script>
-        <script async defer src="https://apis.google.com/js/api.js"
-          onload="this.onload=function(){};handleClientLoad()"
-          onreadystatechange="if (this.readyState === 'complete') this.onload()">
         </script>
     </body>
 </html>

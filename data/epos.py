@@ -38,8 +38,9 @@ class EPOS:
             try:
                 tables.append(WebDriverWait(self.driver, 10).until(
                     ec.presence_of_element_located((By.XPATH,
-                                                    f'html[1]/body[1]/diary-root[1]/ezd-main-layout['
-                                                    f'1]/div[1]/section[1]/ezd-base-layout['
+                                                    f'html[1]/body[1]/diary-root['
+                                                    f'1]/ezd-main-layout[1]/div[1]/section['
+                                                    f'1]/ezd-base-layout[ '
                                                     f'1]/section[1]/div[1]/div[2]/div['
                                                     f'1]/diary-student-diary-content[1]/div[1]/div['
                                                     f'1]/diary-student-diary-day[{i}]/div[1]'))))

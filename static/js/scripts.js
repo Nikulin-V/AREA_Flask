@@ -1,14 +1,3 @@
-let hostUrl = window.location.pathname;
-let options = 'fixed left 29%'
-let main = document.getElementsByTagName('body')[0]
-if(hostUrl === '/login' || hostUrl === '/register'){
-    main.style.background = "#fff url(\"/static/images/.jpg\") " + options;
-}
-if(hostUrl === '/'){
-    main.style.background = "#fff url(\"/static/images/.jpg\") " + options;
-}
-main.style.backgroundSize = 'auto 80%'
-
 let dropdownElementList = [].slice.call(document.querySelectorAll('.dropdown-toggle'));
 dropdownElementList.map(function (dropdownToggleEl) {
     return new bootstrap.Dropdown(dropdownToggleEl)
@@ -16,9 +5,9 @@ dropdownElementList.map(function (dropdownToggleEl) {
 
 
 // Homework spinner
-let homework_link = document.getElementById('homework-link')
+let homework_link = document.getElementById('epos-diary')
 homework_link.onclick = function () {
-    let homework_spinner = document.getElementById('homework-spinner')
+    let homework_spinner = document.getElementById('epos-spinner')
     homework_spinner.style.visibility = "visible"
 }
 
