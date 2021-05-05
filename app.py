@@ -3,6 +3,7 @@ from flask_login import logout_user, login_required, LoginManager, login_user, c
 from flask_ngrok import run_with_ngrok
 
 from data import db_session
+from data.db_functions import repair_dependencies_students_and_groups
 from data.epos import EPOS
 from data.groups import Group
 from data.schools import School
@@ -202,6 +203,7 @@ def load_user(user_id):
 @app.route('/area-diary')
 @login_required
 def area_diary():
+    repair_dependencies_students_and_groups()
     db_sess = db_session.create_session()
     days = ['пн', 'вт', 'ср', 'чт', 'пт', 'сб']
     schedule = dict()
@@ -211,8 +213,14 @@ def area_diary():
     for group_id in group_ids:
         group = db_sess.query(Group).get(group_id)
         for day_n, lesson_n in list(map(lambda x: (int(x[0]), int(x[1])),
-                                        group.schedule.split(','))):
+                                        str(group.schedule).split(','))):
             schedule[days[day_n - 1]][lesson_n - 1] = group.subject
+
+    # Убираем пустые уроки с конца
+    for key in days:
+        while schedule[key][-1] == '-':
+            schedule[key] = schedule[key][:-1]
+
     return render_template('diary.html',
                            title='Дневник AREA',
                            schedule=schedule)
