@@ -209,6 +209,8 @@ def area_diary():
     schedule = dict()
     for day in days:
         schedule[day] = ['-' for _ in range(8)]
+
+    # Получаем группы ученика и составляем по ним расписание
     group_ids = list(db_sess.query(Student.group_id).filter(Student.user_id == current_user.id))
     for group_id in group_ids:
         group = db_sess.query(Group).get(group_id)
