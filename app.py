@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from flask import Flask, render_template, redirect, abort
 from flask_login import logout_user, login_required, LoginManager, login_user, current_user
 from flask_ngrok import run_with_ngrok
@@ -96,7 +98,7 @@ def register():
             email=form.email.data,
             epos_login=form.epos_login.data,
             epos_password=form.epos_password.data,
-            school_id=db_sess.query(School.id).filter(School.title == form.school.data),
+            school_id=int(db_sess.query(School.id).filter(School.title == form.school.data).first()[0]),
             about=form.about.data
         )
         user.set_password(form.password.data)
@@ -115,15 +117,16 @@ def register():
 @login_required
 def profile():
     form = ProfileForm()
+    db_sess = db_session.create_session()
+    user = current_user
 
     if form.validate_on_submit():
-        db_sess = db_session.create_session()
-        user = current_user
         user.surname = form.surname.data
         user.name = form.name.data
         user.patronymic = form.patronymic.data
         user.email = form.email.data
-        user.school = form.school.data
+        user.school_id = int(db_sess.query(School.id).filter(
+            School.title == form.school.data).first()[0])
         user.role = form.role.data
         user.date_of_birth = form.date_of_birth.data
         user.about = form.about.data
@@ -137,6 +140,8 @@ def profile():
                 return render_template('profile.html',
                                        title='Профиль',
                                        form=form,
+                                       school=db_sess.query(School.title).filter(
+                                           School.id == user.school_id).first()[0],
                                        message="Введите старый пароль",
                                        date=current_user.date_of_birth.strftime('%d.%m.%Y'),
                                        btn_label='Сохранить')
@@ -144,6 +149,8 @@ def profile():
                 return render_template('profile.html',
                                        title='Профиль',
                                        form=form,
+                                       school=db_sess.query(School.title).filter(
+                                           School.id == user.school_id).first()[0],
                                        message="Введите новый пароль",
                                        date=current_user.date_of_birth.strftime('%d.%m.%Y'),
                                        btn_label='Сохранить')
@@ -151,6 +158,8 @@ def profile():
                 return render_template('profile.html',
                                        title='Профиль',
                                        form=form,
+                                       school=db_sess.query(School.title).filter(
+                                           School.id == user.school_id).first()[0],
                                        message="Повторите новый пароль",
                                        date=current_user.date_of_birth.strftime('%d.%m.%Y'),
                                        btn_label='Сохранить')
@@ -158,6 +167,8 @@ def profile():
                 return render_template('profile.html',
                                        title='Профиль',
                                        form=form,
+                                       school=db_sess.query(School.title).filter(
+                                           School.id == user.school_id).first()[0],
                                        message="Неверный старый пароль",
                                        date=current_user.date_of_birth.strftime('%d.%m.%Y'),
                                        btn_label='Сохранить')
@@ -165,6 +176,8 @@ def profile():
                 return render_template('profile.html',
                                        title='Профиль',
                                        form=form,
+                                       school=db_sess.query(School.title).filter(
+                                           School.id == user.school_id).first()[0],
                                        message="Пароли не совпадают",
                                        date=current_user.date_of_birth.strftime('%d.%m.%Y'),
                                        btn_label='Сохранить')
@@ -176,6 +189,8 @@ def profile():
         return render_template('profile.html',
                                title='Профиль',
                                form=form,
+                               school=db_sess.query(School.title).filter(
+                                   School.id == user.school_id).first()[0],
                                message="Сохранено",
                                date=current_user.date_of_birth.strftime('%d.%m.%Y'),
                                btn_label='Сохранить')
@@ -183,6 +198,8 @@ def profile():
     return render_template('profile.html',
                            title='Профиль',
                            form=form,
+                           school=db_sess.query(School.title).filter(
+                               School.id == user.school_id).first()[0],
                            date=current_user.date_of_birth.strftime('%d.%m.%Y'),
                            btn_label='Сохранить')
 

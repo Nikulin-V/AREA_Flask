@@ -7,7 +7,7 @@ let startApp = function () {
                 client_id: '1031432130164-7eqo0g4hj6mht75nljoin36gs991lgjf.apps.googleusercontent.com',
             });
             googleAuth = gapi.auth2.getAuthInstance()
-            attachSignin(document.getElementById('customBtn'), googleAuth);            if (localStorage.getItem("googleUser")){
+            attachSignin(document.getElementById('googleBtn'), googleAuth);            if (localStorage.getItem("googleUser")){
                 document.getElementById('name').innerText = "Подключено"
             }
         });
