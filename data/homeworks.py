@@ -6,8 +6,7 @@ class Homework(SqlAlchemyBase):
     __tablename__ = 'homeworks'
 
     id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True, autoincrement=True)
-    student_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey("students.id"))
     group_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey("groups.id"))
     date = sqlalchemy.Column(sqlalchemy.Date)
+    lesson_number = sqlalchemy.Column(sqlalchemy.Integer)
     homework = sqlalchemy.Column(sqlalchemy.String)
-    marks = sqlalchemy.Column(sqlalchemy.String)
