@@ -79,7 +79,7 @@
         </p>
         <p>
             {{ form.school.label }}<br>
-            {{ form.school(class="form-control", value=current_user.school) }}<br>
+            {{ form.school(class="form-control", value=school) }}<br>
             {% for error in form.school.errors %}
                 <p class="alert alert-danger" role="alert">
                     {{ error }}
@@ -122,7 +122,7 @@
                 </p>
             {% endfor %}
         </p>
-        <p>{{ form.submit(type="submit", class="btn btn-primary", value=btn_label) }}</p>
+        <p>{{ form.submit(type="submit", class="btn btn-info", value=btn_label) }}</p>
     </form>
     {% if message %}
         <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -138,7 +138,7 @@
                 {{ message }}
               </div>
               <div class="modal-footer" id="modal-ok-btn">
-                <button type="button" class="btn btn-primary">ОК</button>
+                <button type="button" class="btn btn-info">ОК</button>
               </div>
             </div>
           </div>

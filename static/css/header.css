@@ -7,10 +7,8 @@ header {
 }
 
 #username {
-    right: 10px;
-    top: 10px;
-    position: fixed;
     background-color: white;
+    margin-right: 2px;
 }
 
 .dropdown-menu {
@@ -20,15 +18,11 @@ header {
 }
 
 #sign-up-btn {
-    right: 10px;
-    top: 10px;
-    position: fixed;
+    margin-right: 2px;
 }
 
 #sign-in-btn {
-    right: 200px;
-    top: 10px;
-    position: fixed;
+    margin-right: 5px;
 }
 
 .vl {
@@ -37,7 +31,7 @@ header {
 }
 
 
-#customBtn {
+#googleBtn {
     display: inline-block;
     color: #fff;
     background-color: #ffffff;
@@ -45,12 +39,10 @@ header {
     border-radius: 5px;
     box-shadow: 1px 1px 1px grey;
     white-space: nowrap;
-    right: 120px;
-    top: 10px;
-    position: fixed;
+    margin-right: 5px;
 }
 
-#customBtn:hover {
+#googleBtn:hover {
     background: #117A8B;
     cursor: pointer;
 }
@@ -89,4 +81,10 @@ span.buttonText {
 
 .nav-item {
     color: black;
+    padding-right: 30px;
 }
+
+.nav-link {
+    color: black;
+}
+

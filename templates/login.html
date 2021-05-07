@@ -24,7 +24,7 @@
                 {% endfor %}
             </p>
             <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
-            <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
+            <p>{{ form.submit(type="submit", class="btn btn-info") }}</p>
         </form>
     </div>
     {% if message %}
@@ -41,7 +41,7 @@
                 {{ message }}
               </div>
               <div class="modal-footer" id="modal-ok-btn">
-                <button type="button" class="btn btn-primary">ОК</button>
+                <button type="button" class="btn btn-info">ОК</button>
               </div>
             </div>
           </div>
