@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import date
 
 from flask import Flask, render_template, redirect, abort
 from flask_login import logout_user, login_required, LoginManager, login_user, current_user
@@ -8,6 +8,7 @@ from data import db_session
 from data.db_functions import repair_dependencies_students_and_groups
 from data.epos import EPOS
 from data.groups import Group
+from data.homeworks import Homework
 from data.schools import School
 from data.students import Student
 from data.users import User
@@ -98,7 +99,8 @@ def register():
             email=form.email.data,
             epos_login=form.epos_login.data,
             epos_password=form.epos_password.data,
-            school_id=int(db_sess.query(School.id).filter(School.title == form.school.data).first()[0]),
+            school_id=int(
+                db_sess.query(School.id).filter(School.title == form.school.data).first()[0]),
             about=form.about.data
         )
         user.set_password(form.password.data)
@@ -240,9 +242,28 @@ def area_diary():
         while schedule[key][-1] == '-':
             schedule[key] = schedule[key][:-1]
 
+    begin_date = date(2021, 5, 3)
+    homework = dict()
+    for day in days:
+        homework[day] = [[] for _ in range(8)]
+    for day_n in range(6):
+        for lesson_n in range(1, 9):
+            homeworks = list(map(lambda x: str(x[0]).capitalize(),
+                                 db_sess.query(Homework.homework).filter(
+                                                Homework.date == date(begin_date.year,
+                                                                      begin_date.month,
+                                                                      begin_date.day + day_n),
+                                                Homework.lesson_number == lesson_n
+                                 )))
+            if homeworks:
+                homework[days[day_n]][lesson_n - 1] = homeworks
+    dates = [str(begin_date.day + i).rjust(2, '0') for i in range(6)]
     return render_template('diary.html',
                            title='Дневник AREA',
-                           schedule=schedule)
+                           schedule=schedule,
+                           homework=homework,
+                           dates=dates,
+                           days=days)
 
 
 @app.route('/epos-diary')
@@ -294,4 +315,10 @@ def page_not_found(error):
 
 
 if __name__ == '__main__':
+    # db_sess = db_session.create_session()
+    # homeworks = list(db_sess.query(Homework))
+    # for homework in homeworks:
+    #     d = homework.date.split('.')
+    #     homework.date = d[2] + '-' + d[1] + '-' + d[0]
+    # db_sess.commit()
     main()
