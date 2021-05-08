@@ -55,7 +55,9 @@
                         <img id="google-icon" src="static/images/Google.png">
                         <span class="buttonText" id="name">Авторизоваться</span>
                     </a>
-                    <a id="username" class="btn btn-info dropdown-toggle" data-bs-toggle="dropdown">{{ current_user.name }}</a>
+                    <a id="username" class="btn btn-info dropdown-toggle" data-bs-toggle="dropdown">
+                        {{ current_user.surname + ' ' + current_user.name }}
+                    </a>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         <li><a class="dropdown-item" href="\profile">Профиль</a></li>
                         <li><a class="dropdown-item" href="\logout">Выйти</a></li>

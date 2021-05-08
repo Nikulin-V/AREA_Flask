@@ -227,7 +227,7 @@ def area_diary():
     days = ['пн', 'вт', 'ср', 'чт', 'пт', 'сб']
     schedule = dict()
     for day in days:
-        schedule[day] = ['-' for _ in range(8)]
+        schedule[day] = [['-', -1] for _ in range(8)]
 
     # Получаем группы ученика и составляем по ним расписание
     group_ids = list(db_sess.query(Student.group_id).filter(Student.user_id == current_user.id))
@@ -235,11 +235,12 @@ def area_diary():
         group = db_sess.query(Group).get(group_id)
         for day_n, lesson_n in list(map(lambda x: (int(x[0]), int(x[1])),
                                         str(group.schedule).split(','))):
-            schedule[days[day_n - 1]][lesson_n - 1] = group.subject
+            schedule[days[day_n - 1]][lesson_n - 1][0] = group.subject
+            schedule[days[day_n - 1]][lesson_n - 1][1] = group_id[0]
 
     # Убираем пустые уроки с конца
     for key in days:
-        while schedule[key][-1] == '-':
+        while schedule[key][-1][0] == '-':
             schedule[key] = schedule[key][:-1]
 
     begin_date = date(2021, 5, 3)
@@ -247,13 +248,14 @@ def area_diary():
     for day in days:
         homework[day] = [[] for _ in range(8)]
     for day_n in range(6):
-        for lesson_n in range(1, 9):
+        for lesson_n in range(len(schedule[days[day_n - 1]])):
             homeworks = list(map(lambda x: str(x[0]).capitalize(),
                                  db_sess.query(Homework.homework).filter(
-                                                Homework.date == date(begin_date.year,
-                                                                      begin_date.month,
-                                                                      begin_date.day + day_n),
-                                                Homework.lesson_number == lesson_n
+                                    Homework.date == date(begin_date.year,
+                                                          begin_date.month,
+                                                          begin_date.day + day_n),
+                                    Homework.lesson_number == lesson_n,
+                                    Homework.group_id == schedule[days[day_n]][lesson_n - 1][1]
                                  )))
             if homeworks:
                 homework[days[day_n]][lesson_n - 1] = homeworks
