@@ -2,7 +2,7 @@ from datetime import date
 
 from flask import Flask, render_template, redirect, abort
 from flask_login import logout_user, login_required, LoginManager, login_user, current_user
-from flask_ngrok import run_with_ngrok
+# from flask_ngrok import run_with_ngrok
 
 from data import db_session
 from data.db_functions import repair_dependencies_students_and_groups
@@ -25,7 +25,7 @@ login_manager.init_app(app)
 db_session.global_init('db/database.sqlite')
 epos = EPOS()
 
-run_with_ngrok(app)
+# run_with_ngrok(app)
 
 
 def main():
