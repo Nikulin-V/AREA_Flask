@@ -3,6 +3,12 @@ dropdownElementList.map(function (dropdownToggleEl) {
     return new bootstrap.Dropdown(dropdownToggleEl)
 });
 
+let main = document.getElementsByTagName('body')[0]
+let pageUrl = document.location.pathname
+if (pageUrl === "/" || pageUrl === "/index") {
+    main.style.backgroundImage = "url('/static/images/index-background.jpg')"
+}
+
 
 // Homework spinner
 let homework_link = document.getElementById('epos-diary')
