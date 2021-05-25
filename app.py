@@ -25,11 +25,11 @@ login_manager.init_app(app)
 db_session.global_init('db/database.sqlite')
 epos = EPOS()
 
-run_with_ngrok(app)
+# run_with_ngrok(app)
 
 
 def main():
-    app.run()
+    app.run(port=80)
 
 
 @app.route('/')
