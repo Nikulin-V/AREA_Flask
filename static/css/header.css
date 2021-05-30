@@ -2,6 +2,10 @@ header {
     height: 60px;
 }
 
+.navbar {
+    background-color: #86cfda;
+}
+
 #logo-header {
     height: 40px;
 }
@@ -23,11 +27,6 @@ header {
 
 #sign-in-btn {
     margin-right: 5px;
-}
-
-.vl {
-    border-left: 1px solid;
-    width: 20px;
 }
 
 
@@ -87,4 +86,3 @@ span.buttonText {
 .nav-link {
     color: black;
 }
-

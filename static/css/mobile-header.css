@@ -1,0 +1,132 @@
+header {
+    background-color: #86cfda;
+    position: sticky;
+    top: 0;
+}
+
+
+#logo-header {
+    margin-top: 5px;
+    height: 40px;
+    width: auto;
+}
+
+/* скрываем чекбокс */
+#menu__toggle {
+    opacity: 0;
+}
+
+/* стилизуем кнопку */
+.menu__btn {
+    display: flex; /* используем flex для центрирования содержимого */
+    align-items: center;  /* центрируем содержимое кнопки */
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+    z-index: 1;
+}
+
+/* добавляем "гамбургер" */
+.menu__btn > span,
+.menu__btn > span::before,
+.menu__btn > span::after {
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    background-color: #17A2B8;
+}
+
+.menu__btn > span::before {
+    content: '';
+    top: -8px;
+}
+
+.menu__btn > span::after {
+    content: '';
+    top: 8px;
+}
+
+/* контейнер меню */
+.menu__box {
+    display: block;
+    position: fixed;
+    visibility: hidden;
+    top: 0;
+    left: -100%;
+    width: 300px;
+    height: 100%;
+    margin: 0;
+    list-style: none;
+    text-align: center;
+    background-color: #ffffff;
+    box-shadow: 1px 0 6px rgba(0, 0, 0, .2);
+    padding: 0;
+}
+
+/* элементы меню */
+.menu__item {
+    display: block;
+    padding: 12px 24px;
+    color: #333;
+    font-family: 'Roboto', sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.menu__item:hover {
+    background-color: #86cfda;
+    text-decoration: none;
+    color: white;
+}
+
+#menu__toggle:checked ~ .menu__btn > span {
+    transform: rotate(45deg);
+}
+
+#menu__toggle:checked ~ .menu__btn > span::before {
+    top: 0;
+    transform: rotate(0);
+}
+
+#menu__toggle:checked ~ .menu__btn > span::after {
+    top: 0;
+    transform: rotate(90deg);
+}
+
+#menu__toggle:checked ~ .menu__box {
+    visibility: visible;
+    left: 0;
+}
+
+.menu__btn > span,
+.menu__btn > span::before,
+.menu__btn > span::after {
+    transition-duration: .25s;
+}
+.menu__box {
+    transition-duration: .25s;
+}
+.menu__item {
+    transition-duration: .25s;
+}
+
+#menu-item:hover {
+    background-color: white;
+}
+
+#username {
+    background-color: white;
+}
+
+#username:active {
+    color: black;
+}
+
+header {
+    z-index: 4;
+}

@@ -25,6 +25,8 @@ class User(SqlAlchemyBase, UserMixin):
     school_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey("schools.id"))
     about = sqlalchemy.Column(sqlalchemy.Text)
 
+    role = sqlalchemy.Column(sqlalchemy.String)
+
     def set_password(self, password):
         self.hashed_password = generate_password_hash(password)
 

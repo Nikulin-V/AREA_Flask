@@ -18,9 +18,9 @@ class EPOS:
         :return: Сессия браузера (WebDriver)
         """
         opts = webdriver.ChromeOptions()
-        opts.add_argument('--window-position=-32000,-32000')
+        opts.headless = True
 
-        self.driver = webdriver.Chrome(executable_path='chromedriver.exe', options=opts)
+        self.driver = webdriver.Chrome(options=opts)
 
         # получаем куки для взаимодействия с ЭПОС.Школа
         self.get_cookies(login, password)

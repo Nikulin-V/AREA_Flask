@@ -3,7 +3,7 @@ from PIL import Image, ImageDraw, ImageFont
 from vk_api import VkApi
 from vk_api.upload import VkUpload
 
-import command_system
+from vk_bot import command_system
 
 from vk_bot.credentials import TOKEN
 from data import epos, db_session
@@ -15,7 +15,7 @@ epos = epos.EPOS()
 
 def week_diary():
     """функция для формирования неделбного дневника"""
-    im = Image.new('RGB', (1920, 1080), color=('#CCEEFF'))
+    im = Image.new('RGB', (1920, 1080), color='#CCEEFF')
 
     font = ImageFont.truetype("arial.ttf", 14)
     x = 50

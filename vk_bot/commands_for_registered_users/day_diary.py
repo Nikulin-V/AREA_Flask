@@ -4,7 +4,7 @@ from vk_api import VkApi
 from vk_api.upload import VkUpload
 from datetime import datetime
 
-import command_system
+from vk_bot import command_system
 
 from vk_bot.credentials import TOKEN
 from data import epos, db_session
@@ -16,7 +16,7 @@ epos = epos.EPOS()
 
 def day_diary():
     """функция для формирования сегодняшнего дневника"""
-    im = Image.new('RGB', (1920, 200), color=('#CCEEFF'))
+    im = Image.new('RGB', (1920, 200), color='#CCEEFF')
 
     font = ImageFont.truetype("arial.ttf", 14)
     x = 10
@@ -58,9 +58,11 @@ def day_diary():
                     if response[day]['homeworks'][lesson_id]:
                         message = response[day]['homeworks'][lesson_id].split(' ')
                         if len(message) > 33:
-                            draw.text((x + 180, y), ' '.join(message[:34]), font=font, fill='#1C0606')
+                            draw.text((x + 180, y), ' '.join(message[:34]),
+                                      font=font, fill='#1C0606')
                             y += 18
-                            draw.text((x + 180, y), ' '.join(message[34:]), font=font, fill='#1C0606')
+                            draw.text((x + 180, y), ' '.join(message[34:]),
+                                      font=font, fill='#1C0606')
                         else:
                             draw.text((x + 180, y), ' '.join(message), font=font, fill='#1C0606')
                     if flag:

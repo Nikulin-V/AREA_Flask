@@ -1,4 +1,4 @@
-import command_system
+from vk_bot import command_system
 
 
 def info():

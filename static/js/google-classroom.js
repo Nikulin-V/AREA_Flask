@@ -1,3 +1,5 @@
+// noinspection JSUnresolvedVariable,JSUnusedGlobalSymbols
+
 gapi.load('client', {
     callback: function() {
         gapi.client.init()

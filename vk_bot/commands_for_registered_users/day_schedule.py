@@ -4,7 +4,7 @@ from vk_api import VkApi
 from vk_api.upload import VkUpload
 from datetime import datetime
 
-import command_system
+from vk_bot import command_system
 
 from vk_bot.credentials import TOKEN
 from data import epos, db_session
@@ -16,7 +16,7 @@ epos = epos.EPOS()
 
 def day_schedule():
     """функция для формирования сегодняшнего расписания"""
-    im = Image.new('RGB', (200, 200), color=('#CCEEFF'))
+    im = Image.new('RGB', (200, 200), color='#CCEEFF')
 
     font = ImageFont.truetype("arial.ttf", 14)
     x = 10

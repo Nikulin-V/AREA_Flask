@@ -24,7 +24,7 @@ def create_answer(is_registered, data, token):
     if not is_registered:
         if data['text'].startswith('/данные'):
             state_string = register(data)
-            vkapi.send_message(data['from_id'], token, state_string, '')
+            vkapi.send_message(data['from_id'], token, state_string)
         else:
             load_modules(is_registered)
             user_id = data['from_id']
@@ -63,7 +63,9 @@ def register(data):
         user = db_sess.query(User).filter(User.email == area_login).first()
         if user and user.check_password(area_password):
             login_epos = db_sess.query(User.epos_login).filter(User.email == area_login).first()[0]
-            password_epos = db_sess.query(User.epos_password).filter(User.email == area_login).first()[0]
+            password_epos = db_sess.query(User.epos_password).filter(
+                User.email == area_login).first()[0]
+            # noinspection PyArgumentList
             vk_user = VkUser(
                 vk_id=vk_user_id,
                 AREA_email=area_login,
