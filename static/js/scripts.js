@@ -1,3 +1,5 @@
+// noinspection JSUnresolvedFunction
+
 let dropdownElementList = [].slice.call(document.querySelectorAll('.dropdown-toggle'));
 dropdownElementList.map(function (dropdownToggleEl) {
     return new bootstrap.Dropdown(dropdownToggleEl)
@@ -5,17 +7,11 @@ dropdownElementList.map(function (dropdownToggleEl) {
 
 let main = document.getElementsByTagName('body')[0]
 let pageUrl = document.location.pathname
-if (pageUrl === "/" || pageUrl === "/index") {
+if (pageUrl === "/" || pageUrl === "/index" || pageUrl === "/privacy-policy") {
     main.style.backgroundImage = "url('/static/images/index-background.jpg')"
 }
 
 
-// Homework spinner
-let homework_link = document.getElementById('epos-diary')
-homework_link.onclick = function () {
-    let homework_spinner = document.getElementById('epos-spinner')
-    homework_spinner.style.visibility = "visible"
-}
 
 let myModal = document.getElementById('myModal');
 let myInput = document.getElementById('myInput');
@@ -38,4 +34,11 @@ if (modal_ok_btn) {
     modal_ok_btn.onclick = function () {
         $("#myModal").modal('hide');
     }
+}
+
+// Homework spinner
+let homework_link = document.getElementById('epos-diary')
+homework_link.onclick = function () {
+    let homework_spinner = document.getElementById('epos-spinner')
+    homework_spinner.style.visibility = "visible"
 }

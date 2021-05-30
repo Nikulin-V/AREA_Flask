@@ -1,0 +1,23 @@
+{% extends "mobile/base.html" %}
+
+{% block content %}
+    <h1>{{ title }}</h1>
+    {% for day in schedule.keys() %}
+        <table class="dairy-table table-hover table-info">
+        <caption style="caption-side: top">{{ day }}</caption>
+            {% for lesson_id in range(schedule[day]['lessons']|length) %}
+                <tr id="row">
+                    <td style="width: 15px; text-align: center">{{ loop.index }}</td>
+                    <td style="width: 20%;text-align: center">
+                        {{ schedule[day]['lessons'][lesson_id] }}</td>
+                    {% if schedule[day]['homeworks'][lesson_id] %}
+                        <td style="padding-left: 20px">{{ schedule[day]['homeworks'][lesson_id] }}</td>
+                    {% else %}
+                        <td></td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+        </table>
+        <p></p>
+    {% endfor %}
+{% endblock %}

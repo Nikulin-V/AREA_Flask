@@ -8,6 +8,7 @@ SqlAlchemyBase = dec.declarative_base()
 __factory = None
 
 
+# noinspection PyUnresolvedReferences
 def global_init(db_file):
     global __factory
 
@@ -30,4 +31,5 @@ def global_init(db_file):
 
 def create_session() -> Session:
     global __factory
+    # noinspection PyCallingNonCallable
     return __factory()

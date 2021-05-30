@@ -1,5 +1,7 @@
 from datetime import date
 
+from flask_mobility.decorators import mobile_template
+from flask_mobility.mobility import Mobility
 from flask import Flask, render_template, redirect, abort
 from flask_login import logout_user, login_required, LoginManager, login_user, current_user
 from flask_ngrok import run_with_ngrok
@@ -20,28 +22,32 @@ SCOPES = ['https://www.googleapis.com/auth/classroom.coursework.me.readonly']
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
+Mobility(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
 db_session.global_init('db/database.sqlite')
 epos = EPOS()
 
-# run_with_ngrok(app)
+
+run_with_ngrok(app)
 
 
 def main():
-    app.run(port=80)
+    app.run()
 
 
 @app.route('/')
 @app.route('/index')
 @app.route('/main')
-def index():
-    return render_template("index.html",
+@mobile_template('{mobile/}index.html')
+def index(template):
+    return render_template(template,
                            title='Главная')
 
 
 @app.route('/login', methods=['GET', 'POST'])
-def login():
+@mobile_template('{mobile/}login.html')
+def login(template):
     if current_user.is_authenticated:
         redirect('/profile')
 
@@ -52,24 +58,25 @@ def login():
         user: User
         user = db_sess.query(User).filter(User.email == form.email.data).first()
         if not user:
-            return render_template('login.html',
+            return render_template(template,
                                    title='Авторизация',
                                    message="Вы не зарегистрированы в системе",
                                    form=form)
         if user.check_password(form.password.data):
             login_user(user, remember=form.remember_me.data)
             return redirect("/index")
-        return render_template('login.html',
+        return render_template(template,
                                title='Авторизация',
                                message="Неправильный логин или пароль",
                                form=form)
-    return render_template('login.html',
+    return render_template(template,
                            title='Авторизация',
                            form=form)
 
 
 @app.route('/register', methods=['GET', 'POST'])
-def register():
+@mobile_template('{mobile/}register.html')
+def register(template):
     if current_user.is_authenticated:
         redirect('/homework')
 
@@ -77,7 +84,7 @@ def register():
 
     if form.validate_on_submit():
         if form.password.data != form.password_again.data:
-            return render_template('register.html',
+            return render_template(template,
                                    title='Регистрация',
                                    form=form,
                                    message="Пароли не совпадают",
@@ -85,12 +92,13 @@ def register():
 
         db_sess = db_session.create_session()
         if db_sess.query(User).filter(User.email == form.email.data).first():
-            return render_template('register.html',
+            return render_template(template,
                                    title='Регистрация',
                                    form=form,
                                    message="Такой пользователь уже есть",
                                    btn_label='Войти')
 
+        # noinspection PyArgumentList
         user = User(
             surname=form.surname.data,
             name=form.name.data,
@@ -99,8 +107,8 @@ def register():
             email=form.email.data,
             epos_login=form.epos_login.data,
             epos_password=form.epos_password.data,
-            school_id=int(
-                db_sess.query(School.id).filter(School.title == form.school.data).first()[0]),
+            school_id=int(db_sess.query(School.id).
+                          filter(School.title == form.school.data).first()[0]),
             about=form.about.data
         )
         user.set_password(form.password.data)
@@ -109,7 +117,7 @@ def register():
         login_user(user)
         return redirect('/profile')
 
-    return render_template('register.html',
+    return render_template(template,
                            title='Регистрация',
                            form=form,
                            btn_label='Войти')
@@ -117,7 +125,8 @@ def register():
 
 @app.route('/profile', methods=['GET', 'POST'])
 @login_required
-def profile():
+@mobile_template('{mobile/}profile.html')
+def profile(template):
     form = ProfileForm()
     db_sess = db_session.create_session()
     user = current_user
@@ -139,7 +148,7 @@ def profile():
 
         if form.old_password.data or form.password.data or form.password_again.data:
             if not form.old_password.data:
-                return render_template('profile.html',
+                return render_template(template,
                                        title='Профиль',
                                        form=form,
                                        school=db_sess.query(School.title).filter(
@@ -148,7 +157,7 @@ def profile():
                                        date=current_user.date_of_birth.strftime('%d.%m.%Y'),
                                        btn_label='Сохранить')
             elif not form.password.data:
-                return render_template('profile.html',
+                return render_template(template,
                                        title='Профиль',
                                        form=form,
                                        school=db_sess.query(School.title).filter(
@@ -157,7 +166,7 @@ def profile():
                                        date=current_user.date_of_birth.strftime('%d.%m.%Y'),
                                        btn_label='Сохранить')
             elif not form.password_again.data:
-                return render_template('profile.html',
+                return render_template(template,
                                        title='Профиль',
                                        form=form,
                                        school=db_sess.query(School.title).filter(
@@ -166,7 +175,7 @@ def profile():
                                        date=current_user.date_of_birth.strftime('%d.%m.%Y'),
                                        btn_label='Сохранить')
             elif not user.check_password(form.old_password.data):
-                return render_template('profile.html',
+                return render_template(template,
                                        title='Профиль',
                                        form=form,
                                        school=db_sess.query(School.title).filter(
@@ -175,7 +184,7 @@ def profile():
                                        date=current_user.date_of_birth.strftime('%d.%m.%Y'),
                                        btn_label='Сохранить')
             elif form.password.data != form.password_again.data:
-                return render_template('profile.html',
+                return render_template(template,
                                        title='Профиль',
                                        form=form,
                                        school=db_sess.query(School.title).filter(
@@ -188,7 +197,7 @@ def profile():
 
         db_sess.merge(user)
         db_sess.commit()
-        return render_template('profile.html',
+        return render_template(template,
                                title='Профиль',
                                form=form,
                                school=db_sess.query(School.title).filter(
@@ -197,7 +206,7 @@ def profile():
                                date=current_user.date_of_birth.strftime('%d.%m.%Y'),
                                btn_label='Сохранить')
 
-    return render_template('profile.html',
+    return render_template(template,
                            title='Профиль',
                            form=form,
                            school=db_sess.query(School.title).filter(
@@ -221,7 +230,8 @@ def load_user(user_id):
 
 @app.route('/area-diary')
 @login_required
-def area_diary():
+@mobile_template('{mobile/}area-diary.html')
+def area_diary(template):
     repair_dependencies_students_and_groups()
     db_sess = db_session.create_session()
     days = ['пн', 'вт', 'ср', 'чт', 'пт', 'сб']
@@ -239,7 +249,7 @@ def area_diary():
             schedule[days[day_n - 1]][lesson_n - 1][1] = group_id[0]
 
     # Убираем пустые уроки с конца
-    for key in days:
+    for key in schedule.keys():
         while schedule[key][-1][0] == '-':
             schedule[key] = schedule[key][:-1]
 
@@ -251,16 +261,16 @@ def area_diary():
         for lesson_n in range(len(schedule[days[day_n - 1]])):
             homeworks = list(map(lambda x: str(x[0]).capitalize(),
                                  db_sess.query(Homework.homework).filter(
-                                    Homework.date == date(begin_date.year,
-                                                          begin_date.month,
-                                                          begin_date.day + day_n),
-                                    Homework.lesson_number == lesson_n,
-                                    Homework.group_id == schedule[days[day_n]][lesson_n - 1][1]
+                                     Homework.date == date(begin_date.year,
+                                                           begin_date.month,
+                                                           begin_date.day + day_n),
+                                     Homework.lesson_number == lesson_n,
+                                     Homework.group_id == schedule[days[day_n]][lesson_n - 1][1]
                                  )))
             if homeworks:
                 homework[days[day_n]][lesson_n - 1] = homeworks
     dates = [str(begin_date.day + i).rjust(2, '0') for i in range(6)]
-    return render_template('diary.html',
+    return render_template(template,
                            title='Дневник AREA',
                            schedule=schedule,
                            homework=homework,
@@ -270,7 +280,8 @@ def area_diary():
 
 @app.route('/epos-diary')
 @login_required
-def epos_diary():
+@mobile_template('{mobile/}epos-diary.html')
+def epos_diary(template):
     if not current_user.is_authenticated:
         return abort(401)
 
@@ -288,7 +299,7 @@ def epos_diary():
     else:
         schedule = response
 
-    return render_template('homework.html',
+    return render_template(template,
                            title='Дневник ЭПОСа',
                            schedule=schedule)
 
@@ -297,12 +308,14 @@ def epos_diary():
 @app.errorhandler(403)
 @app.errorhandler(404)
 @app.errorhandler(408)
-def page_not_found(error):
+@mobile_template('{mobile/}error-page.html')
+def page_not_found(error, template):
     messages = {
         401: ['Вы не авторизованы',
               'Через несколько секунд Вы будете направлены на страницу авторизации'],
-        403: ['Неверный пароль от ЭПОС.Школа',
-              'Проверьте пароль от ЭПОС.Школа и обновите его в профиле'],
+        403: ['Ошибка при авторизации в ЭПОС.Школа',
+              'Попробуйте ещё раз. При повторном возникновении ошибки проверьте пароль от '
+              'ЭПОС.Школа и обновите его в профиле'],
         404: ['Страница не найдена',
               'Проверьте правильность введённого адреса'],
         408: ['Превышено время ожидания',
@@ -310,10 +323,17 @@ def page_not_found(error):
               'техподдержку']
     }
 
-    return render_template("error-page.html",
+    return render_template(template,
                            code=error.code,
                            title=messages[error.code][0],
                            message=messages[error.code][1])
+
+
+@app.route('/privacy-policy')
+@mobile_template('{mobile/}privacy-policy.html')
+def privacy_policy(template):
+    return render_template(template,
+                           title='Политика конфиденциальности')
 
 
 if __name__ == '__main__':

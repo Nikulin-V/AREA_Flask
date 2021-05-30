@@ -1,5 +1,6 @@
 main {
     margin-bottom: 100px;
+    padding-top: 15px;
 }
 
 td, th {
@@ -7,12 +8,7 @@ td, th {
 }
 
 .dairy-table {
-    width: 80%;
-}
-
-.error-img {
-    max-width: 100%;
-    height: auto;
+    width: 100%;
 }
 
 #error-message {
@@ -76,26 +72,8 @@ td, th {
     font-weight: bold;
 }
 
-.navbar {
-    padding: 3px;
-    background-color: #86cfda;
-    height: 60px;
-}
-
-form {
-    width: 30%;
-}
-
-#brand-name {
-    font-size: large;
-    margin-top: 5%;
-    margin-right: 1%;
-}
-
-.nav-link {
-    display: inline;
-}
 
 #header-hr {
     margin: 0;
 }
+
