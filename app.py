@@ -4,9 +4,10 @@ from flask_mobility.decorators import mobile_template
 from flask_mobility.mobility import Mobility
 from flask import Flask, render_template, redirect, abort
 from flask_login import logout_user, login_required, LoginManager, login_user, current_user
-# from flask_ngrok import run_with_ngrok
+from flask_ngrok import run_with_ngrok
 
 from data import db_session
+from data.classes import Class
 from data.db_functions import repair_dependencies_students_and_groups
 from data.epos import EPOS
 from data.groups import Group
@@ -25,9 +26,8 @@ app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
 Mobility(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
-db_session.global_init('db/database.sqlite')
+db_session.global_init('C:/Users/Vasiliy/PycharmProjects/edu-area/db/database.sqlite')
 epos = EPOS()
-
 
 run_with_ngrok(app)
 
@@ -337,10 +337,4 @@ def privacy_policy(template):
 
 
 if __name__ == '__main__':
-    # db_sess = db_session.create_session()
-    # homeworks = list(db_sess.query(Homework))
-    # for homework in homeworks:
-    #     d = homework.date.split('.')
-    #     homework.date = d[2] + '-' + d[1] + '-' + d[0]
-    # db_sess.commit()
     main()
