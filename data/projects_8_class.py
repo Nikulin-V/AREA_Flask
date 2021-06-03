@@ -9,4 +9,3 @@ class Project(SqlAlchemyBase):
     title = sqlalchemy.Column(sqlalchemy.String)
     section = sqlalchemy.Column(sqlalchemy.String)
     authors_ids = sqlalchemy.Column(sqlalchemy.String)
-    points = sqlalchemy.Column(sqlalchemy.Integer, default=0)

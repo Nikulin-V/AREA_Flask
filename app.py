@@ -7,18 +7,19 @@ from flask_login import logout_user, login_required, LoginManager, login_user, c
 from flask_ngrok import run_with_ngrok
 
 from data import db_session
-from data.classes import Class
 from data.db_functions import repair_dependencies_students_and_groups
 from data.epos import EPOS
 from data.groups import Group
 from data.homeworks import Homework
 from data.projects_8_class import Project
+from data.projects_8_class_votes import Vote
 from data.schools import School
 from data.students import Student
 from data.users import User
 from forms.login import LoginForm
 from forms.profile import ProfileForm
 from forms.register import RegisterForm
+from forms.vote import VoteForm
 
 SCOPES = ['https://www.googleapis.com/auth/classroom.coursework.me.readonly']
 
@@ -251,8 +252,11 @@ def area_diary(template):
 
     # Убираем пустые уроки с конца
     for key in schedule.keys():
-        while schedule[key][-1][0] == '-':
-            schedule[key] = schedule[key][:-1]
+        try:
+            while schedule[key][-1][0] == '-':
+                schedule[key] = schedule[key][:-1]
+        except IndexError:
+            pass
 
     begin_date = date(2021, 5, 3)
     homework = dict()
@@ -284,7 +288,10 @@ def area_diary(template):
 @mobile_template('{mobile/}epos-diary.html')
 def epos_diary(template):
     if not current_user.is_authenticated:
-        return abort(401)
+        abort(401)
+
+    if not (current_user.epos_login and current_user.epos_password):
+        abort(403)
 
     epos_login = current_user.epos_login
     epos_password = current_user.epos_password
@@ -337,19 +344,114 @@ def privacy_policy(template):
                            title='Политика конфиденциальности')
 
 
-@app.route('/8-classes-projects-result')
+@app.route('/8-classes-projects-result', methods=['GET', 'POST'])
 @mobile_template('{mobile/}8-classes-projects-result.html')
 def projects_8_class(template):
     db_sess = db_session.create_session()
-    project = db_sess.query(Project.title, Project.points). \
-        filter(Project.authors_ids.contains(current_user.id)).first()
+
+    form = VoteForm()
+
+    message = ''
+
+    if form.is_submitted():
+        if form.points.data is None:
+            pass
+        elif 0 < form.points.data <= 100:
+            project_id = db_sess.query(Project.id). \
+                filter(Project.title == form.project.data).first()[0]
+            current_voted_points = sum(list(map(lambda x: x[0], db_sess.query(Vote.points).
+                                                filter(Vote.user_id == current_user.id))))
+            current_project_voted_points = db_sess.query(Vote.points). \
+                filter(Vote.user_id == current_user.id,
+                       Vote.project_id == project_id).first()
+            if current_project_voted_points:
+                current_project_voted_points = current_project_voted_points[0]
+            else:
+                current_project_voted_points = 0
+            if current_voted_points + form.points.data <= 100 or \
+                    current_project_voted_points >= form.points.data or \
+                    (current_project_voted_points < form.points.data and
+                     current_voted_points - current_project_voted_points + form.points.data <= 100):
+                project_id = db_sess.query(Project.id). \
+                    filter(Project.title == form.project.data).first()
+                if project_id:
+                    project_id = project_id[0]
+                vote = db_sess.query(Vote).filter(Vote.user_id == current_user.id,
+                                                  Vote.project_id == project_id).first()
+                if vote:
+                    vote.points = form.points.data
+                    db_sess.merge(vote)
+                else:
+                    vote = Vote(user_id=current_user.id,
+                                project_id=project_id,
+                                points=form.points.data)
+                    db_sess.add(vote)
+                db_sess.commit()
+            else:
+                message = f'Вам не хватает очков.\n' \
+                          f'Вы можете отменить голос, назначив проекту 0 очков.\n' \
+                          f'Ваши очки: {100 - current_voted_points}/100'
+        elif form.points.data == 0:
+            project_id = db_sess.query(Project.id). \
+                filter(Project.title == form.project.data).first()
+            if project_id:
+                project_id = project_id[0]
+            vote = db_sess.query(Vote).filter(Vote.user_id == current_user.id,
+                                              Vote.project_id == project_id).first()
+            if vote:
+                db_sess.delete(vote)
+                db_sess.commit()
+        else:
+            message = 'Неверное число очков'
+
+    project = db_sess.query(Project.id, Project.title). \
+        filter(Project.authors_ids.contains(str(current_user.id))).first()
+    points = sum(list(db_sess.query(Vote.points).
+                      filter(Vote.project_id == project[0])))
+    project = list(project) + [points]
     projects = dict()
     sections = sorted(list(map(lambda x: x[0], set(list(db_sess.query(Project.section))))))
+    # row structure: id | title | points | form
     for section in sections:
-        data = list(db_sess.query(Project.title, Project.points).filter(Project.section == section))
-        data.sort(key=lambda x: x[-1])
-        projects[section] = data
+        data = list(db_sess.query(Project.id, Project.title).filter(Project.section == section))
+        for row_id in range(len(data)):
+            points = sum(list(map(lambda x: x[0], db_sess.query(Vote.points).
+                                  filter(Vote.project_id == data[row_id][0]))))
+            data[row_id] = list(data[row_id]) + [points, form]
+        projects[section] = sorted(data, key=lambda x: -x[2])
+
+    form.section.choices = sorted(list(set(map(lambda x: x[0],
+                                               list(db_sess.query(Project.section))))))
+
+    if not form.section.data:
+        form.section.data = form.section.choices[0]
+    form.project.choices = list(map(lambda x: x[0],
+                                    list(db_sess.query(Project.title).
+                                         filter(Project.section == form.section.data))))
+
+    if not form.project.data:
+        form.project.data = form.project.choices[0]
+    project_id = db_sess.query(Project.id).filter(Project.title == form.project.data,
+                                                  Project.section == form.section.data).first()
+    if project_id:
+        project_id = project_id[0]
+    else:
+        form.project.data = form.project.choices[0]
+        project_id = db_sess.query(Project.id).filter(Project.title == form.project.data,
+                                                      Project.section == form.section.data).first()
+        if project_id:
+            project_id = project_id[0]
+
+    current_voted_points = sum(list(map(lambda x: x[0], db_sess.query(Vote.points).
+                                        filter(Vote.project_id == project_id,
+                                               Vote.user_id == current_user.id))))
+
+    form.points.data = current_voted_points if current_voted_points else 0
+
     return render_template(template,
+                           form=form,
+                           title='Проекты',
+                           message=message,
                            project=project,
                            projects=projects,
                            sections=sections)
