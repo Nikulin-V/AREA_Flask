@@ -12,6 +12,7 @@ from data.db_functions import repair_dependencies_students_and_groups
 from data.epos import EPOS
 from data.groups import Group
 from data.homeworks import Homework
+from data.projects_8_class import Project
 from data.schools import School
 from data.students import Student
 from data.users import User
@@ -26,7 +27,7 @@ app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
 Mobility(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
-db_session.global_init('C:/Users/Vasiliy/PycharmProjects/edu-area/db/database.sqlite')
+db_session.global_init('db/database.sqlite')
 epos = EPOS()
 
 run_with_ngrok(app)
@@ -334,6 +335,24 @@ def page_not_found(error, template):
 def privacy_policy(template):
     return render_template(template,
                            title='Политика конфиденциальности')
+
+
+@app.route('/8-classes-projects-result')
+@mobile_template('{mobile/}8-classes-projects-result.html')
+def projects_8_class(template):
+    db_sess = db_session.create_session()
+    project = db_sess.query(Project.title, Project.points). \
+        filter(Project.authors_ids.contains(current_user.id)).first()
+    projects = dict()
+    sections = sorted(list(map(lambda x: x[0], set(list(db_sess.query(Project.section))))))
+    for section in sections:
+        data = list(db_sess.query(Project.title, Project.points).filter(Project.section == section))
+        data.sort(key=lambda x: x[-1])
+        projects[section] = data
+    return render_template(template,
+                           project=project,
+                           projects=projects,
+                           sections=sections)
 
 
 if __name__ == '__main__':
