@@ -38,7 +38,9 @@ if (modal_ok_btn) {
 
 // Homework spinner
 let homework_link = document.getElementById('epos-diary')
-homework_link.onclick = function () {
-    let homework_spinner = document.getElementById('epos-spinner')
-    homework_spinner.style.visibility = "visible"
+if (homework_link) {
+    homework_link.onclick = function () {
+        let homework_spinner = document.getElementById('epos-spinner')
+        homework_spinner.style.visibility = "visible"
+    }
 }

@@ -1,5 +1,6 @@
 <!--suppress ALL -->
-{% extends "base.html" %}
+
+{% extends "mobile/base.html" %}
 
 {% block content %}
 
@@ -47,22 +48,6 @@
         </form>
         <hr>
     {% endif %}
-    {% for section in sections %}
-    <table class="dairy-table table-hover table-info">
-    <caption style="caption-side: top">{{ section }}</caption>
-        <tr>
-            <td style="text-align: center;padding: 5px">Название</td>
-            <td style="text-align: center;padding: 5px">Очки</td>
-        </tr>
-        {% for project in projects[section] %}
-            <tr>
-                <td style="text-align: center">{{ project[1] }}</td>
-                <td style="text-align: center">{{ project[2] }}</td>
-            </tr>
-        {% endfor %}
-    </table>
-    {% endfor %}
-
     {% for section in sections %}
     <table class="dairy-table table-hover table-info">
     <caption style="caption-side: top">{{ section }}</caption>

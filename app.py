@@ -133,7 +133,11 @@ def profile(template):
     db_sess = db_session.create_session()
     user = current_user
 
+    message = ''
+
     if form.validate_on_submit():
+        message = "Сохранено"
+
         user.surname = form.surname.data
         user.name = form.name.data
         user.patronymic = form.patronymic.data
@@ -150,67 +154,25 @@ def profile(template):
 
         if form.old_password.data or form.password.data or form.password_again.data:
             if not form.old_password.data:
-                return render_template(template,
-                                       title='Профиль',
-                                       form=form,
-                                       school=db_sess.query(School.title).filter(
-                                           School.id == user.school_id).first()[0],
-                                       message="Введите старый пароль",
-                                       date=current_user.date_of_birth.strftime('%d.%m.%Y'),
-                                       btn_label='Сохранить')
+                message = "Введите старый пароль"
             elif not form.password.data:
-                return render_template(template,
-                                       title='Профиль',
-                                       form=form,
-                                       school=db_sess.query(School.title).filter(
-                                           School.id == user.school_id).first()[0],
-                                       message="Введите новый пароль",
-                                       date=current_user.date_of_birth.strftime('%d.%m.%Y'),
-                                       btn_label='Сохранить')
+                message = "Введите новый пароль"
             elif not form.password_again.data:
-                return render_template(template,
-                                       title='Профиль',
-                                       form=form,
-                                       school=db_sess.query(School.title).filter(
-                                           School.id == user.school_id).first()[0],
-                                       message="Повторите новый пароль",
-                                       date=current_user.date_of_birth.strftime('%d.%m.%Y'),
-                                       btn_label='Сохранить')
+                message = "Повторите новый пароль"
             elif not user.check_password(form.old_password.data):
-                return render_template(template,
-                                       title='Профиль',
-                                       form=form,
-                                       school=db_sess.query(School.title).filter(
-                                           School.id == user.school_id).first()[0],
-                                       message="Неверный старый пароль",
-                                       date=current_user.date_of_birth.strftime('%d.%m.%Y'),
-                                       btn_label='Сохранить')
+                message = "Неверный старый пароль"
             elif form.password.data != form.password_again.data:
-                return render_template(template,
-                                       title='Профиль',
-                                       form=form,
-                                       school=db_sess.query(School.title).filter(
-                                           School.id == user.school_id).first()[0],
-                                       message="Пароли не совпадают",
-                                       date=current_user.date_of_birth.strftime('%d.%m.%Y'),
-                                       btn_label='Сохранить')
+                message = "Пароли не совпадают"
             else:
                 user.set_password(form.password.data)
 
         db_sess.merge(user)
         db_sess.commit()
-        return render_template(template,
-                               title='Профиль',
-                               form=form,
-                               school=db_sess.query(School.title).filter(
-                                   School.id == user.school_id).first()[0],
-                               message="Сохранено",
-                               date=current_user.date_of_birth.strftime('%d.%m.%Y'),
-                               btn_label='Сохранить')
 
     return render_template(template,
                            title='Профиль',
                            form=form,
+                           message=message,
                            school=db_sess.query(School.title).filter(
                                School.id == user.school_id).first()[0],
                            date=current_user.date_of_birth.strftime('%d.%m.%Y'),
@@ -353,9 +315,18 @@ def projects_8_class(template):
 
     message = ''
 
+    # self project
+    project = db_sess.query(Project.id, Project.title). \
+        filter(Project.authors_ids.contains(str(current_user.id))).first()
+    points = sum(list(map(lambda x: x[0], db_sess.query(Vote.points).
+                          filter(Vote.project_id == project[0]))))
+    project = list(project) + [points]
+
     if form.is_submitted():
         if form.points.data is None:
             pass
+        elif form.project.data == project[1]:
+            message = 'Вы не можете голосовать за свой проект'
         elif 0 < form.points.data <= 100:
             project_id = db_sess.query(Project.id). \
                 filter(Project.title == form.project.data).first()[0]
@@ -404,13 +375,10 @@ def projects_8_class(template):
         else:
             message = 'Неверное число очков'
 
-    project = db_sess.query(Project.id, Project.title). \
-        filter(Project.authors_ids.contains(str(current_user.id))).first()
-    points = sum(list(db_sess.query(Vote.points).
-                      filter(Vote.project_id == project[0])))
-    project = list(project) + [points]
+    # all projects
     projects = dict()
     sections = sorted(list(map(lambda x: x[0], set(list(db_sess.query(Project.section))))))
+
     # row structure: id | title | points | form
     for section in sections:
         data = list(db_sess.query(Project.id, Project.title).filter(Project.section == section))
