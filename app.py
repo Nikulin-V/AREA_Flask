@@ -28,7 +28,7 @@ app.config['SECRET_KEY'] = 'area146_secret_key'
 Mobility(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
-db_session.global_init('C:/Users/Vasiliy/PycharmProjects/edu-area/db/database.sqlite')
+db_session.global_init('db/database.sqlite')
 epos = EPOS()
 
 
