@@ -28,7 +28,7 @@ app.config['SECRET_KEY'] = 'area146_secret_key'
 Mobility(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
-db_session.global_init('db/database.sqlite')
+db_session.global_init('C:/Users/Vasiliy/PycharmProjects/edu-area/db/database.sqlite')
 epos = EPOS()
 
 
@@ -315,16 +315,18 @@ def projects_8_class(template):
     message = ''
 
     # self project
+
     project = db_sess.query(Project.id, Project.title). \
         filter(Project.authors_ids.contains(str(current_user.id))).first()
-    points = sum(list(map(lambda x: x[0], db_sess.query(Vote.points).
-                          filter(Vote.project_id == project[0]))))
-    project = list(project) + [points]
+    if project:
+        points = sum(list(map(lambda x: x[0], db_sess.query(Vote.points).
+                              filter(Vote.project_id == project[0]))))
+        project = list(project) + [points]
 
     if form.is_submitted():
         if form.points.data is None:
             pass
-        elif form.project.data == project[1]:
+        elif project and form.project.data == project[1]:
             message = 'Вы не можете голосовать за свой проект'
         elif 0 < form.points.data <= 100:
             project_id = db_sess.query(Project.id). \
