@@ -32,10 +32,9 @@ db_session.global_init('db/database.sqlite')
 epos = EPOS()
 
 
-def main():
-    if __name__ == '__main__':
-        port = int(os.environ.get("PORT", 80))
-        app.run(port=port)
+if __name__ == '__main__':
+    port = int(os.environ.get("PORT", 80))
+    app.run(host='0.0.0.0', port=port)
 
 
 @app.route('/')
