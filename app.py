@@ -35,7 +35,7 @@ run_with_ngrok(app)
 
 
 def main():
-    app.run()
+    app.run(port=80)
 
 
 @app.route('/')
