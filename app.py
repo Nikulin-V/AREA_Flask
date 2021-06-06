@@ -12,13 +12,17 @@ from data.epos import EPOS
 from data.groups import Group
 from data.homeworks import Homework
 from data.projects_8_class import Project
+from data.projects_8_class_offers import Offer
+from data.projects_8_class_stocks import Stock
 from data.projects_8_class_votes import Vote
 from data.schools import School
 from data.students import Student
 from data.users import User
 from forms.login import LoginForm
 from forms.profile import ProfileForm
+from forms.purchase import PurchaseForm
 from forms.register import RegisterForm
+from forms.stocks import StocksForm
 from forms.vote import VoteForm
 
 SCOPES = ['https://www.googleapis.com/auth/classroom.coursework.me.readonly']
@@ -308,6 +312,7 @@ def privacy_policy(template):
 
 @app.route('/8-classes-projects-result', methods=['GET', 'POST'])
 @mobile_template('{mobile/}8-classes-projects-result.html')
+@login_required
 def projects_8_class(template):
     db_sess = db_session.create_session()
 
@@ -375,27 +380,7 @@ def projects_8_class(template):
         else:
             message = 'Неверное число очков'
 
-    # all projects
-    projects = dict()
-    sections = sorted(list(map(lambda x: x[0], set(list(db_sess.query(Project.section))))))
-
-    # row structure: id | title | points | form
-    for section in sections:
-        data = list(db_sess.query(Project.id, Project.title).filter(Project.section == section))
-        for row_id in range(len(data)):
-            points = sum(list(map(lambda x: x[0], db_sess.query(Vote.points).
-                                  filter(Vote.project_id == data[row_id][0]))))
-            data[row_id] = list(data[row_id]) + [points, form]
-        projects[section] = sorted(data, key=lambda x: -x[2])
-
-    form.section.choices = sorted(list(set(map(lambda x: x[0],
-                                               list(db_sess.query(Project.section))))))
-
-    if not form.section.data:
-        form.section.data = form.section.choices[0]
-    form.project.choices = list(map(lambda x: x[0],
-                                    list(db_sess.query(Project.title).
-                                         filter(Project.section == form.section.data))))
+    sections, projects = evaluate_form(form)
 
     if not form.project.data:
         form.project.data = form.project.choices[0]
@@ -423,6 +408,201 @@ def projects_8_class(template):
                            project=project,
                            projects=projects,
                            sections=sections)
+
+
+def evaluate_form(form):
+    db_sess = db_session.create_session()
+    projects = dict()
+    sections = sorted(list(map(lambda x: x[0], set(list(db_sess.query(Project.section))))))
+
+    # row structure: id | title | points | form
+    for section in sections:
+        data = list(db_sess.query(Project.id, Project.title).filter(Project.section == section))
+        for row_id in range(len(data)):
+            points = sum(list(map(lambda x: x[0], db_sess.query(Vote.points).
+                                  filter(Vote.project_id == data[row_id][0]))))
+            data[row_id] = list(data[row_id]) + [points]
+        projects[section] = sorted(data, key=lambda x: -x[2])
+
+    form.section.choices = sorted(list(set(map(lambda x: x[0],
+                                               list(db_sess.query(Project.section))))))
+
+    if not form.section.data or form.section.data not in form.section.choices:
+        form.section.errors = []
+        form.section.data = form.section.choices[0]
+    form.project.choices = list(map(lambda x: x[0],
+                                    list(db_sess.query(Project.title).
+                                         filter(Project.section == form.section.data))))
+
+    return sections, projects
+
+
+@app.route('/8-classes-market', methods=['GET', 'POST'])
+@mobile_template('{mobile/}8-classes-market.html')
+@login_required
+def market_8_class(template):
+    db_sess = db_session.create_session()
+
+    form = StocksForm()
+    purchase = PurchaseForm()
+
+    evaluate_form(form)
+
+    message = ''
+
+    stocks, market_stocks, offers = update_market_info()
+
+    # TODO: Добавить действия при подтверждении/отмене покупки
+    # TODO: Добавить кошелёк в header
+
+    if purchase.accept.data:
+        print('accept')
+    elif purchase.decline.data:
+        print('decline')
+
+    purchase = None
+    if form.validate_on_submit():
+        project_id = get_project_id(form.project.data)
+        if not form.stocks.data:
+            pass
+        elif form.action.data == 'Продать':
+            project_stocks = list(filter(lambda x: x[0] == form.project.data, stocks))
+            if project_stocks:
+                project_stocks = project_stocks[0]
+                if project_stocks[1] >= form.stocks.data:
+                    if form.price.data >= 1:
+
+                        offer = db_sess.query(Offer). \
+                            filter(Offer.user_id == current_user.id,
+                                   Offer.project_id == project_id,
+                                   Offer.price == form.price.data).first()
+                        if not offer:
+                            offer = Offer(
+                                user_id=current_user.id,
+                                project_id=project_id,
+                                stocks=form.stocks.data,
+                                price=form.price.data
+                            )
+                            db_sess.add(offer)
+                        else:
+                            offer.stocks += form.stocks.data
+                            db_sess.merge(offer)
+
+                        stock = db_sess.query(Stock). \
+                            filter(Stock.user_id == current_user.id,
+                                   Stock.project_id == project_id).first()
+                        if project_stocks[1] > form.stocks.data:
+                            stock.stocks -= form.stocks.data
+                            db_sess.merge(stock)
+                        else:
+                            db_sess.delete(stock)
+
+                        db_sess.commit()
+
+                    else:
+                        message = 'Неверная цена'
+                else:
+                    message = 'У Вас не хватает акций'
+            else:
+                message = 'У Вас нет акций этого проекта'
+        elif form.action.data == 'Отменить продажу':
+            market_project_stocks = list(filter(lambda x: x[0] == form.project.data,
+                                                market_stocks))
+            if market_project_stocks:
+                market_project_stocks = list(filter(lambda x: x[3] == form.price.data,
+                                                    market_project_stocks))
+                if market_project_stocks:
+                    market_project_stocks = market_project_stocks[0]
+                    if market_project_stocks[1] - market_project_stocks[2] >= form.stocks.data:
+                        user_offer = db_sess.query(Offer). \
+                            filter(Offer.user_id == current_user.id,
+                                   Offer.price == form.price.data).first()
+                        user_stocks = db_sess.query(Stock). \
+                            filter(Stock.user_id == current_user.id,
+                                   Stock.project_id == project_id).first()
+                        if not user_stocks:
+                            user_stocks = Stock(
+                                user_id=current_user.id,
+                                project_id=project_id,
+                                stocks=form.stocks.data
+                            )
+                            db_sess.add(user_stocks)
+                        else:
+                            user_stocks.stocks += form.stocks.data
+                            db_sess.merge(user_stocks)
+
+                        if market_project_stocks[1] > form.stocks.data or market_project_stocks[2]:
+                            user_offer.stocks -= form.stocks.data
+                            db_sess.merge(user_offer)
+                        else:
+                            db_sess.delete(user_offer)
+                        db_sess.commit()
+                    else:
+                        message = 'У Вас не хватает акций на торговой площадке. Также Вы не ' \
+                                  'можете снять с продажи уже зарезервированные акции '
+                else:
+                    message = 'На торговой площадке нет Ваших акций данного проекта с указанной ' \
+                              'ценой '
+            else:
+                message = 'На торговой площадке нет Ваших акций указанного проекта'
+        elif form.action.data == 'Купить':
+            market_offers = list(filter(lambda x: x[0] == form.project.data,
+                                        offers))
+            if market_offers:
+                if sum(map(lambda x: x[1] - x[2], market_offers)) >= form.stocks.data:
+                    purchase = PurchaseForm()
+                else:
+                    message = 'На торговой площадке нет в наличии такого количества акций ' \
+                              'указанного проекта '
+            else:
+                message = 'На торговой площадке нет акций указанного проекта'
+
+        stocks, market_stocks, offers = update_market_info()
+
+    market_stocks = sorted(market_stocks, key=lambda x: x[-1])
+    offers = sorted(offers, key=lambda x: x[-1])
+
+    return render_template(template,
+                           form=form,
+                           title='Торговая площадка',
+                           message=message,
+                           stocks=stocks,
+                           market_stocks=market_stocks,
+                           offers=offers,
+                           purchase=purchase)
+
+
+def get_project_title(identifier):
+    return db_session.create_session().query(Project.title). \
+        filter(Project.id == identifier).first()[0]
+
+
+def get_project_id(title):
+    return db_session.create_session().query(Project.id). \
+        filter(Project.title == title).first()[0]
+
+
+def update_market_info():
+    db_sess = db_session.create_session()
+    # Получаем акции пользователя
+    # title | stocks
+    stocks = list(map(lambda x: (get_project_title(x[0]), x[1]),
+                      db_sess.query(Stock.project_id, Stock.stocks).
+                      filter(Stock.user_id == current_user.id)))
+
+    # Получаем акции пользователя на торговой площадке
+    # title | stocks | reserved_stocks | price
+    market_stocks = list(map(lambda x: (get_project_title(x[0]), x[1], x[2], x[3]),
+                             db_sess.query(Offer.project_id, Offer.stocks,
+                                           Offer.reserved_stocks, Offer.price).
+                             filter(Offer.user_id == current_user.id)))
+
+    # Получаем текущие предложения на рынке
+    # title | stocks | reserved_stocks | price
+    offers = list(map(lambda x: (get_project_title(x[0]), x[1], x[2], x[3]),
+                      db_sess.query(Offer.project_id, Offer.stocks,
+                                    Offer.reserved_stocks, Offer.price)))
+    return stocks, market_stocks, offers
 
 
 if __name__ == '__main__':

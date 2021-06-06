@@ -1,6 +1,7 @@
 <!doctype html>
 
 <!--suppress ALL -->
+{% set experts_ids = [5, 6, 7, 22] %}
 <html lang="en">
     <head>
         <meta charset="utf-8">
@@ -46,10 +47,15 @@
                                 </li>
                             {% endif %}
 
-                            {% if 24 <= current_user.id <= 113 or current_user.id in [7] %}
+                            {% if 24 <= current_user.id <= 113 or current_user.id in experts_ids %}
                                 <li class="nav-item">
                                     <a href="\8-classes-projects-result" class="nav-link">
                                         Проекты
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="\8-classes-market" class="nav-link">
+                                        Торговая площадка
                                     </a>
                                 </li>
                             {% endif %}
