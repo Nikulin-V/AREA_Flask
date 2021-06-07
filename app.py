@@ -14,10 +14,12 @@ from data.homeworks import Homework
 from data.projects_8_class import Project
 from data.projects_8_class_offers import Offer
 from data.projects_8_class_stocks import Stock
+from data.projects_8_class_transactions import Transaction
 from data.projects_8_class_votes import Vote
 from data.schools import School
 from data.students import Student
 from data.users import User
+from data.wallets import Wallet
 from forms.login import LoginForm
 from forms.profile import ProfileForm
 from forms.purchase import PurchaseForm
@@ -321,6 +323,7 @@ def projects_8_class(template):
     message = ''
 
     # self project
+    # noinspection PyUnresolvedReferences
     project = db_sess.query(Project.id, Project.title). \
         filter(Project.authors_ids.contains(str(current_user.id))).first()
     points = sum(list(map(lambda x: x[0], db_sess.query(Vote.points).
@@ -434,6 +437,17 @@ def evaluate_form(form):
                                     list(db_sess.query(Project.title).
                                          filter(Project.section == form.section.data))))
 
+    users = list(map(lambda x: ' '.join(list(db_sess.query(User.surname, User.name).
+                                        filter(User.id == x[0]).first())),
+                     db_sess.query(Wallet.user_id)))
+
+    if isinstance(form, StocksForm):
+        form.user.choices = users
+        if not users:
+            form.user.data = None
+        else:
+            form.user.data = form.user.choices[0]
+
     return sections, projects
 
 
@@ -449,23 +463,103 @@ def market_8_class(template):
     evaluate_form(form)
 
     message = ''
+    total = 0
+    cheque = []
 
-    stocks, market_stocks, offers = update_market_info()
-
-    # TODO: Добавить действия при подтверждении/отмене покупки
-    # TODO: Добавить кошелёк в header
+    money, stocks, market_stocks, offers = update_market_info()
 
     if purchase.accept.data:
-        print('accept')
+        transactions = list(db_sess.query(Transaction).
+                            filter(Transaction.user_id == current_user.id))
+        for t in transactions:
+            t: Transaction
+            offer = db_sess.query(Offer).filter(Offer.id == t.offer_id).first()
+            seller_id = offer.user_id
+            customer_id = t.user_id
+
+            seller_wallet = db_sess.query(Wallet).filter(Wallet.user_id == seller_id).first()
+            customer_wallet = db_sess.query(Wallet).filter(Wallet.user_id == customer_id).first()
+            stockholders_ids = list(set(db_sess.query(Stock.user_id, Stock.stocks).
+                                        filter(Stock.project_id == offer.project_id,
+                                               Stock.user_id != seller_id)))
+            first_cost = t.stocks * t.price
+            final_cost = first_cost + first_cost * (100 - t.stocks) * 0.001
+            if customer_wallet.money >= final_cost:
+                customer_stock = db_sess.query(Stock). \
+                    filter(Stock.user_id == current_user.id,
+                           Stock.project_id == offer.project_id).first()
+                if offer.stocks > t.stocks:
+                    offer.stocks -= t.stocks
+                    offer.reserved_stocks -= t.stocks
+                    db_sess.merge(offer)
+                elif offer.stocks == t.stocks:
+                    db_sess.delete(offer)
+                if customer_stock:
+                    customer_stock.stocks += t.stocks
+                    db_sess.merge(customer_stock)
+                else:
+                    customer_stock = Stock(
+                        user_id=current_user.id,
+                        project_id=offer.project_id,
+                        stocks=t.stocks
+                    )
+                    db_sess.add(customer_stock)
+                db_sess.commit()
+                customer_wallet.money -= final_cost
+                seller_wallet.money += first_cost
+                db_sess.merge(customer_wallet)
+                db_sess.merge(seller_wallet)
+                seller_stock = db_sess.query(Stock). \
+                    filter(Stock.user_id == seller_id,
+                           Stock.project_id == offer.project_id).first()
+                if t.stocks < seller_stock.stocks:
+                    seller_stock.stocks -= t.stocks
+                for user_id, stocks in stockholders_ids:
+                    wallet = db_sess.query(Wallet).filter(Wallet.user_id == user_id).first()
+                    wallet.money += first_cost * stocks * 0.01
+                    db_sess.merge(wallet)
+                db_sess.delete(t)
+                db_sess.commit()
+            else:
+                offer = db_sess.query(Offer).filter(Offer.id == t.offer_id).first()
+                offer.reserved_stocks -= t.stocks
+                db_sess.merge(offer)
+                db_sess.delete(t)
+                db_sess.commit()
+                message = 'На балансе недостаточно средств'
+
     elif purchase.decline.data:
-        print('decline')
+        transactions = list(db_sess.query(Transaction).
+                            filter(Transaction.user_id == current_user.id))
+        for t in transactions:
+            offer = db_sess.query(Offer).filter(Offer.id == t.offer_id).first()
+            offer.reserved_stocks -= t.stocks
+            db_sess.delete(t)
+            db_sess.commit()
 
     purchase = None
-    if form.validate_on_submit():
-        project_id = get_project_id(form.project.data)
-        if not form.stocks.data:
+    if form.validate_on_submit() or (form.is_submitted() and form.action.data == 'Инвестировать'):
+        if form.action.data == 'Инвестировать':
+            if form.amount.data:
+                investor_wallet = db_sess.query(Wallet).\
+                    filter(Wallet.user_id == current_user.id).first()
+                if investor_wallet.money >= form.amount.data:
+                    surname, name = form.user.data.split()
+                    user_id = db_sess.query(User.id).filter(User.surname == surname,
+                                                            User.name == name)
+                    wallet = db_sess.query(Wallet).filter(Wallet.user_id == user_id).first()
+                    wallet.money += form.amount.data
+                    investor_wallet.money -= form.amount.data
+                    db_sess.merge(investor_wallet)
+                    db_sess.merge(wallet)
+                    db_sess.commit()
+                    message = 'Инвестиция прошла успешно'
+                else:
+                    message = 'На балансе недостаточно средств'
+        elif not form.stocks.data:
             pass
         elif form.action.data == 'Продать':
+            project_id = get_project_id(form.project.data)
             project_stocks = list(filter(lambda x: x[0] == form.project.data, stocks))
             if project_stocks:
                 project_stocks = project_stocks[0]
@@ -499,6 +593,8 @@ def market_8_class(template):
 
                         db_sess.commit()
 
+                        message = 'Акции выставлены на продажу'
+
                     else:
                         message = 'Неверная цена'
                 else:
@@ -506,6 +602,7 @@ def market_8_class(template):
             else:
                 message = 'У Вас нет акций этого проекта'
         elif form.action.data == 'Отменить продажу':
+            project_id = get_project_id(form.project.data)
             market_project_stocks = list(filter(lambda x: x[0] == form.project.data,
                                                 market_stocks))
             if market_project_stocks:
@@ -537,6 +634,9 @@ def market_8_class(template):
                         else:
                             db_sess.delete(user_offer)
                         db_sess.commit()
+
+                        message = 'Акции сняты с торговой площадки'
+
                     else:
                         message = 'У Вас не хватает акций на торговой площадке. Также Вы не ' \
                                   'можете снять с продажи уже зарезервированные акции '
@@ -546,18 +646,83 @@ def market_8_class(template):
             else:
                 message = 'На торговой площадке нет Ваших акций указанного проекта'
         elif form.action.data == 'Купить':
-            market_offers = list(filter(lambda x: x[0] == form.project.data,
-                                        offers))
+            market_offers = list(map(lambda x: (get_project_title(x[0]), x[1], x[2], x[3]),
+                                     db_sess.query(Offer.project_id,
+                                                   Offer.stocks,
+                                                   Offer.reserved_stocks,
+                                                   Offer.price).
+                                     filter(Offer.project_id == get_project_id(form.project.data),
+                                            Offer.user_id != current_user.id)))
             if market_offers:
                 if sum(map(lambda x: x[1] - x[2], market_offers)) >= form.stocks.data:
                     purchase = PurchaseForm()
+                    stocks_need = form.stocks.data
+                    cheque = []
+                    market_offers.sort(key=lambda x: x[-1])
+                    while stocks_need:
+                        available_stocks = market_offers[0][1] - market_offers[0][2]
+                        if available_stocks and available_stocks <= stocks_need:
+                            stocks_need -= available_stocks
+                            offer = db_sess.query(Offer). \
+                                filter(Offer.project_id == get_project_id(market_offers[0][0]),
+                                       Offer.stocks == market_offers[0][1],
+                                       Offer.reserved_stocks == market_offers[0][2]).first()
+                            transaction = Transaction(
+                                user_id=current_user.id,
+                                offer_id=offer.id,
+                                stocks=available_stocks,
+                                price=offer.price
+                            )
+                            db_sess.add(transaction)
+                            if not offer:
+                                message = 'На торговой площадке нет в наличии такого ' \
+                                          'количества акций указанного проекта'
+                            else:
+                                offer.reserved_stocks += available_stocks
+                                cheque.append((get_project_title(offer.project_id),
+                                               available_stocks,
+                                               offer.price,
+                                               available_stocks * offer.price))
+                                db_sess.merge(offer)
+                                db_sess.commit()
+                        elif available_stocks and available_stocks > stocks_need:
+                            offer = db_sess.query(Offer). \
+                                filter(Offer.project_id == get_project_id(market_offers[0][0]),
+                                       Offer.stocks == market_offers[0][1],
+                                       Offer.reserved_stocks == market_offers[0][2]).first()
+                            transaction = Transaction(
+                                user_id=current_user.id,
+                                offer_id=offer.id,
+                                stocks=stocks_need,
+                                price=offer.price
+                            )
+                            db_sess.add(transaction)
+                            if not offer:
+                                message = 'На торговой площадке нет в наличии такого ' \
+                                          'количества акций указанного проекта'
+                            else:
+                                offer.reserved_stocks += stocks_need
+                                cheque.append((get_project_title(offer.project_id),
+                                               stocks_need,
+                                               offer.price,
+                                               stocks_need * offer.price))
+
+                                stocks_need = 0
+                                db_sess.merge(offer)
+                                db_sess.commit()
+                        market_offers.pop(0)
+
+                    total = sum(map(lambda x: x[-1], cheque))
+                    cheque.append(('Комиссия', '-', '-',
+                                   (100 - sum(map(lambda x: x[1], cheque))) * total * 0.001))
+
                 else:
                     message = 'На торговой площадке нет в наличии такого количества акций ' \
                               'указанного проекта '
             else:
                 message = 'На торговой площадке нет акций указанного проекта'
 
-        stocks, market_stocks, offers = update_market_info()
+    money, stocks, market_stocks, offers = update_market_info()
 
     market_stocks = sorted(market_stocks, key=lambda x: x[-1])
     offers = sorted(offers, key=lambda x: x[-1])
@@ -566,10 +731,13 @@ def market_8_class(template):
                            form=form,
                            title='Торговая площадка',
                            message=message,
+                           money=money,
                            stocks=stocks,
                            market_stocks=market_stocks,
                            offers=offers,
-                           purchase=purchase)
+                           purchase=purchase,
+                           cheque=cheque,
+                           total=total)
 
 
 def get_project_title(identifier):
@@ -602,7 +770,24 @@ def update_market_info():
     offers = list(map(lambda x: (get_project_title(x[0]), x[1], x[2], x[3]),
                       db_sess.query(Offer.project_id, Offer.stocks,
                                     Offer.reserved_stocks, Offer.price)))
-    return stocks, market_stocks, offers
+
+    # Получаем баланс кошелька
+    money = db_sess.query(Wallet.money).filter(Wallet.user_id == current_user.id).first()
+    if not money:
+        default = 1000
+        if 'Эксперт' in current_user.role:
+            default = 10000
+        wallet = Wallet(
+            user_id=current_user.id,
+            money=default
+        )
+        db_sess.add(wallet)
+        db_sess.commit()
+        money = default
+    else:
+        money = round(money[0], 2)
+
+    return money, stocks, market_stocks, offers
 
 
 if __name__ == '__main__':

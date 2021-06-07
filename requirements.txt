@@ -1,0 +1,11 @@
+selenium
+SQLAlchemy
+Werkzeug
+WTForms
+Flask
+vk
+Pillow
+flask-mobility
+flask-login
+flask-wtf
+flask-ngrok
