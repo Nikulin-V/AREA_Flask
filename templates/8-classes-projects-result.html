@@ -4,55 +4,57 @@
 {% block content %}
 
 <h1>{{ title }}</h1>
-    {% if 24 <= current_user.id <= 113%}
-        {% if project %}
-            <caption style="caption-side: top">Ваш проект</caption>
-            <table style="width: 100%; border: 0">
-                <tr style="font-size: 1.5em; border: 0">
-                    <td style="text-align: left; border: 0">{{ project[1] }}</td>
-                    <td style="text-align: right; border: 0">{{ project[2] }} очков</td>
-                </tr>
-            </table>
-            <hr>
-        {% endif %}
-        <h4>Проголосовать</h4>
-        <form action="" method="post">
-            {{ form.hidden_tag() }}
-            <p>
-                {{ form.section.label }}<br>
-                {{ form.section(class='form-control') }}<br>
-                {% for error in form.section.errors %}
-                    <div class="alert alert-danger" role="alert">
-                        {{ error }}
-                    </div>
-                {% endfor %}
-            </p>
-            <p>
-                {{ form.project.label }}<br>
-                {{ form.project(class='form-control') }}<br>
-                {% for error in form.project.errors %}
-                    <div class="alert alert-danger" role="alert">
-                        {{ error }}
-                    </div>
-                {% endfor %}
-            </p>
-            <p>
-                {{ form.points.label }}<br>
-                {{ form.points(class='form-control', value=form.points.data) }}<br>
-                {% for error in form.points.errors %}
-                    <div class="alert alert-danger" role="alert">
-                        {{ error }}
-                    </div>
-                {% endfor %}
-            </p>
-            {{ form.submit(type="submit", class="btn btn-info") }}
-        </form>
+    {% if 24 <= current_user.id <= 113 %}
+        <!-- Свой проект -->
+        <caption style="caption-side: top">Ваш проект</caption>
+        <table style="width: 100%; border: 0">
+            <tr style="font-size: 1.5em; border: 0">
+                <td style="text-align: left; border: 0">{{ project[1] }}</td>
+                <td style="text-align: right; border: 0">{{ project[2] }} очков</td>
+            </tr>
+        </table>
         <hr>
     {% endif %}
+    <!-- Форма голосования -->
+    <h4>Проголосовать</h4>
+    <form action="" method="post">
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.section.label }}<br>
+            {{ form.section(class='form-control') }}<br>
+            {% for error in form.section.errors %}
+                <div class="alert alert-danger" role="alert">
+                    {{ error }}
+                </div>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.project.label }}<br>
+            {{ form.project(class='form-control') }}<br>
+            {% for error in form.project.errors %}
+                <div class="alert alert-danger" role="alert">
+                    {{ error }}
+                </div>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.points.label }}<br>
+            {{ form.points(class='form-control', value=form.points.data) }}<br>
+            {% for error in form.points.errors %}
+                <div class="alert alert-danger" role="alert">
+                    {{ error }}
+                </div>
+            {% endfor %}
+        </p>
+        {{ form.submit(type="submit", class="btn btn-info") }}
+    </form>
+    <hr>
+
+    <!-- Таблицы с результатами голосования -->
     {% for section in sections %}
     <table class="dairy-table table-hover table-info">
     <caption style="caption-side: top">{{ section }}</caption>
-        <tr>
+        <tr style="background-color: #86CFDA">
             <td style="text-align: center;padding: 5px">Название</td>
             <td style="text-align: center;padding: 5px">Очки</td>
         </tr>
@@ -64,23 +66,7 @@
         {% endfor %}
     </table>
     {% endfor %}
-
-    {% for section in sections %}
-    <table class="dairy-table table-hover table-info">
-    <caption style="caption-side: top">{{ section }}</caption>
-        <tr>
-            <td style="text-align: center;padding: 5px">Название</td>
-            <td style="text-align: center;padding: 5px">Очки</td>
-        </tr>
-        {% for project in projects[section] %}
-            <tr>
-                <td style="text-align: center">{{ project[1] }}</td>
-                <td style="text-align: center">{{ project[2] }}</td>
-            </tr>
-        {% endfor %}
-    </table>
-    {% endfor %}
-
+    <!-- Всплывающее сообщение -->
     {% if message %}
         <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -101,19 +87,19 @@
             </div>
         </div>
     {% endif %}
-
+    <!-- Скрипт для обновления страницы -->
     <script>
-        document.getElementById('section').addEventListener("input", function () {
-            document.getElementById('points').value = null;
-            document.getElementById('submit').click();
-        });
-        document.getElementById('project').addEventListener("input", function () {
-            document.getElementById('points').value = null;
-            document.getElementById('submit').click();
-        });
-        window.addEventListener("onunload", function () {
-            document.getElementById('points').value = null;
-            document.getElementById('submit').click();
-        });
+    document.getElementById('section').addEventListener("input", function () {
+        document.getElementById('points').value = null;
+        document.getElementById('submit').click();
+    });
+    document.getElementById('project').addEventListener("input", function () {
+        document.getElementById('points').value = null;
+        document.getElementById('submit').click();
+    });
+    window.addEventListener("onunload", function () {
+        document.getElementById('points').value = null;
+        document.getElementById('submit').click();
+    });
     </script>
 {% endblock %}

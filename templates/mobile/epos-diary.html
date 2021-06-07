@@ -3,9 +3,11 @@
 {% block content %}
     <h1>{{ title }}</h1>
     {% for day in schedule.keys() %}
+
         <table class="dairy-table table-hover table-info">
         <caption style="caption-side: top">{{ day }}</caption>
             {% for lesson_id in range(schedule[day]['lessons']|length) %}
+
                 <tr id="row">
                     <td style="width: 15px; text-align: center">{{ loop.index }}</td>
                     <td style="width: 20%;text-align: center">
@@ -16,8 +18,10 @@
                         <td></td>
                     {% endif %}
                 </tr>
+
             {% endfor %}
         </table>
         <p></p>
+
     {% endfor %}
 {% endblock %}
