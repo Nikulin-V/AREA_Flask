@@ -4,7 +4,6 @@ from flask_mobility.decorators import mobile_template
 from flask_mobility.mobility import Mobility
 from flask import Flask, render_template, redirect, abort
 from flask_login import logout_user, login_required, LoginManager, login_user, current_user
-from flask_ngrok import run_with_ngrok
 
 from data import db_session
 from data.db_functions import repair_dependencies_students_and_groups
@@ -13,6 +12,7 @@ from data.groups import Group
 from data.homeworks import Homework
 from data.projects_8_class import Project
 from data.projects_8_class_offers import Offer
+from data.projects_8_class_prices import Price
 from data.projects_8_class_stocks import Stock
 from data.projects_8_class_transactions import Transaction
 from data.projects_8_class_votes import Vote
@@ -37,11 +37,9 @@ login_manager.init_app(app)
 db_session.global_init('db/database.sqlite')
 epos = EPOS()
 
-run_with_ngrok(app)
-
 
 def main():
-    app.run()
+    app.run(host="0.0.0.0")
 
 
 @app.route('/')
@@ -439,7 +437,7 @@ def evaluate_form(form):
                                          filter(Project.section == form.section.data))))
 
     users = list(map(lambda x: ' '.join(list(db_sess.query(User.surname, User.name).
-                                        filter(User.id == x[0]).first())),
+                                             filter(User.id == x[0]).first())),
                      db_sess.query(Wallet.user_id)))
 
     if isinstance(form, StocksForm):
@@ -447,7 +445,8 @@ def evaluate_form(form):
         if not users:
             form.user.data = None
         else:
-            form.user.data = form.user.choices[0]
+            if not form.user.data:
+                form.user.data = form.user.choices[0]
 
     return sections, projects
 
@@ -475,74 +474,92 @@ def market_8_class(template):
         for t in transactions:
             t: Transaction
             offer = db_sess.query(Offer).filter(Offer.id == t.offer_id).first()
-            seller_id = offer.user_id
-            customer_id = t.user_id
+            if offer:
+                seller_id = offer.user_id
+                customer_id = t.user_id
 
-            seller_wallet = db_sess.query(Wallet).filter(Wallet.user_id == seller_id).first()
-            customer_wallet = db_sess.query(Wallet).filter(Wallet.user_id == customer_id).first()
-            stockholders_ids = list(set(db_sess.query(Stock.user_id, Stock.stocks).
-                                        filter(Stock.project_id == offer.project_id,
-                                               Stock.user_id != seller_id)))
-            first_cost = t.stocks * t.price
-            final_cost = first_cost + first_cost * (100 - t.stocks) * 0.001
-            if customer_wallet.money >= final_cost:
-                customer_stock = db_sess.query(Stock). \
-                    filter(Stock.user_id == current_user.id,
-                           Stock.project_id == offer.project_id).first()
-                if offer.stocks > t.stocks:
-                    offer.stocks -= t.stocks
-                    offer.reserved_stocks -= t.stocks
-                    db_sess.merge(offer)
-                elif offer.stocks == t.stocks:
-                    db_sess.delete(offer)
-                if customer_stock:
-                    customer_stock.stocks += t.stocks
-                    db_sess.merge(customer_stock)
-                else:
-                    customer_stock = Stock(
-                        user_id=current_user.id,
-                        project_id=offer.project_id,
-                        stocks=t.stocks
-                    )
-                    db_sess.add(customer_stock)
-                db_sess.commit()
-                customer_wallet.money -= final_cost
-                seller_wallet.money += first_cost
-                db_sess.merge(customer_wallet)
-                db_sess.merge(seller_wallet)
+                seller_wallet = db_sess.query(Wallet).filter(Wallet.user_id == seller_id).first()
+                customer_wallet = db_sess.query(Wallet).filter(Wallet.user_id == customer_id).first()
+                stockholders_ids = list(set(db_sess.query(Stock.user_id, Stock.stocks).
+                                            filter(Stock.project_id == offer.project_id,
+                                                   Stock.user_id != seller_id)))
+                first_cost = t.stocks * t.price
+                final_cost = first_cost + first_cost * (100 - t.stocks) * 0.001
+
                 seller_stock = db_sess.query(Stock). \
                     filter(Stock.user_id == seller_id,
                            Stock.project_id == offer.project_id).first()
-                if t.stocks < seller_stock.stocks:
-                    seller_stock.stocks -= t.stocks
-                for user_id, stocks in stockholders_ids:
-                    wallet = db_sess.query(Wallet).filter(Wallet.user_id == user_id).first()
-                    wallet.money += first_cost * stocks * 0.01
-                    db_sess.merge(wallet)
-                db_sess.delete(t)
-                db_sess.commit()
-            else:
-                offer = db_sess.query(Offer).filter(Offer.id == t.offer_id).first()
-                offer.reserved_stocks -= t.stocks
-                db_sess.merge(offer)
-                db_sess.delete(t)
-                db_sess.commit()
-                message = 'На балансе недостаточно средств'
+                if seller_stock:
+                    if customer_wallet.money >= final_cost and seller_stock:
+                        price = db_sess.query(Price).filter(Price.project_id == offer.project_id).first()
+                        if price:
+                            price.price = t.price
+                            db_sess.merge(price)
+                        else:
+                            price = Price(
+                                project_id=offer.project_id,
+                                price=t.price
+                            )
+                            db_sess.add(price)
+                        db_sess.commit()
+                        customer_stock = db_sess.query(Stock). \
+                            filter(Stock.user_id == current_user.id,
+                                   Stock.project_id == offer.project_id).first()
+                        if offer.stocks > t.stocks:
+                            offer.stocks -= t.stocks
+                            offer.reserved_stocks -= t.stocks
+                            db_sess.merge(offer)
+                        elif offer.stocks == t.stocks:
+                            db_sess.delete(offer)
+                        if customer_stock:
+                            customer_stock.stocks += t.stocks
+                            db_sess.merge(customer_stock)
+                        else:
+                            customer_stock = Stock(
+                                user_id=current_user.id,
+                                project_id=offer.project_id,
+                                stocks=t.stocks
+                            )
+                            db_sess.add(customer_stock)
+                        db_sess.commit()
+                        customer_wallet.money -= final_cost
+                        seller_wallet.money += first_cost
+                        db_sess.merge(customer_wallet)
+                        db_sess.merge(seller_wallet)
+
+                        if t.stocks < seller_stock.stocks:
+                            seller_stock.stocks -= t.stocks
+                        for user_id, stocks in stockholders_ids:
+                            wallet = db_sess.query(Wallet).filter(Wallet.user_id == user_id).first()
+                            wallet.money += first_cost * stocks * 0.01
+                            db_sess.merge(wallet)
+                        db_sess.delete(t)
+                        db_sess.commit()
+                    else:
+                        offer = db_sess.query(Offer).filter(Offer.id == t.offer_id).first()
+                        offer.reserved_stocks -= t.stocks
+                        db_sess.merge(offer)
+                        db_sess.delete(t)
+                        db_sess.commit()
+                        message = 'На балансе недостаточно средств'
+                else:
+                    message = 'Предложение недействительно'
 
     elif purchase.decline.data:
         transactions = list(db_sess.query(Transaction).
                             filter(Transaction.user_id == current_user.id))
         for t in transactions:
             offer = db_sess.query(Offer).filter(Offer.id == t.offer_id).first()
-            offer.reserved_stocks -= t.stocks
-            db_sess.delete(t)
-            db_sess.commit()
+            if offer:
+                offer.reserved_stocks -= t.stocks
+                db_sess.delete(t)
+                db_sess.commit()
 
     purchase = None
     if form.validate_on_submit() or (form.is_submitted() and form.action.data == 'Инвестировать'):
         if form.action.data == 'Инвестировать':
             if form.amount.data:
-                investor_wallet = db_sess.query(Wallet).\
+                investor_wallet = db_sess.query(Wallet). \
                     filter(Wallet.user_id == current_user.id).first()
                 if investor_wallet.money >= form.amount.data:
                     surname, name = form.user.data.split()
@@ -557,6 +574,7 @@ def market_8_class(template):
                     message = 'Инвестиция прошла успешно'
                 else:
                     message = 'На балансе недостаточно средств'
+            form.user.data = form.amount.data
         elif not form.stocks.data:
             pass
         elif form.action.data == 'Продать':
