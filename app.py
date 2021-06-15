@@ -441,12 +441,7 @@ def evaluate_form(form):
                                         filter(User.id == x[0]).first())),
                      db_sess.query(Wallet.user_id)))
 
-    if isinstance(form, StocksForm):
-        form.user.choices = users
-        if not users:
-            form.user.data = None
-        else:
-            form.user.data = form.user.choices[0]
+    form.user.choices = users
 
     return sections, projects
 
