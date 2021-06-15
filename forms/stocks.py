@@ -7,7 +7,7 @@ class StocksForm(FlaskForm):
     action = SelectField('Действие', choices=['Купить', 'Продать', 'Отменить продажу',
                                               'Инвестировать'])
     section = SelectField('Секция')
-    project = SelectField('Проект')
+    company = SelectField('Проект')
     user = SelectField('Пользователь')
     amount = FloatField('Сумма инвестиции')
     stocks = IntegerField('Количество акций', default=0, validators=[NumberRange(min=0, max=100)])

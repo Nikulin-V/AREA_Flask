@@ -52,7 +52,7 @@ span.label {
 }
 
 #google-icon {
-    background: url(/images/Google.png) transparent 5px 50% no-repeat;
+    background: url(../images/Google.png) transparent 5px 50% no-repeat;
     display: inline-block;
     vertical-align: middle;
     margin-left: .375rem;

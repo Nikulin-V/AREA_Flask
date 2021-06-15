@@ -1,6 +1,5 @@
 <!--suppress ALL -->
-
-{% extends "mobile/base.html" %}
+{% extends "base.html" %}
 
 {% block content %}
 
@@ -10,8 +9,8 @@
         <caption style="caption-side: top">Ваш проект</caption>
         <table style="width: 100%; border: 0">
             <tr style="font-size: 1.5em; border: 0">
-                <td style="text-align: left; border: 0">{{ project[1] }}</td>
-                <td style="text-align: right; border: 0">{{ project[2] }} очков</td>
+                <td style="text-align: left; border: 0">{{ company[1] }}</td>
+                <td style="text-align: right; border: 0">{{ company[2] }} очков</td>
             </tr>
         </table>
         <hr>
@@ -30,9 +29,9 @@
             {% endfor %}
         </p>
         <p>
-            {{ form.project.label }}<br>
-            {{ form.project(class='form-control') }}<br>
-            {% for error in form.project.errors %}
+            {{ form.company.label }}<br>
+            {{ form.company(class='form-control') }}<br>
+            {% for error in form.company.errors %}
                 <div class="alert alert-danger" role="alert">
                     {{ error }}
                 </div>
@@ -50,6 +49,7 @@
         {{ form.submit(type="submit", class="btn btn-info") }}
     </form>
     <hr>
+
     <!-- Таблицы с результатами голосования -->
     {% for section in sections %}
     <table class="dairy-table table-hover table-info">
@@ -58,10 +58,10 @@
             <td style="text-align: center;padding: 5px">Название</td>
             <td style="text-align: center;padding: 5px">Очки</td>
         </tr>
-        {% for project in projects[section] %}
+        {% for company in companies[section] %}
             <tr>
-                <td style="text-align: center">{{ project[1] }}</td>
-                <td style="text-align: center">{{ project[2] }}</td>
+                <td style="text-align: center">{{ company[1] }}</td>
+                <td style="text-align: center">{{ company[2] }}</td>
             </tr>
         {% endfor %}
     </table>
@@ -87,19 +87,19 @@
             </div>
         </div>
     {% endif %}
-    <!-- Скрипты для обновления страницы -->
+    <!-- Скрипт для обновления страницы -->
     <script>
-        document.getElementById('section').addEventListener("input", function () {
-            document.getElementById('points').value = null;
-            document.getElementById('submit').click();
-        });
-        document.getElementById('project').addEventListener("input", function () {
-            document.getElementById('points').value = null;
-            document.getElementById('submit').click();
-        });
-        window.addEventListener("onunload", function () {
-            document.getElementById('points').value = null;
-            document.getElementById('submit').click();
-        });
+    document.getElementById('section').addEventListener("input", function () {
+        document.getElementById('points').value = null;
+        document.getElementById('submit').click();
+    });
+    document.getElementById('company').addEventListener("input", function () {
+        document.getElementById('points').value = null;
+        document.getElementById('submit').click();
+    });
+    window.addEventListener("onunload", function () {
+        document.getElementById('points').value = null;
+        document.getElementById('submit').click();
+    });
     </script>
 {% endblock %}

@@ -1,7 +1,6 @@
 <!doctype html>
 
 <!--suppress ALL -->
-{% set experts_ids = [5, 6, 7, 22] %}
 <html lang="en">
     <head>
         <meta charset="utf-8">
@@ -46,18 +45,26 @@
                                     </a>
                                 </li>
                             {% endif %}
+                            {% set game_role = current_user.game_role %}
+                            {% if 'Игрок' in game_role or 'Эксперт' in game_role%}
+                                <div class="btn-group">
+                                    <a class="btn nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                    Экономическая игра
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li class="dropdown-item">
+                                            <a href="\voting" class="nav-link">
+                                                Проекты
+                                            </a>
+                                        </li>
+                                        <li class="dropdown-item">
+                                            <a href="\marketplace" class="nav-link">
+                                                Торговая площадка
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
 
-                            {% if 24 <= current_user.id <= 113 or current_user.id in experts_ids %}
-                                <li class="nav-item">
-                                    <a href="\8-classes-projects-result" class="nav-link">
-                                        Проекты
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="\8-classes-market" class="nav-link">
-                                        Торговая площадка
-                                    </a>
-                                </li>
                             {% endif %}
                         {% endif %}
 

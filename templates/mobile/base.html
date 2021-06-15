@@ -1,5 +1,4 @@
 <!doctype html>
-{% set experts_ids = [5, 6, 7, 22] %}
 <!--suppress ALL -->
 <html lang="en">
     <head>
@@ -45,12 +44,12 @@
                                 </li>
                             {% endif %}
 
-                            {% if 24 <= current_user.id <= 113 or current_user.id in experts_ids %}
+                            {% if 'Игрок' in current_user.game_role %}
                                 <li>
-                                    <a class="menu__item" href="\8-classes-projects-result">Проекты</a>
+                                    <a class="menu__item" href="\voting">Проекты</a>
                                 </li>
                                 <li>
-                                    <a class="menu__item" href="\8-classes-market">Торговая площадка</a>
+                                    <a class="menu__item" href="\marketplace">Торговая площадка</a>
                                 </li>
                             {% endif %}
                         {% endif %}

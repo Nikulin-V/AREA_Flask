@@ -1,5 +1,5 @@
 <!--suppress ALL -->
-{% extends "base.html" %}
+{% extends "mobile/base.html" %}
 
 {% block content %}
 
@@ -19,9 +19,9 @@
                     <td style="text-align: center;padding: 5px">Проект</td>
                     <td style="text-align: center;padding: 5px">Акции</td>
                 </tr>
-                {% for project, count in stocks %}
+                {% for company, count in stocks %}
                     <tr>
-                        <td style="text-align: center">{{ project }}</td>
+                        <td style="text-align: center">{{ company }}</td>
                         <td style="text-align: center">{{ count }}</td>
                     </tr>
                 {% endfor %}
@@ -45,9 +45,9 @@
                     <td style="text-align: center;padding: 5px">Зарезервировано акций</td>
                     <td style="text-align: center;padding: 5px">Цена за 1 акцию</td>
                 </tr>
-                {% for project, stocks, reserved_stocks, price in market_stocks %}
+                {% for company, stocks, reserved_stocks, price in market_stocks %}
                     <tr>
-                        <td style="text-align: center">{{ project }}</td>
+                        <td style="text-align: center">{{ company }}</td>
                         <td style="text-align: center">{{ stocks }}</td>
                         <td style="text-align: center">{{ reserved_stocks }}</td>
                         <td style="text-align: center">{{ price }}</td>
@@ -90,8 +90,8 @@
                 {% endfor %}
             </p>
             <p>
-                {{ form.project.label }}<br>
-                {{ form.project(class='form-control') }}<br>
+                {{ form.company.label }}<br>
+                {{ form.company(class='form-control') }}<br>
             </p>
             <p>
                 {{ form.stocks.label }}<br>
@@ -127,9 +127,9 @@
                     <td style="text-align: center;padding: 5px">Зарезервировано акций</td>
                     <td style="text-align: center;padding: 5px">Цена за 1 акцию</td>
                 </tr>
-                {% for project, stocks, reserved_stocks, price in offers %}
+                {% for company, stocks, reserved_stocks, price in offers %}
                     <tr>
-                        <td style="text-align: center">{{ project }}</td>
+                        <td style="text-align: center">{{ company }}</td>
                         <td style="text-align: center">{{ stocks }}</td>
                         <td style="text-align: center">{{ reserved_stocks }}</td>
                         <td style="text-align: center">{{ price }}</td>
@@ -233,9 +233,9 @@
             document.getElementById('submit').click();
         });
     }
-    project = document.getElementById('project')
-    if (project) {
-        project.addEventListener("input", function () {
+    company = document.getElementById('company')
+    if (company) {
+        company.addEventListener("input", function () {
             document.getElementById('stocks').value = 0;
             document.getElementById('submit').click();
         });

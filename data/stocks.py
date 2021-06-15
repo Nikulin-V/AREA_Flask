@@ -2,10 +2,10 @@ from .db_session import SqlAlchemyBase
 import sqlalchemy
 
 
-class Vote(SqlAlchemyBase):
-    __tablename__ = '8_class_projects_votes'
+class Stock(SqlAlchemyBase):
+    __tablename__ = 'stocks'
 
     id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True, autoincrement=True)
     user_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey("users.id"))
-    project_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey("8_class_projects.id"))
-    points = sqlalchemy.Column(sqlalchemy.Integer)
+    company_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey("companies.id"))
+    stocks = sqlalchemy.Column(sqlalchemy.Integer)

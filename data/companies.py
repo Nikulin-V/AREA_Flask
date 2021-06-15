@@ -2,8 +2,8 @@ from .db_session import SqlAlchemyBase
 import sqlalchemy
 
 
-class Project(SqlAlchemyBase):
-    __tablename__ = '8_class_projects'
+class Company(SqlAlchemyBase):
+    __tablename__ = 'companies'
 
     id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True, autoincrement=True)
     title = sqlalchemy.Column(sqlalchemy.String)
