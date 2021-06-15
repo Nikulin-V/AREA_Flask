@@ -26,6 +26,7 @@ class User(SqlAlchemyBase, UserMixin):
     about = sqlalchemy.Column(sqlalchemy.Text)
 
     role = sqlalchemy.Column(sqlalchemy.String)
+    game_role = sqlalchemy.Column(sqlalchemy.String)
 
     def set_password(self, password):
         self.hashed_password = generate_password_hash(password)

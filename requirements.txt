@@ -4,6 +4,7 @@ Werkzeug
 WTForms
 Flask
 vk
+vk-api
 Pillow
 flask-mobility
 flask-login

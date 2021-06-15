@@ -8,3 +8,4 @@ class VoteForm(FlaskForm):
     project = SelectField('Проект')
     points = IntegerField('Очки', default=0, validators=[NumberRange(min=0, max=100)])
     submit = SubmitField('Голосовать ✅')
+    user = None

@@ -47,7 +47,7 @@
                                 </li>
                             {% endif %}
 
-                            {% if 24 <= current_user.id <= 113 or current_user.id in experts_ids %}
+                            {% if 'Игрок' in current_user.game_role %}
                                 <li class="nav-item">
                                     <a href="\8-classes-projects-result" class="nav-link">
                                         Проекты
