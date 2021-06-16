@@ -1,0 +1,212 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>{{ title }}</h1>
+    <h4>Купить/Продать акции/Инвестировать</h4>
+    <form action="" method="post">
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.action.label }}<br>
+            {{ form.action(class='form-control') }}<br>
+        </p>
+        {% if form.action.data == 'Инвестировать' %}
+            <p>
+                {{ form.user.label }}<br>
+                {{ form.user(class='form-control') }}<br>
+            </p>
+            <p>
+                {{ form.amount.label }}<br>
+                {{ form.amount(class='form-control') }}<br>
+                {% for error in form.amount.errors %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+            </p>
+        {% else %}
+            <p>
+                {{ form.section.label }}<br>
+                {{ form.section(class='form-control') }}<br>
+                {% for error in form.section.errors %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+            </p>
+            <p>
+                {{ form.company.label }}<br>
+                {{ form.company(class='form-control') }}<br>
+            </p>
+            <p>
+                {{ form.stocks.label }}<br>
+                {{ form.stocks(class='form-control') }}<br>
+                {% for error in form.stocks.errors %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+            </p>
+            {% if form.action.data in ['Продать', 'Отменить продажу'] %}
+                <p>
+                    {{ form.price.label }}<br>
+                    {{ form.price(class='form-control') }}<br>
+                    {% for error in form.price.errors %}
+                        <div class="alert alert-danger" role="alert">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+                </p>
+            {% endif %}
+        {% endif %}
+        {{ form.submit(type="submit", class="btn btn-info") }}
+    </form>
+    <hr>
+    <!-- Таблица с текущими предложениями -->
+    {% if offers %}
+        <table class="dairy-table table-hover table-info">
+        <caption style="caption-side: top">Текущие предложения</caption>
+            <tr style="background-color: #86CFDA">
+                    <td style="text-align: center;padding: 5px">Проект</td>
+                    <td style="text-align: center;padding: 5px">Всего акций</td>
+                    <td style="text-align: center;padding: 5px">Зарезервировано акций</td>
+                    <td style="text-align: center;padding: 5px">Цена за 1 акцию</td>
+                </tr>
+                {% for company, stocks, reserved_stocks, price in offers %}
+                    <tr>
+                        <td style="text-align: center">{{ company }}</td>
+                        <td style="text-align: center">{{ stocks }}</td>
+                        <td style="text-align: center">{{ reserved_stocks }}</td>
+                        <td style="text-align: center">{{ price }}</td>
+                    </tr>
+                {% endfor %}
+        </table>
+    {% else %}
+        <table class="dairy-table table-hover table-info">
+        <caption style="caption-side: top">Текущие предложения</caption>
+            <tr style="background-color: #86CFDA">
+                <td style="text-align: center;padding: 5px">Предложений нет</td>
+            </tr>
+        </table>
+    {% endif %}
+    <!-- Подтверждение покупки -->
+    {% if purchase %}
+        <div class="modal fade show" id="purchase" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="display: block; background-color: rgba(25, 25, 25, .5)">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Подтверждение покупки</h5>
+                    </div>
+                    <div class="modal-body">
+                        <table  class="dairy-table table-hover table-info">
+                            <tr style="background-color: #86CFDA">
+                                <td style="text-align: center">Проект</td>
+                                <td style="text-align: center">Акции</td>
+                                <td style="text-align: center">Цена за акцию</td>
+                                <td style="text-align: center">Стоимость</td>
+                            </tr>
+                            {% for row in cheque %}
+                                <tr>
+                                    <td style="text-align: center">{{ row[0] }}</td>
+                                    <td style="text-align: center">{{ row[1] }}</td>
+                                    <td style="text-align: center">{{ row[2] }}</td>
+                                    <td style="text-align: center">{{ row[3] }}</td>
+                                </tr>
+                            {% endfor %}
+                            <tr style="background-color: #86CFDA">
+                                <td colspan="4" style="text-align: center">Итого: <b>{{ total }}</b></td>
+                            </tr>
+                        </table>
+
+                    </div>
+                    <div class="modal-footer" id="modal-ok-btn">
+                        <form action="" method="post" id="purchase-form">
+                            {{ purchase.accept(type="submit", class="btn btn-info", id="accept") }}
+                            {{ purchase.decline(type="submit", class="btn btn-info", id="decline") }}
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            setTimeout(function () {
+                document.getElementById('decline').click()
+                purchase.className = "modal fade"
+                purchase.style = "display: none"
+            }, 60 * 1000)
+        </script>
+    {% endif %}
+    <!-- Всплывающее сообщение -->
+    {% if message %}
+        <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Сообщение от сайта</h5>
+                        <button type="button" class="close" id="modal-close-btn" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        {{ message }}
+                    </div>
+                    <div class="modal-footer" id="modal-ok-btn">
+                        <button type="button" class="btn btn-info">ОК</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+    <!-- Скрипт для обновления страницы -->
+    <script>
+    action = document.getElementById('action')
+    if (action) {
+        action.addEventListener("input", function () {
+            if (document.getElementById('stocks')) {
+                document.getElementById('stocks').value = 0;
+            }
+            if (document.getElementById('amount')) {
+                document.getElementById('amount').value = 0;
+            }
+            document.getElementById('submit').click();
+        });
+    }
+    section = document.getElementById('section')
+    if (section) {
+        section.addEventListener("input", function () {
+            document.getElementById('stocks').value = 0;
+            document.getElementById('submit').click();
+        });
+    }
+    company = document.getElementById('company')
+    if (company) {
+        company.addEventListener("input", function () {
+            document.getElementById('stocks').value = 0;
+            document.getElementById('submit').click();
+        });
+    }
+    user = document.getElementById('user')
+    if (user) {
+        user.addEventListener("input", function () {
+            document.getElementById('amount').value = 0;
+            document.getElementById('submit').click();
+        });
+    }
+    window.addEventListener("onunload", function () {
+        document.getElementById('stocks').value = 0;
+        document.getElementById('submit').click();
+    });
+    accept = document.getElementById('accept')
+    decline = document.getElementById('decline')
+    purchase = document.getElementById('purchase')
+    if (accept && decline) {
+        accept.addEventListener("click", function () {
+            purchase.className = "modal fade"
+            purchase.style = "display: none"
+        })
+        decline.addEventListener("click", function () {
+            purchase.className = "modal fade"
+            purchase.style = "display: none"
+        })
+    }
+    </script>
+{% endblock %}
