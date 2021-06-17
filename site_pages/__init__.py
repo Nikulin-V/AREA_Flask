@@ -1,5 +1,5 @@
 #  Nikulin Vasily (c) 2021
-from .control_panel import control_panel_page
+from .user_panel import user_panel_page
 from .epos_diary import epos_diary_page
 from .error import error_page
 from .index import index_page
@@ -15,4 +15,4 @@ pages_blueprints = [login_page, register_page, profile_page, error_page,
                     index_page, privacy_policy_page,
                     area_diary_page, epos_diary_page,
                     marketplace_page, voting_page,
-                    control_panel_page]
+                    user_panel_page]

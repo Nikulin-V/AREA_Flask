@@ -6,13 +6,13 @@ from data import db_session
 from data.users import User
 from forms.user_management import UserManagementForm
 
-control_panel_page = Blueprint('control-panel', __name__)
-app = control_panel_page
+user_panel_page = Blueprint('control-panel', __name__)
+app = user_panel_page
 
 
-@app.route('/control-panel', methods=['GET', 'POST'])
-@mobile_template('{mobile/}control-panel.html')
-def control_panel(template):
+@app.route('/user-panel', methods=['GET', 'POST'])
+@mobile_template('{mobile/}user-panel.html')
+def user_panel(template):
     db_sess = db_session.create_session()
 
     form = UserManagementForm()

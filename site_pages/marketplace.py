@@ -11,6 +11,7 @@ from data.users import User
 from data.wallets import Wallet
 from forms.purchase import PurchaseForm
 from forms.stocks import StocksForm
+from site_pages.config import PROFIT_PERCENT, GAME_RUN
 from site_pages.functions import evaluate_form, update_market_info, get_company_id, \
     get_company_title
 
@@ -22,6 +23,7 @@ app = marketplace_page
 @mobile_template('{mobile/}marketplace.html')
 @login_required
 def marketplace(template):
+
     db_sess = db_session.create_session()
 
     form = StocksForm()
@@ -35,7 +37,7 @@ def marketplace(template):
 
     money, stocks, market_stocks, offers = update_market_info()
 
-    if purchase.accept.data:
+    if purchase.accept.data and GAME_RUN:
         transactions = list(db_sess.query(Transaction).
                             filter(Transaction.user_id == current_user.id))
         for t in transactions:
@@ -50,7 +52,10 @@ def marketplace(template):
                                         filter(Stock.company_id == offer.company_id,
                                                Stock.user_id != seller_id)))
             first_cost = t.stocks * t.price
-            final_cost = first_cost + first_cost * (100 - t.stocks) * 0.001
+
+            stocks_count = sum(list(db_sess.query(Stock.stocks).filter(Stock.company_id == offer.company_id)))
+
+            final_cost = first_cost + first_cost * (stocks_count - t.stocks) * PROFIT_PERCENT
             if customer_wallet.money >= final_cost:
                 customer_stock = db_sess.query(Stock). \
                     filter(Stock.user_id == current_user.id,
@@ -95,7 +100,7 @@ def marketplace(template):
                 db_sess.commit()
                 message = 'На балансе недостаточно средств'
 
-    elif purchase.decline.data:
+    elif purchase.decline.data and GAME_RUN:
         transactions = list(db_sess.query(Transaction).
                             filter(Transaction.user_id == current_user.id))
         for t in transactions:
@@ -105,7 +110,7 @@ def marketplace(template):
             db_sess.commit()
 
     purchase = None
-    if form.validate_on_submit() or (form.is_submitted() and form.action.data == 'Инвестировать'):
+    if form.validate_on_submit() or (form.is_submitted() and form.action.data == 'Инвестировать') and GAME_RUN:
         if form.action.data == 'Инвестировать':
             if form.amount.data:
                 investor_wallet = db_sess.query(Wallet). \
@@ -288,6 +293,9 @@ def marketplace(template):
                               'указанного проекта '
             else:
                 message = 'На торговой площадке нет акций указанного проекта'
+
+    if not GAME_RUN:
+        message = 'Игра завершена'
 
     money, stocks, market_stocks, offers = update_market_info()
 
