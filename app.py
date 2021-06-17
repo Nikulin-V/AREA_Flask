@@ -22,7 +22,7 @@ db_session.global_init('db/database.sqlite')
 
 
 def main():
-    app.run()
+    app.run(host='0.0.0.0', port=80)
 
 
 @login_manager.user_loader

@@ -7,7 +7,7 @@ from data import db_session
 from data.users import User
 from forms.user_management import UserManagementForm
 
-user_panel_page = Blueprint('control-panel', __name__)
+user_panel_page = Blueprint('user-panel', __name__)
 app = user_panel_page
 
 
