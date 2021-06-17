@@ -1,22 +1,15 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <table style="width: 100%; border: 0">
-        <tr style="font-size: 1.5em; border: 0">
-            <td style="text-align: left; border: 0"><h1>{{ title }}</h1></td>
-            <td style="text-align: right; border: 0"><a href="/my-news">Мои новости</a></td>
-        </tr>
-    </table>
+    <h1>{{ title }}</h1>
+
     {% for title, message, user, company, datetime in news %}
-        <div style="border: 1px solid black; border-radius: 5px; margin-bottom: 5px; padding-left: 5px; padding-right: 5px">
-            <table style="width: 100%; border: 0">
-                <tr style="font-size: 1em; border: 0">
-                    <td style="text-align: left; border: 0"><p><small>{{ user }} | {{ company }}</small></p></td>
-                    <td style="text-align: right; border: 0"><p><small>{{ datetime }}</small></p></td>
-                </tr>
-            </table>
-            <h5>{{ title }}</h5>
+        <div style="border: 1px solid black; border-radius: 5px; margin-bottom: 5px">
+            <h6>{{ user }} | {{ company }}</h6>
+            <p>{{ datetime }}</p>
+            <h6>{{ title }}</h6>
             <p>{{ message }}</p>
+
         </div>
     {% endfor %}
 {% endblock %}
