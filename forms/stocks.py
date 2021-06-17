@@ -9,7 +9,7 @@ class StocksForm(FlaskForm):
     section = SelectField('Секция')
     company = SelectField('Проект')
     user = SelectField('Пользователь')
-    amount = FloatField('Сумма инвестиции')
+    amount = FloatField('Сумма инвестиции', default=0)
     stocks = IntegerField('Количество акций', default=0, validators=[NumberRange(min=0, max=100)])
     price = IntegerField('Цена за одну акцию', default=1, validators=[NumberRange(min=1, max=100)])
     submit = SubmitField('Готово ✅')

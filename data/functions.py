@@ -91,5 +91,7 @@ def evaluate_form(form):
 
     if form.user:
         form.user.choices = users
+        if not form.user.data:
+            form.user.data = users[0]
 
     return sections, companies
