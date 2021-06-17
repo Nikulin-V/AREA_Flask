@@ -15,7 +15,7 @@ app = login_page
 @mobile_template('{mobile/}login.html')
 def login(template):
     if current_user.is_authenticated:
-        redirect('/profile')
+        return redirect('/profile')
 
     form = LoginForm()
 

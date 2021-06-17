@@ -44,14 +44,41 @@
                                 </li>
                             {% endif %}
 
-                            {% if 'Игрок' in current_user.game_role %}
-                                <li>
-                                    <a class="menu__item" href="\voting">Проекты</a>
-                                </li>
-                                <li>
-                                    <a class="menu__item" href="\marketplace">Торговая площадка</a>
-                                </li>
+                            {% set game_role = current_user.game_role %}
+                            {% if game_role %}
+                                <div class="btn-group">
+                                    <a class="btn menu__item dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                    Экономическая игра
+                                    </a>
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <li>
+                                            <a href="\voting" class="menu__item">
+                                                Проекты
+                                            </a>
+                                        </li>
+                                    {% if 'Игрок' in game_role or 'Эксперт' in game_role %}
+                                        <li>
+                                            <a href="\marketplace" class="menu__item">
+                                                Торговая площадка
+                                            </a>
+                                        </li>
+                                    {% endif %}
+                                    {% if 'Админ' in game_role %}
+                                        <li>
+                                            <a href="\user-panel" class="menu__item">
+                                                Управление пользователями
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="\game-panel" class="menu__item">
+                                                Управление игрой
+                                            </a>
+                                        </li>
+                                    {% endif %}
+                                    </ul>
+                                </div>
                             {% endif %}
+
                         {% endif %}
                             <li>
                                 <a class="menu__item" href="/privacy-policy">Политика конфиденциальности</a>
