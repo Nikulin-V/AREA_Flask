@@ -76,76 +76,77 @@
         {% elif form.action.data == 'Изменить пользователя' %}
             <p>
                 {{ form.user.label }}<br>
-                {{ form.user(class='form-control') }}<br>
-                {% for error in form.user.errors %}
-                    <div class="alert alert-danger" role="alert">
-                        {{ error }}
-                    </div>
-                {% endfor %}
+                {{ form.user(class='form-control') }}
             </p>
-            <p>
-                {{ form.surname.label }}<br>
-                {{ form.surname(class='form-control') }}<br>
-                {% for error in form.surname.errors %}
-                    <div class="alert alert-danger" role="alert">
-                        {{ error }}
-                    </div>
-                {% endfor %}
-            </p>
-            <p>
-                {{ form.name.label }}<br>
-                {{ form.name(class='form-control') }}<br>
-                {% for error in form.name.errors %}
-                    <div class="alert alert-danger" role="alert">
-                        {{ error }}
-                    </div>
-                {% endfor %}
-            </p>
-            <p>
-                {{ form.patronymic.label }}<br>
-                {{ form.patronymic(class='form-control') }}<br>
-                {% for error in form.patronymic.errors %}
-                    <div class="alert alert-danger" role="alert">
-                        {{ error }}
-                    </div>
-                {% endfor %}
-            </p>
-            <p>
-                {{ form.email.label }}<br>
-                {{ form.email(class='form-control') }}<br>
-                {% for error in form.email.errors %}
-                    <div class="alert alert-danger" role="alert">
-                        {{ error }}
-                    </div>
-                {% endfor %}
-            </p>
-            <p>
-                {{ form.password.label }}<br>
-                {{ form.password(class='form-control') }}<br>
-                {% for error in form.password.errors %}
-                    <div class="alert alert-danger" role="alert">
-                        {{ error }}
-                    </div>
-                {% endfor %}
-            </p>
-            <p>
-                {{ form.game_role.label }}<br>
-                {{ form.game_role(class='form-control') }}<br>
-                {% for error in form.game_role.errors %}
-                    <div class="alert alert-danger" role="alert">
-                        {{ error }}
-                    </div>
-                {% endfor %}
-            </p>
+            {% if form.user.data %}
+                <p>
+                    {{ form.surname.label }}<br>
+                    {{ form.surname(class='form-control') }}<br>
+                    {% for error in form.surname.errors %}
+                        <div class="alert alert-danger" role="alert">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+                </p>
+                <p>
+                    {{ form.name.label }}<br>
+                    {{ form.name(class='form-control') }}<br>
+                    {% for error in form.name.errors %}
+                        <div class="alert alert-danger" role="alert">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+                </p>
+                <p>
+                    {{ form.patronymic.label }}<br>
+                    {{ form.patronymic(class='form-control') }}<br>
+                    {% for error in form.patronymic.errors %}
+                        <div class="alert alert-danger" role="alert">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+                </p>
+                <p>
+                    {{ form.email.label }}<br>
+                    {{ form.email(class='form-control') }}<br>
+                    {% for error in form.email.errors %}
+                        <div class="alert alert-danger" role="alert">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+                </p>
+                <p>
+                    {{ form.password.label }}<br>
+                    {{ form.password(class='form-control') }}<br>
+                    {% for error in form.password.errors %}
+                        <div class="alert alert-danger" role="alert">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+                </p>
+                <p>
+                    {{ form.role.label }}<br>
+                    {{ form.role(class='form-control') }}<br>
+                    {% for error in form.role.errors %}
+                        <div class="alert alert-danger" role="alert">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+                </p>
+                <p>
+                    {{ form.game_role.label }}<br>
+                    {{ form.game_role(class='form-control') }}<br>
+                    {% for error in form.game_role.errors %}
+                        <div class="alert alert-danger" role="alert">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+                </p>
+            {% endif %}
         {% elif form.action.data == 'Удалить пользователя' %}
             <p>
                 {{ form.user.label }}<br>
-                {{ form.user(class='form-control') }}<br>
-                {% for error in form.user.errors %}
-                    <div class="alert alert-danger" role="alert">
-                        {{ error }}
-                    </div>
-                {% endfor %}
+                {{ form.user(class='form-control') }}
             </p>
         {% endif %}
         {{ form.submit(type="submit", class="btn btn-info") }}
@@ -230,6 +231,10 @@
                 }
                 document.getElementById('submit').click();
             })
-
+        user_form = document.getElementById('user')
+        if (user_form)
+            user_form.addEventListener("change", function () {
+                    document.getElementById('submit').click();
+                })
     </script>
 {% endblock %}
