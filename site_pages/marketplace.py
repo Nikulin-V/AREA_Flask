@@ -1,5 +1,5 @@
 #  Nikulin Vasily (c) 2021
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, redirect
 from flask_login import login_required, current_user
 from flask_mobility.decorators import mobile_template
 
@@ -11,7 +11,8 @@ from data.users import User
 from data.wallets import Wallet
 from forms.purchase import PurchaseForm
 from forms.stocks import StocksForm
-from site_pages.functions import evaluate_form, update_market_info, get_company_id, \
+from data.config_constants import get_constant
+from data.functions import evaluate_form, update_market_info, get_company_id, \
     get_company_title
 
 marketplace_page = Blueprint('marketplace', __name__)
@@ -22,6 +23,8 @@ app = marketplace_page
 @mobile_template('{mobile/}marketplace.html')
 @login_required
 def marketplace(template):
+    if not get_constant('GAME_RUN'):
+        return redirect('/game-result')
     db_sess = db_session.create_session()
 
     form = StocksForm()
@@ -50,7 +53,12 @@ def marketplace(template):
                                         filter(Stock.company_id == offer.company_id,
                                                Stock.user_id != seller_id)))
             first_cost = t.stocks * t.price
-            final_cost = first_cost + first_cost * (100 - t.stocks) * 0.001
+
+            stocks_count = sum(list(db_sess.query(Stock.stocks).filter(
+                Stock.company_id == offer.company_id)))
+
+            final_cost = first_cost +\
+                first_cost * (stocks_count - t.stocks) * get_constant('PROFIT_PERCENT')
             if customer_wallet.money >= final_cost:
                 customer_stock = db_sess.query(Stock). \
                     filter(Stock.user_id == current_user.id,

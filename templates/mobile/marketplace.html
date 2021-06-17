@@ -10,7 +10,8 @@
         </tr>
     </table>
     <hr>
-    {% if 24 <= current_user.id <= 113 or current_user.id in experts_ids %}
+    {% set game_role = current_user.game_role %}
+                            {% if game_role %}
         <!-- Акции пользователя-->
         {% if stocks %}
             <table class="dairy-table table-hover table-info">

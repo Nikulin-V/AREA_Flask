@@ -1,0 +1,194 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1 style="text-align: center">{{ title }}</h1>
+    <hr>
+    <h4>Добавить/Удалить/Изменить пользователя</h4>
+    <form action="" method="post">
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.action.label }}<br>
+            {{ form.action(class='form-control') }}<br>
+        </p>
+        {% if form.action.data == 'Добавить пользователя' or not form.action.data %}
+            <p>
+                {{ form.surname.label }}<br>
+                {{ form.surname(class='form-control') }}<br>
+                {% for error in form.surname.errors %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+            </p>
+            <p>
+                {{ form.name.label }}<br>
+                {{ form.name(class='form-control') }}<br>
+                {% for error in form.name.errors %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+            </p>
+            <p>
+                {{ form.patronymic.label }}<br>
+                {{ form.patronymic(class='form-control') }}<br>
+                {% for error in form.patronymic.errors %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+            </p>
+            <p>
+                {{ form.email.label }}<br>
+                {{ form.email(class='form-control') }}<br>
+                {% for error in form.email.errors %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+            </p>
+            <p>
+                {{ form.password.label }}<br>
+                {{ form.password(class='form-control') }}<br>
+                {% for error in form.password.errors %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+            </p>
+            <p>
+                {{ form.role.label }}<br>
+                {{ form.role(class='form-control') }}<br>
+                {% for error in form.role.errors %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+            </p>
+            <p>
+                {{ form.game_role.label }}<br>
+                {{ form.game_role(class='form-control') }}<br>
+                {% for error in form.game_role.errors %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+            </p>
+        {% elif form.action.data == 'Изменить пользователя' %}
+            <p>
+                {{ form.user.label }}<br>
+                {{ form.user(class='form-control') }}
+            </p>
+            {% if form.user.data %}
+                <p>
+                    {{ form.surname.label }}<br>
+                    {{ form.surname(class='form-control') }}<br>
+                    {% for error in form.surname.errors %}
+                        <div class="alert alert-danger" role="alert">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+                </p>
+                <p>
+                    {{ form.name.label }}<br>
+                    {{ form.name(class='form-control') }}<br>
+                    {% for error in form.name.errors %}
+                        <div class="alert alert-danger" role="alert">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+                </p>
+                <p>
+                    {{ form.patronymic.label }}<br>
+                    {{ form.patronymic(class='form-control') }}<br>
+                    {% for error in form.patronymic.errors %}
+                        <div class="alert alert-danger" role="alert">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+                </p>
+                <p>
+                    {{ form.email.label }}<br>
+                    {{ form.email(class='form-control') }}<br>
+                    {% for error in form.email.errors %}
+                        <div class="alert alert-danger" role="alert">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+                </p>
+                <p>
+                    {{ form.password.label }}<br>
+                    {{ form.password(class='form-control') }}<br>
+                    {% for error in form.password.errors %}
+                        <div class="alert alert-danger" role="alert">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+                </p>
+                <p>
+                    {{ form.role.label }}<br>
+                    {{ form.role(class='form-control') }}<br>
+                    {% for error in form.role.errors %}
+                        <div class="alert alert-danger" role="alert">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+                </p>
+                <p>
+                    {{ form.game_role.label }}<br>
+                    {{ form.game_role(class='form-control') }}<br>
+                    {% for error in form.game_role.errors %}
+                        <div class="alert alert-danger" role="alert">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+                </p>
+            {% endif %}
+        {% elif form.action.data == 'Удалить пользователя' %}
+            <p>
+                {{ form.user.label }}<br>
+                {{ form.user(class='form-control') }}
+            </p>
+        {% endif %}
+        {{ form.submit(type="submit", class="btn btn-info") }}
+    </form>
+    <!-- Всплывающее сообщение -->
+    {% if message %}
+        <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Сообщение от сайта</h5>
+                        <button type="button" class="close" id="modal-close-btn" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        {{ message }}
+                    </div>
+                    <div class="modal-footer" id="modal-ok-btn">
+                        <button type="button" class="btn btn-info">ОК</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+    <!-- Скрипт для обновления страницы -->
+    <script>
+        action = document.getElementById('action')
+        action.addEventListener("change", function () {
+                ids = ['user', 'surname', 'name', 'patronymic', 'email', 'password', 'game_role']
+                for (i = 0; i < ids.length; i++) {
+                    element = document.getElementById(ids[i])
+                    if (element)
+                        element.value = null
+                }
+                document.getElementById('submit').click();
+            })
+        user_form = document.getElementById('user')
+        if (user_form)
+            user_form.addEventListener("change", function () {
+                    document.getElementById('submit').click();
+                })
+    </script>
+{% endblock %}
