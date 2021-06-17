@@ -1,6 +1,7 @@
 #  Nikulin Vasily (c) 2021
 
 from flask import render_template, Blueprint
+from flask_login import current_user
 from flask_mobility.decorators import mobile_template
 
 from data import db_session
@@ -17,7 +18,9 @@ app = my_news_page
 def my_news(template):
     db_sess = db_session.create_session()
 
-    data = list(db_sess.query(News.title, News.message, News.user_id, News.company_id, News.date))
+    data = list(db_sess.query(News.title, News.message, News.user_id, News.company_id, News.date).filter(
+        User.id == current_user.id)
+    )
     news_list = []
     days_list = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа',
                  'сентября', 'октября', 'ноября', 'декабря']
