@@ -2,6 +2,7 @@ from flask import Flask, render_template
 from flask_login import LoginManager
 from flask_mobility.decorators import mobile_template
 from flask_mobility.mobility import Mobility
+from flask_ngrok import run_with_ngrok
 
 from data import db_session
 from data.users import User
@@ -19,10 +20,11 @@ Mobility(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
 db_session.global_init('db/database.sqlite')
+run_with_ngrok(app)
 
 
 def main():
-    app.run(host='0.0.0.0', port=80)
+    app.run()
 
 
 @login_manager.user_loader

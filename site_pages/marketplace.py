@@ -41,28 +41,53 @@ def marketplace(template):
     if purchase.accept.data:
         transactions = list(db_sess.query(Transaction).
                             filter(Transaction.user_id == current_user.id))
+        company_id = db_sess.query(Offer.company_id).filter(
+            Offer.id == transactions[0].offer_id).first()[0]
+        first_cost = 0
+        all_transactions_stocks = 0
+        all_sellers_ids = []
         for t in transactions:
             t: Transaction
             offer = db_sess.query(Offer).filter(Offer.id == t.offer_id).first()
             seller_id = offer.user_id
-            customer_id = t.user_id
 
-            seller_wallet = db_sess.query(Wallet).filter(Wallet.user_id == seller_id).first()
-            customer_wallet = db_sess.query(Wallet).filter(Wallet.user_id == customer_id).first()
-            stockholders_ids = list(set(db_sess.query(Stock.user_id, Stock.stocks).
-                                        filter(Stock.company_id == offer.company_id,
-                                               Stock.user_id != seller_id)))
-            first_cost = t.stocks * t.price
+            first_cost += t.stocks * t.price
+            all_transactions_stocks += sum(map(lambda x: x[0], db_sess.query(Stock.stocks).filter(
+                Stock.user_id == seller_id,
+                Stock.company_id == company_id
+            ))) + \
+                sum(map(lambda x: x[0], db_sess.query(Offer.stocks).filter(
+                   Offer.user_id == seller_id,
+                   Offer.company_id == company_id
+                )))
+            if seller_id not in all_sellers_ids:
+                all_sellers_ids.append(seller_id)
+        all_transactions_stocks += sum(map(lambda x: x[0], db_sess.query(Stock.stocks).filter(
+            Stock.user_id == current_user.id,
+            Stock.company_id == company_id
+        ))) + \
+            sum(map(lambda x: x[0], db_sess.query(Offer.stocks).filter(
+                Offer.user_id == current_user.id,
+                Offer.company_id == company_id
+            )))
+        stocks_count = sum(map(lambda x: x[0], list(db_sess.query(Stock.stocks).filter(
+            Stock.company_id == company_id)))) + \
+            sum(map(lambda x: x[0], list(db_sess.query(Offer.stocks).filter(
+                Offer.company_id == company_id))))
+        fee = first_cost * (stocks_count - all_transactions_stocks) * get_constant('PROFIT_PERCENT')
+        final_cost = first_cost + fee
 
-            stocks_count = sum(map(lambda x: x[0], list(db_sess.query(Stock.stocks).filter(
-                Stock.company_id == offer.company_id))))
+        customer_wallet = db_sess.query(Wallet).filter(Wallet.user_id == current_user.id).first()
+        if customer_wallet.money >= final_cost:
+            customer_stock = db_sess.query(Stock). \
+                filter(Stock.user_id == current_user.id,
+                       Stock.company_id == company_id).first()
 
-            final_cost = first_cost +\
-                first_cost * (stocks_count - t.stocks) * get_constant('PROFIT_PERCENT')
-            if customer_wallet.money >= final_cost:
-                customer_stock = db_sess.query(Stock). \
-                    filter(Stock.user_id == current_user.id,
-                           Stock.company_id == offer.company_id).first()
+            customer_wallet.money -= final_cost
+            db_sess.merge(customer_wallet)
+
+            for t in transactions:
+                offer = db_sess.query(Offer).filter(Offer.id == t.offer_id).first()
                 if offer.stocks > t.stocks:
                     offer.stocks -= t.stocks
                     offer.reserved_stocks -= t.stocks
@@ -80,28 +105,47 @@ def marketplace(template):
                     )
                     db_sess.add(customer_stock)
                 db_sess.commit()
-                customer_wallet.money -= final_cost
-                seller_wallet.money += first_cost
-                db_sess.merge(customer_wallet)
+
+                seller_wallet = db_sess.query(Wallet).filter(
+                    Wallet.user_id == offer.user_id).first()
+                seller_wallet.money += t.stocks * t.price
                 db_sess.merge(seller_wallet)
-                seller_stock = db_sess.query(Offer). \
-                    filter(Offer.user_id == seller_id,
-                           Offer.company_id == offer.company_id).first()
-                if t.stocks < seller_stock.stocks:
-                    seller_stock.stocks -= t.stocks
-                for user_id, stocks in stockholders_ids:
-                    wallet = db_sess.query(Wallet).filter(Wallet.user_id == user_id).first()
-                    wallet.money += first_cost * stocks * 0.01
-                    db_sess.merge(wallet)
                 db_sess.delete(t)
                 db_sess.commit()
-            else:
+
+            stockholders_ids = set(map(lambda x: x[0], db_sess.query(Stock.user_id).filter(
+                Stock.company_id == company_id
+            ))).union(
+                set(map(lambda x: x[0], db_sess.query(Offer.user_id).filter(
+                    Offer.company_id == company_id
+                )))
+            )
+
+            for i in stockholders_ids:
+                if i not in all_sellers_ids and i != current_user.id:
+                    stockholder_stocks = sum(
+                        list(map(lambda x: x[0], db_sess.query(Stock.stocks).filter(
+                            Stock.user_id == i
+                        ))) +
+                        list(map(lambda x: x[0],
+                                 db_sess.query(Offer.stocks).filter(
+                                     Offer.user_id == i
+                                 )))
+                    )
+                    wallet = db_sess.query(Wallet).filter(Wallet.user_id == i).first()
+                    fee_percent = get_constant('PROFIT_PERCENT')
+                    wallet.money += first_cost * fee_percent * stockholder_stocks
+                    db_sess.merge(wallet)
+                    db_sess.commit()
+
+        else:
+            for t in transactions:
                 offer = db_sess.query(Offer).filter(Offer.id == t.offer_id).first()
                 offer.reserved_stocks -= t.stocks
                 db_sess.merge(offer)
                 db_sess.delete(t)
-                db_sess.commit()
-                message = 'На балансе недостаточно средств'
+            db_sess.commit()
+            message = 'На балансе недостаточно средств'
 
     elif purchase.decline.data:
         transactions = list(db_sess.query(Transaction).
@@ -221,11 +265,12 @@ def marketplace(template):
             else:
                 message = 'На торговой площадке нет Ваших акций указанного проекта'
         elif form.action.data == 'Купить':
-            market_offers = list(map(lambda x: (get_company_title(x[0]), x[1], x[2], x[3]),
+            market_offers = list(map(lambda x: (get_company_title(x[0]), x[1], x[2], x[3], x[4]),
                                      db_sess.query(Offer.company_id,
                                                    Offer.stocks,
                                                    Offer.reserved_stocks,
-                                                   Offer.price).
+                                                   Offer.price,
+                                                   Offer.user_id).
                                      filter(Offer.company_id == get_company_id(form.company.data),
                                             Offer.user_id != current_user.id)))
             if market_offers:
@@ -234,9 +279,12 @@ def marketplace(template):
                     stocks_need = form.stocks.data
                     cheque = []
                     market_offers.sort(key=lambda x: x[-1])
+                    print(market_offers)
+                    transaction_users = []
                     while stocks_need:
                         available_stocks = market_offers[0][1] - market_offers[0][2]
                         if available_stocks and available_stocks <= stocks_need:
+                            transaction_users.append(market_offers[0][4])
                             stocks_need -= available_stocks
                             offer = db_sess.query(Offer). \
                                 filter(Offer.company_id == get_company_id(market_offers[0][0]),
@@ -261,6 +309,7 @@ def marketplace(template):
                                 db_sess.merge(offer)
                                 db_sess.commit()
                         elif available_stocks and available_stocks > stocks_need:
+                            transaction_users.append(market_offers[0][4])
                             offer = db_sess.query(Offer). \
                                 filter(Offer.company_id == get_company_id(market_offers[0][0]),
                                        Offer.stocks == market_offers[0][1],
@@ -286,10 +335,31 @@ def marketplace(template):
                                 db_sess.merge(offer)
                                 db_sess.commit()
                         market_offers.pop(0)
-
                     total = sum(map(lambda x: x[-1], cheque))
-                    cheque.append(('Комиссия', '-', '-',
-                                   (100 - sum(map(lambda x: x[1], cheque))) * total * 0.001))
+                    all_project_stocks = sum(map(lambda x: x[0], db_sess.query(Stock.stocks).filter(
+                        Stock.company_id == get_company_id(form.company.data)
+                    ))) + \
+                        sum(map(lambda x: x[0], db_sess.query(Offer.stocks).filter(
+                            Offer.company_id == get_company_id(form.company.data)
+                        )))
+
+                    transaction_stocks = 0
+                    company_id = get_company_id(form.company.data)
+                    for user_id in transaction_users:
+                        transaction_stocks += sum(map(lambda x: x[0], db_sess.query(Stock.stocks).
+                                                      filter(
+                            Stock.company_id == company_id,
+                            Stock.user_id == user_id
+                        ))) + \
+                                              sum(map(lambda x: x[0],
+                                                      db_sess.query(Offer.stocks).filter(
+                                                          Offer.company_id == company_id,
+                                                          Offer.user_id == user_id
+                                                      )))
+
+                    fee = (all_project_stocks - transaction_stocks) * total * 0.001
+                    total += fee
+                    cheque.append(('Комиссия', '-', '-', fee))
 
                 else:
                     message = 'На торговой площадке нет в наличии такого количества акций ' \
