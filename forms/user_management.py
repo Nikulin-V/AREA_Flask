@@ -1,14 +1,18 @@
 from flask_wtf import FlaskForm
 from wtforms import SubmitField, SelectField, StringField, PasswordField
-from wtforms.validators import DataRequired
+from wtforms.fields.html5 import EmailField
 
 
 class UserManagementForm(FlaskForm):
-    action = SelectField('Действие', choices=['Добавить пользователя', 'Удалить пользователя', 'Изменить пользователя'])
+    action = SelectField('Действие', choices=['Добавить пользователя', 'Удалить пользователя',
+                                              'Изменить пользователя'])
     user = SelectField('Пользователь')
-    surname = StringField('Фамилия', validators=[DataRequired()])
-    name = StringField('Имя', validators=[DataRequired()])
-    last_name = StringField('Отчество', validators=[DataRequired()])
-    password = PasswordField('Пароль', validators=[DataRequired()])
-    game_role = StringField('Роли')
+    surname = StringField('Фамилия')
+    name = StringField('Имя')
+    patronymic = StringField('Отчество')
+    email = EmailField('Почта')
+    password = PasswordField('Пароль')
+    role = StringField('Роли (Введите роли пользователя через пробел (Ученик, Учитель, Админ) )')
+    game_role = StringField('Роли в игре (Введите роли пользователя через пробел '
+                            '(Игрок, Эксперт, Админ) )')
     submit = SubmitField('Готово ✅')
