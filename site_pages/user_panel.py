@@ -1,5 +1,6 @@
 #  Nikulin Vasily (c) 2021
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, abort
+from flask_login import current_user
 from flask_mobility.decorators import mobile_template
 
 from data import db_session
@@ -13,6 +14,9 @@ app = user_panel_page
 @app.route('/user-panel', methods=['GET', 'POST'])
 @mobile_template('{mobile/}user-panel.html')
 def user_panel(template):
+    if 'Админ' not in current_user.game_role:
+        abort(404)
+
     db_sess = db_session.create_session()
 
     form = UserManagementForm()
@@ -140,7 +144,6 @@ def user_panel(template):
 
 
 def evaluate_form(form):
-
     if form.user:
         db_sess = db_session.create_session()
         users = list(db_sess.query(User.surname, User.name, User.email).filter(

@@ -1,5 +1,6 @@
-from flask import Flask
+from flask import Flask, render_template
 from flask_login import LoginManager
+from flask_mobility.decorators import mobile_template
 from flask_mobility.mobility import Mobility
 
 from data import db_session
@@ -28,6 +29,31 @@ def main():
 def load_user(user_id):
     db_sess = db_session.create_session()
     return db_sess.query(User).get(user_id)
+
+
+@app.errorhandler(401)
+@app.errorhandler(403)
+@app.errorhandler(404)
+@app.errorhandler(408)
+@mobile_template('{mobile/}error-page.html')
+def page_not_found(error, template):
+    messages = {
+        401: ['Вы не авторизованы',
+              'Через несколько секунд Вы будете направлены на страницу авторизации'],
+        403: ['Ошибка при авторизации в ЭПОС.Школа',
+              'Попробуйте ещё раз. При повторном возникновении ошибки проверьте пароль от '
+              'ЭПОС.Школа и обновите его в профиле'],
+        404: ['Страница не найдена',
+              'Проверьте правильность введённого адреса'],
+        408: ['Превышено время ожидания',
+              'Попробуйте сделать запрос еще раз. Если проблема повторится, обратитесь в '
+              'техподдержку']
+    }
+
+    return render_template(template,
+                           code=error.code,
+                           title=messages[error.code][0],
+                           message=messages[error.code][1])
 
 
 if __name__ == '__main__':
