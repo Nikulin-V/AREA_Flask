@@ -18,7 +18,8 @@ app = my_news_page
 def my_news(template):
     db_sess = db_session.create_session()
 
-    data = list(db_sess.query(News.title, News.message, News.user_id, News.company_id, News.date).filter(
+    data = list(db_sess.query(
+        News.title, News.message, News.user_id, News.company_id, News.date).filter(
         User.id == current_user.id)
     )
     news_list = []

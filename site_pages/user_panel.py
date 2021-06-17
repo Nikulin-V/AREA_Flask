@@ -11,6 +11,7 @@ user_panel_page = Blueprint('control-panel', __name__)
 app = user_panel_page
 
 
+# noinspection PyArgumentList
 @app.route('/user-panel', methods=['GET', 'POST'])
 @mobile_template('{mobile/}user-panel.html')
 def user_panel(template):
@@ -44,7 +45,7 @@ def user_panel(template):
                 evaluate_form(form)
                 message = 'Пользователь добавлен'
         elif form.action.data == 'Удалить пользователя':
-            if form.user.data:
+            if form.user.data and form.user.description != '!':
                 surname, name, email = form.user.data.replace('|', '').split()
                 user = db_sess.query(User).filter(
                     User.surname == surname,
@@ -89,9 +90,10 @@ def user_panel(template):
                     form.role.data = user.role
                     form.game_role.data = user.game_role
                 elif user:
-                    user.email = form.email.data
                     user.surname = form.surname.data
                     user.name = form.name.data
+                    if form.patronymic.data:
+                        user.patronymic = form.patronymic.data
                     if form.role.data == '':
                         user.role = None
                     else:

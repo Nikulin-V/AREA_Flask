@@ -84,9 +84,9 @@ def marketplace(template):
                 seller_wallet.money += first_cost
                 db_sess.merge(customer_wallet)
                 db_sess.merge(seller_wallet)
-                seller_stock = db_sess.query(Stock). \
-                    filter(Stock.user_id == seller_id,
-                           Stock.company_id == offer.company_id).first()
+                seller_stock = db_sess.query(Offer). \
+                    filter(Offer.user_id == seller_id,
+                           Offer.company_id == offer.company_id).first()
                 if t.stocks < seller_stock.stocks:
                     seller_stock.stocks -= t.stocks
                 for user_id, stocks in stockholders_ids:
