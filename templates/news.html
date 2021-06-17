@@ -8,14 +8,18 @@
         </tr>
     </table>
     {% if news %}
-        {% for title, message, user, company, datetime in news %}
+        {% for id, title, message, user, company, date, author in news %}
             <div style="border: 1px solid black; border-radius: 5px; margin-bottom: 5px; padding: 5px 5px 0 5px">
                 <h4>{{ title }}</h4>
-                <p>{{ message }}</p>
+                <p style="word-break: break-all">{{ message }}</p>
                 <table style="width: 100%; border: 0">
                     <tr style="font-size: 1em; border: 0">
-                        <td style="text-align: left; border: 0"><p style="margin-bottom: 0"><small>{{ user }} | {{ company }}</small></p></td>
-                        <td style="text-align: right; border: 0"><p style="margin-bottom: 0"><small>{{ datetime }}</small></p></td>
+                        {% if author == 'от себя' %}
+                            <td style="text-align: left; border: 0"><p style="margin-bottom: 0"><small>{{ user }}</small></p></td>
+                        {% else %}
+                            <td style="text-align: left; border: 0"><p style="margin-bottom: 0"><small>{{ user }} | {{ company }}</small></p></td>
+                        {% endif %}
+                        <td style="text-align: right; border: 0"><p style="margin-bottom: 0"><small>номер новости: {{ id }} | {{ date }}</small></p></td>
                     </tr>
                 </table>
             </div>

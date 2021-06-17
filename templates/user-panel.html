@@ -152,53 +152,6 @@
         {% endif %}
         {{ form.submit(type="submit", class="btn btn-info") }}
     </form>
-    <!-- Подтверждение покупки -->
-    {% if purchase %}
-        <div class="modal fade show" id="purchase" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="display: block; background-color: rgba(25, 25, 25, .5)">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Подтверждение покупки</h5>
-                    </div>
-                    <div class="modal-body">
-                        <table  class="dairy-table table-hover table-info">
-                            <tr style="background-color: #86CFDA">
-                                <td style="text-align: center">Проект</td>
-                                <td style="text-align: center">Акции</td>
-                                <td style="text-align: center">Цена за акцию</td>
-                                <td style="text-align: center">Стоимость</td>
-                            </tr>
-                            {% for row in cheque %}
-                                <tr>
-                                    <td style="text-align: center">{{ row[0] }}</td>
-                                    <td style="text-align: center">{{ row[1] }}</td>
-                                    <td style="text-align: center">{{ row[2] }}</td>
-                                    <td style="text-align: center">{{ row[3] }}</td>
-                                </tr>
-                            {% endfor %}
-                            <tr style="background-color: #86CFDA">
-                                <td colspan="4" style="text-align: center">Итого: <b>{{ total }}</b></td>
-                            </tr>
-                        </table>
-
-                    </div>
-                    <div class="modal-footer" id="modal-ok-btn">
-                        <form action="" method="post" id="purchase-form">
-                            {{ purchase.accept(type="submit", class="btn btn-info", id="accept") }}
-                            {{ purchase.decline(type="submit", class="btn btn-info", id="decline") }}
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <script>
-            setTimeout(function () {
-                document.getElementById('decline').click()
-                purchase.className = "modal fade"
-                purchase.style = "display: none"
-            }, 60 * 1000)
-        </script>
-    {% endif %}
     <!-- Всплывающее сообщение -->
     {% if message %}
         <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

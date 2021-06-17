@@ -17,7 +17,8 @@ app = news_page
 def news(template):
     db_sess = db_session.create_session()
 
-    data = list(db_sess.query(News.title, News.message, News.user_id, News.company_id, News.date))
+    data = list(db_sess.query(News.title, News.message, News.user_id, News.company_id, News.date,
+                              News.author, News.id))
     news_list = []
     days_list = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа',
                  'сентября', 'октября', 'ноября', 'декабря']
@@ -26,16 +27,19 @@ def news(template):
         user = ' '.join(db_sess.query(User.surname, User.name).filter(
             User.id == data[i][2]
         ).first())
-        company = db_sess.query(Company.title).filter(
-            Company.id == data[i][3]
-        ).first()[0]
+        if data[i][5] == 'от себя':
+            company = 0
+        else:
+            company = db_sess.query(Company.title).filter(
+                Company.id == data[i][3]
+            ).first()[0]
         date = str(data[i][4]).split()
         time = date[1].split(':')
         time = ':'.join((time[0], time[1]))
         date = date[0].split('-')
         date = f'{date[2]} {days_list[int(date[1]) - 1]}'
-        datetime = f'{date} в {time}'
-        news_list.append([data[i][0], data[i][1], user, company, datetime])
+        date = f'{date} в {time}'
+        news_list.append([data[i][6], data[i][0], data[i][1], user, company, date, data[i][5]])
 
     return render_template(template,
                            title='Новости', news=news_list)
