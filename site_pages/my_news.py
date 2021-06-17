@@ -8,13 +8,13 @@ from data.companies import Company
 from data.news import News
 from data.users import User
 
-news_page = Blueprint('news-page', __name__)
-app = news_page
+my_news_page = Blueprint('my-news-page', __name__)
+app = my_news_page
 
 
-@app.route('/news')
-@mobile_template('{mobile/}news.html')
-def news(template):
+@app.route('/my-news')
+@mobile_template('{mobile/}my-news.html')
+def my_news(template):
     db_sess = db_session.create_session()
 
     data = list(db_sess.query(News.title, News.message, News.user_id, News.company_id, News.date))
@@ -38,4 +38,4 @@ def news(template):
         news_list.append([data[i][0], data[i][1], user, company, datetime])
 
     return render_template(template,
-                           title='Новости', news=news_list)
+                           title='Мои новости', news=news_list)

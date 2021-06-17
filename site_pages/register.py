@@ -40,7 +40,7 @@ def register(template):
         user = User(
             surname=form.surname.data,
             name=form.name.data,
-            patronymic=form.last_name.data,
+            patronymic=form.patronymic.data,
             date_of_birth=form.date_of_birth.data,
             email=form.email.data,
             epos_login=form.epos_login.data,
