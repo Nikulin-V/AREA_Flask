@@ -54,8 +54,8 @@ def marketplace(template):
                                                Stock.user_id != seller_id)))
             first_cost = t.stocks * t.price
 
-            stocks_count = sum(list(db_sess.query(Stock.stocks).filter(
-                Stock.company_id == offer.company_id)))
+            stocks_count = sum(map(lambda x: x[0], list(db_sess.query(Stock.stocks).filter(
+                Stock.company_id == offer.company_id))))
 
             final_cost = first_cost +\
                 first_cost * (stocks_count - t.stocks) * get_constant('PROFIT_PERCENT')
