@@ -147,6 +147,7 @@ def my_news(template):
             else:
                 message = 'У вас пока что нет новостей'
                 form.action.data = 'Добавить новость'
+    news_list.reverse()
 
     return render_template(template,
                            title='Мои новости',
