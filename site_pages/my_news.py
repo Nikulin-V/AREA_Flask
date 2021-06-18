@@ -98,8 +98,7 @@ def my_news(template):
                 )
                 news_list = []
                 days_list = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля',
-                             'августа',
-                             'сентября', 'октября', 'ноября', 'декабря']
+                             'августа', 'сентября', 'октября', 'ноября', 'декабря']
 
                 for i in range(len(data)):
                     user = ' '.join(db_sess.query(User.surname, User.name).filter(
@@ -145,8 +144,8 @@ def my_news(template):
                             )
                             news_list = []
                             days_list = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня',
-                                         'июля', 'августа',
-                                         'сентября', 'октября', 'ноября', 'декабря']
+                                         'июля', 'августа', 'сентября', 'октября', 'ноября',
+                                         'декабря']
 
                             for i in range(len(data)):
                                 user = ' '.join(db_sess.query(User.surname, User.name).filter(
@@ -171,8 +170,10 @@ def my_news(template):
 
                         else:
                             message = 'Новость с указанным номером принадлежит другому пользователю'
+                            form.action.data = 'Добавить новость'
                     else:
                         message = 'Новость с указанным номером отсутствует'
+                        form.action.data = 'Добавить новость'
             else:
                 message = 'У вас пока что нет новостей'
                 form.action.data = 'Добавить новость'
@@ -187,57 +188,61 @@ def my_news(template):
                 ).first()
                 if identifier:
                     if news:
-                        if not form.title.data:
-                            form.title.data = news.title
-                            form.text.data = news.message
-                            form.picture.data = news.picture
-                            form.author.data = news.author
-                        else:
-                            news.title = form.title.data
-                            news.message = form.text.data
-                            news.author = form.author.data
-                            if form.author.data == 'от себя':
-                                news.company_id = None
+                        if news.user_id == current_user.id:
+                            if not form.title.data:
+                                form.title.data = news.title
+                                form.text.data = news.message
+                                form.picture.data = news.picture
+                                form.author.data = news.author
                             else:
-                                company = form.author.data.split('от лица компании ')[1]
-                                news.company_id = db_sess.query(Company.id).filter(
-                                    Company.title == company.split('"')[1]
-                                ).first()[0]
-                            news.picture = form.picture.data
-                            news.date = datetime.now()
-                            db_sess.merge(news)
-                            db_sess.commit()
-                            message = 'Новость изменена'
-                            form.action.data = 'Добавить новость'
-                            data = list(db_sess.query(News.title, News.message, News.company_id,
-                                                      News.date, News.author, News.id,
-                                                      News.picture).filter(
-                                News.user_id == current_user.id)
-                            )
-                            news_list = []
-                            days_list = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня',
-                                         'июля', 'августа',
-                                         'сентября', 'октября', 'ноября', 'декабря']
-                            for i in range(len(data)):
-                                user = ' '.join(db_sess.query(User.surname, User.name).filter(
-                                    User.id == current_user.id
-                                ).first())
-                                if data[i][4] == 'от себя':
-                                    company = 0
+                                news.title = form.title.data
+                                news.message = form.text.data
+                                news.author = form.author.data
+                                if form.author.data == 'от себя':
+                                    news.company_id = None
                                 else:
-                                    company = db_sess.query(Company.title).filter(
-                                        Company.id == data[i][2]
+                                    company = form.author.data.split('от лица компании ')[1]
+                                    news.company_id = db_sess.query(Company.id).filter(
+                                        Company.title == company.split('"')[1]
                                     ).first()[0]
-                                date = str(data[i][3]).split()
-                                time = date[1].split(':')
-                                time = ':'.join((time[0], time[1]))
-                                date = date[0].split('-')
-                                date = f'{date[2]} {days_list[int(date[1]) - 1]}'
-                                date = f'{date} в {time}'
-                                news_list.append(
-                                    [data[i][5], data[i][0], data[i][1], user, company, date,
-                                     data[i][4],
-                                     data[i][6]])
+                                news.picture = form.picture.data
+                                news.date = datetime.now()
+                                db_sess.merge(news)
+                                db_sess.commit()
+                                message = 'Новость изменена'
+                                form.action.data = 'Добавить новость'
+                                data = list(db_sess.query(News.title, News.message, News.company_id,
+                                                          News.date, News.author, News.id,
+                                                          News.picture).filter(
+                                    News.user_id == current_user.id)
+                                )
+                                news_list = []
+                                days_list = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня',
+                                             'июля', 'августа', 'сентября', 'октября', 'ноября',
+                                             'декабря']
+                                for i in range(len(data)):
+                                    user = ' '.join(db_sess.query(User.surname, User.name).filter(
+                                        User.id == current_user.id
+                                    ).first())
+                                    if data[i][4] == 'от себя':
+                                        company = 0
+                                    else:
+                                        company = db_sess.query(Company.title).filter(
+                                            Company.id == data[i][2]
+                                        ).first()[0]
+                                    date = str(data[i][3]).split()
+                                    time = date[1].split(':')
+                                    time = ':'.join((time[0], time[1]))
+                                    date = date[0].split('-')
+                                    date = f'{date[2]} {days_list[int(date[1]) - 1]}'
+                                    date = f'{date} в {time}'
+                                    news_list.append(
+                                        [data[i][5], data[i][0], data[i][1], user, company, date,
+                                         data[i][4],
+                                         data[i][6]])
+                        else:
+                            message = 'Новость с указанным номером принадлежит другому пользователю'
+                            form.action.data = 'Добавить новость'
 
                     else:
                         message = 'Новость с указанными данными отсутствует'
