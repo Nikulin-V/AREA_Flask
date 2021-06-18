@@ -3,8 +3,8 @@ from wtforms import SubmitField, SelectField, StringField, TextAreaField
 
 
 class UserManagementForm(FlaskForm):
-    action = SelectField('Действие', choices=['Добавить новость', 'Удалить новость',
-                                              'Изменить новость'])
+    action = SelectField('Действие', choices=['Добавить новость'])
+    # TODO: Добавить действия: 'Удалить новость', 'Изменить новость'
     identifier = StringField('Номер')
     title = StringField('Заголовок')
     text = TextAreaField('Текст')

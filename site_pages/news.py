@@ -42,4 +42,4 @@ def news(template):
         news_list.append([data[i][6], data[i][0], data[i][1], user, company, date, data[i][5]])
 
     return render_template(template,
-                           title='Новости', news=news_list)
+                           title='Новости', news=reversed(news_list))

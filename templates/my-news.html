@@ -114,7 +114,7 @@
                         {% else %}
                             <td style="text-align: left; border: 0"><p style="margin-bottom: 0"><small>{{ user }} | {{ company }}</small></p></td>
                         {% endif %}
-                        <td style="text-align: right; border: 0"><p style="margin-bottom: 0"><small>номер новости: {{ id }} | {{ date }}</small></p></td>
+                        <td style="text-align: right; border: 0"><p style="margin-bottom: 0"><small>Номер новости: {{ id }} | {{ date }}</small></p></td>
                     </tr>
                 </table>
             </div>
@@ -130,18 +130,13 @@
     <script>
         action = document.getElementById('action')
         action.addEventListener("change", function () {
-                ids = ['title', 'text']
-                for (i = 0; i < ids.length; i++) {
-                    element = document.getElementById(ids[i])
+            let ids = ['title', 'text'];
+            for (let i = 0; i < ids.length; i++) {
+                    let element = document.getElementById(ids[i])
                     if (element)
                         element.value = null
                 }
                 document.getElementById('submit').click();
             })
-        author_form = document.getElementById('author')
-        if (author_form)
-            author_form.addEventListener("change", function () {
-                    document.getElementById('submit').click();
-                })
     </script>
 {% endblock %}

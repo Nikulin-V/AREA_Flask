@@ -152,7 +152,7 @@ def my_news(template):
                            title='Мои новости',
                            message=message,
                            form=form,
-                           news=news_list)
+                           news=reversed(news_list))
 
 
 def evaluate_form(form):
