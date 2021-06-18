@@ -186,7 +186,7 @@
                 document.getElementById('submit').click();
             })
         user_form = document.getElementById('user')
-        if (user_form)
+        if (user_form && action.value !== 'Удалить пользователя')
             user_form.addEventListener("change", function () {
                     document.getElementById('submit').click();
                 })

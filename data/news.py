@@ -12,3 +12,4 @@ class News(SqlAlchemyBase):
     message = sqlalchemy.Column(sqlalchemy.Text)
     date = sqlalchemy.Column(sqlalchemy.DateTime)
     author = sqlalchemy.Column(sqlalchemy.String)
+    picture = sqlalchemy.Column(sqlalchemy.String)

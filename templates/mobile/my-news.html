@@ -30,18 +30,22 @@
                 {% endfor %}
             </p>
             <p>
-                {{ form.author.label }}<br>
-                {{ form.author(class='form-control') }}<br>
-                {% for error in form.author.errors %}
+                {{ form.picture.label }}<br>
+                {{ form.picture(class='form-control') }}<br>
+                {% for error in form.picture.errors %}
                     <div class="alert alert-danger" role="alert">
                         {{ error }}
                     </div>
                 {% endfor %}
             </p>
+            <p>
+                {{ form.author.label }}<br>
+                {{ form.author(class='form-control') }}<br>
+            </p>
         {% elif form.action.data == 'Изменить новость' %}
             <p>
                 {{ form.identifier.label }}<br>
-                {{ form.identifier(class='form-control') }}
+                {{ form.identifier(class='form-control')}}
             </p>
             {% if form.identifier.data %}
                 <p>
@@ -63,19 +67,28 @@
                     {% endfor %}
                 </p>
                 <p>
-                    {{ form.author.label }}<br>
-                    {{ form.author(class='form-control') }}<br>
-                    {% for error in form.author.errors %}
+                    {{ form.picture.label }}<br>
+                    {{ form.picture(class='form-control') }}<br>
+                    {% for error in form.picture.errors %}
                         <div class="alert alert-danger" role="alert">
                             {{ error }}
                         </div>
                     {% endfor %}
                 </p>
+                <p>
+                    {{ form.author.label }}<br>
+                    {{ form.author(class='form-control') }}<br>
+                </p>
             {% endif %}
         {% elif form.action.data == 'Удалить новость' %}
             <p>
                 {{ form.identifier.label }}<br>
-                {{ form.identifier(class='form-control') }}
+                {{ form.identifier(class='form-control') }}<br>
+                {% for error in form.identifier.errors %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ error }}
+                    </div>
+                {% endfor %}
             </p>
         {% endif %}
         {{ form.submit(type="submit", class="btn btn-info") }}
@@ -103,10 +116,13 @@
     {% endif %}
     <br>
     {% if news %}
-        {% for id, title, message, user, company, date, author in news %}
+        {% for id, title, message, user, company, date, author, picture in news %}
             <div style="border: 1px solid black; border-radius: 5px; margin-bottom: 5px; padding-left: 5px; padding-right: 5px">
                 <h4>{{ title }}</h4>
-                <p style="word-break: break-all;">{{ message }}</p>
+                <p style="word-break: break-all; white-space: pre-wrap">{{ message }}</p>
+                {% if picture %}
+                    <img src="{{ picture }}" alt="Неверная ссылка на изображение новости" style="width: 100%">
+                {% endif %}
                 <table style="width: 100%; border: 0">
                     <tr style="font-size: 1em; border: 0">
                         {% if author == 'от себя' %}
@@ -130,7 +146,7 @@
     <script>
         action = document.getElementById('action')
         action.addEventListener("change", function () {
-            let ids = ['title', 'text'];
+            let ids = ['title', 'text', 'author', 'picture'];
             for (let i = 0; i < ids.length; i++) {
                     let element = document.getElementById(ids[i])
                     if (element)
@@ -140,3 +156,4 @@
             })
     </script>
 {% endblock %}
+
