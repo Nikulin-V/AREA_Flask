@@ -7,7 +7,7 @@ from data import db_session
 from data.companies import Company
 from data.votes import Vote
 from forms.vote import VoteForm
-from site_pages.functions import evaluate_form, get_company_id
+from data.functions import evaluate_form, get_company_id
 
 voting_page = Blueprint('companies-voting', __name__)
 app = voting_page
@@ -72,7 +72,7 @@ def companies_voting(template):
                           f'Вы можете отменить голос, назначив проекту 0 очков.\n' \
                           f'Ваши очки: {100 - current_voted_points}/100'
         elif form.points.data == 0:
-            
+            company_id = get_company_id(form.company.data)
             vote = db_sess.query(Vote).filter(Vote.user_id == current_user.id,
                                               Vote.company_id == company_id).first()
             if vote:

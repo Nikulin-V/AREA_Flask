@@ -46,25 +46,43 @@
                                 </li>
                             {% endif %}
                             {% set game_role = current_user.game_role %}
-                            {% if 'Игрок' in game_role or 'Эксперт' in game_role%}
+                            {% if game_role %}
                                 <div class="btn-group">
                                     <a class="btn nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                                     Экономическая игра
                                     </a>
-                                    <ul class="dropdown-menu">
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                         <li class="dropdown-item">
                                             <a href="\voting" class="nav-link">
                                                 Проекты
                                             </a>
                                         </li>
+                                    {% if 'Игрок' in game_role or 'Эксперт' in game_role %}
                                         <li class="dropdown-item">
                                             <a href="\marketplace" class="nav-link">
                                                 Торговая площадка
                                             </a>
                                         </li>
+                                        <li class="dropdown-item">
+                                            <a href="\news" class="nav-link">
+                                                Новости
+                                            </a>
+                                        </li>
+                                    {% endif %}
+                                    {% if 'Админ' in game_role %}
+                                        <li class="dropdown-item">
+                                            <a href="\user-panel" class="nav-link">
+                                                Управление пользователями
+                                            </a>
+                                        </li>
+                                        <li class="dropdown-item">
+                                            <a href="\game-panel" class="nav-link">
+                                                Управление игрой
+                                            </a>
+                                        </li>
+                                    {% endif %}
                                     </ul>
                                 </div>
-
                             {% endif %}
                         {% endif %}
 

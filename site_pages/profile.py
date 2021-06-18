@@ -55,11 +55,23 @@ def profile(template):
         db_sess.merge(user)
         db_sess.commit()
 
+    school = db_sess.query(School.title).filter(
+                               School.id == user.school_id).first()
+    if not school:
+        school = ''
+    else:
+        school = school[0]
+
+    date = current_user.date_of_birth
+    if not date:
+        date = ''
+    else:
+        date = date.strftime('%d.%m.%Y')
+
     return render_template(template,
                            title='Профиль',
                            form=form,
                            message=message,
-                           school=db_sess.query(School.title).filter(
-                               School.id == user.school_id).first()[0],
-                           date=current_user.date_of_birth.strftime('%d.%m.%Y'),
+                           school=school,
+                           date=date,
                            btn_label='Сохранить')

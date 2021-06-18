@@ -1,0 +1,99 @@
+<!--suppress ALL -->
+{% extends "base.html" %}
+
+{% block content %}
+
+    <h1>{{ title }}</h1>
+    {% set game_role = current_user.game_role %}
+    {% if game_role %}
+            <table class="dairy-table table-hover table-info">
+            <caption style="caption-side: top">Итоговый баланс игроков</caption>
+                <tr style="background-color: #86CFDA">
+                    <td style="text-align: center;padding: 5px">Место</td>
+                    <td style="text-align: center;padding: 5px">Игрок</td>
+                    <td style="text-align: center;padding: 5px">Итоговый баланс</td>
+                </tr>
+                {% for i, user, balance in wallets %}
+                    <tr>
+                        <td style="text-align: center">{{ i }}</td>
+                        <td style="text-align: center">{{ user }}</td>
+                        <td style="text-align: center">{{ balance }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+    {% endif %}
+    <!-- Всплывающее сообщение -->
+    {% if message %}
+        <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Сообщение от сайта</h5>
+                        <button type="button" class="close" id="modal-close-btn" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        {{ message }}
+                    </div>
+                    <div class="modal-footer" id="modal-ok-btn">
+                        <button type="button" class="btn btn-info">ОК</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+    <!-- Скрипт для обновления страницы -->
+    <script>
+    action = document.getElementById('action')
+    if (action) {
+        action.addEventListener("input", function () {
+            if (document.getElementById('stocks')) {
+                document.getElementById('stocks').value = 0;
+            }
+            if (document.getElementById('amount')) {
+                document.getElementById('amount').value = 0;
+            }
+            document.getElementById('submit').click();
+        });
+    }
+    section = document.getElementById('section')
+    if (section) {
+        section.addEventListener("input", function () {
+            document.getElementById('stocks').value = 0;
+            document.getElementById('submit').click();
+        });
+    }
+    company = document.getElementById('company')
+    if (company) {
+        company.addEventListener("input", function () {
+            document.getElementById('stocks').value = 0;
+            document.getElementById('submit').click();
+        });
+    }
+    user = document.getElementById('user')
+    if (user) {
+        user.addEventListener("input", function () {
+            document.getElementById('amount').value = 0;
+            document.getElementById('submit').click();
+        });
+    }
+    window.addEventListener("onunload", function () {
+        document.getElementById('stocks').value = 0;
+        document.getElementById('submit').click();
+    });
+    accept = document.getElementById('accept')
+    decline = document.getElementById('decline')
+    purchase = document.getElementById('purchase')
+    if (accept && decline) {
+        accept.addEventListener("click", function () {
+            purchase.className = "modal fade"
+            purchase.style = "display: none"
+        })
+        decline.addEventListener("click", function () {
+            purchase.className = "modal fade"
+            purchase.style = "display: none"
+        })
+    }
+    </script>
+{% endblock %}
