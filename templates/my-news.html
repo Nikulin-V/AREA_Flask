@@ -30,6 +30,15 @@
                 {% endfor %}
             </p>
             <p>
+                {{ form.picture.label }}<br>
+                {{ form.picture(class='form-control') }}<br>
+                {% for error in form.picture.errors %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+            </p>
+            <p>
                 {{ form.author.label }}<br>
                 {{ form.author(class='form-control') }}<br>
                 {% for error in form.author.errors %}
@@ -103,10 +112,13 @@
     {% endif %}
     <br>
     {% if news %}
-        {% for id, title, message, user, company, date, author in news %}
+        {% for id, title, message, user, company, date, author, picture in news %}
             <div style="border: 1px solid black; border-radius: 5px; margin-bottom: 5px; padding-left: 5px; padding-right: 5px">
                 <h4>{{ title }}</h4>
-                <p style="word-break: break-all;">{{ message }}</p>
+                <p style="word-break: break-all; white-space: pre-wrap">{{ message }}</p>
+                {% if picture %}
+                    <img src="{{ picture }}" alt="Неверная ссылка на изображение новости" style="width: 100%">
+                {% endif %}
                 <table style="width: 100%; border: 0">
                     <tr style="font-size: 1em; border: 0">
                         {% if author == 'от себя' %}
