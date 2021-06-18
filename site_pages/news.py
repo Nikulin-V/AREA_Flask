@@ -17,8 +17,8 @@ app = news_page
 def news(template):
     db_sess = db_session.create_session()
 
-    data = list(db_sess.query(News.title, News.message, News.user_id, News.company_id, News.date,
-                              News.author, News.id))
+    data = list(db_sess.query(News.title, News.message, News.user_id, News.company_id,
+                                  News.date, News.author, News.id, News.picture))
     news_list = []
     days_list = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа',
                  'сентября', 'октября', 'ноября', 'декабря']
@@ -39,7 +39,8 @@ def news(template):
         date = date[0].split('-')
         date = f'{date[2]} {days_list[int(date[1]) - 1]}'
         date = f'{date} в {time}'
-        news_list.append([data[i][6], data[i][0], data[i][1], user, company, date, data[i][5]])
+        news_list.append([data[i][6], data[i][0], data[i][1], user, company, date, data[i][5],
+                          data[i][7]])
 
     news_list.reverse()
     return render_template(template,

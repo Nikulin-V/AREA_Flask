@@ -25,9 +25,10 @@ def my_news(template):
     db_sess = db_session.create_session()
 
     data = list(db_sess.query(News.title, News.message, News.company_id,
-                              News.date, News.author, News.id).filter(
+                              News.date, News.author, News.id,
+                              News.picture).filter(
         News.user_id == current_user.id)
-    )
+                    )
     news_list = []
     days_list = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа',
                  'сентября', 'октября', 'ноября', 'декабря']
@@ -48,7 +49,8 @@ def my_news(template):
         date = date[0].split('-')
         date = f'{date[2]} {days_list[int(date[1]) - 1]}'
         date = f'{date} в {time}'
-        news_list.append([data[i][5], data[i][0], data[i][1], user, company, date, data[i][4]])
+        news_list.append([data[i][5], data[i][0], data[i][1], user, company, date, data[i][4],
+                          data[i][6]])
 
     form = UserManagementForm()
     message = ''
@@ -68,7 +70,8 @@ def my_news(template):
                         user_id=current_user.id,
                         company_id=None,
                         date=datetime.now(),
-                        author=form.author.data
+                        author=form.author.data,
+                        picture=form.picture.data
                     )
                 else:
                     company = form.author.data.split('от лица компании ')[1]
@@ -80,7 +83,8 @@ def my_news(template):
                             Company.title == company.split('"')[1]
                         ).first()[0],
                         date=datetime.now(),
-                        author=form.author.data
+                        author=form.author.data,
+                        picture=form.picture.data
                     )
                 db_sess.add(news)
                 db_sess.commit()
@@ -148,7 +152,6 @@ def my_news(template):
                 message = 'У вас пока что нет новостей'
                 form.action.data = 'Добавить новость'
     news_list.reverse()
-
     return render_template(template,
                            title='Мои новости',
                            message=message,
