@@ -17,56 +17,64 @@
         <hr>
     {% endif %}
     <!-- Форма голосования -->
-    <h4>Проголосовать</h4>
-    <form action="" method="post">
-        {{ form.hidden_tag() }}
-        <p>
-            {{ form.section.label }}<br>
-            {{ form.section(class='form-control') }}<br>
-            {% for error in form.section.errors %}
-                <div class="alert alert-danger" role="alert">
-                    {{ error }}
-                </div>
-            {% endfor %}
-        </p>
-        <p>
-            {{ form.company.label }}<br>
-            {{ form.company(class='form-control') }}<br>
-            {% for error in form.company.errors %}
-                <div class="alert alert-danger" role="alert">
-                    {{ error }}
-                </div>
-            {% endfor %}
-        </p>
-        <p>
-            {{ form.points.label }}<br>
-            {{ form.points(class='form-control', value=form.points.data) }}<br>
-            {% for error in form.points.errors %}
-                <div class="alert alert-danger" role="alert">
-                    {{ error }}
-                </div>
-            {% endfor %}
-        </p>
-        {{ form.submit(type="submit", class="btn btn-info") }}
-    </form>
-    <hr>
+    {% if company %}
+        <h4>Проголосовать</h4>
+        <form action="" method="post">
+            {{ form.hidden_tag() }}
+            <p>
+                {{ form.section.label }}<br>
+                {{ form.section(class='form-control') }}<br>
+                {% for error in form.section.errors %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+            </p>
+            <p>
+                {{ form.company.label }}<br>
+                {{ form.company(class='form-control') }}<br>
+                {% for error in form.company.errors %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+            </p>
+            <p>
+                {{ form.points.label }}<br>
+                {{ form.points(class='form-control', value=form.points.data) }}<br>
+                {% for error in form.points.errors %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+            </p>
+            {{ form.submit(type="submit", class="btn btn-info") }}
+        </form>
+        <hr>
 
-    <!-- Таблицы с результатами голосования -->
-    {% for section in sections %}
-    <table class="dairy-table table-hover table-info">
-    <caption style="caption-side: top">{{ section }}</caption>
-        <tr style="background-color: #86CFDA">
-            <td style="text-align: center;padding: 5px">Название</td>
-            <td style="text-align: center;padding: 5px">Очки</td>
-        </tr>
-        {% for company in companies[section] %}
-            <tr>
-                <td style="text-align: center">{{ company[1] }}</td>
-                <td style="text-align: center">{{ company[2] }}</td>
+        <!-- Таблицы с результатами голосования -->
+        {% for section in sections %}
+        <table class="dairy-table table-hover table-info">
+        <caption style="caption-side: top">{{ section }}</caption>
+            <tr style="background-color: #86CFDA">
+                <td style="text-align: center;padding: 5px">Название</td>
+                <td style="text-align: center;padding: 5px">Очки</td>
             </tr>
+            {% for company in companies[section] %}
+                <tr>
+                    <td style="text-align: center">{{ company[1] }}</td>
+                    <td style="text-align: center">{{ company[2] }}</td>
+                </tr>
+            {% endfor %}
+        </table>
         {% endfor %}
-    </table>
-    {% endfor %}
+    {% else %}
+        <table class="dairy-table table-hover table-info">
+            <tr style="background-color: #86CFDA">
+                <td style="text-align: center;padding: 5px">Проектов нет</td>
+            </tr>
+        </table>
+    {% endif %}
     <!-- Всплывающее сообщение -->
     {% if message %}
         <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
