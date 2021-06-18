@@ -82,8 +82,8 @@ def evaluate_form(form):
         form.section.errors = []
         form.section.data = form.section.choices[0]
     form.company.choices = sorted(list(map(lambda x: x[0],
-                                    list(db_sess.query(Company.title).
-                                         filter(Company.section == form.section.data)))))
+                                           list(db_sess.query(Company.title).
+                                                filter(Company.section == form.section.data)))))
 
     users = list(map(lambda x: ' '.join(list(db_sess.query(User.surname, User.name).
                                              filter(User.id == x[0]).first())),

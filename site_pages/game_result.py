@@ -1,6 +1,7 @@
 #  Nikulin Vasily (c) 2021
 
 from flask import render_template, Blueprint, abort
+from flask_login import current_user
 from flask_mobility.decorators import mobile_template
 
 from data import db_session
@@ -16,6 +17,9 @@ app = game_result_page
 @mobile_template('{mobile/}game-result.html')
 def game_result(template):
     if get_constant('GAME_RUN'):
+        abort(404)
+
+    if not current_user.game_role:
         abort(404)
 
     db_sess = db_session.create_session()

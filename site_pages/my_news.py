@@ -20,8 +20,9 @@ app = my_news_page
 @app.route('/my-news', methods=['GET', 'POST'])
 @mobile_template('{mobile/}my-news.html')
 def my_news(template):
-    if 'Игрок' not in current_user.game_role:
+    if not current_user.game_role:
         abort(404)
+
     db_sess = db_session.create_session()
 
     data = list(db_sess.query(News.title, News.message, News.company_id,
