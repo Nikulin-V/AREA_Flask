@@ -28,7 +28,7 @@ def my_news(template):
                               News.date, News.author, News.id,
                               News.picture).filter(
         News.user_id == current_user.id)
-    )
+                    )
     news_list = []
     days_list = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа',
                  'сентября', 'октября', 'ноября', 'декабря']
@@ -186,8 +186,13 @@ def my_news(template):
                     News.id == identifier
                 ).first()
                 if identifier:
-                    if form.title.data and form.text.data and form.author.data:
-                        if news:
+                    if news:
+                        if not form.title.data:
+                            form.title.data = news.title
+                            form.text.data = news.message
+                            form.picture.data = news.picture
+                            form.author.data = news.author
+                        else:
                             news.title = form.title.data
                             news.message = form.text.data
                             news.author = form.author.data
@@ -204,7 +209,6 @@ def my_news(template):
                             db_sess.commit()
                             message = 'Новость изменена'
                             form.action.data = 'Добавить новость'
-
                             data = list(db_sess.query(News.title, News.message, News.company_id,
                                                       News.date, News.author, News.id,
                                                       News.picture).filter(
@@ -214,7 +218,6 @@ def my_news(template):
                             days_list = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня',
                                          'июля', 'августа',
                                          'сентября', 'октября', 'ноября', 'декабря']
-
                             for i in range(len(data)):
                                 user = ' '.join(db_sess.query(User.surname, User.name).filter(
                                     User.id == current_user.id
@@ -236,8 +239,9 @@ def my_news(template):
                                      data[i][4],
                                      data[i][6]])
 
-                        else:
-                            message = 'Новость с указанными данными отсутствует'
+                    else:
+                        message = 'Новость с указанными данными отсутствует'
+                        form.action.data = 'Добавить новость'
             else:
                 message = 'У вас пока что нет новостей'
                 form.action.data = 'Добавить новость'
