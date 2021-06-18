@@ -41,16 +41,11 @@
             <p>
                 {{ form.author.label }}<br>
                 {{ form.author(class='form-control') }}<br>
-                {% for error in form.author.errors %}
-                    <div class="alert alert-danger" role="alert">
-                        {{ error }}
-                    </div>
-                {% endfor %}
             </p>
         {% elif form.action.data == 'Изменить новость' %}
             <p>
                 {{ form.identifier.label }}<br>
-                {{ form.identifier(class='form-control') }}
+                {{ form.identifier(class='form-control')}}
             </p>
             {% if form.identifier.data %}
                 <p>
@@ -72,19 +67,28 @@
                     {% endfor %}
                 </p>
                 <p>
-                    {{ form.author.label }}<br>
-                    {{ form.author(class='form-control') }}<br>
-                    {% for error in form.author.errors %}
+                    {{ form.picture.label }}<br>
+                    {{ form.picture(class='form-control') }}<br>
+                    {% for error in form.picture.errors %}
                         <div class="alert alert-danger" role="alert">
                             {{ error }}
                         </div>
                     {% endfor %}
                 </p>
+                <p>
+                    {{ form.author.label }}<br>
+                    {{ form.author(class='form-control') }}<br>
+                </p>
             {% endif %}
         {% elif form.action.data == 'Удалить новость' %}
             <p>
                 {{ form.identifier.label }}<br>
-                {{ form.identifier(class='form-control') }}
+                {{ form.identifier(class='form-control') }}<br>
+                {% for error in form.identifier.errors %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ error }}
+                    </div>
+                {% endfor %}
             </p>
         {% endif %}
         {{ form.submit(type="submit", class="btn btn-info") }}
@@ -142,7 +146,7 @@
     <script>
         action = document.getElementById('action')
         action.addEventListener("change", function () {
-            let ids = ['title', 'text'];
+            let ids = ['title', 'text', 'author', 'picture'];
             for (let i = 0; i < ids.length; i++) {
                     let element = document.getElementById(ids[i])
                     if (element)
