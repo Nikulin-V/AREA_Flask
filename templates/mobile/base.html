@@ -50,7 +50,8 @@
                                     <a class="btn menu__item dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                                     Экономическая игра
                                     </a>
-                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton"
+                                        style="text-align: center">
                                         <li>
                                             <a href="\voting" class="menu__item">
                                                 Проекты
@@ -70,15 +71,21 @@
                                     {% endif %}
                                     {% if 'Админ' in game_role %}
                                         <li>
-                                            <a href="\user-panel" class="menu__item">
-                                                Управление пользователями
-                                            </a>
-                                        </li>
-                                        <li>
                                             <a href="\game-panel" class="menu__item">
                                                 Управление игрой
                                             </a>
                                         </li>
+                                        <li>
+                                            <a href="\company-panel" class="menu__item">
+                                                Управление компаниями
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="\user-panel" class="menu__item">
+                                                Управление пользователями
+                                            </a>
+                                        </li>
+
                                     {% endif %}
                                     </ul>
                                 </div>

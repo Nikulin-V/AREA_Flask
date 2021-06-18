@@ -1,5 +1,5 @@
 #  Nikulin Vasily (c) 2021
-from flask import Blueprint, render_template, redirect
+from flask import Blueprint, render_template, redirect, abort
 from flask_login import login_required, current_user
 from flask_mobility.decorators import mobile_template
 
@@ -23,6 +23,9 @@ app = marketplace_page
 @mobile_template('{mobile/}marketplace.html')
 @login_required
 def marketplace(template):
+    if not current_user.game_role:
+        abort(404)
+
     if not get_constant('GAME_RUN'):
         return redirect('/game-result')
     db_sess = db_session.create_session()

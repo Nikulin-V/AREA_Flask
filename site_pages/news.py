@@ -1,6 +1,7 @@
 #  Nikulin Vasily (c) 2021
 
-from flask import render_template, Blueprint
+from flask import render_template, Blueprint, abort
+from flask_login import current_user
 from flask_mobility.decorators import mobile_template
 
 from data import db_session
@@ -15,6 +16,9 @@ app = news_page
 @app.route('/news')
 @mobile_template('{mobile/}news.html')
 def news(template):
+    if not current_user.game_role:
+        abort(404)
+
     db_sess = db_session.create_session()
 
     data = list(db_sess.query(News.title, News.message, News.user_id, News.company_id,
