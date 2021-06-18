@@ -27,9 +27,10 @@ def companies_voting(template):
     # noinspection PyUnresolvedReferences
     company = db_sess.query(Company.id, Company.title). \
         filter(Company.authors_ids.contains(str(current_user.id))).first()
-    points = sum(list(map(lambda x: x[0], db_sess.query(Vote.points).
-                          filter(Vote.company_id == company[0]))))
-    company = list(company) + [points]
+    if company:
+        points = sum(list(map(lambda x: x[0], db_sess.query(Vote.points).
+                              filter(Vote.company_id == company[0]))))
+        company = list(company) + [points]
 
     if form.is_submitted():
         if form.points.data is None:

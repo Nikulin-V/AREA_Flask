@@ -140,7 +140,7 @@ def user_panel(template):
                     form.game_role.data = user.game_role
 
     return render_template(template,
-                           title='Панель управления',
+                           title='Панель управления пользователями',
                            message=message,
                            form=form)
 
@@ -152,6 +152,7 @@ def evaluate_form(form):
             User.game_role is not None
         ))
         users = list(map(lambda x: x[0] + ' ' + x[1] + ' | ' + x[2], users))
+        users.sort()
         form.user.choices = users
         if not form.user.data:
             form.user.default = form.user.choices[0]
