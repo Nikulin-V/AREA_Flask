@@ -55,15 +55,17 @@ def marketplace(template):
             seller_id = offer.user_id
 
             first_cost += t.stocks * t.price
-            all_transactions_stocks += sum(map(lambda x: x[0], db_sess.query(Stock.stocks).filter(
-                Stock.user_id == seller_id,
-                Stock.company_id == company_id
-            ))) + \
-                sum(map(lambda x: x[0], db_sess.query(Offer.stocks).filter(
-                   Offer.user_id == seller_id,
-                   Offer.company_id == company_id
-                )))
             if seller_id not in all_sellers_ids:
+                all_transactions_stocks += sum(
+                    map(lambda x: x[0], db_sess.query(Stock.stocks).filter(
+                        Stock.user_id == seller_id,
+                        Stock.company_id == company_id
+                    ))) + \
+                    sum(map(lambda x: x[0],
+                        db_sess.query(Offer.stocks).filter(
+                           Offer.user_id == seller_id,
+                           Offer.company_id == company_id
+                    )))
                 all_sellers_ids.append(seller_id)
         all_transactions_stocks += sum(map(lambda x: x[0], db_sess.query(Stock.stocks).filter(
             Stock.user_id == current_user.id,
@@ -349,7 +351,7 @@ def marketplace(template):
 
                     transaction_stocks = 0
                     company_id = get_company_id(form.company.data)
-                    for user_id in transaction_users:
+                    for user_id in set(transaction_users):
                         transaction_stocks += sum(map(lambda x: x[0], db_sess.query(Stock.stocks).
                                                       filter(
                             Stock.company_id == company_id,
