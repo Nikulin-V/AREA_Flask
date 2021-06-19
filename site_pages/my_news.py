@@ -268,6 +268,7 @@ def evaluate_form(form):
                 Company.id == company_id
             ).first()[0]
             authors.append(f'от лица компании "{str(company)}"')
+        authors.sort()
         form.author.choices = authors
         if not form.author.data:
             form.author.default = form.author.choices[0]
@@ -281,4 +282,4 @@ def get_user_companies(user_id):
     stocks_company_ids = list(map(lambda x: x[0], db_sess.query(Stock.company_id).filter(
         Stock.user_id == user_id
     )))
-    return offer_company_ids + stocks_company_ids
+    return set(offer_company_ids + stocks_company_ids)
