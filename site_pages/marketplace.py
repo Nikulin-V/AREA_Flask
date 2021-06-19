@@ -281,8 +281,7 @@ def marketplace(template):
                     purchase = PurchaseForm()
                     stocks_need = form.stocks.data
                     cheque = []
-                    market_offers.sort(key=lambda x: x[-1])
-                    print(market_offers)
+                    market_offers.sort(key=lambda x: x[3])
                     transaction_users = []
                     while stocks_need:
                         available_stocks = market_offers[0][1] - market_offers[0][2]
@@ -316,7 +315,8 @@ def marketplace(template):
                             offer = db_sess.query(Offer). \
                                 filter(Offer.company_id == get_company_id(market_offers[0][0]),
                                        Offer.stocks == market_offers[0][1],
-                                       Offer.reserved_stocks == market_offers[0][2]).first()
+                                       Offer.reserved_stocks == market_offers[0][2],
+                                       Offer.price == market_offers[0][3]).first()
                             transaction = Transaction(
                                 user_id=current_user.id,
                                 offer_id=offer.id,
