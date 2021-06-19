@@ -188,7 +188,7 @@ def my_news(template):
                 ).first()
                 if identifier:
                     if news:
-                        if news.user_id == current_user.id:
+                        if news.user_id == current_user.id or 'Админ' in current_user.game_role:
                             if not form.title.data:
                                 form.title.data = news.title
                                 form.text.data = news.message
