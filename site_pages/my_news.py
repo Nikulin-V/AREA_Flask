@@ -131,7 +131,7 @@ def my_news(template):
                 ).first()
                 if identifier:
                     if news:
-                        if news.user_id == current_user.id:
+                        if news.user_id == current_user.id or 'Админ' in current_user.game_role:
                             db_sess.delete(news)
                             db_sess.commit()
                             message = 'Новость удалена'
