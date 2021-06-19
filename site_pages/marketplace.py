@@ -291,7 +291,8 @@ def marketplace(template):
                             offer = db_sess.query(Offer). \
                                 filter(Offer.company_id == get_company_id(market_offers[0][0]),
                                        Offer.stocks == market_offers[0][1],
-                                       Offer.reserved_stocks == market_offers[0][2]).first()
+                                       Offer.reserved_stocks == market_offers[0][2],
+                                       Offer.price == market_offers[0][3]).first()
                             transaction = Transaction(
                                 user_id=current_user.id,
                                 offer_id=offer.id,
