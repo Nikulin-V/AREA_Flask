@@ -4,10 +4,11 @@
     <!--suppress ALL -->
     <table style="width: 100%; border: 0">
         <tr style="font-size: 1.5em; border: 0">
-            <td style="text-align: left; border: 0"><h1>{{ title }}</h1></td>
+            <td style="text-align: left; border: 0"><h3>{{ title }}</h3></td>
             <td style="text-align: right; border: 0"><a href="/my-news">Мои новости</a></td>
         </tr>
     </table>
+    <hr>
     {% if news %}
         {% for id, title, message, user, company, date, author, picture in news %}
             <div style="border: 1px solid black; border-radius: 5px; margin-bottom: 5px; padding: 5px 5px 0 5px">

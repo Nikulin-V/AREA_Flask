@@ -1,6 +1,9 @@
+body {
+    display: block;
+}
+
 main {
     margin-bottom: 100px;
-    padding-top: 15px;
 }
 
 td, th {

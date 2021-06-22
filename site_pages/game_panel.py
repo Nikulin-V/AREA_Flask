@@ -1,6 +1,6 @@
 #  Nikulin Vasily (c) 2021
 from flask import Blueprint, render_template, abort
-from flask_login import current_user
+from flask_login import current_user, login_required
 from flask_mobility.decorators import mobile_template
 
 from data import db_session
@@ -13,6 +13,7 @@ app = game_panel_page
 
 @app.route('/game-panel', methods=['GET', 'POST'])
 @mobile_template('{mobile/}game-panel.html')
+@login_required
 def game_panel(template):
     if 'Админ' not in current_user.game_role:
         abort(404)

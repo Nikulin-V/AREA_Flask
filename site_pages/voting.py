@@ -105,7 +105,7 @@ def companies_voting(template):
 
     return render_template(template,
                            form=form,
-                           title='Проекты',
+                           title='Компании',
                            message=message,
                            company=company,
                            companies=companies,

@@ -9,7 +9,6 @@ app = index_page
 
 @app.route('/')
 @app.route('/index')
-@app.route('/main')
 @mobile_template('{mobile/}index.html')
 def index(template):
     return render_template(template,

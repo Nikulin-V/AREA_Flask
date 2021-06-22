@@ -18,7 +18,12 @@ def register(template):
     if current_user.is_authenticated:
         redirect('/homework')
 
+    db_sess = db_session.create_session()
+
     form = RegisterForm()
+
+    schools = sorted(list(map(lambda x: x[0], db_sess.query(School.title))))
+    form.school.choices = schools
 
     if form.validate_on_submit():
         if form.password.data != form.password_again.data:
@@ -28,7 +33,6 @@ def register(template):
                                    message="Пароли не совпадают",
                                    btn_label='Войти')
 
-        db_sess = db_session.create_session()
         if db_sess.query(User).filter(User.email == form.email.data).first():
             return render_template(template,
                                    title='Регистрация',
@@ -47,6 +51,8 @@ def register(template):
             epos_password=form.epos_password.data,
             school_id=int(db_sess.query(School.id).
                           filter(School.title == form.school.data).first()[0]),
+            role=form.role.data,
+            game_role='Игрок',
             about=form.about.data
         )
         user.set_password(form.password.data)

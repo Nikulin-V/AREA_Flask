@@ -56,6 +56,8 @@ def update_market_info():
         money = default
     else:
         money = round(money[0], 2)
+        if money == int(money):
+            money = int(money)
 
     return money, stocks, market_stocks, offers
 

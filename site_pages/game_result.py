@@ -1,7 +1,7 @@
 #  Nikulin Vasily (c) 2021
 
 from flask import render_template, Blueprint, abort
-from flask_login import current_user
+from flask_login import current_user, login_required
 from flask_mobility.decorators import mobile_template
 
 from data import db_session
@@ -15,6 +15,7 @@ app = game_result_page
 
 @app.route('/game-result')
 @mobile_template('{mobile/}game-result.html')
+@login_required
 def game_result(template):
     if get_constant('GAME_RUN'):
         abort(404)

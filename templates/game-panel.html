@@ -16,7 +16,7 @@
         </p>
         <p>
             {{ form.fee.label }}<br>
-            {{ form.fee(class='form-control', style='width: 10%;text-align: center') }}<br>
+            {{ form.fee(class='form-control', style='width: fit-content;text-align: center') }}<br>
             {% for error in form.fee.errors %}
                 <div class="alert alert-danger" role="alert">
                     {{ error }}
@@ -46,22 +46,4 @@
             </div>
         </div>
     {% endif %}
-    <!-- Скрипт для обновления страницы -->
-    <script>
-        action = document.getElementById('action')
-        action.addEventListener("change", function () {
-                ids = ['user', 'surname', 'name', 'patronymic', 'email', 'password', 'game_role']
-                for (i = 0; i < ids.length; i++) {
-                    element = document.getElementById(ids[i])
-                    if (element)
-                        element.value = null
-                }
-                document.getElementById('submit').click();
-            })
-        user_form = document.getElementById('user')
-        if (user_form)
-            user_form.addEventListener("change", function () {
-                    document.getElementById('submit').click();
-                })
-    </script>
 {% endblock %}
