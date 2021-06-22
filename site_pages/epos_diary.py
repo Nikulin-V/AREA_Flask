@@ -12,8 +12,8 @@ epos = EPOS()
 
 
 @app.route('/epos-diary')
-@login_required
 @mobile_template('{mobile/}epos-diary.html')
+@login_required
 def epos_diary(template):
     if not current_user.is_authenticated:
         abort(401)

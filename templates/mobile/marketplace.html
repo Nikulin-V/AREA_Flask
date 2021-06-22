@@ -3,21 +3,17 @@
 
 {% block content %}
 
-    <table style="width: 100%; border: 0">
-        <tr style="font-size: 1.5em; border: 0">
-            <td style="text-align: left; border: 0"><h1>{{ title }}</h1></td>
-            <td style="text-align: right; border: 0"><h2>{{ money }} 💰</h2></td>
-        </tr>
-    </table>
+    <h3>{{ title }}</h3>
     <hr>
+    <h3>Баланс: {{ money }} 💰</h3>
     {% set game_role = current_user.game_role %}
-                            {% if game_role %}
+    {% if game_role %}
         <!-- Акции пользователя-->
         {% if stocks %}
             <table class="dairy-table table-hover table-info">
             <caption style="caption-side: top">Ваши акции</caption>
                 <tr style="background-color: #86CFDA">
-                    <td style="text-align: center;padding: 5px">Проект</td>
+                    <td style="text-align: center;padding: 5px">Компания</td>
                     <td style="text-align: center;padding: 5px">Акции</td>
                 </tr>
                 {% for company, count in stocks %}
@@ -27,6 +23,7 @@
                     </tr>
                 {% endfor %}
             </table>
+            <hr>
         {% else %}
             <table class="dairy-table table-hover table-info">
             <caption style="caption-side: top">Ваши акции</caption>
@@ -34,14 +31,14 @@
                     <td style="text-align: center;padding: 5px">У Вас нет акций</td>
                 </tr>
             </table>
+            <hr>
         {% endif %}
-        <hr>
         <!-- Акции пользователя на торговой площадке-->
         {% if market_stocks %}
             <table class="dairy-table table-hover table-info">
             <caption style="caption-side: top">Ваши акции на торговой площадке</caption>
                 <tr style="background-color: #86CFDA">
-                    <td style="text-align: center;padding: 5px">Проект</td>
+                    <td style="text-align: center;padding: 5px">Компания</td>
                     <td style="text-align: center;padding: 5px">Акции</td>
                     <td style="text-align: center;padding: 5px">Зарезервировано акций</td>
                     <td style="text-align: center;padding: 5px">Цена за 1 акцию</td>
@@ -55,11 +52,11 @@
                     </tr>
                 {% endfor %}
             </table>
+            <hr>
         {% endif %}
-        <hr>
     {% endif %}
     <!-- Форма купли/продажи акций -->
-    <h4>Купить/Продать акции/Инвестировать</h4>
+    <h6>Купить/Продать акции/Инвестировать</h6>
     <form action="" method="post">
         {{ form.hidden_tag() }}
         <p>
@@ -123,7 +120,7 @@
         <table class="dairy-table table-hover table-info">
         <caption style="caption-side: top">Текущие предложения</caption>
             <tr style="background-color: #86CFDA">
-                    <td style="text-align: center;padding: 5px">Проект</td>
+                    <td style="text-align: center;padding: 5px">Компания</td>
                     <td style="text-align: center;padding: 5px">Всего акций</td>
                     <td style="text-align: center;padding: 5px">Зарезервировано акций</td>
                     <td style="text-align: center;padding: 5px">Цена за 1 акцию</td>
@@ -156,7 +153,7 @@
                     <div class="modal-body">
                         <table  class="dairy-table table-hover table-info">
                             <tr style="background-color: #86CFDA">
-                                <td style="text-align: center">Проект</td>
+                                <td style="text-align: center">Компания</td>
                                 <td style="text-align: center">Акции</td>
                                 <td style="text-align: center">Цена за акцию</td>
                                 <td style="text-align: center">Стоимость</td>

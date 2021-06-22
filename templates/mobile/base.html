@@ -17,6 +17,11 @@
         <title>{{ title }}</title>
     </head>
     <body>
+        <style>
+            .menu__box.menu__item.dropdown-item {
+
+            }
+        </style>
         <header>
             <nav class="navbar navbar-expand-lg" style="padding: 0; height: auto">
                 <div class="hamburger-menu">
@@ -54,7 +59,7 @@
                                         style="text-align: center">
                                         <li>
                                             <a href="\voting" class="menu__item">
-                                                Проекты
+                                                Компании
                                             </a>
                                         </li>
                                     {% if 'Игрок' in game_role or 'Эксперт' in game_role %}

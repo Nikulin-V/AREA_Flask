@@ -1,6 +1,6 @@
 #  Nikulin Vasily (c) 2021
 from flask import Blueprint, render_template, abort
-from flask_login import current_user
+from flask_login import current_user, login_required
 from flask_mobility.decorators import mobile_template
 
 from datetime import datetime
@@ -19,6 +19,7 @@ app = my_news_page
 
 @app.route('/my-news', methods=['GET', 'POST'])
 @mobile_template('{mobile/}my-news.html')
+@login_required
 def my_news(template):
     if not current_user.game_role:
         abort(404)

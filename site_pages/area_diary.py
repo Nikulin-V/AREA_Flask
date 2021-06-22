@@ -16,8 +16,8 @@ app = area_diary_page
 
 
 @app.route('/area-diary')
-@login_required
 @mobile_template('{mobile/}area-diary.html')
+@login_required
 def area_diary(template):
     repair_dependencies_students_and_groups()
     db_sess = db_session.create_session()

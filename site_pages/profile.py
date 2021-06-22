@@ -12,12 +12,15 @@ app = profile_page
 
 
 @app.route('/profile', methods=['GET', 'POST'])
-@login_required
 @mobile_template('{mobile/}profile.html')
+@login_required
 def profile(template):
     form = ProfileForm()
     db_sess = db_session.create_session()
     user = current_user
+
+    schools = sorted(list(map(lambda x: x[0], db_sess.query(School.title))))
+    form.school.choices = schools
 
     message = ''
 

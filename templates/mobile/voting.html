@@ -4,7 +4,7 @@
 
 {% block content %}
 
-<h1>{{ title }}</h1>
+    <h3>{{ title }}</h3>
     {% if 24 <= current_user.id <= 113 %}
         <!-- Свой проект -->
         <caption style="caption-side: top">Ваш проект</caption>
@@ -17,7 +17,7 @@
         <hr>
     {% endif %}
     <!-- Форма голосования -->
-    <h4>Проголосовать</h4>
+    <h6>Проголосовать</h6>
     <form action="" method="post">
         {{ form.hidden_tag() }}
         <p>

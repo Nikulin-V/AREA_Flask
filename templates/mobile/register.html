@@ -3,8 +3,13 @@
 
 {% block content %}
 
-    <h1>{{ title }}</h1>
+    <h3>{{ title }}</h3>
     <form action="" method="post" id="register-form">
+        <style>
+            p {
+                margin-bottom: 0;
+            }
+        </style>
         {{ form.hidden_tag() }}
         <p>
             {{ form.email.label }}<br>
@@ -52,9 +57,9 @@
             {% endfor %}
         </p>
         <p>
-            {{ form.last_name.label }}<br>
-            {{ form.last_name(class="form-control") }}<br>
-            {% for error in form.last_name.errors %}
+            {{ form.patronymic.label }}<br>
+            {{ form.patronymic(class="form-control") }}<br>
+            {% for error in form.patronymic.errors %}
                 <p class="alert alert-danger" role="alert">
                     {{ error }}
                 </p>
