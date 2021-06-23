@@ -16,7 +16,7 @@ app = register_page
 @mobile_template('{mobile/}register.html')
 def register(template):
     if current_user.is_authenticated:
-        redirect('/homework')
+        return redirect('/profile')
 
     db_sess = db_session.create_session()
 
@@ -52,7 +52,6 @@ def register(template):
             school_id=int(db_sess.query(School.id).
                           filter(School.title == form.school.data).first()[0]),
             role=form.role.data,
-            game_role='Игрок',
             about=form.about.data
         )
         user.set_password(form.password.data)

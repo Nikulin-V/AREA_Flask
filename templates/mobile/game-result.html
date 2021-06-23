@@ -4,7 +4,6 @@
 {% block content %}
 
     <h3>{{ title }}</h3>
-    {% set game_role = current_user.game_role %}
     {% if game_role %}
             <table class="dairy-table table-hover table-info">
             <caption style="caption-side: top">Итоговый баланс игроков</caption>

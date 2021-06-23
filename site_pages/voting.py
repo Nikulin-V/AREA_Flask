@@ -5,6 +5,7 @@ from flask_mobility.decorators import mobile_template
 
 from data import db_session
 from data.companies import Company
+from data.db_functions import get_game_roles
 from data.votes import Vote
 from forms.vote import VoteForm
 from data.functions import evaluate_form, get_company_id
@@ -104,6 +105,7 @@ def companies_voting(template):
     form.points.data = current_voted_points if current_voted_points else 0
 
     return render_template(template,
+                           game_role=get_game_roles(),
                            form=form,
                            title='Компании',
                            message=message,

@@ -4,6 +4,7 @@ from flask_login import login_required, current_user
 from flask_mobility.decorators import mobile_template
 
 from data import db_session
+from data.db_functions import get_game_roles
 from data.schools import School
 from forms.profile import ProfileForm
 
@@ -72,6 +73,7 @@ def profile(template):
         date = date.strftime('%d.%m.%Y')
 
     return render_template(template,
+                           game_role=get_game_roles(),
                            title='Профиль',
                            form=form,
                            message=message,

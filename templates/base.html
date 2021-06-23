@@ -16,6 +16,14 @@
         <link rel="stylesheet" href="static/css/header.css">
         <link rel="stylesheet" href="static/css/light-footer.css">
         <title>{{ title }}</title>
+        <script>
+            const userAction = async () => {
+            const response = await fetch('http://192.168.1.5:80/api/session_roles');
+            const myJson = await response.json();
+            return myJson
+            }
+            console.log(userAction())
+        </script>
     </head>
     <body>
         <header>
@@ -45,10 +53,12 @@
 {#                                    </a>#}
 {#                                </li>#}
 {#                            {% endif %}#}
-                            {% set game_role = current_user.game_role %}
+                            <li class="nav-item">
+                                <a href="\sessions" class="nav-link">Игры</a>
+                            </li>
                             {% if game_role %}
 
-                                {% if 'Игрок' in game_role or 'Эксперт' in game_role %}
+                                {% if 'Player' in game_role %}
                                     <li class="nav-item">
                                         <a href="\marketplace" class="nav-link">
                                             Торговая площадка
@@ -65,7 +75,7 @@
                                         </a>
                                     </li>
                                 {% endif %}
-                                {% if 'Админ' in game_role %}
+                                {% if 'Admin' in game_role %}
                                     <div class="btn-group">
                                         <a class="btn nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                                         Панель управления

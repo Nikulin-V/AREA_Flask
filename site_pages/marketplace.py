@@ -3,7 +3,9 @@ from flask import Blueprint, render_template, redirect, abort
 from flask_login import login_required, current_user
 from flask_mobility.decorators import mobile_template
 
+
 from data import db_session
+from data.db_functions import get_game_roles
 from data.offers import Offer
 from data.stocks import Stock
 from data.transactions import Transaction
@@ -23,7 +25,7 @@ app = marketplace_page
 @mobile_template('{mobile/}marketplace.html')
 @login_required
 def marketplace(template):
-    if not current_user.game_role:
+    if not get_game_roles():
         abort(404)
 
     if not get_constant('GAME_RUN'):
@@ -379,6 +381,7 @@ def marketplace(template):
     offers = sorted(offers, key=lambda x: x[-1])
 
     return render_template(template,
+                           game_role=get_game_roles(),
                            form=form,
                            title='Торговая площадка',
                            message=message,

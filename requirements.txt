@@ -10,3 +10,4 @@ flask-mobility
 flask-login
 flask-wtf
 flask-ngrok
+requests

@@ -48,9 +48,11 @@
 {#                                    <a class="menu__item" href="/epos-diary">Дневник ЭПОСа</a>#}
 {#                                </li>#}
 {#                            {% endif %}#}
-                            {% set game_role = current_user.game_role %}
+                            <li class="nav-item">
+                                <a href="\sessions" class="nav-link">Игры</a>
+                            </li>
                             {% if game_role %}
-                                {% if 'Игрок' in game_role or 'Эксперт' in game_role %}
+                                {% if 'Player' in game_role %}
                                     <li>
                                         <a href="\marketplace" class="menu__item">
                                             Торговая площадка
@@ -68,7 +70,7 @@
                                     </li>
                                 {% endif %}
 
-                                {% if 'Админ' in game_role %}
+                                {% if 'Admin' in game_role %}
                                     <div class="btn-group">
                                         <a class="btn menu__item dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                                         Панель управления

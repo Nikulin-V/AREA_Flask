@@ -1,9 +1,11 @@
 from flask import Flask, render_template
-from flask_login import LoginManager
+from flask_login import LoginManager, current_user
 from flask_mobility.decorators import mobile_template
 from flask_mobility.mobility import Mobility
 
+from api import apis
 from data import db_session
+from data.db_functions import get_game_roles
 from data.users import User
 from site_pages import pages_blueprints
 
@@ -13,6 +15,8 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
 
 for blueprint in pages_blueprints:
+    app.register_blueprint(blueprint)
+for blueprint in apis:
     app.register_blueprint(blueprint)
 
 Mobility(app)

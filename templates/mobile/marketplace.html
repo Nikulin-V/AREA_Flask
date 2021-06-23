@@ -6,7 +6,6 @@
     <h3>{{ title }}</h3>
     <hr>
     <h3>Баланс: {{ money }} 💰</h3>
-    {% set game_role = current_user.game_role %}
     {% if game_role %}
         <!-- Акции пользователя-->
         {% if stocks %}

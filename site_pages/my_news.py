@@ -7,6 +7,7 @@ from datetime import datetime
 
 from data import db_session
 from data.companies import Company
+from data.db_functions import get_game_roles
 from data.news import News
 from data.offers import Offer
 from data.stocks import Stock
@@ -21,7 +22,7 @@ app = my_news_page
 @mobile_template('{mobile/}my-news.html')
 @login_required
 def my_news(template):
-    if not current_user.game_role:
+    if not get_game_roles():
         abort(404)
 
     db_sess = db_session.create_session()
@@ -133,7 +134,7 @@ def my_news(template):
                 ).first()
                 if identifier:
                     if news:
-                        if news.user_id == current_user.id or 'Админ' in current_user.game_role:
+                        if news.user_id == current_user.id or 'Admin' in get_game_roles():
                             db_sess.delete(news)
                             db_sess.commit()
                             message = 'Новость удалена'
@@ -190,7 +191,7 @@ def my_news(template):
                 ).first()
                 if identifier:
                     if news:
-                        if news.user_id == current_user.id or 'Админ' in current_user.game_role:
+                        if news.user_id == current_user.id or 'Admin' in get_game_roles():
                             if not form.title.data:
                                 form.title.data = news.title
                                 form.text.data = news.message
@@ -254,6 +255,7 @@ def my_news(template):
                 form.action.data = 'Добавить новость'
     news_list.reverse()
     return render_template(template,
+                           game_role=get_game_roles(),
                            title='Мои новости',
                            message=message,
                            form=form,

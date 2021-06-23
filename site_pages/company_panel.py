@@ -1,13 +1,12 @@
 #  Nikulin Vasily (c) 2021
-
-#  Nikulin Vasily (c) 2021
 from flask import Blueprint, render_template, abort
-from flask_login import current_user, login_required
+from flask_login import login_required, current_user
 from flask_mobility.decorators import mobile_template
 
 from data import db_session
 from data.companies import Company
 from data.config_constants import get_constant
+from data.db_functions import get_game_roles
 from data.stocks import Stock
 from data.users import User
 from forms.company_management import CompanyManagementForm
@@ -21,7 +20,7 @@ app = company_panel_page
 @mobile_template('{mobile/}company-panel.html')
 @login_required
 def company_panel(template):
-    if 'Админ' not in current_user.game_role:
+    if 'Admin' not in get_game_roles():
         abort(404)
 
     db_sess = db_session.create_session()
@@ -106,6 +105,7 @@ def company_panel(template):
                 message = 'Все компании удалены'
 
     return render_template(template,
+                           game_role=get_game_roles(),
                            title='Панель управления компаниями',
                            message=message,
                            form=form)
@@ -118,7 +118,7 @@ def evaluate_form(form):
 
     users = list(map(lambda x: (x[3], f'{x[0]} {x[1]} | {x[2]}'),
                      db_sess.query(User.surname, User.name, User.email, User.id).filter(
-                         User.game_role is not None
+                         User.game_session_id == current_user.game_session_id
                      )))
     form.authors.choices = users
 

@@ -4,6 +4,7 @@ from flask_login import current_user, login_required
 from flask_mobility.decorators import mobile_template
 
 from data import db_session
+from data.db_functions import get_game_roles
 from data.users import User
 from forms.user_management import UserManagementForm
 
@@ -16,7 +17,7 @@ app = user_panel_page
 @mobile_template('{mobile/}user-panel.html')
 @login_required
 def user_panel(template):
-    if 'Админ' not in current_user.game_role:
+    if 'Admin' not in get_game_roles():
         abort(404)
 
     db_sess = db_session.create_session()
@@ -121,7 +122,7 @@ def user_panel(template):
                     form.patronymic.data = user.patronymic
                     form.email.data = user.email
                     form.role.data = user.role
-                    form.game_role.data = user.game_role
+
                 else:
                     message = 'Пользователь с указанными данными не существует'
             else:
@@ -138,9 +139,9 @@ def user_panel(template):
                     form.patronymic.data = user.patronymic
                     form.email.data = user.email
                     form.role.data = user.role
-                    form.game_role.data = user.game_role
 
     return render_template(template,
+                           game_role=get_game_roles(),
                            title='Панель управления пользователями',
                            message=message,
                            form=form)
@@ -150,7 +151,7 @@ def evaluate_form(form):
     if form.user:
         db_sess = db_session.create_session()
         users = list(db_sess.query(User.surname, User.name, User.email).filter(
-            User.game_role is not None
+            User.game_session_id == current_user.game_session_id
         ))
         users = list(map(lambda x: x[0] + ' ' + x[1] + ' | ' + x[2], users))
         users.sort()

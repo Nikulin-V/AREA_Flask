@@ -5,6 +5,7 @@ from flask_mobility.decorators import mobile_template
 
 from data import db_session
 from data.config import Constant
+from data.db_functions import get_game_roles
 from forms.config_management import ConfigManagementForm
 
 game_panel_page = Blueprint('game-panel', __name__)
@@ -15,7 +16,7 @@ app = game_panel_page
 @mobile_template('{mobile/}game-panel.html')
 @login_required
 def game_panel(template):
-    if 'Админ' not in current_user.game_role:
+    if 'Admin' not in get_game_roles():
         abort(404)
 
     db_sess = db_session.create_session()
@@ -43,6 +44,7 @@ def game_panel(template):
             Constant.name == 'GAME_RUN').first()[0]
 
     return render_template(template,
+                           game_role=get_game_roles(),
                            title='Управление игровым процессом',
                            message=message,
                            form=form)

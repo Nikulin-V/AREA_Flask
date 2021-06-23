@@ -10,8 +10,7 @@
         </tr>
     </table>
     <hr>
-    {% set game_role = current_user.game_role %}
-    {% if 'Игрок' in game_role or 'Эксперт' in game_role %}
+    {% if 'Player' in game_role %}
         <!-- Акции пользователя-->
         {% if stocks %}
             <table class="dairy-table table-hover table-info">

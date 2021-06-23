@@ -1,11 +1,12 @@
 #  Nikulin Vasily (c) 2021
 
 from flask import render_template, Blueprint, abort
-from flask_login import current_user, login_required
+from flask_login import login_required
 from flask_mobility.decorators import mobile_template
 
 from data import db_session
 from data.companies import Company
+from data.db_functions import get_game_roles
 from data.news import News
 from data.users import User
 
@@ -17,7 +18,7 @@ app = news_page
 @mobile_template('{mobile/}news.html')
 @login_required
 def news(template):
-    if not current_user.game_role:
+    if not get_game_roles():
         abort(404)
 
     db_sess = db_session.create_session()
@@ -49,4 +50,6 @@ def news(template):
 
     news_list.reverse()
     return render_template(template,
-                           title='Новости', news=news_list)
+                           game_role=get_game_roles(),
+                           title='Новости',
+                           news=news_list)

@@ -6,6 +6,7 @@ from flask_mobility.decorators import mobile_template
 
 from data import db_session
 from data.config_constants import get_constant
+from data.db_functions import get_game_roles
 from data.users import User
 from data.wallets import Wallet
 
@@ -20,7 +21,7 @@ def game_result(template):
     if get_constant('GAME_RUN'):
         abort(404)
 
-    if not current_user.game_role:
+    if not get_game_roles():
         abort(404)
 
     db_sess = db_session.create_session()
@@ -46,5 +47,6 @@ def game_result(template):
                     players_wallets[wallet_id][0] = i
 
     return render_template(template,
+                           game_role=get_game_roles(),
                            title='Итоги торгов',
                            wallets=players_wallets)
