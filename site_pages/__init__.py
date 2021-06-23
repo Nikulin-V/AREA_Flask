@@ -17,7 +17,7 @@ from .area_diary import area_diary_page
 
 pages_blueprints = [login_page, register_page, profile_page,
                     index_page, privacy_policy_page,
-                    area_diary_page, epos_diary_page,
+                    # area_diary_page, epos_diary_page,
                     marketplace_page, voting_page, game_result_page,
                     user_panel_page, game_panel_page, company_panel_page,
                     news_page, my_news_page]
