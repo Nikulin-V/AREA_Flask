@@ -1,12 +1,12 @@
 #  Nikulin Vasily (c) 2021
 from flask import Blueprint, render_template, abort
-from flask_login import login_required, current_user
+from flask_login import login_required
 from flask_mobility.decorators import mobile_template
 
 from data import db_session
 from data.companies import Company
-from data.config_constants import get_constant
-from data.db_functions import get_game_roles
+from data.functions import get_constant, get_game_roles, get_session_id
+from data.sessions import Session
 from data.stocks import Stock
 from data.users import User
 from forms.company_management import CompanyManagementForm
@@ -34,6 +34,7 @@ def company_panel(template):
         if form.action.data == 'Добавить компанию':
             if form.title.data and form.user_submitted and form.authors.data:
                 company = Company(
+                    session_id=get_session_id(),
                     title=form.title.data,
                     section=form.new_section.data,
                     authors_ids=', '.join(map(str, form.authors.data))
@@ -42,6 +43,7 @@ def company_panel(template):
                 db_sess.commit()
                 for i in form.authors.data:
                     stocks = Stock(
+                        session_id=get_session_id(),
                         user_id=i,
                         company_id=company.id,
                         stocks=get_constant('START_STOCKS')
@@ -55,6 +57,7 @@ def company_panel(template):
                 company = form.company.data
                 section = form.section.data
                 company = db_sess.query(Company).filter(
+                    Company.session_id == get_session_id(),
                     Company.title == company,
                     Company.section == section
                 ).first()
@@ -70,6 +73,7 @@ def company_panel(template):
                 company = form.company.data
                 section = form.section.data
                 company = db_sess.query(Company).filter(
+                    Company.session_id == get_session_id(),
                     Company.title == company,
                     Company.section == section
                 ).first()
@@ -84,6 +88,7 @@ def company_panel(template):
                         company.authors_ids = ', '.join(map(str, form.authors.data))
                     for i in new_users:
                         stocks = Stock(
+                            session_id=get_session_id(),
                             user_id=i,
                             company_id=company.id,
                             stocks=get_constant('START_STOCKS')
@@ -98,7 +103,8 @@ def company_panel(template):
                     message = 'Компания с указанными данными не существует'
         elif form.action.data == 'Удалить все компании':
             if form.user_submitted and form.accept_delete_all_companies.data:
-                companies = list(db_sess.query(Company))
+                companies = list(db_sess.query(Company).
+                                 filter(Company.session_id == get_session_id()))
                 for company in companies:
                     db_sess.delete(company)
                 db_sess.commit()
@@ -113,13 +119,16 @@ def company_panel(template):
 
 def evaluate_form(form):
     db_sess = db_session.create_session()
-    sections = list(map(lambda x: x[0], set(db_sess.query(Company.section))))
+    sections = list(map(lambda x: x[0], set(db_sess.query(Company.section).
+                                            filter(Company.session_id == get_session_id()))))
     sections.sort()
 
-    users = list(map(lambda x: (x[3], f'{x[0]} {x[1]} | {x[2]}'),
-                     db_sess.query(User.surname, User.name, User.email, User.id).filter(
-                         User.game_session_id == current_user.game_session_id
-                     )))
+    players_ids = db_sess.query(Session.players_ids).filter(Session.players_ids == get_session_id())
+    users = []
+    for identifier in players_ids:
+        users += list(map(lambda x: (x[3], f'{x[0]} {x[1]} | {x[2]}'),
+                          db_sess.query(User.surname, User.name, User.email, User.id).
+                          get(identifier)))
     form.authors.choices = users
 
     form.section.choices = sections
@@ -127,7 +136,8 @@ def evaluate_form(form):
         form.section.data = sections[0]
 
     companies = list(map(lambda x: x[0], db_sess.query(Company.title).filter(
-        Company.section == form.section.data
+        Company.section == form.section.data,
+        Company.session_id == get_session_id()
     )))
     companies.sort()
     form.company.choices = companies

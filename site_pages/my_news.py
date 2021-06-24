@@ -7,7 +7,7 @@ from datetime import datetime
 
 from data import db_session
 from data.companies import Company
-from data.db_functions import get_game_roles
+from data.functions import get_game_roles, get_session_id
 from data.news import News
 from data.offers import Offer
 from data.stocks import Stock
@@ -30,7 +30,9 @@ def my_news(template):
     data = list(db_sess.query(News.title, News.message, News.company_id,
                               News.date, News.author, News.id,
                               News.picture).filter(
-        News.user_id == current_user.id)
+        News.user_id == current_user.id,
+        News.session_id == get_session_id()
+    )
                     )
     news_list = []
     days_list = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа',
@@ -44,7 +46,8 @@ def my_news(template):
             company = 0
         else:
             company = db_sess.query(Company.title).filter(
-                Company.id == data[i][2]
+                Company.id == data[i][2],
+                Company.session_id == get_session_id()
             ).first()[0]
         date = str(data[i][3]).split()
         time = date[1].split(':')
@@ -68,6 +71,7 @@ def my_news(template):
             if form.title.data and form.text.data and form.author.data:
                 if form.author.data == 'от себя':
                     news = News(
+                        session_id=get_session_id(),
                         title=form.title.data,
                         message=form.text.data,
                         user_id=current_user.id,
@@ -79,11 +83,13 @@ def my_news(template):
                 else:
                     company = form.author.data.split('от лица компании ')[1]
                     news = News(
+                        session_id=get_session_id(),
                         title=form.title.data,
                         message=form.text.data,
                         user_id=current_user.id,
                         company_id=db_sess.query(Company.id).filter(
-                            Company.title == company.split('"')[1]
+                            Company.title == company.split('"')[1],
+                            Company.session_id == get_session_id()
                         ).first()[0],
                         date=datetime.now(),
                         author=form.author.data,
@@ -97,8 +103,9 @@ def my_news(template):
                 data = list(db_sess.query(News.title, News.message, News.company_id,
                                           News.date, News.author, News.id,
                                           News.picture).filter(
-                    News.user_id == current_user.id)
-                )
+                    News.user_id == current_user.id,
+                    News.session_id == get_session_id()
+                ))
                 news_list = []
                 days_list = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля',
                              'августа', 'сентября', 'октября', 'ноября', 'декабря']
@@ -111,7 +118,8 @@ def my_news(template):
                         company = 0
                     else:
                         company = db_sess.query(Company.title).filter(
-                            Company.id == data[i][2]
+                            Company.id == data[i][2],
+                            Company.session_id == get_session_id()
                         ).first()[0]
                     date = str(data[i][3]).split()
                     time = date[1].split(':')
@@ -125,12 +133,14 @@ def my_news(template):
 
         elif form.action.data == 'Удалить новость':
             identifier = db_sess.query(News.id).filter(
-                News.user_id == current_user.id
+                News.user_id == current_user.id,
+                News.session_id == get_session_id()
             ).first()
             if identifier:
                 identifier = form.identifier.data
                 news = db_sess.query(News).filter(
                     News.id == identifier,
+                    News.session_id == get_session_id()
                 ).first()
                 if identifier:
                     if news:
@@ -143,8 +153,9 @@ def my_news(template):
                             data = list(db_sess.query(News.title, News.message, News.company_id,
                                                       News.date, News.author, News.id,
                                                       News.picture).filter(
-                                News.user_id == current_user.id)
-                            )
+                                News.user_id == current_user.id,
+                                News.session_id == get_session_id()
+                            ))
                             news_list = []
                             days_list = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня',
                                          'июля', 'августа', 'сентября', 'октября', 'ноября',
@@ -158,7 +169,8 @@ def my_news(template):
                                     company = 0
                                 else:
                                     company = db_sess.query(Company.title).filter(
-                                        Company.id == data[i][2]
+                                        Company.id == data[i][2],
+                                        Company.session_id == get_session_id()
                                     ).first()[0]
                                 date = str(data[i][3]).split()
                                 time = date[1].split(':')
@@ -173,21 +185,20 @@ def my_news(template):
 
                         else:
                             message = 'Новость с указанным номером принадлежит другому пользователю'
-                            form.action.data = 'Добавить новость'
                     else:
                         message = 'Новость с указанным номером отсутствует'
-                        form.action.data = 'Добавить новость'
             else:
                 message = 'У вас пока что нет новостей'
-                form.action.data = 'Добавить новость'
         elif form.action.data == 'Изменить новость':
             identifier = db_sess.query(News.id).filter(
-                News.user_id == current_user.id
+                News.user_id == current_user.id,
+                News.session_id == get_session_id()
             ).first()
             if identifier:
                 identifier = form.identifier.data
                 news = db_sess.query(News).filter(
-                    News.id == identifier
+                    News.id == identifier,
+                    News.session_id == get_session_id()
                 ).first()
                 if identifier:
                     if news:
@@ -206,7 +217,8 @@ def my_news(template):
                                 else:
                                     company = form.author.data.split('от лица компании ')[1]
                                     news.company_id = db_sess.query(Company.id).filter(
-                                        Company.title == company.split('"')[1]
+                                        Company.title == company.split('"')[1],
+                                        Company.session_id == get_session_id()
                                     ).first()[0]
                                 news.picture = form.picture.data
                                 news.date = datetime.now()
@@ -217,8 +229,9 @@ def my_news(template):
                                 data = list(db_sess.query(News.title, News.message, News.company_id,
                                                           News.date, News.author, News.id,
                                                           News.picture).filter(
-                                    News.user_id == current_user.id)
-                                )
+                                    News.user_id == current_user.id,
+                                    News.session_id == get_session_id()
+                                ))
                                 news_list = []
                                 days_list = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня',
                                              'июля', 'августа', 'сентября', 'октября', 'ноября',
@@ -231,7 +244,8 @@ def my_news(template):
                                         company = 0
                                     else:
                                         company = db_sess.query(Company.title).filter(
-                                            Company.id == data[i][2]
+                                            Company.id == data[i][2],
+                                            Company.session_id == get_session_id()
                                         ).first()[0]
                                     date = str(data[i][3]).split()
                                     time = date[1].split(':')
@@ -245,14 +259,12 @@ def my_news(template):
                                          data[i][6]])
                         else:
                             message = 'Новость с указанным номером принадлежит другому пользователю'
-                            form.action.data = 'Добавить новость'
 
                     else:
                         message = 'Новость с указанными данными отсутствует'
                         form.action.data = 'Добавить новость'
             else:
                 message = 'У вас пока что нет новостей'
-                form.action.data = 'Добавить новость'
     news_list.reverse()
     return render_template(template,
                            game_role=get_game_roles(),
@@ -269,7 +281,8 @@ def evaluate_form(form):
         companies_ids = get_user_companies(current_user.id)
         for company_id in companies_ids:
             company = db_sess.query(Company.title).filter(
-                Company.id == company_id
+                Company.id == company_id,
+                Company.session_id == get_session_id()
             ).first()[0]
             authors.append(f'от лица компании "{str(company)}"')
         authors.sort()
@@ -281,9 +294,11 @@ def evaluate_form(form):
 def get_user_companies(user_id):
     db_sess = db_session.create_session()
     offer_company_ids = list(map(lambda x: x[0], db_sess.query(Offer.company_id).filter(
-        Offer.user_id == user_id
+        Offer.user_id == user_id,
+        Offer.session_id == get_session_id()
     )))
     stocks_company_ids = list(map(lambda x: x[0], db_sess.query(Stock.company_id).filter(
-        Stock.user_id == user_id
+        Stock.user_id == user_id,
+        Stock.session_id == get_session_id()
     )))
     return set(offer_company_ids + stocks_company_ids)

@@ -6,7 +6,7 @@ from flask_mobility.decorators import mobile_template
 
 from data import db_session
 from data.companies import Company
-from data.db_functions import get_game_roles
+from data.functions import get_game_roles, get_session_id
 from data.news import News
 from data.users import User
 
@@ -24,7 +24,10 @@ def news(template):
     db_sess = db_session.create_session()
 
     data = list(db_sess.query(News.title, News.message, News.user_id, News.company_id,
-                              News.date, News.author, News.id, News.picture))
+                              News.date, News.author, News.id, News.picture).
+                filter(
+        News.session_id == get_session_id()
+    ))
     news_list = []
     days_list = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа',
                  'сентября', 'октября', 'ноября', 'декабря']
@@ -37,7 +40,8 @@ def news(template):
             company = 0
         else:
             company = db_sess.query(Company.title).filter(
-                Company.id == data[i][3]
+                Company.id == data[i][3],
+                Company.session_id == get_session_id()
             ).first()[0]
         date = str(data[i][4]).split()
         time = date[1].split(':')

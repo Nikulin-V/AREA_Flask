@@ -5,6 +5,7 @@ from flask_mobility.decorators import mobile_template
 
 from data import db_session
 from data.schools import School
+from data.sessions import Session
 from data.users import User
 from forms.register import RegisterForm
 
@@ -58,6 +59,8 @@ def register(template):
         db_sess.add(user)
         db_sess.commit()
         login_user(user)
+        session = db_sess.query(Session).get('77777777')
+        session.players_ids = ';'.join(session.players_ids.split(';') + [current_user.id])
         return redirect('/profile')
 
     return render_template(template,

@@ -1,0 +1,4 @@
+#  Nikulin Vasily (c) 2021
+PROFIT_PERCENT = 0.001
+GAME_RUN = 0
+START_STOCKS = 100

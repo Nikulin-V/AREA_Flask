@@ -1,12 +1,11 @@
 #  Nikulin Vasily (c) 2021
 
 from flask import render_template, Blueprint, abort
-from flask_login import current_user, login_required
+from flask_login import login_required
 from flask_mobility.decorators import mobile_template
 
 from data import db_session
-from data.config_constants import get_constant
-from data.db_functions import get_game_roles
+from data.functions import get_constant, get_game_roles, get_session_id
 from data.users import User
 from data.wallets import Wallet
 
@@ -26,18 +25,23 @@ def game_result(template):
 
     db_sess = db_session.create_session()
 
-    data = list(db_sess.query(Wallet.user_id, Wallet.money))
+    data = list(db_sess.query(Wallet.user_id, Wallet.money).
+                filter(
+        Wallet.session_id == get_session_id()
+    ))
     data.sort(key=lambda x: -x[1])
     players_wallets = list()
     i = 1
     for user_id, money in data:
-        user = ' '.join(db_sess.query(User.surname, User.name).filter(User.id == user_id).first())
+        user = ' '.join(db_sess.query(User.surname, User.name).get(user_id).first())
         players_wallets.append([i, user, money])
         i += 1
 
     balances = sorted(list(set(map(lambda x: x[2], players_wallets))), reverse=True)
     for balance in balances:
-        count_wallets = len(list(db_sess.query(Wallet).filter(Wallet.money == balance)))
+        count_wallets = len(list(db_sess.query(Wallet).
+                                 filter(Wallet.money == balance,
+                                        Wallet.session_id == get_session_id())))
         if count_wallets != 1:
             current_wallets = list(filter(lambda x: x[2] == balance, players_wallets))
             current_wallets.sort()

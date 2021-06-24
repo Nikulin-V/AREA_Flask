@@ -11,60 +11,7 @@
             {{ form.action(class='form-control') }}<br>
         </p>
         {% if form.action.data == 'Добавить пользователя' or not form.action.data %}
-            <p>
-                {{ form.surname.label }}<br>
-                {{ form.surname(class='form-control') }}<br>
-                {% for error in form.surname.errors %}
-                    <div class="alert alert-danger" role="alert">
-                        {{ error }}
-                    </div>
-                {% endfor %}
-            </p>
-            <p>
-                {{ form.name.label }}<br>
-                {{ form.name(class='form-control') }}<br>
-                {% for error in form.name.errors %}
-                    <div class="alert alert-danger" role="alert">
-                        {{ error }}
-                    </div>
-                {% endfor %}
-            </p>
-            <p>
-                {{ form.patronymic.label }}<br>
-                {{ form.patronymic(class='form-control') }}<br>
-                {% for error in form.patronymic.errors %}
-                    <div class="alert alert-danger" role="alert">
-                        {{ error }}
-                    </div>
-                {% endfor %}
-            </p>
-            <p>
-                {{ form.email.label }}<br>
-                {{ form.email(class='form-control') }}<br>
-                {% for error in form.email.errors %}
-                    <div class="alert alert-danger" role="alert">
-                        {{ error }}
-                    </div>
-                {% endfor %}
-            </p>
-            <p>
-                {{ form.password.label }}<br>
-                {{ form.password(class='form-control') }}<br>
-                {% for error in form.password.errors %}
-                    <div class="alert alert-danger" role="alert">
-                        {{ error }}
-                    </div>
-                {% endfor %}
-            </p>
-            <p>
-                {{ form.role.label }}<br>
-                {{ form.role(class='form-control') }}<br>
-                {% for error in form.role.errors %}
-                    <div class="alert alert-danger" role="alert">
-                        {{ error }}
-                    </div>
-                {% endfor %}
-            </p>
+
             <p>
                 {{ form.game_role.label }}<br>
                 {{ form.game_role(class='form-control') }}<br>
