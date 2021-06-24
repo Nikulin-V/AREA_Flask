@@ -1,23 +1,39 @@
 #  Nikulin Vasily (c) 2021
-from flask_login import current_user
+from flask_login import current_user, AnonymousUserMixin
+from sqlalchemy import or_
 
 from data import db_session
 from data.companies import Company
+from data.config import Constant
 from data.offers import Offer
+from data.sessions import Session
 from data.stocks import Stock
 from data.votes import Vote
 from data.users import User
 from data.wallets import Wallet
 
 
+def get_constant(name):
+    db_session.global_init('db/database.sqlite')
+    db_sess = db_session.create_session()
+    constant = db_sess.query(Constant.value). \
+        filter(Constant.name == name,
+               Constant.session_id == current_user.game_session_id).first()
+    if constant:
+        constant = constant[0]
+    return constant
+
+
 def get_company_title(identifier):
     return db_session.create_session().query(Company.title). \
-        filter(Company.id == identifier).first()[0]
+        filter(Company.id == identifier,
+               Company.session_id == get_session_id()).first()[0]
 
 
 def get_company_id(title):
     return db_session.create_session().query(Company.id). \
-        filter(Company.title == title).first()[0]
+        filter(Company.title == title,
+               Company.session_id == get_session_id()).first()[0]
 
 
 def update_market_info():
@@ -26,28 +42,41 @@ def update_market_info():
     # title | stocks
     stocks = list(map(lambda x: (get_company_title(x[0]), x[1]),
                       db_sess.query(Stock.company_id, Stock.stocks).
-                      filter(Stock.user_id == current_user.id)))
+                      filter(
+                          Stock.user_id == current_user.id,
+                          Stock.session_id == get_session_id()
+                      )))
 
     # Получаем акции пользователя на торговой площадке
     # title | stocks | reserved_stocks | price
     market_stocks = list(map(lambda x: (get_company_title(x[0]), x[1], x[2], x[3]),
                              db_sess.query(Offer.company_id, Offer.stocks,
                                            Offer.reserved_stocks, Offer.price).
-                             filter(Offer.user_id == current_user.id)))
+                             filter(
+                                 Offer.user_id == current_user.id,
+                                 Offer.session_id == get_session_id()
+                             )))
 
     # Получаем текущие предложения на рынке
     # title | stocks | reserved_stocks | price
     offers = list(map(lambda x: (get_company_title(x[0]), x[1], x[2], x[3]),
                       db_sess.query(Offer.company_id, Offer.stocks,
-                                    Offer.reserved_stocks, Offer.price)))
+                                    Offer.reserved_stocks, Offer.price).
+                      filter(
+                          Offer.session_id == get_session_id()
+                      )))
 
     # Получаем баланс кошелька
-    money = db_sess.query(Wallet.money).filter(Wallet.user_id == current_user.id).first()
+    money = db_sess.query(Wallet.money).filter(
+        Wallet.user_id == current_user.id,
+        Wallet.session_id == get_session_id()
+    ).first()
     if not money:
         default = 1000
         if 'Эксперт' in current_user.role:
             default = 10000
         wallet = Wallet(
+            session_id=get_session_id(),
             user_id=current_user.id,
             money=default
         )
@@ -65,27 +94,42 @@ def update_market_info():
 def evaluate_form(form):
     db_sess = db_session.create_session()
     companies = dict()
-    sections = sorted(list(map(lambda x: x[0], set(list(db_sess.query(Company.section))))))
+    sectors = sorted(list(map(lambda x: x[0], set(list(db_sess.query(Company.sector).
+                                                        filter(
+        Company.session_id == get_session_id()
+    ))))))
 
     # row structure: id | title | points | form
-    for section in sections:
-        data = list(db_sess.query(Company.id, Company.title).filter(Company.section == section))
+    for sector in sectors:
+        data = list(db_sess.query(Company.id, Company.title).
+                    filter(
+            Company.sector == sector,
+            Company.session_id == get_session_id()
+        ))
         for row_id in range(len(data)):
             points = sum(list(map(lambda x: x[0], db_sess.query(Vote.points).
-                                  filter(Vote.company_id == data[row_id][0]))))
+                                  filter(
+                Vote.company_id == data[row_id][0],
+                Vote.session_id == get_session_id()
+            ))))
             data[row_id] = list(data[row_id])
             data[row_id] += [points]
-        companies[section] = sorted(data, key=lambda x: -x[2])
+        companies[sector] = sorted(data, key=lambda x: -x[2])
 
-    form.section.choices = sorted(list(set(map(lambda x: x[0],
-                                               list(db_sess.query(Company.section))))))
+    form.sector.choices = sorted(list(set(map(lambda x: x[0],
+                                               list(db_sess.query(Company.sector).
+                                                    filter(
+                                                   Company.session_id == get_session_id()
+                                               ))))))
 
-    if not form.section.data or form.section.data not in form.section.choices:
-        form.section.errors = []
-        form.section.data = form.section.choices[0]
+    if not form.sector.data or form.sector.data not in form.sector.choices:
+        form.sector.errors = []
+        if form.sector.choices:
+            form.sector.data = form.sector.choices[0]
     form.company.choices = sorted(list(map(lambda x: x[0],
                                            list(db_sess.query(Company.title).
-                                                filter(Company.section == form.section.data)))))
+                                                filter(Company.sector == form.sector.data,
+                                                       Company.session_id == get_session_id())))))
 
     users = list(map(lambda x: ' '.join(list(db_sess.query(User.surname, User.name).
                                              filter(User.id == x[0]).first())),
@@ -96,4 +140,46 @@ def evaluate_form(form):
         if not form.user.data:
             form.user.data = users[0]
 
-    return sections, companies
+    return sectors, companies
+
+
+def get_game_roles(new_session_id=None):
+    roles = []
+    if not isinstance(current_user, AnonymousUserMixin):
+        db_sess = db_session.create_session()
+
+        identifier = str(current_user.id)
+        session_id = current_user.game_session_id
+        session = db_sess.query(Session).filter(Session.id == session_id).first()
+        if not session and new_session_id:
+            session = db_sess.query(Session).get(new_session_id)
+        if session:
+            if identifier in str(session.admins_ids).split(';'):
+                roles.append('Admin')
+            if identifier in str(session.players_ids).split(';'):
+                roles.append('Player')
+
+    return roles
+
+
+def get_game_sessions():
+    db_sess = db_session.create_session()
+
+    identifier = str(current_user.id)
+
+    data = db_sess.query(Session).filter(or_(Session.admins_ids.contains(str(identifier)),
+                                             Session.players_ids.contains(str(identifier)))).all()
+
+    sessions = []
+    for session_id in range(len(data)):
+        if identifier in str(data[session_id].admins_ids) or \
+                identifier in str(data[session_id].players_ids):
+            sessions.append(data[session_id])
+
+    sessions.sort(key=lambda x: x.title)
+
+    return sessions
+
+
+def get_session_id():
+    return current_user.game_session_id

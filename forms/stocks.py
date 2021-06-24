@@ -6,7 +6,7 @@ from wtforms.validators import NumberRange
 class StocksForm(FlaskForm):
     action = SelectField('Действие', choices=['Купить', 'Продать', 'Отменить продажу',
                                               'Инвестировать'])
-    section = SelectField('Секция')
+    sector = SelectField('Отрасль')
     company = SelectField('Компания')
     user = SelectField('Пользователь')
     amount = FloatField('Сумма инвестиции', default=0)

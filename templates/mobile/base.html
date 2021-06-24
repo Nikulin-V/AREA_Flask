@@ -36,9 +36,9 @@
                                     AREA
                                 </a>
                             </li>
-                            <li>
-                                <a class="menu__item" href="/index">Главная</a>
-                            </li>
+{#                            <li>#}
+{#                                <a class="menu__item" href="/index">Главная</a>#}
+{#                            </li>#}
                         {% if current_user.is_authenticated %}
 {#                            {% if 'Ученик' in current_user.role %}#}
 {#                                <li>#}
@@ -54,13 +54,13 @@
                             {% if game_role %}
                                 {% if 'Player' in game_role %}
                                     <li>
-                                        <a href="\marketplace" class="menu__item">
-                                            Торговая площадка
+                                        <a href="\news" class="menu__item">
+                                            Новости
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="\news" class="menu__item">
-                                            Новости
+                                        <a href="\marketplace" class="menu__item">
+                                            Торговая площадка
                                         </a>
                                     </li>
                                     <li>

@@ -3,7 +3,7 @@
 from flask import render_template, Blueprint
 from flask_mobility.decorators import mobile_template
 
-from data.db_functions import get_game_roles
+from data.functions import get_game_roles
 
 index_page = Blueprint('index', __name__)
 app = index_page

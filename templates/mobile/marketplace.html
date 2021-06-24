@@ -78,9 +78,9 @@
             </p>
         {% else %}
             <p>
-                {{ form.section.label }}<br>
-                {{ form.section(class='form-control') }}<br>
-                {% for error in form.section.errors %}
+                {{ form.sector.label }}<br>
+                {{ form.sector(class='form-control') }}<br>
+                {% for error in form.sector.errors %}
                     <div class="alert alert-danger" role="alert">
                         {{ error }}
                     </div>
@@ -223,9 +223,9 @@
             document.getElementById('submit').click();
         });
     }
-    section = document.getElementById('section')
-    if (section) {
-        section.addEventListener("input", function () {
+    sector = document.getElementById('sector')
+    if (sector) {
+        sector.addEventListener("input", function () {
             document.getElementById('stocks').value = 0;
             document.getElementById('submit').click();
         });

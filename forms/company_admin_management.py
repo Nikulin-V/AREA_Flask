@@ -4,12 +4,12 @@ from flask_wtf import FlaskForm
 from wtforms import SubmitField, SelectField, StringField, BooleanField, SelectMultipleField
 
 
-class CompanyManagementForm(FlaskForm):
+class CompanyAdminManagementForm(FlaskForm):
     action = SelectField('Действие',
-                         choices=['Добавить компанию', 'Изменить компанию', 'Удалить компанию',
+                         choices=['Открыть компанию', 'Изменить компанию', 'Закрыть компанию',
                                   'Удалить все компании'])
-    section = SelectField('Секция')
-    new_section = StringField('Секция')
+    sector = SelectField('Отрасль')
+    new_sector = StringField('Отрасль')
     company = SelectField('Компания')
     title = StringField('Название компании')
     user_submitted = 1

@@ -3,7 +3,12 @@
 
 {% block content %}
 
-<h1 style="text-align: center">{{ title }}</h1>
+    <table style="width: 100%; border: 0">
+        <tr style="font-size: 1.5em; border: 0">
+            <td style="text-align: left; border: 0"><h1>{{ title }}</h1></td>
+            <td style="text-align: right; border: 0"><a href="/my-companies">Мои компании</a></td>
+        </tr>
+    </table>
     <hr>
     {% if 24 <= current_user.id <= 113 %}
         <!-- Свой проект -->
@@ -22,9 +27,9 @@
         <form action="" method="post">
             {{ form.hidden_tag() }}
             <p>
-                {{ form.section.label }}<br>
-                {{ form.section(class='form-control') }}<br>
-                {% for error in form.section.errors %}
+                {{ form.sector.label }}<br>
+                {{ form.sector(class='form-control') }}<br>
+                {% for error in form.sector.errors %}
                     <div class="alert alert-danger" role="alert">
                         {{ error }}
                     </div>
@@ -53,14 +58,14 @@
         <hr>
 
         <!-- Таблицы с результатами голосования -->
-        {% for section in sections %}
+        {% for sector in sectors %}
         <table class="dairy-table table-hover table-info">
-        <caption style="caption-side: top">{{ section }}</caption>
+        <caption style="caption-side: top">{{ sector }}</caption>
             <tr style="background-color: #86CFDA">
                 <td style="text-align: center;padding: 5px">Название</td>
                 <td style="text-align: center;padding: 5px">Очки</td>
             </tr>
-            {% for company in companies[section] %}
+            {% for company in companies[sector] %}
                 <tr>
                     <td style="text-align: center">{{ company[1] }}</td>
                     <td style="text-align: center">{{ company[2] }}</td>
@@ -98,7 +103,7 @@
     {% endif %}
     <!-- Скрипт для обновления страницы -->
     <script>
-    document.getElementById('section').addEventListener("input", function () {
+    document.getElementById('sector').addEventListener("input", function () {
         document.getElementById('points').value = null;
         document.getElementById('submit').click();
     });

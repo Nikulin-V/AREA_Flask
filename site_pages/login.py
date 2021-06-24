@@ -30,7 +30,7 @@ def login(template):
                                    form=form)
         if user.check_password(form.password.data):
             login_user(user, remember=form.remember_me.data)
-            return redirect("/index")
+            return redirect("/sessions")
         return render_template(template,
                                title='Авторизация',
                                message="Неправильный логин или пароль",

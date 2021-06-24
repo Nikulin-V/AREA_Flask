@@ -22,6 +22,7 @@ def get_sessions():
     )
 
 
+# noinspection PyArgumentList
 @sessions_api.route('/api/create_session?title=<string:title>', methods=['POST'])
 @login_required
 def create_session(title):
@@ -45,6 +46,7 @@ def edit_session_roles(action, role, user_id):
     session_id = current_user.game_session_id
     session = db_sess.get(Session, session_id)
 
+    ids = None
     if role.upper() == 'ADMIN':
         ids = session.admins_ids
     elif role.upper() == 'PLAYER':
@@ -52,16 +54,19 @@ def edit_session_roles(action, role, user_id):
 
     if action.upper() == 'ADD':
         if str(user_id) not in ids.split(';'):
-            session.ids += ';' + str(user_id)
-            db_sess.merge(session)
-            db_sess.commit()
+            ids = ';'.join(ids.split(';') + [str(user_id)])
     elif action.upper() == 'DELETE':
         ids = ids.split(';')
         if str(user_id) in ids:
             ids.remove(str(user_id))
             ids = ';'.join(ids)
-            db_sess.merge(session)
-            db_sess.commit()
+
+    if role.upper() == 'ADMIN':
+        session.admins_ids = ids
+    elif role.upper() == 'PLAYER':
+        session.players_ids = ids
+    db_sess.merge(session)
+    db_sess.commit()
 
 
 @sessions_api.route('/api/session_roles')
@@ -71,7 +76,7 @@ def get_current_user_roles():
 
     identifier = str(current_user.id)
     session_id = current_user.game_session_id
-    session = db_sess.query(Session).filter(Session.id == session_id).first()
+    session = db_sess.query(Session).get(session_id)
     roles = []
     if session:
         if identifier in str(session.admins_ids).split(';'):

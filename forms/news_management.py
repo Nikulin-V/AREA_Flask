@@ -2,7 +2,7 @@ from flask_wtf import FlaskForm
 from wtforms import SubmitField, SelectField, StringField, TextAreaField, IntegerField
 
 
-class UserManagementForm(FlaskForm):
+class NewsManagementForm(FlaskForm):
     action = SelectField('Действие', choices=['Добавить новость', 'Удалить новость',
                                               'Изменить новость'])
     identifier = IntegerField('Номер')

@@ -1,15 +1,15 @@
 #  Nikulin Vasily (c) 2021
 from flask import Blueprint, render_template, abort
-from flask_login import login_required, current_user
+from flask_login import login_required
 from flask_mobility.decorators import mobile_template
 
 from data import db_session
 from data.companies import Company
-from data.config_constants import get_constant
-from data.db_functions import get_game_roles
+from data.functions import get_constant, get_game_roles, get_session_id
+from data.sessions import Session
 from data.stocks import Stock
 from data.users import User
-from forms.company_management import CompanyManagementForm
+from forms.company_admin_management import CompanyAdminManagementForm
 
 company_panel_page = Blueprint('company-panel', __name__)
 app = company_panel_page
@@ -25,23 +25,25 @@ def company_panel(template):
 
     db_sess = db_session.create_session()
 
-    form = CompanyManagementForm()
+    form = CompanyAdminManagementForm()
     message = ''
 
     evaluate_form(form)
 
     if form.validate_on_submit() or form.action.data == 'Удалить все компании':
-        if form.action.data == 'Добавить компанию':
+        if form.action.data == 'Открыть компанию':
             if form.title.data and form.user_submitted and form.authors.data:
                 company = Company(
+                    session_id=get_session_id(),
                     title=form.title.data,
-                    section=form.new_section.data,
+                    sector=form.new_sector.data,
                     authors_ids=', '.join(map(str, form.authors.data))
                 )
                 db_sess.add(company)
                 db_sess.commit()
                 for i in form.authors.data:
                     stocks = Stock(
+                        session_id=get_session_id(),
                         user_id=i,
                         company_id=company.id,
                         stocks=get_constant('START_STOCKS')
@@ -50,13 +52,14 @@ def company_panel(template):
                 db_sess.commit()
                 evaluate_form(form)
                 message = 'Компания добавлена'
-        elif form.action.data == 'Удалить компанию':
+        elif form.action.data == 'Закрыть компанию':
             if form.company.data and form.user_submitted:
                 company = form.company.data
-                section = form.section.data
+                sector = form.sector.data
                 company = db_sess.query(Company).filter(
+                    Company.session_id == get_session_id(),
                     Company.title == company,
-                    Company.section == section
+                    Company.sector == sector
                 ).first()
                 if company:
                     db_sess.delete(company)
@@ -68,14 +71,15 @@ def company_panel(template):
         elif form.action.data == 'Изменить компанию':
             if form.company.data and form.user_submitted:
                 company = form.company.data
-                section = form.section.data
+                sector = form.sector.data
                 company = db_sess.query(Company).filter(
+                    Company.session_id == get_session_id(),
                     Company.title == company,
-                    Company.section == section
+                    Company.sector == sector
                 ).first()
                 if company:
-                    if form.new_section.data:
-                        company.section = form.new_section.data
+                    if form.new_sector.data:
+                        company.sector = form.new_sector.data
                     if form.title.data:
                         company.title = form.title.data
                     new_users = set(set(map(str, form.authors.data))
@@ -84,6 +88,7 @@ def company_panel(template):
                         company.authors_ids = ', '.join(map(str, form.authors.data))
                     for i in new_users:
                         stocks = Stock(
+                            session_id=get_session_id(),
                             user_id=i,
                             company_id=company.id,
                             stocks=get_constant('START_STOCKS')
@@ -98,7 +103,8 @@ def company_panel(template):
                     message = 'Компания с указанными данными не существует'
         elif form.action.data == 'Удалить все компании':
             if form.user_submitted and form.accept_delete_all_companies.data:
-                companies = list(db_sess.query(Company))
+                companies = list(db_sess.query(Company).
+                                 filter(Company.session_id == get_session_id()))
                 for company in companies:
                     db_sess.delete(company)
                 db_sess.commit()
@@ -113,38 +119,42 @@ def company_panel(template):
 
 def evaluate_form(form):
     db_sess = db_session.create_session()
-    sections = list(map(lambda x: x[0], set(db_sess.query(Company.section))))
-    sections.sort()
+    sectors = list(map(lambda x: x[0], set(db_sess.query(Company.sector).
+                                           filter(Company.session_id == get_session_id()))))
+    sectors.sort()
 
-    users = list(map(lambda x: (x[3], f'{x[0]} {x[1]} | {x[2]}'),
-                     db_sess.query(User.surname, User.name, User.email, User.id).filter(
-                         User.game_session_id == current_user.game_session_id
-                     )))
+    players_ids = db_sess.query(Session.players_ids).filter(Session.players_ids == get_session_id())
+    users = []
+    for identifier in players_ids:
+        users += list(map(lambda x: (x[3], f'{x[0]} {x[1]} | {x[2]}'),
+                          db_sess.query(User.surname, User.name, User.email, User.id).
+                          get(identifier)))
     form.authors.choices = users
 
-    form.section.choices = sections
-    if not form.section.data or form.section.data not in sections:
-        form.section.data = sections[0]
+    form.sector.choices = sectors
+    if not form.sector.data or form.sector.data not in sectors:
+        form.sector.data = sectors[0]
 
     companies = list(map(lambda x: x[0], db_sess.query(Company.title).filter(
-        Company.section == form.section.data
+        Company.sector == form.sector.data,
+        Company.session_id == get_session_id()
     )))
     companies.sort()
     form.company.choices = companies
-    if form.action.data in ['Удалить компанию', 'Изменить компанию']:
+    if form.action.data in ['Закрыть компанию', 'Изменить компанию']:
         if not form.company.data:
             form.user_submitted = 0
             form.company.data = companies[0]
         else:
             form.user_submitted = 1
 
-    if form.action.data == 'Добавить компанию':
+    if form.action.data == 'Открыть компанию':
         form.company.data = form.company.choices[0]
         if not form.title.data:
             form.user_submitted = 0
         else:
             form.user_submitted = 1
-        if not form.new_section.data:
+        if not form.new_sector.data:
             form.user_submitted = 0
         else:
             form.user_submitted = 1
@@ -154,9 +164,9 @@ def evaluate_form(form):
             form.title.data = form.company.data
         else:
             form.user_submitted = 1
-        if not form.new_section.data:
+        if not form.new_sector.data:
             form.user_submitted = 0
-            form.new_section.data = form.section.data
+            form.new_sector.data = form.sector.data
         else:
             form.user_submitted = 1
     elif form.action.data == 'Удалить все компании':

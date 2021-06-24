@@ -5,6 +5,7 @@
 
     <h3>{{ title }}</h3>
     {% if game_role %}
+        {% if wallets %}
             <table class="dairy-table table-hover table-info">
             <caption style="caption-side: top">Итоговый баланс игроков</caption>
                 <tr style="background-color: #86CFDA">
@@ -20,6 +21,13 @@
                     </tr>
                 {% endfor %}
             </table>
+        {% else %}
+            <table class="dairy-table table-hover table-info">
+                <tr style="background-color: #86CFDA">
+                    <td style="text-align: center;padding: 5px">Игроков нет</td>
+                </tr>
+            </table>
+        {% endif %}
     {% endif %}
     <!-- Всплывающее сообщение -->
     {% if message %}
@@ -56,9 +64,9 @@
             document.getElementById('submit').click();
         });
     }
-    section = document.getElementById('section')
-    if (section) {
-        section.addEventListener("input", function () {
+    sector = document.getElementById('sector')
+    if (sector) {
+        sector.addEventListener("input", function () {
             document.getElementById('stocks').value = 0;
             document.getElementById('submit').click();
         });

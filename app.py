@@ -1,11 +1,13 @@
+import os
+
 from flask import Flask, render_template
-from flask_login import LoginManager, current_user
+from flask_login import LoginManager
 from flask_mobility.decorators import mobile_template
 from flask_mobility.mobility import Mobility
+from flask_uploads import UploadSet, IMAGES, configure_uploads
 
 from api import apis
 from data import db_session
-from data.db_functions import get_game_roles
 from data.users import User
 from site_pages import pages_blueprints
 
@@ -13,6 +15,7 @@ SCOPES = ['https://www.googleapis.com/auth/classroom.coursework.me.readonly']
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
+app.config['UPLOADED_IMAGES_DEST'] = os.getcwd()
 
 for blueprint in pages_blueprints:
     app.register_blueprint(blueprint)
@@ -22,6 +25,10 @@ for blueprint in apis:
 Mobility(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
+
+images = UploadSet('images', IMAGES)
+configure_uploads(app, images)
+
 db_session.global_init('db/database.sqlite')
 
 
