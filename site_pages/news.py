@@ -48,7 +48,7 @@ def news(template):
             db_sess.delete(news_post)
             db_sess.commit()
         else:
-            if company != 0:
+            if not isinstance(company, int):
                 company = company[0]
             date = str(data[i][4]).split()
             time = date[1].split(':')

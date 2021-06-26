@@ -9,5 +9,3 @@ class SVote(SqlAlchemyBase):
     company_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey("companies.id"))
     action = sqlalchemy.Column(sqlalchemy.String)
     voted_stockholders_ids = sqlalchemy.Column(sqlalchemy.String)
-    stocks_for = sqlalchemy.Column(sqlalchemy.Integer),
-    stocks_against = sqlalchemy.Column(sqlalchemy.Integer)

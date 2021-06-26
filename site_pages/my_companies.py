@@ -1,11 +1,9 @@
 #  Nikulin Vasily (c) 2021
-from flask import Blueprint, render_template, abort, request
-from flask_login import current_user, login_required
-from flask_mobility.decorators import mobile_template
-
 from datetime import datetime
 
-from werkzeug.utils import secure_filename
+from flask import Blueprint, render_template, abort
+from flask_login import current_user, login_required
+from flask_mobility.decorators import mobile_template
 
 from data import db_session
 from data.companies import Company
@@ -19,6 +17,7 @@ my_companies_page = Blueprint('my-companies', __name__)
 app = my_companies_page
 
 
+# TODO: Удаление и изменение компаний через голосование
 @app.route('/my-companies', methods=['GET', 'POST'])
 @mobile_template('{mobile/}my-companies.html')
 @login_required
@@ -114,7 +113,6 @@ def my_companies(template):
                            new_company_fee=new_company_fee,
                            message=message,
                            form=form)
-
 
 # def get_user_companies_ids(user_id):
 #     db_sess = db_session.create_session()

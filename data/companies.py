@@ -1,7 +1,6 @@
-from wtforms.validators import DataRequired
+import sqlalchemy
 
 from .db_session import SqlAlchemyBase
-import sqlalchemy
 
 
 class Company(SqlAlchemyBase):

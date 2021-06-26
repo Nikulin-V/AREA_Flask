@@ -94,21 +94,18 @@ def update_market_info():
 def evaluate_form(form):
     db_sess = db_session.create_session()
     companies = dict()
-    sectors = sorted(list(map(lambda x: x[0], set(list(db_sess.query(Company.sector).
-                                                        filter(
+    sectors = sorted(list(map(lambda x: x[0], set(list(db_sess.query(Company.sector).filter(
         Company.session_id == get_session_id()
     ))))))
 
     # row structure: id | title | points | form
     for sector in sectors:
-        data = list(db_sess.query(Company.id, Company.title).
-                    filter(
+        data = list(db_sess.query(Company.id, Company.title).filter(
             Company.sector == sector,
             Company.session_id == get_session_id()
         ))
         for row_id in range(len(data)):
-            points = sum(list(map(lambda x: x[0], db_sess.query(Vote.points).
-                                  filter(
+            points = sum(list(map(lambda x: x[0], db_sess.query(Vote.points).filter(
                 Vote.company_id == data[row_id][0],
                 Vote.session_id == get_session_id()
             ))))
@@ -117,10 +114,9 @@ def evaluate_form(form):
         companies[sector] = sorted(data, key=lambda x: -x[2])
 
     form.sector.choices = sorted(list(set(map(lambda x: x[0],
-                                               list(db_sess.query(Company.sector).
-                                                    filter(
-                                                   Company.session_id == get_session_id()
-                                               ))))))
+                                              list(db_sess.query(Company.sector).filter(
+                                                  Company.session_id == get_session_id()
+                                              ))))))
 
     if not form.sector.data or form.sector.data not in form.sector.choices:
         form.sector.errors = []
