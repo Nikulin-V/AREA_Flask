@@ -9,5 +9,7 @@ class UserManagementForm(FlaskForm):
     game_role = SelectMultipleField('Роли в текущей игре',
                                     choices=[('Player', 'Игрок'),
                                              ('Admin', 'Администратор'),
-                                             ('None', 'Нет ролей')])
+                                             ('No roles', 'Нет ролей'),
+                                             ('Delete', 'Удалить (Все акции и предложения на '
+                                                        'торговой площадке переходят Вам)')])
     submit = SubmitField('Готово ✅')

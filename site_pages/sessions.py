@@ -4,7 +4,7 @@ from flask import render_template, Blueprint
 from flask_login import login_required, current_user
 from flask_mobility.decorators import mobile_template
 
-from config import PROFIT_PERCENT, GAME_RUN, START_STOCKS
+from config import PROFIT_PERCENT, GAME_RUN, START_STOCKS, NEW_COMPANY_FEE, START_WALLET_MONEY
 from data import db_session
 from data.config import Constant
 from data.functions import get_game_roles, get_game_sessions
@@ -62,7 +62,18 @@ def sessions(template):
             name='START_STOCKS',
             value=START_STOCKS
         )
-        db_sess.add_all([profit_percent, game_run, start_stocks])
+        new_company_fee = Constant(
+            session=new_session_id,
+            name='NEW_COMPANY_FEE',
+            value=NEW_COMPANY_FEE
+        )
+        start_wallet_money = Constant(
+            session=new_session_id,
+            name='START_WALLET_MONEY',
+            value=START_WALLET_MONEY
+        )
+        constants = [profit_percent, game_run, start_stocks, new_company_fee, start_wallet_money]
+        db_sess.add_all(constants)
         db_sess.commit()
         form.session.data = f'{session.title} | {session.id}'
         form_new.title.data = ''

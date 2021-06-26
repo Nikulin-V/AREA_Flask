@@ -72,17 +72,13 @@ def update_market_info():
         Wallet.session_id == get_session_id()
     ).first()
     if not money:
-        default = 1000
-        if 'Эксперт' in current_user.role:
-            default = 10000
         wallet = Wallet(
             session_id=get_session_id(),
             user_id=current_user.id,
-            money=default
+            money=get_constant('START_WALLET_MONEY')
         )
         db_sess.add(wallet)
         db_sess.commit()
-        money = default
     else:
         money = round(money[0], 2)
         if money == int(money):
