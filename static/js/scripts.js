@@ -8,7 +8,7 @@ dropdownElementList.map(function (dropdownToggleEl) {
 let main = document.getElementsByTagName('body')[0]
 let pageUrl = document.location.pathname
 if (pageUrl === "/" || pageUrl === "/index" || pageUrl === "/privacy-policy") {
-    main.style.background = "url('/static/images/index-background.jpg') fixed"
+    main.style.background = "url('/images/index-background.jpg') fixed"
 }
 
 

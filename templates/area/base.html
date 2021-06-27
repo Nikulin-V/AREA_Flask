@@ -1,3 +1,4 @@
+<!doctype html>
 <!--suppress ALL -->
 <html lang="en">
     <head>
@@ -14,7 +15,14 @@
         <link rel="stylesheet" href="static/css/header.css">
         <link rel="stylesheet" href="static/css/light-footer.css">
         <title>{{ title }}</title>
-
+        <script>
+            const userAction = async () => {
+            const response = await fetch('http://192.168.1.5:80/api/session_roles');
+            const myJson = await response.json();
+            return myJson
+            }
+            console.log(userAction())
+        </script>
     </head>
     <body>
         <header>
