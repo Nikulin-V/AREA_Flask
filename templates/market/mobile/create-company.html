@@ -1,0 +1,110 @@
+<!--suppress ALL -->
+{% extends "market/mobile/base.html" %}
+
+{% block content %}
+    <h3 style="text-align: center">{{ title }}</h3>
+    <h5 style="text-align: center">Взнос: {{ new_company_fee }} 💰</h5>
+    <hr>
+    <form action="" method="post">
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.sector.label }}<br>
+            {{ form.sector(class='form-control') }}<br>
+            {% for error in form.sector.errors %}
+                <div class="alert alert-danger" role="alert">
+                    {{ error }}
+                </div>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.title.label }}<br>
+            {{ form.title(class='form-control') }}<br>
+            {% for error in form.title.errors %}
+                <div class="alert alert-danger" role="alert">
+                    {{ error }}
+                </div>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.description.label }}<br>
+            {{ form.description(class='form-control') }}<br>
+            {% for error in form.description.errors %}
+                <div class="alert alert-danger" role="alert">
+                    {{ error }}
+                </div>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.logo_url.label }}<br>
+            {{ form.logo_url(class='form-control') }}<br>
+            {% for error in form.logo_url.errors %}
+                <div class="alert alert-danger" role="alert">
+                    {{ error }}
+                </div>
+            {% endfor %}
+        </p>
+        {{ form.submit(type="submit", class="btn btn-info") }}
+    </form>
+    <!-- Всплывающее сообщение -->
+    {% if message %}
+        <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Сообщение от сайта</h5>
+                        <button type="button" class="close" id="modal-close-btn" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        {{ message }}
+                    </div>
+                    <div class="modal-footer" id="modal-ok-btn">
+                        <button type="button" class="btn btn-info">ОК</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+    <br>
+    {% if news %}
+        {% for id, title, message, user, company, date, author, picture in news %}
+            <div style="border: 1px solid black; border-radius: 5px; margin-bottom: 5px; padding-left: 5px; padding-right: 5px">
+                <h4>{{ title }}</h4>
+                <p style="word-break: break-all; white-space: pre-wrap">{{ message }}</p>
+                {% if picture %}
+                    <img src="{{ picture }}" alt="Неверная ссылка на изображение новости" style="width: 100%">
+                {% endif %}
+                <table style="width: 100%; border: 0">
+                    <tr style="font-size: 1em; border: 0">
+                        {% if author == 'от себя' %}
+                            <td style="text-align: left; border: 0"><p style="margin-bottom: 0"><small>{{ user }}</small></p></td>
+                        {% else %}
+                            <td style="text-align: left; border: 0"><p style="margin-bottom: 0"><small>{{ user }} | {{ company }}</small></p></td>
+                        {% endif %}
+                        <td style="text-align: right; border: 0"><p style="margin-bottom: 0"><small>Номер новости: {{ id }} | {{ date }}</small></p></td>
+                    </tr>
+                </table>
+            </div>
+        {% endfor %}
+    {% else %}
+        <table class="dairy-table table-hover table-info">
+            <tr style="background-color: #86CFDA">
+                <td style="text-align: center;padding: 5px">Новостей нет</td>
+            </tr>
+        </table>
+    {% endif %}
+    <!-- Скрипт для обновления страницы -->
+    <script>
+        action = document.getElementById('action')
+        action.addEventListener("change", function () {
+            let ids = ['title', 'text', 'author', 'picture'];
+            for (let i = 0; i < ids.length; i++) {
+                    let element = document.getElementById(ids[i])
+                    if (element)
+                        element.value = null
+                }
+            document.getElementById('submit').click();
+            })
+    </script>
+{% endblock %}

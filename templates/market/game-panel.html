@@ -1,0 +1,50 @@
+<!--suppress ALL -->
+{% extends "market/base.html" %}
+
+{% block content %}
+    <h1 style="text-align: center">{{ title }}</h1>
+    <hr>
+    <form action="" method="post" style="text-align: -webkit-center;">
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.game_run.label }}<br>
+            {{ form.game_run(class='form-control', style='width: 10%;text-align: center') }}<br>
+            {% for error in form.game_run.errors %}
+                <div class="alert alert-danger" role="alert">
+                    {{ error }}
+                </div>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.fee.label }}<br>
+            {{ form.fee(class='form-control', style='width: fit-content;text-align: center') }}<br>
+            {% for error in form.fee.errors %}
+                <div class="alert alert-danger" role="alert">
+                    {{ error }}
+                </div>
+            {% endfor %}
+        </p>
+        {{ form.submit(type="submit", class="btn btn-info") }}
+    </form>
+    <!-- Всплывающее сообщение -->
+    {% if message %}
+        <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Сообщение от сайта</h5>
+                        <button type="button" class="close" id="modal-close-btn" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        {{ message }}
+                    </div>
+                    <div class="modal-footer" id="modal-ok-btn">
+                        <button type="button" class="btn btn-info">ОК</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

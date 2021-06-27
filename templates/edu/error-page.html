@@ -1,0 +1,16 @@
+<!--suppress ALL -->
+{% extends "edu/base.html" %}
+
+{% block content %}
+    <script type="text/javascript" src="/static/js/error-page.js"></script>
+    <div class="parallax" id="office-background"></div>
+    <div class="parallax" id="logo-background"></div>
+    <div class="parallax" id="error-block">
+        <h4 id="error-code">Ошибка {{ code }}</h4>
+        <h2 id="error-title">{{ title }}</h2>
+        <p id="error-message">{{ message }}</p>
+    </div>
+    {% if code == 401 %}
+        <meta http-equiv="refresh" content="5; url=\login">
+    {% endif %}
+{% endblock %}

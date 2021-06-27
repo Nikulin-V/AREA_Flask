@@ -9,7 +9,7 @@ window.mobileAndTabletCheck = function() {
 };
 
 main = document.getElementsByTagName('body')[0]
-main.style = "margin-top: 0px !important";
+main.style = "margin-top: 0px!important";
 
 if (!window.mobileAndTabletCheck()) {
     document.addEventListener("mousemove", function (e) { MoveBackground(e); });

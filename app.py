@@ -2,8 +2,10 @@ import os
 
 from flask import Flask, render_template
 from flask_login import LoginManager
+from flask_migrate import Migrate
 from flask_mobility.decorators import mobile_template
 from flask_mobility.mobility import Mobility
+from flask_sqlalchemy import SQLAlchemy
 from flask_uploads import UploadSet, IMAGES, configure_uploads
 
 from api import apis
@@ -13,9 +15,11 @@ from site_pages import pages_blueprints
 
 SCOPES = ['https://www.googleapis.com/auth/classroom.coursework.me.readonly']
 
-app = Flask(__name__)
+app = Flask(__name__, subdomain_matching=True)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
 app.config['UPLOADED_IMAGES_DEST'] = os.getcwd()
+db = SQLAlchemy(app)
+migrate = Migrate(app, db)
 
 for blueprint in pages_blueprints:
     app.register_blueprint(blueprint)
@@ -46,7 +50,7 @@ def load_user(user_id):
 @app.errorhandler(403)
 @app.errorhandler(404)
 @app.errorhandler(408)
-@mobile_template('{mobile/}error-page.html')
+@mobile_template('area/{mobile/}error-page.html')
 def page_not_found(error, template):
     messages = {
         401: ['Вы не вошли в систему',
