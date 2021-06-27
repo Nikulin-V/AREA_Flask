@@ -1,0 +1,40 @@
+<!--suppress ALL -->
+{% extends "market/mobile/base.html" %}
+
+{% block content %}
+    <table style="width: 100%; border: 0">
+        <tr style="border: 0">
+            <td style="text-align: left; border: 0"><h3>{{ title }}</h3></td>
+            <td style="text-align: right; border: 0"><a href="/my-news">Мои новости</a></td>
+        </tr>
+    </table>
+    <hr style="margin-top: 0">
+    {% if news %}
+        {% for id, title, message, user, company, date, author, picture in news %}
+            <div style="border: 1px solid black; border-radius: 5px; margin-bottom: 5px; padding: 5px 5px 0 5px">
+                <h4>{{ title }}</h4>
+                <p style="word-break: break-all; white-space: pre-wrap">{{ message }}</p>
+                {% if picture %}
+                    <img src="{{ picture }}" alt="Неверная ссылка на изображение новости" style="width: 100%">
+                {% endif %}
+                {% if author == 'от себя' %}
+                    <div style="text-align: left; border: 0"><p style="margin-bottom: 0"><small>{{ user }}</small></p></div>
+                {% else %}
+                    <div style="text-align: left; border: 0"><p style="margin-bottom: 0"><small>{{ user }} | {{ company }}</small></p></div>
+                {% endif %}
+                <table style="width: 100%">
+                    <tr>
+                        <td style="text-align: left; border: 0"><p style="margin-bottom: 0"><small>{{ date }}</small></p></td>
+                        <td style="text-align: right; border: 0"><p style="margin-bottom: 0"><small>Номер новости: {{ id }}</small></p></td>
+                    </tr>
+                </table>
+            </div>
+        {% endfor %}
+    {% else %}
+        <table class="dairy-table table-hover table-info">
+            <tr style="background-color: #86CFDA">
+                <td style="text-align: center;padding: 5px">Новостей нет</td>
+            </tr>
+        </table>
+    {% endif %}
+{% endblock %}

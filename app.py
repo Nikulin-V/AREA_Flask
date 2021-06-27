@@ -13,7 +13,7 @@ from site_pages import pages_blueprints
 
 SCOPES = ['https://www.googleapis.com/auth/classroom.coursework.me.readonly']
 
-app = Flask(__name__)
+app = Flask(__name__, subdomain_matching=True)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
 app.config['UPLOADED_IMAGES_DEST'] = os.getcwd()
 
@@ -46,7 +46,7 @@ def load_user(user_id):
 @app.errorhandler(403)
 @app.errorhandler(404)
 @app.errorhandler(408)
-@mobile_template('{mobile/}error-page.html')
+@mobile_template('area/{mobile/}error-page.html')
 def page_not_found(error, template):
     messages = {
         401: ['Вы не вошли в систему',

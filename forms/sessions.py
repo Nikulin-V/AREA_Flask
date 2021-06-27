@@ -3,15 +3,15 @@ from wtforms import SubmitField, SelectField, StringField, BooleanField
 
 
 class SessionForm(FlaskForm):
-    session = SelectField('Текущая игра')
+    session = SelectField('Текущая фондовая биржа')
     submit = SubmitField('Готово ✅', default=False)
 
 
 class NewSessionForm(FlaskForm):
-    title = StringField('Имя новой игры')
-    submit = SubmitField('Создать игру ✅', default=False)
+    title = StringField('Имя новой фондовой биржи')
+    submit = SubmitField('Создать фондовую биржу ✅', default=False)
 
 
 class DeleteSessionForm(FlaskForm):
     accept = BooleanField('Подтвердить', default=False)
-    submit = SubmitField('Удалить текущую игру ❌')
+    submit = SubmitField('Удалить текущую фондовую биржу ❌')

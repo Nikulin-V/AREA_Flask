@@ -11,8 +11,26 @@ app = index_page
 
 @app.route('/')
 @app.route('/index')
-@mobile_template('{mobile/}index.html')
-def index(template):
+@mobile_template('area/{mobile/}index.html')
+def area_index(template):
+    return render_template(template,
+                           game_role=get_game_roles(),
+                           title='Главная')
+
+
+@app.route('/', subdomain='edu')
+@app.route('/index', subdomain='edu')
+@mobile_template('edu/{mobile/}index.html')
+def edu_index(template):
+    return render_template(template,
+                           game_role=get_game_roles(),
+                           title='Главная')
+
+
+@app.route('/')
+@app.route('/index')
+@mobile_template('market/{mobile/}index.html')
+def market_index(template):
     return render_template(template,
                            game_role=get_game_roles(),
                            title='Главная')
