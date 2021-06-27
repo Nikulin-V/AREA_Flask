@@ -17,6 +17,7 @@ SCOPES = ['https://www.googleapis.com/auth/classroom.coursework.me.readonly']
 app = Flask(__name__, subdomain_matching=True)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
 app.config['UPLOADED_IMAGES_DEST'] = os.getcwd()
+app.config['SERVER_NAME'] = 'area-146.tk'
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
