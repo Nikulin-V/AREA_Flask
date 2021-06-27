@@ -6,7 +6,6 @@ from flask_migrate import Migrate
 from flask_mobility.decorators import mobile_template
 from flask_mobility.mobility import Mobility
 from flask_sqlalchemy import SQLAlchemy
-from flask_uploads import UploadSet, IMAGES, configure_uploads
 
 from api import apis
 from data import db_session
@@ -30,8 +29,6 @@ Mobility(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
 
-images = UploadSet('images', IMAGES)
-configure_uploads(app, images)
 
 db_session.global_init('db/database.sqlite')
 
