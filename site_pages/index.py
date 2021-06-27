@@ -27,8 +27,8 @@ def edu_index(template):
                            title='Главная')
 
 
-@app.route('/')
-@app.route('/index')
+@app.route('/', subdomain='market')
+@app.route('/index', subdomain='market')
 @mobile_template('market/{mobile/}index.html')
 def market_index(template):
     return render_template(template,
