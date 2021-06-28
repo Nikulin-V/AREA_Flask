@@ -39,7 +39,7 @@ def my_companies(template, subdomain='market'):
     if form.validate_on_submit():
         if form.sector.data and form.title.data:
             # f = request.files[]
-            identifier = generate_string(db_sess.query(Company.id))
+            identifier = generate_string(list(db_sess.query(Company.id).all()))
             company = Company(
                 id=identifier,
                 session_id=str(get_session_id()),
