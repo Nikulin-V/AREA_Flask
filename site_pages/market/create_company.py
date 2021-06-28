@@ -40,7 +40,6 @@ def my_companies(template, subdomain='market'):
         if form.sector.data and form.title.data:
             # f = request.files[]
             identifier = generate_string(list(db_sess.query(Company.id).all()))
-            print(identifier)
             company = Company(
                 id=identifier,
                 session_id=get_session_id(),
@@ -73,7 +72,7 @@ def my_companies(template, subdomain='market'):
                 stocks=get_constant('START_STOCKS')
             )
             db_sess.add(stock)
-            if not wallet.money:
+            if wallet.money is None:
                 wallet = Wallet(
                     session_id=get_session_id(),
                     user_id=current_user.id,
