@@ -80,8 +80,11 @@ def my_companies(template, subdomain='market'):
             if wallet.money >= new_company_fee:
                 wallet.money -= new_company_fee
                 db_sess.add(company)
+                db_sess.commit()
                 db_sess.add(stock)
+                db_sess.commit()
                 db_sess.add(news)
+                db_sess.commit()
                 db_sess.merge(wallet)
                 db_sess.commit()
                 message = 'Компания создана'
