@@ -9,6 +9,7 @@ from api import apis
 from data import db_session
 from data.users import User
 from site_pages import pages_blueprints
+from tools import use_subdomains
 
 SCOPES = ['https://www.googleapis.com/auth/classroom.coursework.me.readonly']
 
@@ -43,8 +44,11 @@ def load_user(user_id):
 @app.errorhandler(403)
 @app.errorhandler(404)
 @app.errorhandler(408)
-@mobile_template('area/{mobile/}error-page.html')
-def page_not_found(error, template):
+@app.errorhandler(500)
+@mobile_template('/{mobile/}error-page.html')
+@use_subdomains(subdomains=['area', 'market', 'edu'])
+def page_not_found(error, template: str, subdomain: str):
+    template = subdomain + template
     messages = {
         401: ['Вы не вошли в систему',
               'Через несколько секунд Вы будете направлены на страницу авторизации'],
@@ -55,7 +59,10 @@ def page_not_found(error, template):
               'Проверьте правильность введённого адреса'],
         408: ['Превышено время ожидания',
               'Попробуйте сделать запрос еще раз. Если проблема повторится, обратитесь в '
-              'техподдержку']
+              'техподдержку'],
+        500: ['Ошибка на стороне сайта',
+              'Попробуйте сделать запрос еще раз. Если проблема повторится, обратитесь в '
+              'техподдержку'],
     }
 
     return render_template(template,
