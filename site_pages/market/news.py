@@ -11,15 +11,17 @@ from data.companies import Company
 from data.functions import get_game_roles, get_session_id
 from data.news import News
 from data.users import User
+from tools import use_subdomains
 
 news_page = Blueprint('news-page', __name__)
 app = news_page
 
 
-@app.route('/news', subdomain='market')
+@app.route('/news')
+@use_subdomains(subdomains=['market'])
 @mobile_template('market/{mobile/}news.html')
 @login_required
-def news(template):
+def news(template, subdomain='market'):
     if not get_game_roles():
         abort(404)
 

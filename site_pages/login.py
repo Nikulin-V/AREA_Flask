@@ -6,14 +6,18 @@ from flask_mobility.decorators import mobile_template
 from data import db_session
 from data.users import User
 from forms.login import LoginForm
+from tools import use_subdomains
 
 login_page = Blueprint('login', __name__)
 app = login_page
 
 
 @app.route('/login', methods=['GET', 'POST'])
-@mobile_template('area/{mobile/}login.html')
-def login(template):
+@use_subdomains(subdomains=['area', 'market', 'edu'])
+@mobile_template('/{mobile/}login.html')
+def login(template: str, subdomain: str):
+    template = subdomain + template
+
     if current_user.is_authenticated:
         return redirect('/profile')
 

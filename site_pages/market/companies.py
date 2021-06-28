@@ -10,15 +10,17 @@ from data.companies import Company
 from data.votes import Vote
 from forms.vote import VoteForm
 from data.functions import evaluate_form, get_company_id, get_game_roles, get_session_id
+from tools import use_subdomains
 
 voting_page = Blueprint('companies-voting', __name__)
 app = voting_page
 
 
-@app.route('/companies', methods=['GET', 'POST'], subdomain='market')
+@app.route('/companies', methods=['GET', 'POST'])
+@use_subdomains(subdomains=['market'])
 @mobile_template('market/{mobile/}companies.html')
 @login_required
-def companies_voting(template):
+def companies_voting(template, subdomain='market'):
     db_sess = db_session.create_session()
 
     form = VoteForm()

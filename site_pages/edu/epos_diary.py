@@ -4,6 +4,7 @@ from flask_login import login_required, current_user
 from flask_mobility.decorators import mobile_template
 
 from data.epos import EPOS
+from tools import use_subdomains
 
 epos_diary_page = Blueprint('epos-diary', __name__)
 app = epos_diary_page
@@ -11,10 +12,11 @@ app = epos_diary_page
 epos = EPOS()
 
 
-@app.route('/epos-diary', subdomain='edu')
-@mobile_template('{mobile/}epos-diary.html')
+@app.route('/epos-diary')
+@use_subdomains(subdomains=['edu'])
+@mobile_template('edu/{mobile/}epos-diary.html')
 @login_required
-def epos_diary(template):
+def epos_diary(template, subdomain='edu'):
     if not current_user.is_authenticated:
         abort(401)
 
@@ -35,6 +37,9 @@ def epos_diary(template):
     else:
         schedule = response
 
+    days = ['пн', 'вт', 'ср', 'чт', 'пт', 'сб']
+
     return render_template(template,
                            title='Дневник ЭПОСа',
-                           schedule=schedule)
+                           schedule=schedule,
+                           days=days)

@@ -9,15 +9,17 @@ from data import db_session
 from data.config import Constant
 from data.functions import get_game_roles, get_session_id
 from forms.config_management import ConfigManagementForm
+from tools import use_subdomains
 
 game_panel_page = Blueprint('game-panel', __name__)
 app = game_panel_page
 
 
-@app.route('/game-panel', methods=['GET', 'POST'], subdomain='market')
+@app.route('/game-panel', methods=['GET', 'POST'])
+@use_subdomains(subdomains=['market'])
 @mobile_template('market/{mobile/}game-panel.html')
 @login_required
-def game_panel(template):
+def game_panel(template, subdomain='market'):
     if 'Admin' not in get_game_roles():
         abort(404)
 

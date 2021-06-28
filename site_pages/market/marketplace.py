@@ -16,15 +16,17 @@ from forms.purchase import PurchaseForm
 from forms.stocks import StocksForm
 from data.functions import evaluate_form, update_market_info, get_company_id, \
     get_company_title
+from tools import use_subdomains
 
 marketplace_page = Blueprint('marketplace', __name__)
 app = marketplace_page
 
 
-@app.route('/marketplace', methods=['GET', 'POST'], subdomain='market')
+@app.route('/marketplace', methods=['GET', 'POST'])
+@use_subdomains(subdomains=['market'])
 @mobile_template('market/{mobile/}marketplace.html')
 @login_required
-def marketplace(template):
+def marketplace(template, subdomain='market'):
     if not get_game_roles():
         abort(404)
 

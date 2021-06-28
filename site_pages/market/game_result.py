@@ -10,15 +10,17 @@ from data import db_session
 from data.functions import get_constant, get_game_roles, get_session_id
 from data.users import User
 from data.wallets import Wallet
+from tools import use_subdomains
 
 game_result_page = Blueprint('game-result', __name__)
 app = game_result_page
 
 
-@app.route('/game-result', subdomain='market')
+@app.route('/game-result')
+@use_subdomains(subdomains=['market'])
 @mobile_template('market/{mobile/}game-result.html')
 @login_required
-def game_result(template):
+def game_result(template, subdomain='market'):
     if get_constant('GAME_RUN'):
         abort(404)
 

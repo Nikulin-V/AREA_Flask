@@ -11,17 +11,18 @@ from data.functions import get_game_roles, get_session_id, get_constant
 from data.news import News
 from data.wallets import Wallet
 from forms.my_company_management import CompanyManagementForm
-from tools import generate_string
+from tools import generate_string, use_subdomains
 
 my_companies_page = Blueprint('my-companies', __name__)
 app = my_companies_page
 
 
 # TODO: Удаление и изменение компаний через голосование
-@app.route('/create-company', methods=['GET', 'POST'], subdomain='market')
+@app.route('/create-company', methods=['GET', 'POST'])
+@use_subdomains(subdomains=['market'])
 @mobile_template('market/{mobile/}create-company.html')
 @login_required
-def my_companies(template):
+def my_companies(template, subdomain='market'):
     if not get_game_roles():
         abort(404)
 

@@ -15,15 +15,17 @@ from data.offers import Offer
 from data.stocks import Stock
 from data.users import User
 from forms.news_management import NewsManagementForm
+from tools import use_subdomains
 
 my_news_page = Blueprint('my-news', __name__)
 app = my_news_page
 
 
-@app.route('/my-news', methods=['GET', 'POST'], subdomain='market')
+@app.route('/my-news', methods=['GET', 'POST'])
+@use_subdomains(subdomains=['market'])
 @mobile_template('market/{mobile/}my-news.html')
 @login_required
-def my_news(template):
+def my_news(template, subdomain='market'):
     if not get_game_roles():
         abort(404)
 

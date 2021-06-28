@@ -8,14 +8,18 @@ from data.schools import School
 from data.sessions import Session
 from data.users import User
 from forms.register import RegisterForm
+from tools import use_subdomains
 
 register_page = Blueprint('register', __name__)
 app = register_page
 
 
 @app.route('/register', methods=['GET', 'POST'])
-@mobile_template('{mobile/}register.html')
-def register(template):
+@use_subdomains(subdomains=['area', 'market', 'edu'])
+@mobile_template('/{mobile/}register.html')
+def register(template: str, subdomain: str):
+    template = subdomain + template
+
     if current_user.is_authenticated:
         return redirect('/profile')
 
