@@ -80,12 +80,11 @@ def my_companies(template, subdomain='market'):
                     money=get_constant('START_WALLET_MONEY')
                 )
                 db_sess.add(wallet)
-            companies_titles = list(db_sess.query(Company.title).filter(
-                    Company.session_id == get_session_id()).all())
-            print(companies_titles)
-            if company.title in companies_titles:
+            companies_titles = list(map(lambda x: x[0], db_sess.query(Company.title).filter(
+                    Company.session_id == get_session_id()).all()))
+            if company.title.strip() in companies_titles:
                 db_sess.rollback()
-                message = 'Компания с таким название уже существует на этой фондовой бирже. ' \
+                message = 'Компания с похожим названием уже существует на этой фондовой бирже. ' \
                           'Придумайте другое название, ведь бренд должен быть уникальным.'
             elif wallet.money >= new_company_fee:
                 wallet.money -= new_company_fee
