@@ -39,7 +39,8 @@ def my_companies(template, subdomain='market'):
     if form.validate_on_submit():
         if form.sector.data and form.title.data:
             # f = request.files[]
-            identifier = generate_string(list(db_sess.query(Company.id).all()))
+            identifier = generate_string(list(db_sess.query(Company.id).filter(
+                Company.session_id == get_session_id()).all()))
             company = Company(
                 id=identifier,
                 session_id=get_session_id(),
@@ -79,7 +80,14 @@ def my_companies(template, subdomain='market'):
                     money=get_constant('START_WALLET_MONEY')
                 )
                 db_sess.add(wallet)
-            if wallet.money >= new_company_fee:
+            companies_titles = list(db_sess.query(Company.title).filter(
+                    Company.session_id == get_session_id()).all())
+            print(companies_titles)
+            if company.title in companies_titles:
+                db_sess.rollback()
+                message = 'Компания с таким название уже существует на этой фондовой бирже. ' \
+                          'Придумайте другое название, ведь бренд должен быть уникальным.'
+            elif wallet.money >= new_company_fee:
                 wallet.money -= new_company_fee
                 db_sess.merge(wallet)
                 db_sess.commit()
