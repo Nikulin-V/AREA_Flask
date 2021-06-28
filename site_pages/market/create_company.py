@@ -40,6 +40,7 @@ def my_companies(template, subdomain='market'):
         if form.sector.data and form.title.data:
             # f = request.files[]
             identifier = generate_string(list(db_sess.query(Company.id).all()))
+            print(identifier)
             company = Company(
                 id=identifier,
                 session_id=str(get_session_id()),
@@ -49,6 +50,7 @@ def my_companies(template, subdomain='market'):
                 # TODO: company logo upload
                 # logo_url=form.logo_url.data
             )
+            db_sess.add(company)
             news = News(
                 session_id=get_session_id(),
                 title=f'Новая компания: {form.title.data} !',
@@ -59,6 +61,7 @@ def my_companies(template, subdomain='market'):
                 author=f'от лица компании "{form.title.data}"',
                 # picture=form.logo.data
             )
+            db_sess.add(news)
             wallet = db_sess.query(Wallet).filter(
                 Wallet.user_id == current_user.id,
                 Wallet.session_id == get_session_id()
@@ -69,6 +72,7 @@ def my_companies(template, subdomain='market'):
                 company_id=company.id,
                 stocks=get_constant('START_STOCKS')
             )
+            db_sess.add(stock)
             if not wallet.money:
                 wallet = Wallet(
                     session_id=get_session_id(),
@@ -76,19 +80,13 @@ def my_companies(template, subdomain='market'):
                     money=get_constant('START_WALLET_MONEY')
                 )
                 db_sess.add(wallet)
-                db_sess.commit()
             if wallet.money >= new_company_fee:
                 wallet.money -= new_company_fee
-                db_sess.add(company)
-                db_sess.commit()
-                db_sess.add(stock)
-                db_sess.commit()
-                db_sess.add(news)
-                db_sess.commit()
                 db_sess.merge(wallet)
                 db_sess.commit()
                 message = 'Компания создана'
             else:
+                db_sess.rollback()
                 message = 'Недостаточно средств'
 
         # elif form.action.data == 'Закрыть компанию' and form.accept.data:
