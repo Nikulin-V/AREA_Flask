@@ -9,6 +9,7 @@ from data import db_session
 from data.companies import Company
 from data.functions import get_game_roles, get_session_id, get_constant
 from data.news import News
+from data.stocks import Stock
 from data.wallets import Wallet
 from forms.my_company_management import CompanyManagementForm
 from tools import generate_string, use_subdomains
@@ -62,6 +63,12 @@ def my_companies(template, subdomain='market'):
                 Wallet.user_id == current_user.id,
                 Wallet.session_id == get_session_id()
             ).first()
+            stock = Stock(
+                session_id=get_session_id(),
+                user_id=current_user.id,
+                company_id=company.id,
+                stocks=get_constant('START_STOCKS')
+            )
             if not wallet.money:
                 wallet = Wallet(
                     session_id=get_session_id(),
@@ -72,8 +79,8 @@ def my_companies(template, subdomain='market'):
                 db_sess.commit()
             if wallet.money >= new_company_fee:
                 wallet.money -= new_company_fee
-                # f.save(secure_filename(f.filename))
                 db_sess.add(company)
+                db_sess.add(stock)
                 db_sess.add(news)
                 db_sess.merge(wallet)
                 db_sess.commit()
