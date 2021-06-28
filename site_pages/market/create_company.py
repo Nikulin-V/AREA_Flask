@@ -43,7 +43,7 @@ def my_companies(template, subdomain='market'):
             print(identifier)
             company = Company(
                 id=identifier,
-                session_id=str(get_session_id()),
+                session_id=get_session_id(),
                 title=form.title.data,
                 description=form.description.data if form.description.data else '',
                 sector=form.sector.data,
