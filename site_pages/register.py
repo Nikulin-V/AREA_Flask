@@ -64,7 +64,7 @@ def register(template: str, subdomain: str):
         db_sess.commit()
         login_user(user)
         session = db_sess.query(Session).get('77777777')
-        session.players_ids = ';'.join(session.players_ids.split(';') + [current_user.id])
+        session.players_ids = ';'.join(session.players_ids.split(';') + [str(current_user.id)])
         return redirect('/profile')
 
     return render_template(template,
