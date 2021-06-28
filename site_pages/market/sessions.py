@@ -21,18 +21,19 @@ from data.users import User
 from data.votes import Vote
 from data.wallets import Wallet
 from forms.sessions import SessionForm, NewSessionForm, DeleteSessionForm
-from tools import generate_string
+from tools import generate_string, use_subdomains
 
 sessions_page = Blueprint('sessions-page', __name__)
 app = sessions_page
 
 
 # noinspection PyArgumentList
-@app.route('/', methods=['GET', 'POST'], subdomain='market')
-@app.route('/sessions', methods=['GET', 'POST'], subdomain='market')
+@app.route('/', methods=['GET', 'POST'])
+@app.route('/sessions', methods=['GET', 'POST'])
+@use_subdomains(subdomains=['market'])
 @mobile_template('market/{mobile/}sessions.html')
 @login_required
-def sessions(template):
+def sessions(template, subdomain='market'):
     db_sess = db_session.create_session()
     form = SessionForm()
     form_new = NewSessionForm()

@@ -1,5 +1,3 @@
-import os
-
 from flask import Flask, render_template
 from flask_login import LoginManager
 from flask_migrate import Migrate
@@ -16,8 +14,6 @@ SCOPES = ['https://www.googleapis.com/auth/classroom.coursework.me.readonly']
 
 app = Flask(__name__, subdomain_matching=True)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
-app.config['UPLOADED_IMAGES_DEST'] = os.getcwd()
-app.config['SERVER_NAME'] = 'area-146.tk:80'
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
@@ -29,7 +25,6 @@ for blueprint in apis:
 Mobility(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
-
 
 db_session.global_init('db/database.sqlite')
 

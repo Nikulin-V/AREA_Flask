@@ -12,16 +12,18 @@ from data.sessions import Session
 from data.stocks import Stock
 from data.users import User
 from forms.company_admin_management import CompanyAdminManagementForm
+from tools import use_subdomains
 
 company_panel_page = Blueprint('company-panel', __name__)
 app = company_panel_page
 
 
 # noinspection PyArgumentList
-@app.route('/company-panel', methods=['GET', 'POST'], subdomain='market')
+@app.route('/company-panel', methods=['GET', 'POST'])
+@use_subdomains(subdomains=['market'])
 @mobile_template('market/{mobile/}company-panel.html')
 @login_required
-def company_panel(template):
+def company_panel(template, subdomain='market'):
     if 'Admin' not in get_game_roles():
         abort(404)
 

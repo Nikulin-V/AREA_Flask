@@ -8,13 +8,13 @@ from data.functions import get_game_roles
 from data.users import User
 from forms.user_management import UserManagementForm
 
-user_panel_page = Blueprint('user-panel', __name__)
-app = user_panel_page
+user_admin_panel_page = Blueprint('user-panel', __name__)
+app = user_admin_panel_page
 
 
 # noinspection PyArgumentList
 @app.route('/user-panel', methods=['GET', 'POST'])
-@mobile_template('{mobile/}user-panel.html')
+@mobile_template('area/{mobile/}user-panel.html')
 @login_required
 def user_panel(template):
     if 'Admin' not in get_game_roles():

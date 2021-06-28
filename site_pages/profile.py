@@ -7,15 +7,19 @@ from data import db_session
 from data.functions import get_game_roles
 from data.schools import School
 from forms.profile import ProfileForm
+from tools import use_subdomains
 
 profile_page = Blueprint('profile', __name__)
 app = profile_page
 
 
 @app.route('/profile', methods=['GET', 'POST'])
-@mobile_template('{mobile/}profile.html')
+@use_subdomains(subdomains=['area', 'market', 'edu'])
+@mobile_template('/{mobile/}profile.html')
 @login_required
-def profile(template):
+def profile(template: str, subdomain: str):
+    template = subdomain + template
+
     form = ProfileForm()
     db_sess = db_session.create_session()
     user = current_user
