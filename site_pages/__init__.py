@@ -19,6 +19,7 @@ from .login import login_page
 from .register import register_page
 from .profile import profile_page
 from .privacy_policy import privacy_policy_page
+from .yandex_verification import yandex_verification_page
 
 pages_blueprints = [login_page, register_page, profile_page,
                     privacy_policy_page, index_page,
@@ -27,4 +28,4 @@ pages_blueprints = [login_page, register_page, profile_page,
                     marketplace_page, voting_page, game_result_page,
                     user_panel_page, game_panel_page,
                     news_page, my_news_page, sessions_page,
-                    my_companies_page]
+                    my_companies_page, yandex_verification_page]
