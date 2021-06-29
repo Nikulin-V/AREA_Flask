@@ -18,7 +18,7 @@ app = game_result_page
 
 @app.route('/game-result')
 @use_subdomains(subdomains=['market'])
-@mobile_template('market/{mobile/}game-result.html')
+@mobile_template('market/{mobile/}session-result.html')
 @login_required
 def game_result(template, subdomain='market'):
     if get_constant('GAME_RUN'):

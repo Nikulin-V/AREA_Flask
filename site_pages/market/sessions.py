@@ -6,7 +6,7 @@ from flask import render_template, Blueprint
 from flask_login import login_required, current_user
 from flask_mobility.decorators import mobile_template
 
-from config import PROFIT_PERCENT, GAME_RUN, START_STOCKS, NEW_COMPANY_FEE, START_WALLET_MONEY
+from config import FEE_FOR_STOCK, GAME_RUN, START_STOCKS, NEW_COMPANY_FEE, START_WALLET_MONEY
 from data import db_session
 from data.companies import Company
 from data.config import Constant
@@ -58,10 +58,10 @@ def sessions(template, subdomain='market'):
         )
         db_sess.add(session)
         db_sess.commit()
-        profit_percent = Constant(
+        fee_for_stock = Constant(
             session_id=new_session_id,
-            name='PROFIT_PERCENT',
-            value=PROFIT_PERCENT
+            name='FEE_FOR_STOCK',
+            value=FEE_FOR_STOCK
         )
         game_run = Constant(
             session_id=new_session_id,
@@ -83,7 +83,7 @@ def sessions(template, subdomain='market'):
             name='START_WALLET_MONEY',
             value=START_WALLET_MONEY
         )
-        constants = [profit_percent, game_run, start_stocks, new_company_fee, start_wallet_money]
+        constants = [fee_for_stock, game_run, start_stocks, new_company_fee, start_wallet_money]
         db_sess.add_all(constants)
         db_sess.commit()
         form.session.data = f'{session.title} | {session.id}'

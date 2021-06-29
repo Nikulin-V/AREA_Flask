@@ -38,5 +38,5 @@ def get_subdomain():
     host = request.host
     if host == HOST:
         return 'area'
-    elif host.endswith(HOST):
+    elif host.endswith(HOST) or host.split(':')[0].endswith(HOST):
         return host.split('.')[0]

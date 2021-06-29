@@ -25,15 +25,19 @@ def get_constant(name):
 
 
 def get_company_title(identifier):
-    return db_session.create_session().query(Company.title). \
+    res = db_session.create_session().query(Company.title). \
         filter(Company.id == identifier,
-               Company.session_id == get_session_id()).first()[0]
+               Company.session_id == get_session_id()).first()
+    if res is not None:
+        return res[0]
 
 
 def get_company_id(title):
-    return db_session.create_session().query(Company.id). \
+    res = db_session.create_session().query(Company.id). \
         filter(Company.title == title,
-               Company.session_id == get_session_id()).first()[0]
+               Company.session_id == get_session_id()).first()
+    if res is not None:
+        return res[0]
 
 
 def update_market_info():
@@ -129,7 +133,7 @@ def evaluate_form(form):
 
     if form.user:
         form.user.choices = users
-        if not form.user.data:
+        if not form.user.data and users:
             form.user.data = users[0]
 
     return sectors, companies

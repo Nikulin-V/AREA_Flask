@@ -94,7 +94,7 @@ def marketplace(template, subdomain='market'):
                 Offer.company_id == company_id,
                 Offer.session_id == get_session_id()
             ))))
-        fee = first_cost * (stocks_count - all_transactions_stocks) * get_constant('PROFIT_PERCENT')
+        fee = first_cost * (stocks_count - all_transactions_stocks) * get_constant('FEE_FOR_STOCK')
         final_cost = first_cost + fee
 
         customer_wallet = db_sess.query(Wallet).filter(Wallet.user_id == current_user.id).first()
@@ -165,7 +165,7 @@ def marketplace(template, subdomain='market'):
                         Wallet.user_id == i,
                         Wallet.session_id == get_session_id()
                     ).first()
-                    fee_percent = get_constant('PROFIT_PERCENT')
+                    fee_percent = get_constant('FEE_FOR_STOCK')
                     wallet.money += first_cost * fee_percent * stockholder_stocks
                     db_sess.merge(wallet)
                     db_sess.commit()

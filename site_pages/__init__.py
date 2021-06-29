@@ -4,8 +4,8 @@ from .edu.area_diary import area_diary_page
 from .edu.epos_diary import epos_diary_page
 
 from .market.company_panel import company_panel_page
-from .market.game_panel import game_panel_page
-from .market.game_result import game_result_page
+from .market.session_panel import game_panel_page
+from .market.session_result import game_result_page
 from .market.marketplace import marketplace_page
 from .market.create_company import my_companies_page
 from .market.my_news import my_news_page
