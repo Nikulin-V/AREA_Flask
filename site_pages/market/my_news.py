@@ -287,7 +287,9 @@ def evaluate_form(form):
             company = db_sess.query(Company.title).filter(
                 Company.id == company_id,
                 Company.session_id == get_session_id()
-            ).first()[0]
+            ).first()
+            if company is not None:
+                company = company[0]
             authors.append(f'от лица компании "{str(company)}"')
         authors.sort()
         form.author.choices = authors
