@@ -2,7 +2,7 @@
 import random
 import string
 
-from flask import request, abort
+from flask import request
 
 from config import HOST
 
@@ -27,7 +27,7 @@ def use_subdomains(subdomains=None):
             if subdomain in subdomains:
                 return func(*args, **kwargs, subdomain=subdomain)
             else:
-                abort(404)
+                return 'Неверный поддомен сайта'
 
         return wrapper
 

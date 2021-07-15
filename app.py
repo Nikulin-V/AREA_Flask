@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, redirect
 from flask_login import LoginManager
 from flask_migrate import Migrate
 from flask_mobility.decorators import mobile_template
@@ -40,13 +40,18 @@ def load_user(user_id):
     return db_sess.query(User).get(user_id)
 
 
+@app.route('/secrets-of-literacy')
+def secrets_of_literacy():
+    return redirect('https://secrets-of-literacy.wixsite.com/website')
+
+
 @app.errorhandler(401)
 @app.errorhandler(403)
 @app.errorhandler(404)
 @app.errorhandler(408)
 @app.errorhandler(500)
 @mobile_template('/{mobile/}error-page.html')
-@use_subdomains(subdomains=['area', 'market', 'edu'])
+@use_subdomains(subdomains=['', 'area', 'market', 'edu'])
 def page_not_found(error, template: str, subdomain: str):
     template = subdomain + template
     messages = {
