@@ -1,0 +1,37 @@
+<!--suppress ALL -->
+{% extends "edu/base.html" %}
+
+{% block content %}
+    <br>
+    <h1 style="text-align:center ">{{ title }}</h1>
+    {% for day_id in range(days|length) %}
+
+        <table class="dairy-table table-hover table-info">
+        <caption style="caption-side: top">{{ dates[day_id] + ', ' + days[day_id] }}</caption>
+            {% if schedule[days[day_id]] %}
+                {% for data_id in range(schedule[days[day_id]]|length) %}
+
+                    <tr>
+                        <td style="width: 15px; text-align: center; padding: 0 5px 0 5px">{{ loop.index }}</td>
+                        <td style="width: 20%;text-align: center">{{ schedule[days[day_id]][data_id][0] }}</td>
+                        <td style="text-align: left; padding-left: 20px">
+                            {% for task in homework[days[day_id]][data_id] %}
+                                {{ task }}
+                                {% if not loop.last %}
+                                    <br>
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                    </tr>
+
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td style="text-align: center;">Нет расписания</td>
+                </tr>
+            {% endif %}
+        </table>
+        <p></p>
+
+    {% endfor %}
+{% endblock %}

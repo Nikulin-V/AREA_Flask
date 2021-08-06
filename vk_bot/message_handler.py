@@ -1,3 +1,5 @@
+#  Kozhevnikov Kirill © 2021
+
 import importlib
 import os
 import vkapi

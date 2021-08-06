@@ -1,17 +1,20 @@
+#  Kozhevnikov Kirill © 2021
+
 from flask import abort
 from PIL import Image, ImageDraw, ImageFont
 from vk_api import VkApi
 from vk_api.upload import VkUpload
 from datetime import datetime
 
+from tools.epos import EPOS
 from vk_bot import command_system
 
 from vk_bot.credentials import TOKEN
-from data import epos, db_session
+from data import db_session
 from data.vk_users import VkUser
 
 
-epos = epos.EPOS()
+epos = EPOS()
 
 
 def day_diary():

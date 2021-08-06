@@ -1,22 +1,27 @@
-#  Nikulin Vasily (c) 2021
+#  Nikulin Vasily © 2021
 from flask import Blueprint, redirect, render_template
 from flask_login import current_user, login_user
 from flask_mobility.decorators import mobile_template
 
 from data import db_session
 from data.schools import School
+from data.sessions import Session
 from data.users import User
 from forms.register import RegisterForm
+from tools.tools import use_subdomains, get_subdomain
 
 register_page = Blueprint('register', __name__)
 app = register_page
 
 
 @app.route('/register', methods=['GET', 'POST'])
-@mobile_template('{mobile/}register.html')
-def register(template):
+@use_subdomains(subdomains=['area', 'market', 'edu'])
+@mobile_template('/{mobile/}register.html')
+def register(template: str):
+    template = get_subdomain() + template
+
     if current_user.is_authenticated:
-        redirect('/homework')
+        return redirect('/profile')
 
     db_sess = db_session.create_session()
 
@@ -52,13 +57,14 @@ def register(template):
             school_id=int(db_sess.query(School.id).
                           filter(School.title == form.school.data).first()[0]),
             role=form.role.data,
-            game_role='Игрок',
             about=form.about.data
         )
         user.set_password(form.password.data)
         db_sess.add(user)
         db_sess.commit()
         login_user(user)
+        session = db_sess.query(Session).get('77777777')
+        session.players_ids = ';'.join(session.players_ids.split(';') + [str(current_user.id)])
         return redirect('/profile')
 
     return render_template(template,

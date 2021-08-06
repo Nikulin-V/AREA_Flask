@@ -1,0 +1,31 @@
+<!--suppress ALL -->
+{% extends "market/base.html" %}
+
+{% block content %}
+    <h3 style="text-align: center">{{ title }}</h3>
+    <h5 style="text-align: center">Взнос: {{ new_company_fee }} 💰</h5>
+    <h6 style="text-align: center">Автоматически будет опубликована новость об открытии компании.</h6>
+    <hr>
+    <div class="form-floating">
+        <select id="sector" class="form-select" type="text"></select>
+        <label for="sector">Отрасль</label>
+    </div>
+    <br>
+    <div class="form-floating">
+        <input id="title" class="form-control" type="text" placeholder="Название компании">
+        <label for="title">Название компании</label>
+    </div>
+    <br>
+    <div class="form-floating">
+        <textarea id="description" class="form-control" type="text" placeholder="Описание"></textarea>
+        <label for="description">Описание</label>
+    </div>
+    <br>
+    <div class="form-floating">
+        <input id="logo-url" class="form-control" type="url" placeholder="Ссылка на изображение логотипа"></input>
+        <label for="logo-url">Ссылка на изображение логотипа</label>
+    </div>
+    <br>
+    <button class="btn btn-info" type="submit" onclick="createCompany()">Готово ✅</button>
+    <script src="/static/js/market/create-company.js"></script>
+{% endblock %}

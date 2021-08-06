@@ -1,4 +1,4 @@
-#  Nikulin Vasily (c) 2021
+#  Nikulin Vasily © 2021
 from flask import Blueprint, redirect, render_template
 from flask_login import current_user, login_user, login_required, logout_user
 from flask_mobility.decorators import mobile_template
@@ -6,14 +6,18 @@ from flask_mobility.decorators import mobile_template
 from data import db_session
 from data.users import User
 from forms.login import LoginForm
+from tools.tools import use_subdomains, get_subdomain
 
 login_page = Blueprint('login', __name__)
 app = login_page
 
 
 @app.route('/login', methods=['GET', 'POST'])
-@mobile_template('{mobile/}login.html')
-def login(template):
+@use_subdomains(subdomains=['area', 'market', 'edu'])
+@mobile_template('/{mobile/}login.html')
+def login(template: str):
+    template = get_subdomain() + template
+
     if current_user.is_authenticated:
         return redirect('/profile')
 

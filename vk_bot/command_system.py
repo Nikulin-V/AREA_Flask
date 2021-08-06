@@ -1,8 +1,11 @@
+#  Kozhevnikov Kirill © 2021
+
 command_list = []
 
 
 class Command:
     """класс команд (ответных сообщений)"""
+
     def __init__(self):
         self.__keys = []  # список команд (ответных сообщений)
         self.description = ''  # описание команд (ответных сообщений)

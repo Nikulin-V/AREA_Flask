@@ -1,0 +1,61 @@
+<!--suppress ALL -->
+{% extends "market/base.html" %}
+
+{% block content %}
+    <h1 style="text-align: center">{{ title }}</h1>
+    <hr>
+    <br>
+    <div class="form-floating">
+        <select class="form-select" id="session-select"></select>
+        <label for="session-select">Текущая фондовая биржа</label>
+    </div>
+    <br>
+    <hr>
+    <br>
+    <div class="form-floating">
+        <input class="form-control" id="new-session-input" placeholder="Имя новой фондовой биржи">
+        <label for="new-session-input">Имя новой фондовой биржи</label>
+    </div>
+    <br>
+    <button class="btn btn-info" id="submit" onclick="createSession()" style="margin-bottom: 10px">
+        Создать фондовую биржу ✅
+    </button>
+    <hr>
+    <br>
+    {% if 'Admin' in game_role %}
+        <h4>Удалить текущую игру</h4>
+        <br>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="delete-session-checkbox">
+            <label class="form-check-label" for="delete-session-checkbox">
+                Подтвердить
+            </label>
+        </div>
+        <br>
+        <button class="btn btn-info" id="delete-session-btn" onclick="deleteSession()">
+            Удалить текущую фондовую биржу ❌
+        </button>
+    {% endif %}
+
+    {% if message %}
+        <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Сообщение от сайта</h5>
+                <button type="button" class="close" id="modal-close-btn" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                {{ message }}
+              </div>
+              <div class="modal-footer" id="modal-ok-btn">
+                <button type="button" class="btn btn-info">ОК</button>
+              </div>
+            </div>
+          </div>
+        </div>
+    {% endif %}
+    <script src="/static/js/market/sessions.js"></script>
+{% endblock %}

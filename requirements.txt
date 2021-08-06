@@ -10,3 +10,7 @@ flask-mobility
 flask-login
 flask-wtf
 flask-ngrok
+flask-migrate
+flask-babel
+sqlalchemy-serializer
+requests

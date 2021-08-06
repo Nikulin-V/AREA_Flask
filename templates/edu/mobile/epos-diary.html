@@ -1,0 +1,34 @@
+<!--suppress ALL -->
+{% extends "edu/mobile/base.html" %}
+
+{% block content %}
+    <h3>{{ title }}</h3>
+    {% for day in schedule.keys() %}
+
+        <table class="dairy-table table-hover table-info">
+        <caption style="caption-side: top">{{ day }}</caption>
+            {% if schedule[day]['lessons'] %}
+                {% for lesson_id in range(schedule[day]['lessons']|length) %}
+
+                    <tr id="row">
+                        <td style="width: 15px; text-align: center">{{ loop.index }}</td>
+                        <td style="width: 20%;text-align: center">
+                            {{ schedule[day]['lessons'][lesson_id] }}</td>
+                        {% if schedule[day]['homeworks'][lesson_id] %}
+                            <td style="padding-left: 20px">{{ schedule[day]['homeworks'][lesson_id] }}</td>
+                        {% else %}
+                            <td></td>
+                        {% endif %}
+                    </tr>
+
+                {% endfor %}
+            {% else %}
+                <tr id="row">
+                    <td style="text-align: center;">Нет расписания</td>
+                </tr>
+            {% endif %}
+        </table>
+        <p></p>
+
+    {% endfor %}
+{% endblock %}

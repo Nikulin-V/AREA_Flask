@@ -1,3 +1,5 @@
+#  Kozhevnikov Kirill © 2021
+
 import json
 
 import message_handler

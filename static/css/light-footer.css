@@ -1,20 +1,24 @@
+/*
+ * Nikulin Vasily © 2021
+ */
+
 
 .copy-w3right {
     background: #ffffff;
     text-align: center;
 }
 /*-- //social-icons --*/
-.top-nav.bottom-w3lnav {
-    margin-bottom: 1em;
-    padding: 0 0 1em;
-}
+/*.top-nav.bottom-w3lnav {*/
+/*    margin-bottom: 1em;*/
+/*    padding: 0 0 1em;*/
+/*}*/
 
-.top-nav.bottom-w3lnav {
-    background: none;
-    border-bottom: 1px solid #404040;
-    margin-bottom: 2em;
-    padding-bottom: 2em;
-}
+/*.top-nav.bottom-w3lnav {*/
+/*    background: none;*/
+/*    border-bottom: 1px solid #404040;*/
+/*    margin-bottom: 2em;*/
+/*    padding-bottom: 2em;*/
+/*}*/
 
 .copy-w3right p {
     color: #000000;
