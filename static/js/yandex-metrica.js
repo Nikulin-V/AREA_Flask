@@ -1,5 +1,9 @@
 /*
- * Nikulin Vasily (c) 2021
+ * Nikulin Vasily © 2021
+ */
+
+/*
+ * Nikulin Vasily © 2021
  */
 
 <!-- Yandex.Metrika counter -->

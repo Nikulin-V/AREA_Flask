@@ -1,3 +1,7 @@
+/*
+ * Nikulin Vasily © 2021
+ */
+
 // noinspection JSUnresolvedVariable,JSUnusedGlobalSymbols
 
 gapi.load('client', {

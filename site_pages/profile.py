@@ -1,4 +1,4 @@
-#  Nikulin Vasily (c) 2021
+#  Nikulin Vasily © 2021
 from flask import Blueprint, render_template
 from flask_login import login_required, current_user
 from flask_mobility.decorators import mobile_template
@@ -7,7 +7,7 @@ from data import db_session
 from data.functions import get_game_roles
 from data.schools import School
 from forms.profile import ProfileForm
-from tools import use_subdomains
+from tools.tools import use_subdomains, get_subdomain
 
 profile_page = Blueprint('profile', __name__)
 app = profile_page
@@ -17,8 +17,8 @@ app = profile_page
 @use_subdomains(subdomains=['area', 'market', 'edu'])
 @mobile_template('/{mobile/}profile.html')
 @login_required
-def profile(template: str, subdomain: str):
-    template = subdomain + template
+def profile(template: str):
+    template = get_subdomain() + template
 
     form = ProfileForm()
     db_sess = db_session.create_session()

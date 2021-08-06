@@ -1,4 +1,4 @@
-#  Nikulin Vasily (c) 2021
+#  Nikulin Vasily © 2021
 from datetime import date
 
 from flask import Blueprint, render_template
@@ -10,7 +10,7 @@ from data.db_functions import repair_dependencies_students_and_groups
 from data.groups import Group
 from data.homeworks import Homework
 from data.students import Student
-from tools import use_subdomains
+from tools.tools import use_subdomains
 
 area_diary_page = Blueprint('area-diary', __name__)
 app = area_diary_page
@@ -20,7 +20,7 @@ app = area_diary_page
 @use_subdomains(subdomains=['edu'])
 @mobile_template('edu/{mobile/}area-diary.html')
 @login_required
-def area_diary(template, subdomain='edu'):
+def area_diary(template):
     repair_dependencies_students_and_groups()
     db_sess = db_session.create_session()
     days = ['пн', 'вт', 'ср', 'чт', 'пт', 'сб']

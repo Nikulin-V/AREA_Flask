@@ -1,3 +1,5 @@
+#  Nikulin Vasily © 2021
+
 import sqlalchemy as sa
 import sqlalchemy.orm as orm
 from sqlalchemy.orm import Session
@@ -23,24 +25,6 @@ def global_init(db_file):
 
     engine = sa.create_engine(conn_str, echo=False)
     __factory = orm.sessionmaker(bind=engine)
-
-    from .classes import Class
-    from .companies import Company
-    from .epos import EPOS
-    from .groups import Group
-    from .homeworks import Homework
-    from .news import News
-    from .offers import Offer
-    from .schools import School
-    from .sessions import Session
-    from .stockholders_votes import SVote
-    from .stocks import Stock
-    from .students import Student
-    from .transactions import Transaction
-    from .users import User
-    from .vk_users import VkUser
-    from .votes import Vote
-    from .wallets import Wallet
 
     SqlAlchemyBase.metadata.create_all(engine)
 

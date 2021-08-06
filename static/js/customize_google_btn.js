@@ -1,3 +1,7 @@
+/*
+ * Nikulin Vasily © 2021
+ */
+
 // noinspection JSUndeclaredVariable,JSUnresolvedFunction,JSUnresolvedVariable,JSUnusedLocalSymbols
 
 let googleUser = {};

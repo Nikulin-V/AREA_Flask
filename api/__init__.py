@@ -1,6 +1,17 @@
-#  Nikulin Vasily (c) 2021
+#  Nikulin Vasily © 2021
+from flask import Blueprint
+from tools.io_blueprint import IOBlueprint
 
-from .users import users_api
-from .sessions import sessions_api
+api = Blueprint('api', __name__)
+sock = IOBlueprint()
 
-apis = [users_api, sessions_api]
+# noinspection PyPep8
+from . import companies
+from . import news
+from . import offers
+from . import sessions
+from . import stocks
+from . import svotes
+from . import users
+from . import votes
+from . import wallets

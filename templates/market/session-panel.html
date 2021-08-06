@@ -8,7 +8,7 @@
         {{ form.hidden_tag() }}
         <p>
             {{ form.game_run.label }}<br>
-            {{ form.game_run(class='form-control', style='width: 10%;text-align: center') }}<br>
+            {{ form.game_run(class='form-check-input', style='width: 2em; height: 2em; text-align: center') }}<br>
             {% for error in form.game_run.errors %}
                 <div class="alert alert-danger" role="alert">
                     {{ error }}

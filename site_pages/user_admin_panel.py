@@ -1,4 +1,4 @@
-#  Nikulin Vasily (c) 2021
+#  Nikulin Vasily © 2021
 from flask import Blueprint, render_template, abort
 from flask_login import current_user, login_required
 from flask_mobility.decorators import mobile_template

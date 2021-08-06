@@ -1,0 +1,14 @@
+# Address: http://127.0.0.1
+
+version: "3"
+
+services:
+
+  server:
+
+    build: ./
+
+    command: python3 ./app.py
+
+    ports:
+      - 80:5000

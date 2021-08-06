@@ -1,3 +1,5 @@
+#  Nikulin Vasily © 2021
+
 from flask_wtf import FlaskForm
 from wtforms import SubmitField, SelectField, StringField, BooleanField
 

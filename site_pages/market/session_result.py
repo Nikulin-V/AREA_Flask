@@ -1,6 +1,4 @@
-#  Nikulin Vasily (c) 2021
-
-#  Nikulin Vasily (c) 2021
+#  Nikulin Vasily © 2021
 
 from flask import render_template, Blueprint, abort
 from flask_login import login_required
@@ -10,7 +8,7 @@ from data import db_session
 from data.functions import get_constant, get_game_roles, get_session_id
 from data.users import User
 from data.wallets import Wallet
-from tools import use_subdomains
+from tools.tools import use_subdomains
 
 game_result_page = Blueprint('game-result', __name__)
 app = game_result_page
@@ -20,7 +18,7 @@ app = game_result_page
 @use_subdomains(subdomains=['market'])
 @mobile_template('market/{mobile/}session-result.html')
 @login_required
-def game_result(template, subdomain='market'):
+def game_result(template):
     if get_constant('GAME_RUN'):
         abort(404)
 

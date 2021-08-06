@@ -1,116 +1,312 @@
-#  Nikulin Vasily (c) 2021
-from flask import Blueprint, jsonify
+#  Nikulin Vasily © 2021
 from flask_login import current_user, login_required
-from sqlalchemy import or_
 
+from api import api, sock
+from config import FEE_FOR_STOCK, GAME_RUN, START_STOCKS, NEW_COMPANY_FEE, START_WALLET_MONEY
 from data import db_session
+from data.companies import Company
+from data.config import Constant
+from data.news import News
+from data.offers import Offer
 from data.sessions import Session
+from data.stockholders_votes import SVote
+from data.stocks import Stock
+from data.transactions import Transaction
+from data.users import User
+from data.votes import Vote
+from data.wallets import Wallet
+from tools.tools import fillJson, send_response
 
-sessions_api = Blueprint('sessions-api', __name__)
 
+@sock.on('getSessions')
+@api.route('/api/sessions', methods=['GET'])
+@login_required
+def getSessions(json=None):
+    """
+    Get info about sessions
 
-@sessions_api.route('/api/sessions')
-def get_sessions():
+    Required arguments: -
+
+    Args:
+        json (dict of str):
+
+    JSON Args:
+        identifier (str): session's id
+
+    Returns:
+        Info about session/sessions (JSON)
+    """
+
+    if json is None:
+        json = dict()
+
+    event_name = 'getSessions'
+    fillJson(json, ['identifier', 'title'])
+
+    identifier = json['identifier']
+
     db_sess = db_session.create_session()
-    sessions = db_sess.query(Session).all()
-    return jsonify(
+
+    if identifier:
+        sessions = [db_sess.query(Session).get(identifier)]
+    else:
+        sessions = db_sess.query(Session).all()
+        sessions = list(filter(lambda x: str(current_user.id) in str(x.players_ids).split(';'),
+                               sessions))
+
+    if not sessions:
+        return send_response(
+            event_name,
+            {
+                'message': 'Error',
+                'errors': [f'The session with <id:{identifier}> not found']
+            }
+        )
+
+    current_session = db_sess.query(Session).get(current_user.game_session_id)
+    if current_session is None:
+        current_session = sessions[0]
+        user = db_sess.query(User).get(current_user.id)
+        user.game_session_id = current_session.id
+        db_sess.merge(user)
+        db_sess.commit()
+
+    return send_response(
+        event_name,
         {
+            'message': 'Success',
             'sessions':
                 [item.to_dict(only=('id', 'title', 'admins_ids', 'players_ids'))
-                 for item in sessions]
+                 for item in sessions],
+            'currentSession': {
+                'id': current_session.id,
+                'title': current_session.title
+                }
         }
     )
 
 
 # noinspection PyArgumentList
-@sessions_api.route('/api/create_session?title=<string:title>', methods=['POST'])
+@sock.on('createSession')
+@api.route('/api/sessions', methods=['POST'])
 @login_required
-def create_session(title):
+def createSession(json=None):
+    if json is None:
+        json = dict()
+    """
+    Create session
+
+    Required arguments:
+        title
+
+    Args:
+        json (dict of str): session's title
+
+    Returns:
+        New session's id (JSON)
+
+    """
+
+    event_name = 'createSession'
+    fillJson(json, ['title'])
+
+    title = json['title']
+
+    if title is None:
+        return send_response(
+            event_name,
+            {
+                'message': 'Error',
+                'errors': ['Specify the title of new session']
+            }
+        )
+
     db_sess = db_session.create_session()
+
+    if title in list(map(lambda x: x[0], db_sess.query(Session.title).all())):
+        return send_response(
+            event_name,
+            {
+                'message': 'Error',
+                'errors': ['This title has taken.']
+            }
+        )
+
     session = Session(
         title=title,
-        admins_ids=str(current_user.id)
+        admins_ids=str(current_user.id),
+        players_ids=str(current_user.id)
     )
     db_sess.add(session)
     db_sess.commit()
 
+    fee_for_stock = Constant(
+        session_id=session.id,
+        name='FEE_FOR_STOCK',
+        value=FEE_FOR_STOCK
+    )
+    game_run = Constant(
+        session_id=session.id,
+        name='GAME_RUN',
+        value=GAME_RUN
+    )
+    start_stocks = Constant(
+        session_id=session.id,
+        name='START_STOCKS',
+        value=START_STOCKS
+    )
+    new_company_fee = Constant(
+        session_id=session.id,
+        name='NEW_COMPANY_FEE',
+        value=NEW_COMPANY_FEE
+    )
+    start_wallet_money = Constant(
+        session_id=session.id,
+        name='START_WALLET_MONEY',
+        value=START_WALLET_MONEY
+    )
+    constants = [fee_for_stock, game_run, start_stocks, new_company_fee, start_wallet_money]
+    db_sess.add_all(constants)
+    db_sess.commit()
 
-@sessions_api.route('/api/edit_session_roles?'
-                    'action=<string:action>&'
-                    'role=<string:role>&'
-                    'user_id=<int:user_id>',
-                    methods=['POST'])
+    return send_response(
+        event_name,
+        {
+            'message': 'Success',
+            'errors': [],
+            'id': session.id
+        }
+    )
+
+
+@sock.on('editSession')
+@api.route('/api/sessions', methods=['PUT'])
 @login_required
-def edit_session_roles(action, role, user_id):
+def editSession(json=None):
+    if json is None:
+        json = dict()
+    """
+    Edit session
+
+    Required arguments: -
+
+    Args:
+        json (dict of str): dict of new user data
+
+    Session data:
+        title (string): title\n
+        admins_ids (string): ';' separated ids of admins\n
+        players_ids (string): ';'separated ids of players
+
+    Returns:
+        Success message (JSON)
+    """
+
+    event_name = 'editSession'
+    fillJson(json, ['title', 'adminsIds', 'playersIds'])
+    session_data = dict()
+
+    for arg in json.keys():
+        session_data[arg] = json[arg]
+
     db_sess = db_session.create_session()
     session_id = current_user.game_session_id
     session = db_sess.get(Session, session_id)
+    session: Session
 
-    ids = None
-    if role.upper() == 'ADMIN':
-        ids = session.admins_ids
-    elif role.upper() == 'PLAYER':
-        ids = session.players_ids
+    if str(current_user.id) not in session.admins_ids:
+        return send_response(
+            event_name,
+            {
+                'message': 'Error',
+                'errors': ['You are not admin of current session']
+            }
+        )
 
-    if action.upper() == 'ADD':
-        if str(user_id) not in ids.split(';'):
-            ids = ';'.join(ids.split(';') + [str(user_id)])
-    elif action.upper() == 'DELETE':
-        ids = ids.split(';')
-        if str(user_id) in ids:
-            ids.remove(str(user_id))
-            ids = ';'.join(ids)
+    title = session_data['title']
+    admins_ids = session_data['adminsIds']
+    players_ids = session_data['playersIds']
 
-    if role.upper() == 'ADMIN':
-        session.admins_ids = ids
-    elif role.upper() == 'PLAYER':
-        session.players_ids = ids
+    session.title = title if title else session.title
+    session.admins_ids = admins_ids if admins_ids else session.admins_ids
+    session.players_ids = players_ids if players_ids else session.players_ids
+
     db_sess.merge(session)
     db_sess.commit()
 
+    return send_response(
+        event_name,
+        {
+            'message': 'Success',
+            'errors': []
+        }
+    )
 
-@sessions_api.route('/api/session_roles')
+
+@sock.on('deleteSession')
+@api.route('/api/sessions', methods=['DELETE'])
 @login_required
-def get_current_user_roles():
-    db_sess = db_session.create_session()
+def deleteSession():
+    """
+    Delete current session with all its data
 
-    identifier = str(current_user.id)
+    Required arguments: -
+
+    Returns:
+        Success message (JSON)
+    """
+
+    event_name = 'deleteSession'
+
+    db_sess = db_session.create_session()
     session_id = current_user.game_session_id
+    if session_id is None:
+        return send_response(
+            event_name,
+            {
+                'message': 'Error',
+                'errors': ['You do not have any sessions']
+            }
+        )
+
     session = db_sess.query(Session).get(session_id)
-    roles = []
-    if session:
-        if identifier in str(session.admins_ids).split(';'):
-            roles.append('Admin')
-        if identifier in str(session.players_ids).split(';'):
-            roles.append('Player')
+    session: Session
 
-    return jsonify(
+    if str(current_user.id) not in str(session.admins_ids):
+        return send_response(
+            event_name,
+            {
+                'message': 'Error',
+                'errors': ['You are not admin of current session']
+            }
+        )
+
+    delete_all_session_data(session_id)
+    db_sess.delete(session)
+    db_sess.commit()
+
+    return send_response(
+        event_name,
         {
-            "roles": roles
+            'message': 'Success',
+            'errors': []
         }
     )
 
 
-@sessions_api.route('/api/user_sessions')
-@login_required
-def get_current_user_sessions():
+def delete_all_session_data(session_id):
+    """
+    Delete all data of selected session
+
+    Args:
+        session_id (str): session id
+
+    """
     db_sess = db_session.create_session()
-
-    identifier = str(current_user.id)
-
-    data = db_sess.query(Session).filter(or_(Session.admins_ids.contains(str(identifier)),
-                                             Session.players_ids.contains(str(identifier)))).all()
-
-    sessions = []
-    for session_id in range(len(data)):
-        if identifier in str(data[session_id].admins_ids) or \
-                identifier in str(data[session_id].players):
-            sessions.append(data[session_id])
-
-    return jsonify(
-        {
-            'sessions':
-                [item.to_dict(only=('id', 'title', 'admins_ids', 'players_ids'))
-                 for item in sessions]
-        }
-    )
+    models = [Company, Offer, News, SVote, Stock, Transaction, Vote, Wallet, Constant]
+    items = []
+    for model in models:
+        items += list(db_sess.query(model).filter(model.session_id == session_id).all())
+    for item in items:
+        db_sess.delete(item)
+    db_sess.commit()

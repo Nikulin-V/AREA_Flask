@@ -1,10 +1,10 @@
-#  Nikulin Vasily (c) 2021
+#  Nikulin Vasily © 2021
 from flask import Blueprint, abort, render_template
 from flask_login import login_required, current_user
 from flask_mobility.decorators import mobile_template
 
-from data.epos import EPOS
-from tools import use_subdomains
+from tools.epos import EPOS
+from tools.tools import use_subdomains
 
 epos_diary_page = Blueprint('epos-diary', __name__)
 app = epos_diary_page
@@ -16,7 +16,7 @@ epos = EPOS()
 @use_subdomains(subdomains=['edu'])
 @mobile_template('edu/{mobile/}epos-diary.html')
 @login_required
-def epos_diary(template, subdomain='edu'):
+def epos_diary(template):
     if not current_user.is_authenticated:
         abort(401)
 

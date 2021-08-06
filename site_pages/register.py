@@ -1,4 +1,4 @@
-#  Nikulin Vasily (c) 2021
+#  Nikulin Vasily © 2021
 from flask import Blueprint, redirect, render_template
 from flask_login import current_user, login_user
 from flask_mobility.decorators import mobile_template
@@ -8,7 +8,7 @@ from data.schools import School
 from data.sessions import Session
 from data.users import User
 from forms.register import RegisterForm
-from tools import use_subdomains
+from tools.tools import use_subdomains, get_subdomain
 
 register_page = Blueprint('register', __name__)
 app = register_page
@@ -17,8 +17,8 @@ app = register_page
 @app.route('/register', methods=['GET', 'POST'])
 @use_subdomains(subdomains=['area', 'market', 'edu'])
 @mobile_template('/{mobile/}register.html')
-def register(template: str, subdomain: str):
-    template = subdomain + template
+def register(template: str):
+    template = get_subdomain() + template
 
     if current_user.is_authenticated:
         return redirect('/profile')

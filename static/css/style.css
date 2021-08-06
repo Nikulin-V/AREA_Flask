@@ -1,3 +1,7 @@
+/*
+ * Nikulin Vasily © 2021
+ */
+
 body {
     display: block;
 }
@@ -6,9 +10,6 @@ main {
     margin-bottom: 100px;
 }
 
-td, th {
-    border: 1px solid;
-}
 
 .dairy-table {
     width: 100%;
@@ -76,7 +77,34 @@ td, th {
 }
 
 
-#header-hr {
+.header-hr {
     margin: 0;
 }
 
+.btn-info {
+    color: white;
+    background-color: #17a2b8;
+    border-color: #17a2b8;
+}
+
+.btn-info:hover {
+    color: white;
+    background-color: #138496;
+    border-color: #17a2b8;
+}
+
+#username {
+    color: black;
+}
+
+.table-info {
+    background-color: #BEE5EB;
+}
+
+.table-info td, td{
+    border: 1px solid #86cfda;
+}
+
+.table-hover tbody tr:hover {
+    background-color: #B0D4D9;
+}

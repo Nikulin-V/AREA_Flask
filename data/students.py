@@ -1,3 +1,5 @@
+#  Nikulin Vasily © 2021
+
 from .db_session import SqlAlchemyBase
 import sqlalchemy
 

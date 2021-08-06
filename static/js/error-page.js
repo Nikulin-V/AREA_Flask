@@ -1,3 +1,7 @@
+/*
+ * Nikulin Vasily © 2021
+ */
+
 //При движении мышью вызываем функцию, которая меняет положение фона
 // noinspection LongLine
 
@@ -9,7 +13,7 @@ window.mobileAndTabletCheck = function() {
 };
 
 main = document.getElementsByTagName('body')[0]
-main.style = "margin-top: 0px!important";
+main.style.marginTop = "0";
 
 if (!window.mobileAndTabletCheck()) {
     document.addEventListener("mousemove", function (e) { MoveBackground(e); });

@@ -1,3 +1,7 @@
+/*
+ * Nikulin Vasily © 2021
+ */
+
 .navbar {
     background-color: #86cfda;
 }
@@ -8,9 +12,15 @@
 
 #username {
     background-color: white;
-    margin-right: 2px;
+    margin-right: 10px;
 }
 
+#username-dropdown {
+    position: fixed;
+    right: 10px;
+    left: auto;
+    top: 70px;
+}
 .dropdown-menu {
     width: min-content;
     left: auto;
@@ -47,23 +57,23 @@ span.label {
     font-weight: normal;
 }
 
-#google-icon {
-    background: url(../images/Google.png) transparent 5px 50% no-repeat;
-    display: inline-block;
-    vertical-align: middle;
-    margin-left: .375rem;
-    width: 30px;
-    height: 30px;
-}
-
-span.buttonText {
-    display: inline-block;
-    vertical-align: middle;
-    padding: .375rem .75rem .375rem 0;
-    font-size: 1rem;
-    font-weight: 400;
-    color: black;
-}
+/*#google-icon {*/
+/*    background: url(../images/Google.png) transparent 5px 50% no-repeat;*/
+/*    display: inline-block;*/
+/*    vertical-align: middle;*/
+/*    margin-left: .375rem;*/
+/*    width: 30px;*/
+/*    height: 30px;*/
+/*}*/
+/**/
+/*span.buttonText {*/
+/*    display: inline-block;*/
+/*    vertical-align: middle;*/
+/*    padding: .375rem .75rem .375rem 0;*/
+/*    font-size: 1rem;*/
+/*    font-weight: 400;*/
+/*    color: black;*/
+/*}*/
 
 .dropdown-menu {
     text-align: center;

@@ -1,3 +1,6 @@
+#  Nikulin Vasily © 2021
+from flask_login import current_user
+
 from data.groups import Group
 from data.students import Student
 from .db_session import create_session
@@ -12,3 +15,7 @@ def repair_dependencies_students_and_groups():
                                                       Student.group_id == group_id))) == 0:
                 db_sess.add(Student(user_id=student_id, group_id=group_id))
     db_sess.commit()
+
+
+def get_session_id():
+    return current_user.game_session_id

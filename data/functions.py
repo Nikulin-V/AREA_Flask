@@ -1,10 +1,11 @@
-#  Nikulin Vasily (c) 2021
+#  Nikulin Vasily © 2021
 from flask_login import current_user, AnonymousUserMixin
 from sqlalchemy import or_
 
 from data import db_session
 from data.companies import Company
 from data.config import Constant
+from data.db_functions import get_session_id
 from data.offers import Offer
 from data.sessions import Session
 from data.stocks import Stock
@@ -18,10 +19,12 @@ def get_constant(name):
     db_sess = db_session.create_session()
     constant = db_sess.query(Constant.value). \
         filter(Constant.name == name,
-               Constant.session_id == current_user.game_session_id).first()
+               Constant.session_id == get_session_id()).first()
     if constant:
         constant = constant[0]
-    return constant
+    if int(constant) == float(constant):
+        return int(constant)
+    return float(constant)
 
 
 def get_company_title(identifier):
@@ -175,7 +178,3 @@ def get_game_sessions():
     sessions.sort(key=lambda x: x.title)
 
     return sessions
-
-
-def get_session_id():
-    return current_user.game_session_id

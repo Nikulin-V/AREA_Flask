@@ -1,3 +1,5 @@
+#  Kozhevnikov Kirill © 2021
+
 from vk_bot import command_system
 
 

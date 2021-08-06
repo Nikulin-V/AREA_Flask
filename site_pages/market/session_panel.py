@@ -1,6 +1,4 @@
-#  Nikulin Vasily (c) 2021
-
-#  Nikulin Vasily (c) 2021
+#  Nikulin Vasily © 2021
 from flask import Blueprint, render_template, abort
 from flask_login import login_required
 from flask_mobility.decorators import mobile_template
@@ -9,7 +7,7 @@ from data import db_session
 from data.config import Constant
 from data.functions import get_game_roles, get_session_id, get_constant
 from forms.config_management import ConfigManagementForm
-from tools import use_subdomains
+from tools.tools import use_subdomains
 
 game_panel_page = Blueprint('game-panel', __name__)
 app = game_panel_page
@@ -19,7 +17,7 @@ app = game_panel_page
 @use_subdomains(subdomains=['market'])
 @mobile_template('market/{mobile/}session-panel.html')
 @login_required
-def game_panel(template, subdomain='market'):
+def game_panel(template):
     if 'Admin' not in get_game_roles():
         abort(404)
 
