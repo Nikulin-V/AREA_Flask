@@ -145,3 +145,5 @@ function closeModalAndRenderPage() {
     closeModal()
     renderPage()
 }
+
+socket.connect()
