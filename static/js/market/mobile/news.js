@@ -33,7 +33,7 @@ function addNews(page=0) {
                     picture = `<img id="${ n.id }-picture" src="${ n.picture }" alt="Неверная ссылка на изображение новости" class="rounded img-fluid mx-auto d-block">`
                 else
                     picture = ''
-                if (n.isMine)
+                if (n.canEdit)
                     authorButtons = `
                                     <div style="display: inline-flex">
                                     <button onclick="deleteNews('${ n.id }')" class="btn btn-outline-danger btn-delete">❌</button>

@@ -53,6 +53,8 @@ def getNews(json=None):
             }
         )
     n: News
+    admins_ids = str(db_sess.query(Session.admins_ids).filter(
+        Session.id == get_session_id()).first()[0]).split(';')
     return send_response(
         event_name,
         {
@@ -70,7 +72,8 @@ def getNews(json=None):
                         'likes': 0 if n.liked_ids is None or n.liked_ids == ''
                         else len(str(n.liked_ids).split(';')),
                         'isLiked': n.is_liked,
-                        'isMine': current_user.id == n.user_id
+                        'canEdit': current_user.id == n.user_id or
+                        str(current_user.id) in admins_ids
                     }
                     for n in news
                 ],

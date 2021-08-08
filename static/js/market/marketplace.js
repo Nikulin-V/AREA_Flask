@@ -262,14 +262,14 @@ function renderStocksTable() {
 
         for (stockId = 0; stockId < offersJson.length; stockId++) {
             const row = document.createElement('tr')
-            row.isMine = offersJson[stockId]['is_mine']
+            row.canEdit = offersJson[stockId]['is_mine']
             row.onclick = function () {
                 showBuyModal(this)
             }
             row.addEventListener("mouseout", function () {
                 clicked = false
                 renderElements()
-                if (!this.isMine)
+                if (!this.canEdit)
                     this.onmouseup = function () {
                         showBuyModal(this)
                     }
@@ -282,7 +282,7 @@ function renderStocksTable() {
                 const td = document.createElement('td')
                 td.style.textAlign = "center"
 
-                if (!this.isMine)
+                if (!this.canEdit)
                     td.textContent = "Купить акции"
                 else
                     td.textContent = "Это ваши акции)"
@@ -292,7 +292,7 @@ function renderStocksTable() {
             }
 
             row.onmouseup = function () {
-                if (!this.isMine) {
+                if (!this.canEdit) {
                     clicked = false
                     showBuyModal(this)
                 } else
