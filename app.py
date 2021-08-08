@@ -22,7 +22,8 @@ app = Flask(__name__, subdomain_matching=True)
 app.config['SECRET_KEY'] = 'area_secret_key'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db/database.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-socket_ = SocketIO(app, cors_allowed_origins="*")
+async_mode = None
+socket_ = SocketIO(app, cors_allowed_origins="*", async_mode=async_mode)
 
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
@@ -42,7 +43,7 @@ port = int(os.environ.get('PORT', 80))
 
 
 def main():
-    socket_.run(app, host='0.0.0.0', port=port)
+    socket_.run(app, host='0.0.0.0', port=port, debug=True)
 
 
 @login_manager.user_loader

@@ -16,11 +16,9 @@ function updatePage() {
     main = document.getElementsByTagName('main')[0]
     while (document.getElementsByClassName('news').length > 0)
         main.removeChild(document.getElementsByClassName('news')[0])
-    stocks.get(function () {
-        k = 0
-        was_end = false
-        addNews(k)
-    })
+    k = 0
+    was_end = false
+    addNews(k)
 }
 
 main = document.getElementsByTagName('main')[0]

@@ -7,26 +7,18 @@ renderPage()
 
 function renderPage() {
     if (!clicked)
-        makeRequests(renderElements)
+        renderElements()
 }
 
-function makeRequests(fn) {
-    wallet.get()
-    stocks.get()
-    offers.get()
-    companies.get(fn)
-}
 
 function renderElements() {
-    main = document.getElementsByTagName('main')[0]
-    while (document.getElementsByClassName('stocks-table').length > 0) {
-        main.removeChild(document.getElementsByClassName('stocks-table')[0])
-    }
-
-    renderBalance()
-    renderUserStocksTable()
-    renderUserSellStocksTable()
-    renderStocksTable()
+    wallet.get(renderBalance)
+    stocks.get(renderUserStocksTable)
+    offers.get(function () {
+        renderUserSellStocksTable()
+        renderStocksTable()
+    })
+    companies.get()
 }
 
 function deleteOffer(company, stocks, price) {
@@ -39,6 +31,9 @@ function renderBalance() {
 }
 
 function renderUserStocksTable() {
+    table = document.getElementById('user-stocks')
+    while (table.children.length > 0)
+        table.removeChild(table.children[0])
     userStocksTable = document.createElement('table')
     userStocksTable.id = "user-stocks"
     userStocksTable.className = "dairy-table table-hover table-info stocks-table"
@@ -120,10 +115,13 @@ function renderUserStocksTable() {
         userStocksTableThead.appendChild(userStocksTableTheadNotStocks)
         userStocksTable.appendChild(userStocksTableThead)
     }
-    main.appendChild(userStocksTable)
+    document.getElementById('user-stocks').appendChild(userStocksTable)
 }
 
 function renderUserSellStocksTable() {
+    table = document.getElementById('user-sell-stocks')
+    while (table.children.length > 0)
+        table.removeChild(table.children[0])
     myStocks = []
     for (stockId = 0; stockId < offers.getJson['offers'].length; stockId++) {
         if (offers.getJson['offers'][stockId]['is_mine'])
@@ -131,6 +129,7 @@ function renderUserSellStocksTable() {
     }
 
     if (myStocks.length > 0) {
+
         userSellStocksTable = document.createElement('table')
         userSellStocksTable.id = "user-sell-stocks"
         userSellStocksTable.className = "dairy-table table-hover table-info stocks-table"
@@ -217,11 +216,14 @@ function renderUserSellStocksTable() {
         }
         userSellStocksTable.appendChild(userSellStocksTableThead)
         userSellStocksTable.appendChild(userSellStocksTableTbody)
-        main.appendChild(userSellStocksTable)
+        document.getElementById('user-sell-stocks').appendChild(userSellStocksTable)
     }
 }
 
 function renderStocksTable() {
+    table = document.getElementById('marketplace-stocks')
+    while (table.children.length > 0)
+        table.removeChild(table.children[0])
     offersJson = offers.getJson['offers']
 
     sellStocksTable = document.createElement('table')
@@ -322,7 +324,6 @@ function renderStocksTable() {
         sellStocksTable.appendChild(sellStocksTableThead)
         sellStocksTable.appendChild(sellStocksTableTbody)
         main = document.getElementsByTagName('main')[0]
-        main.appendChild(sellStocksTable)
     } else {
         sellStocksTableThead = document.createElement('thead')
         sellStocksTableThead.style.backgroundColor = "#86CFDA"
@@ -333,7 +334,7 @@ function renderStocksTable() {
         sellStocksTableThead.appendChild(sellStocksTableTheadNotStocks)
         sellStocksTable.appendChild(sellStocksTableThead)
     }
-    main.appendChild(sellStocksTable)
+    document.getElementById('marketplace-stocks').appendChild(sellStocksTable)
 }
 
 function createCheque(company, stocks, isBuy) {
@@ -419,6 +420,9 @@ function createChequeResponse() {
 }
 
 function sellStocks(company_title, max_stocks) {
+    table = document.getElementById('user-sell-stocks')
+    while (table.children.length > 0)
+        table.removeChild(table.children[0])
     message = document.createElement('div')
 
     const companyTitleDiv = document.createElement('div')

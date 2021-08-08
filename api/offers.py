@@ -195,6 +195,8 @@ def editOffer(json=None):
                 cheque_offers.append(
                     (offer.id, get_company_title(offer.company_id), curr_stocks, offer.price))
                 stocks -= curr_stocks
+                if stocks < 0:
+                    stocks = 0
                 db_sess.merge(offer)
             except IndexError:
                 if cheque_offers:
@@ -257,12 +259,12 @@ def editOffer(json=None):
 
         cost = sum([int(row['price']) * int(row['stocks']) for row in cheque])
 
-        wallet = db_sess.query(Wallet).filter(
+        customer_wallet = db_sess.query(Wallet).filter(
             Wallet.session_id == get_session_id(),
             Wallet.user_id == current_user.id
         ).first()
 
-        if wallet.money < cost:
+        if customer_wallet.money < cost:
             return send_response(
                 event_name,
                 {
@@ -272,10 +274,17 @@ def editOffer(json=None):
             )
 
         company_id = get_company_id(cheque[0]['company'])
+
         for row in cheque:
             offer = db_sess.query(Offer).get(row['id'])
 
-            wallet.money -= int(row['stocks']) * int(row['price'])
+            customer_wallet.money -= int(row['stocks']) * int(row['price'])
+
+            seller_wallet = db_sess.query(Wallet).filter(
+                Wallet.session_id == get_session_id(),
+                Wallet.user_id == offer.user_id
+            ).first()
+            seller_wallet.money += int(row['stocks']) * int(row['price'])
 
             if offer.stocks <= int(row['stocks']):
                 db_sess.delete(offer)
@@ -370,7 +379,8 @@ def deleteOffer(json=None):
 
     inv_stocks = db_sess.query(Stock).filter(
         Stock.session_id == get_session_id(),
-        Stock.company_id == get_company_id(company)
+        Stock.company_id == get_company_id(company),
+        Stock.user_id == current_user.id
     ).first()
 
     if inv_stocks:
@@ -408,7 +418,8 @@ def delete_scheduled_jobs(json, db_sess):
 
         for scheduled_job_id in scheduled_jobs_ids:
             scheduled_job = db_sess.query(ScheduledJob).get(scheduled_job_id)
-            db_sess.delete(scheduled_job)
+            if scheduled_job:
+                db_sess.delete(scheduled_job)
 
 
 def deleteCompanyVotes(company_id, db_sess):
