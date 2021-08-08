@@ -41,6 +41,7 @@ def getNews(json=None):
     news = db_sess.query(News).order_by(News.date.desc()).filter(
         News.session_id == get_session_id()).all()
     end = True if len(news) <= (page + 1) * NEWS_PER_PAGE else False
+    is_liked = str(current_user.id) in news.liked_ids.split(";")
     news = news[page * NEWS_PER_PAGE:(page + 1) * NEWS_PER_PAGE]
     if not news:
         return send_response(
@@ -67,6 +68,7 @@ def getNews(json=None):
                         'picture': n.picture,
                         'likes': 0 if n.liked_ids is None
                         else len(str(n.liked_ids).split(';')),
+                        'isLiked': is_liked,
                         'isMine': current_user.id == n.user_id
                     }
                     for n in news

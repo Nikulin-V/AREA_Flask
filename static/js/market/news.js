@@ -190,8 +190,15 @@ function deleteNews(id) {
 function like(id) {
     news.put(id, null, null, null, true, function (data) {
         likeButton = document.getElementById(id + '-like')
+
+        const likeIcon = document.createElement("img")
+        likeIcon.src = data["isLiked"] ? "static/images/icons/like_fill.svg" : "static/images/icons/like_hollow.svg"
+
         if (data["likes"] === 0)
-            likeButton.textContent = "❤"
-        else likeButton.textContent = "❤ " + data["likes"].toString()
+            likeButton.appendChild(likeIcon)
+        else {
+            likeButton.appendChild(likeIcon)
+            likeButton.appendChild(createParagraph(data["likes"].toString()))
+        }
     })
 }
