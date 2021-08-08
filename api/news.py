@@ -181,7 +181,7 @@ def editNews(json=None):
 
     admins_ids = str(db_sess.query(Session).get(news.session_id).admins_ids).split(';')
 
-    if news.user_id != current_user.id and news.user_id not in admins_ids \
+    if news.user_id != current_user.id and str(current_user.id) not in admins_ids \
             and current_user.id != '7' and not json['isLike']:
         return send_response(
             event_name,
@@ -255,7 +255,7 @@ def deleteNews(json=None):
 
     admins_ids = str(db_sess.query(Session).get(news.session_id).admins_ids).split(';')
 
-    if news.user_id != current_user.id and news.user_id not in admins_ids and\
+    if news.user_id != current_user.id and str(current_user.id) not in admins_ids and\
             current_user.id != '7':
         return send_response(
             event_name,
