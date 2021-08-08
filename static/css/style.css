@@ -108,3 +108,11 @@ main {
 .table-hover tbody tr:hover {
     background-color: #B0D4D9;
 }
+
+.btn-like {
+    padding-bottom: 0;
+}
+
+.md-red {
+    color: #cc0404;
+}

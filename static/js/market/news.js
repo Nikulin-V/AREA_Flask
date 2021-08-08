@@ -64,7 +64,10 @@ function addNews(page=0) {
                                 ${ authorButtons }
                             </td>
                             <td style="text-align: right; border: 0">
-                                <button id="${ n.id }-like" onclick="like('${ n.id }')" class="btn btn-outline-danger btn-like">❤${ likes }</button>
+                                <button id="${ n.id }-like" onclick="like('${ n.id }')" class="btn btn-outline-danger btn-like">
+                                    <span id="${ n.id }-like-symbol" class="material-icons-round md-red">favorite${ n.isLiked ? "" : "_border" }</span>
+                                    <span id="${ n.id }-like-counter" style="vertical-align: top">${ likes }</span>
+                                </button>
                             </td>
                         </tr>
                     </table>
@@ -187,9 +190,21 @@ function deleteNews(id) {
 
 function like(id) {
     news.put(id, null, null, null, true, function (data) {
-        likeButton = document.getElementById(id + '-like')
-        if (data["likes"] === 0)
-            likeButton.textContent = "❤"
-        else likeButton.textContent = "❤ " + data["likes"].toString()
+        let likeSymbol = document.getElementById(id + "-like-symbol")
+        let likeCounter = document.getElementById(id + "-like-counter")
+
+        console.log(data)
+
+        if (data["isLiked"]) {
+            likeSymbol.textContent = "favorite"
+        } else {
+            likeSymbol.textContent = "favorite_border"
+        }
+
+        if (data["likes"] === 0) {
+            likeCounter.textContent = ""
+        } else {
+            likeCounter.textContent = data["likes"].toString()
+        }
     })
 }
