@@ -5,13 +5,10 @@
 renderPage()
 
 function renderPage() {
-    makeRequests(createTable)
+    svotes.get(createTable)
+    companies.get()
 }
 
-function makeRequests(fn) {
-    svotes.get()
-    companies.get(fn)
-}
 
 function createTable(){
 

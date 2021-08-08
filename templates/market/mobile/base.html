@@ -17,7 +17,9 @@
         <link rel="stylesheet" href="static/css/light-footer.css">
 
 
-        <script>let socket = io();</script>
+        <script>
+            let socket = io("https://market.area-146.tk", {transports: ["polling"]});
+        </script>
         <script src="/static/js/api/sessions.js"></script>
         <script src="/static/js/api/socket.js"></script>
         <script src="/static/js/api/companies.js"></script>

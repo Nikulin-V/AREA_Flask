@@ -16,11 +16,9 @@ function updatePage() {
     main = document.getElementsByTagName('main')[0]
     while (document.getElementsByClassName('news').length > 0)
         main.removeChild(document.getElementsByClassName('news')[0])
-    stocks.get(function () {
-        k = 0
-        was_end = false
-        addNews(k)
-    })
+    k = 0
+    was_end = false
+    addNews(k)
 }
 
 main = document.getElementsByTagName('main')[0]
@@ -190,15 +188,8 @@ function deleteNews(id) {
 function like(id) {
     news.put(id, null, null, null, true, function (data) {
         likeButton = document.getElementById(id + '-like')
-
-        const likeIcon = document.createElement("img")
-        likeIcon.src = data["isLiked"] ? "static/images/icons/like_fill.svg" : "static/images/icons/like_hollow.svg"
-
         if (data["likes"] === 0)
-            likeButton.appendChild(likeIcon)
-        else {
-            likeButton.appendChild(likeIcon)
-            likeButton.appendChild(createParagraph(data["likes"].toString()))
-        }
+            likeButton.textContent = "❤"
+        else likeButton.textContent = "❤ " + data["likes"].toString()
     })
 }

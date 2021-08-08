@@ -2,19 +2,10 @@
  * Nikulin Vasily © 2021
  */
 
-/*
- * Nikulin Vasily © 2021
- */
-function renderPage() {
-    makeRequests(createTable)
-}
-
-
 renderPage()
-
-function makeRequests(fn) {
-    votes.get()
-    companies.get(fn)
+function renderPage() {
+    votes.get(createTable)
+    companies.get()
 }
 
 function createTable() {

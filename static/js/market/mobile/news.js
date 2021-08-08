@@ -16,11 +16,9 @@ function updatePage() {
     main = document.getElementsByTagName('main')[0]
     while (document.getElementsByClassName('news').length > 0)
         main.removeChild(document.getElementsByClassName('news')[0])
-    stocks.get(function () {
-        k = 0
-        was_end = false
-        addNews(k)
-    })
+    k = 0
+    was_end = false
+    addNews(k)
 }
 
 main = document.getElementsByTagName('main')[0]
@@ -47,6 +45,7 @@ function addNews(page=0) {
                 else
                     author = n.author
                 likes = parseInt(n.likes) > 0 ? " " + n.likes.toString() : ""
+                icon = n.is_liked ? "/static/images/icons/like_fill.svg" : "/static/images/icons/like_hollow.svg"
                 main.innerHTML = main.innerHTML +
                 `
                 <div class="news" id="${ n.id }" style="border: 1px solid black; border-radius: 5px; margin-bottom: 5px; padding: 5px 5px 0 5px">

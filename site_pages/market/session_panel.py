@@ -51,8 +51,7 @@ def game_panel(template):
         db_sess.commit()
         message = 'Сохранено'
 
-    if not form.game_run.data:
-        form.game_run.data = get_constant('GAME_RUN')
+    form.game_run.data = get_constant('GAME_RUN')
 
     if not form.start_wallet_money.data:
         form.start_wallet_money.data = get_constant('START_WALLET_MONEY')
