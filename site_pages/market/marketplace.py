@@ -18,7 +18,7 @@ def marketplace(template):
     if not get_game_roles():
         abort(404)
 
-    if get_constant('GAME_RUN') == '0':
+    if not get_constant('GAME_RUN'):
         return redirect('/game-result')
 
     return render_template(template,
