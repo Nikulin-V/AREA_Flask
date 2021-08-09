@@ -4,7 +4,7 @@ from flask_login import login_required
 from flask_mobility.decorators import mobile_template
 
 from data.functions import get_game_roles
-from tools.tools import use_subdomains
+from tools.tools import use_subdomains, game_running_required
 
 companies_page = Blueprint('companies-voting', __name__)
 app = companies_page
@@ -14,6 +14,7 @@ app = companies_page
 @use_subdomains(subdomains=['market'])
 @mobile_template('market/{mobile/}companies.html')
 @login_required
+@game_running_required
 def companies_voting(template):
 
     return render_template(template,
