@@ -204,8 +204,6 @@ function like(id) {
         let likeSymbol = document.getElementById(id + "-like-symbol")
         let likeCounter = document.getElementById(id + "-like-counter")
 
-        console.log(data)
-
         if (data["isLiked"]) {
             likeSymbol.textContent = "favorite"
         } else {
