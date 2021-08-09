@@ -520,7 +520,7 @@ def get_offer_fee(company_id, offer_id, buy_stocks):
     ).all())) + sum(map(lambda x: x[0], db_sess.query(Offer.stocks).filter(
         Offer.session_id == get_session_id(),
         Offer.company_id == company_id
-    ).all())) + offer.stocks
+    ).all()))
 
     stocks_get_profit = all_stocks_count - (
             sum(map(lambda x: x[0], db_sess.query(Stock.stocks).filter(
