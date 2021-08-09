@@ -34,8 +34,11 @@ function addNews(page=0) {
                 else
                     picture = ''
                 if (n.canEdit)
-                    authorButtons = `<button onclick="deleteNews('${ n.id }')" class="btn btn-outline-danger btn-delete">❌</button>
-                                    <button onclick="editNews('${ n.id }')" class="btn btn-outline-warning btn-edit">✏</button>`
+                    authorButtons = `
+                                    <div style="display: inline-flex">
+                                        <button onclick="deleteNews('${ n.id }')" class="btn btn-outline-danger btn-delete btn-icon"><span class="material-icons md-red">clear</span></button>
+                                        <button onclick="editNews('${ n.id }')" class="btn btn-outline-warning btn-edit btn-icon"><span class="material-icons-round md-yellow">edit</span></button>
+                                    </div>`
                 else authorButtons = ''
                 likes = parseInt(n.likes) > 0 ? " " + n.likes.toString() : ""
                 main.innerHTML = main.innerHTML +
