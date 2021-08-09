@@ -10,6 +10,7 @@ from data.companies import Company
 from data.offers import Offer
 from data.scheduled_job import ScheduledJob
 from data.stockholders_votes import SVote
+from tools.tools import send_response
 
 models = {
     'SVote': SVote,
@@ -55,6 +56,8 @@ class Task(Thread):
         if model is None:
             return False
         model.reserved_stocks -= count
+        if model.reserved_stocks < 0:
+            model.reserved_stocks = 0
         self.db_sess.merge(model)
         self.db_sess.commit()
         return True
@@ -76,6 +79,7 @@ class Task(Thread):
         f = open('logs.txt', 'a')
         f.write(log)
         f.close()
+        send_response('renderPage')
 
 
 scheduler = Scheduler()

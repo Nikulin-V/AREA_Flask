@@ -193,6 +193,7 @@ def editOffer(json=None):
                 )
                 scheduled_jobs_ids.append(scheduled_job.id)
                 db_sess.add(scheduled_job)
+
                 cheque_offers.append(
                     (offer.id, get_company_title(offer.company_id), curr_stocks, offer.price))
                 stocks -= curr_stocks
@@ -225,7 +226,8 @@ def editOffer(json=None):
                             'company': offer[1],
                             'stocks': offer[2],
                             'price': offer[3],
-                            'cost': offer[2] * offer[3]
+                            'cost': offer[2] * offer[3],
+                            'fee': get_offer_fee(get_company_id(company), offer[0], offer[2])
                         }
                         for offer in cheque_offers],
                 'isEnough': isEnough,
@@ -280,21 +282,27 @@ def editOffer(json=None):
             offer = db_sess.query(Offer).get(row['id'])
 
             stocks_get_profit = all_stocks_count - (
-                sum(map(lambda x: x[0], db_sess.query(Stock.stocks).filter(
-                    Stock.session_id == get_session_id(),
-                    Stock.company_id == company_id,
-                    or_(Stock.user_id == current_user.id, Stock.user_id == offer.user_id)
-                ))) + sum(map(lambda x: x[0], db_sess.query(Offer.stocks).filter(
-                    Offer.session_id == get_session_id(),
-                    Offer.company_id == company_id,
-                    or_(Stock.user_id == current_user.id, Stock.user_id == offer.user_id)
-                )))
+                    sum(map(lambda x: x[0], db_sess.query(Stock.stocks).filter(
+                        Stock.session_id == get_session_id(),
+                        Stock.company_id == company_id,
+                        or_(Stock.user_id == current_user.id, Stock.user_id == offer.user_id)
+                    ))) + sum(map(lambda x: x[0], db_sess.query(Offer.stocks).filter(
+                Offer.session_id == get_session_id(),
+                Offer.company_id == company_id,
+                or_(Stock.user_id == current_user.id, Stock.user_id == offer.user_id)
+            )))
             )
 
             second_cost += int(row['price']) * int(
                 row['stocks']) * get_constant('FEE_FOR_STOCK') * stocks_get_profit
 
         if customer_wallet.money < first_cost + second_cost:
+            # Отмена резервации акций
+            for row in cheque:
+                offer = db_sess.query(Offer).get(row['id'])
+                offer.reserved_stocks -= row['stocks']
+                db_sess.merge(offer)
+            db_sess.commit()
             return send_response(
                 event_name,
                 {
@@ -313,10 +321,10 @@ def editOffer(json=None):
                         Stock.company_id == company_id,
                         or_(Stock.user_id == current_user.id, Stock.user_id == offer.user_id)
                     ))) + sum(map(lambda x: x[0], db_sess.query(Offer.stocks).filter(
-                        Offer.session_id == get_session_id(),
-                        Offer.company_id == company_id,
-                        or_(Stock.user_id == current_user.id, Stock.user_id == offer.user_id)
-                    )))
+                Offer.session_id == get_session_id(),
+                Offer.company_id == company_id,
+                or_(Stock.user_id == current_user.id, Stock.user_id == offer.user_id)
+            )))
             )
             offer_first_cost = int(row['stocks']) * int(row['price'])
             offer_second_cost = offer_first_cost * stocks_get_profit * get_constant('FEE_FOR_STOCK')
@@ -499,3 +507,32 @@ def deleteCompanyVotes(company_id, db_sess):
         db_sess.delete(vote)
 
     db_sess.commit()
+
+
+def get_offer_fee(company_id, offer_id, buy_stocks):
+    db_sess = db_session.create_session()
+
+    offer = db_sess.query(Offer).get(offer_id)
+
+    all_stocks_count = sum(map(lambda x: x[0], db_sess.query(Stock.stocks).filter(
+        Stock.session_id == get_session_id(),
+        Stock.company_id == company_id
+    ).all())) + sum(map(lambda x: x[0], db_sess.query(Offer.stocks).filter(
+        Offer.session_id == get_session_id(),
+        Offer.company_id == company_id
+    ).all())) + offer.stocks
+
+    stocks_get_profit = all_stocks_count - (
+            sum(map(lambda x: x[0], db_sess.query(Stock.stocks).filter(
+                Stock.session_id == get_session_id(),
+                Stock.company_id == company_id,
+                or_(Stock.user_id == current_user.id, Stock.user_id == offer.user_id)
+            ))) + sum(map(lambda x: x[0], db_sess.query(Offer.stocks).filter(
+                Offer.session_id == get_session_id(),
+                Offer.company_id == company_id,
+                or_(Stock.user_id == current_user.id, Stock.user_id == offer.user_id)
+            )))
+    )
+
+    return int(offer.price) * int(
+        buy_stocks) * get_constant('FEE_FOR_STOCK') * stocks_get_profit
