@@ -3,7 +3,7 @@
 
 {% block content %}
     <h3 style="text-align: center">{{ title }}</h3>
-    <h6 style="text-align: center">Взнос: {{ new_company_fee }} 💰</h6>
+    <h6 style="text-align: center">Взнос: {{ new_company_fee }}<span class="material-icons-round md-money">paid</span></h6>
     <p style="font-size: .9em; text-align: center">Автоматически будет опубликована новость об открытии компании.</p>
     <hr>
     <div class="form-floating">
@@ -26,6 +26,6 @@
         <label for="logo-url">Ссылка на изображение логотипа</label>
     </div>
     <br>
-    <button class="btn btn-info" type="submit" onclick="createCompany()">Готово ✅</button>
+    <button class="btn btn-info" type="submit" onclick="createCompany()">Готово</button>
     <script src="/static/js/market/create-company.js"></script>
 {% endblock %}

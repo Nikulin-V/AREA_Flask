@@ -15,7 +15,7 @@
     </div>
     <br>
     <button class="btn btn-info" id="submit" onclick="createSession()">
-        Создать фондовую биржу ✅
+        Создать фондовую биржу
     </button>
     <hr>
     {% if 'Admin' in game_role %}
@@ -26,8 +26,8 @@
                 Подтвердить
             </label>
         </div>
-        <button class="btn btn-info" id="delete-session-btn" onclick="deleteSession()">
-            Удалить текущую фондовую биржу ❌
+        <button class="btn btn-info btn-danger" id="delete-session-btn" onclick="deleteSession()">
+            Удалить текущую фондовую биржу
         </button>
     {% endif %}
 

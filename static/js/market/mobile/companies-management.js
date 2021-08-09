@@ -35,8 +35,8 @@ function createTable(){
         for (i = 0;i < votesJson.length;i++) {
             v = votesJson[i]
             if (v["is_voted"] === true)
-                v["is_voted"] = '✅'
-            else v["is_voted"] = '❌'
+                v["is_voted"] = '<span class="material-icons md-green" style="vertical-align: middle">check_circle</span>'
+            else v["is_voted"] = '<span class="material-icons md-red" style="vertical-align: middle">cancel</span>'
             // noinspection JSNonASCIINames
             tableData.push(
                 {
@@ -70,7 +70,7 @@ function createTable(){
 
             values.forEach(value => {
                 const td = tr.appendChild(document.createElement('td'))
-                td.textContent = value.toString();
+                td.innerHTML = value.toString();
                 td.style.textAlign = 'center'
             });
         });
@@ -97,11 +97,11 @@ function changeVotingValues(votingId, data) {
         tdVotesArray = tdVotes.textContent.split('/')
         a = parseInt(tdVotesArray[0])
 
-        if (tdDecision.textContent === '✅') {
-            tdDecision.textContent = '❌'
+        if (tdDecision.innerHTML === '<span class="material-icons md-green" style="vertical-align: middle">check_circle</span>') {
+            tdDecision.innerHTML = '<span class="material-icons md-red" style="vertical-align: middle;">clear</span>'
             tdVotesArray[0] = (a - 1).toString()
         } else {
-            tdDecision.textContent = '✅'
+            tdDecision.innerHTML = '<span class="material-icons md-green" style="vertical-align: middle">check_circle</span>'
             tdVotesArray[0] = (a + 1).toString()
         }
         tdVotes.textContent = tdVotesArray.join('/')

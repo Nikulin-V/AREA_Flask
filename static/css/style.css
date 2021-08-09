@@ -101,7 +101,7 @@ main {
     background-color: #BEE5EB;
 }
 
-.table-info td, td{
+.table-info td, td {
     border: 1px solid #86cfda;
 }
 
@@ -117,10 +117,57 @@ main {
     color: #cc0404;
 }
 
+.md-yellow {
+    color: #ffc918
+}
+
+.md-money {
+    color: #ffb900;
+    vertical-align: sub;
+    font-size: 1.2em;
+}
+
+.md-green {
+    color: #028007
+}
+
+.md-blue {
+    color: #15b4ce;
+    vertical-align: sub;
+    font-size: 1.2em;
+}
+
+.md-white {
+    color: white;
+    background-color: #15b4ce;
+    vertical-align: sub;
+    font-size: 1.2em;
+}
+
+.md-player {
+    color: #d39400;
+    vertical-align: sub;
+    font-size: 1.2em;
+}
+
+.md-cart {
+    color: #b699d3;
+    vertical-align: sub;
+    font-size: 1.2em;
+}
 .btn-icon-text {
     vertical-align: top;
 }
 
 .btn-icon {
     height: 2.5rem;
+    margin: 1px 2px;
+}
+
+.btn-danger {
+    background-color: white;
+    font-weight: bolder;
+    color: #cc0404;
+    border-color: #cc0404;
+    border-width: medium;
 }
