@@ -1,16 +1,13 @@
 #  Nikulin Vasily © 2021
 
-#  Nikulin Vasily © 2021
-from threading import Thread
-
 import datetime
+from threading import Thread
 
 from data import db_session
 from data.companies import Company
 from data.offers import Offer
 from data.scheduled_job import ScheduledJob
 from data.stockholders_votes import SVote
-from tools.tools import send_response
 
 models = {
     'SVote': SVote,
@@ -79,7 +76,6 @@ class Task(Thread):
         f = open('logs.txt', 'a')
         f.write(log)
         f.close()
-        send_response('renderPage')
 
 
 scheduler = Scheduler()
