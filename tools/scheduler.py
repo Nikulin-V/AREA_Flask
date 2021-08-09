@@ -1,9 +1,7 @@
 #  Nikulin Vasily © 2021
 
-#  Nikulin Vasily © 2021
-from threading import Thread
-
 import datetime
+from threading import Thread
 
 from data import db_session
 from data.companies import Company
@@ -55,6 +53,8 @@ class Task(Thread):
         if model is None:
             return False
         model.reserved_stocks -= count
+        if model.reserved_stocks < 0:
+            model.reserved_stocks = 0
         self.db_sess.merge(model)
         self.db_sess.commit()
         return True

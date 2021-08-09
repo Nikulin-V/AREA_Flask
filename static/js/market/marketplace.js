@@ -360,7 +360,7 @@ function createChequeResponse() {
         chequeTableCaption.textContent = "Чек"
         chequeTable.appendChild(chequeTableCaption)
         chequeTable.className = "dairy-table table-hover table-info"
-        tableHeaders = ['Компания', 'Акции', 'Цена', 'Стоимость']
+        tableHeaders = ['Компания', 'Акции', 'Цена', 'Стоимость', 'Комиссия']
         chequeTableThead = document.createElement('thead')
         chequeTableThead.style.backgroundColor = "#86CFDA"
         for (headerId = 0; headerId < tableHeaders.length; headerId++) {
@@ -374,7 +374,7 @@ function createChequeResponse() {
         chequeTableTbody = document.createElement('tbody')
 
         total = 0
-        keys = ['company', 'stocks', 'price', 'cost']
+        keys = ['company', 'stocks', 'price', 'cost', 'fee']
         for (stockId = 0; stockId < offersJson.length; stockId++) {
             const row = document.createElement('tr')
             for (keyId = 0; keyId < keys.length; keyId++) {
@@ -383,7 +383,9 @@ function createChequeResponse() {
                 td.style.textAlign = "center"
                 row.appendChild(td)
                 if (keys[keyId] === 'cost')
-                    total += parseInt(td.textContent)
+                    total += parseFloat(td.textContent)
+                if (keys[keyId] === 'fee')
+                    total += parseFloat(td.textContent)
             }
             chequeTableTbody.appendChild(row)
         }
@@ -391,7 +393,7 @@ function createChequeResponse() {
         const tdTotal = document.createElement('td')
         tdTotal.textContent = "Итого: " + total
         tdTotal.style.textAlign = "center"
-        tdTotal.colSpan = 4
+        tdTotal.colSpan = 5
         row.appendChild(tdTotal)
         chequeTableTbody.appendChild(row)
         chequeTable.appendChild(chequeTableTbody)
@@ -437,7 +439,7 @@ function sellStocks(company_title, max_stocks) {
     stocksJson = stocks.getJson['stocks']
     for (companyId = 0; companyId < stocksJson.length; companyId++) {
         const company = stocksJson[companyId]['company']
-        if (company === company_title)
+        if (company.toString() === company_title.toString())
             selectIndex = companyId
         companyTitleSelect.append(new Option(company, company))
     }
