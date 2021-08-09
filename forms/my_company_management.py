@@ -15,4 +15,4 @@ class CompanyManagementForm(FlaskForm):
     logo_url = FileField('Логотип',
                          validators=[FileAllowed(['jpg', 'png', 'bmp'],
                                                  'Только изображения в форматах jpg, png, bmp')])
-    submit = SubmitField('Готово ✅', default=False)
+    submit = SubmitField('Готово', default=False)

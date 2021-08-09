@@ -14,4 +14,4 @@ class ConfigManagementForm(FlaskForm):
                      '(умножается на сумму сделки для вычисления комиссии за 1 акцию)')
     new_company_fee = FloatField('Взнос за создание компании')
     start_stocks = IntegerField('Количество акций, которое игрок получает при создании компании')
-    submit = SubmitField('Готово ✅')
+    submit = SubmitField('Готово')

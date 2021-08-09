@@ -85,7 +85,27 @@
                                         </a>
                                     </li>
                                 {% endif %}
+                                {% if 'Admin' in game_role %}
+                                    <div class="btn-group nav-item">
+                                        <a class="menu__item dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                        Панель управления
+                                        </a>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 
+                                            <li class="dropdown-item">
+                                                <a href="\game-panel" class="menu__item" style="font-size: 1em">
+                                                    Управление фондовой биржей
+                                                </a>
+                                            </li>
+                                            <li class="dropdown-item">
+                                                <a href="\user-panel" class="menu__item" style="font-size: 1em">
+                                                    Управление пользователями
+                                                </a>
+                                            </li>
+
+                                        </ul>
+                                    </div>
+                                {% endif %}
                             {% endif %}
 
                         {% endif %}

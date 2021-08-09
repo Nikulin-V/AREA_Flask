@@ -77,7 +77,18 @@ function addNews(page=0) {
                 </div>
                 `
             }
-        } else was_end = true
+        } else {
+            was_end = true
+            if (k === 0)
+                main.insertAdjacentHTML('beforeend',
+                    `
+                        <table class="dairy-table table-hover table-info">
+                            <tr style="background-color: #86CFDA">
+                                <td style="text-align: center;padding: 5px">Новостей нет</td>
+                            </tr>
+                        </table>
+                    `)
+        }
         k += 1
     })
 }

@@ -15,4 +15,4 @@ class CompanyAdminManagementForm(FlaskForm):
     user_submitted = 1
     accept_delete_all_companies = BooleanField('Подтвердить', default=False)
     authors = SelectMultipleField('Авторы', coerce=int)
-    submit = SubmitField('Готово ✅')
+    submit = SubmitField('Готово')
