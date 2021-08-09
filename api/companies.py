@@ -15,7 +15,7 @@ from data.stockholders_votes import SVote
 from data.stocks import Stock
 from data.votes import Vote
 from data.wallets import Wallet
-from tools.tools import fillJson, send_response
+from tools.tools import fillJson, send_response, deposit_wallet
 
 
 @sock.on('createCompany')
@@ -175,19 +175,39 @@ def deleteCompanyAction(event_name=None, companyId=None, companyTitle=None):
             }
         )
 
-    companyTitle = company.title
+    stocks = db_sess.query(Stock).filter(
+        Stock.session_id == get_session_id(),
+        Stock.company_id == company.id
+    ).all() + db_sess.query(Offer).filter(
+        Offer.session_id == get_session_id(),
+        Offer.company_id == company.id
+    ).all()
 
-    delete_all_company_data(companyId)
+    all_stocks_count = sum(map(lambda x: x[0], db_sess.query(Stock.stocks).filter(
+        Stock.session_id == get_session_id(),
+        Stock.company_id == company.id
+    ).all())) + sum(map(lambda x: x[0], db_sess.query(Offer.stocks).filter(
+        Offer.session_id == get_session_id(),
+        Offer.company_id == company.id
+    ).all()))
+
+    for stock in stocks:
+        cashback = get_constant('NEW_COMPANY_FEE') * stock.stocks / all_stocks_count
+        deposit_wallet(stock.user_id, cashback)
+
+    delete_all_company_data(company.id)
     db_sess.delete(company)
 
     news = News(
         session_id=get_session_id(),
         user_id=current_user.id,
-        company_id=companyId,
-        title=f'Компания закрывается: {companyTitle}',
-        message='Все акции и новости компании были удалены.',
+        company_id=company.id,
+        title=f'Компания закрывается: {company.title}',
+        message='Все акции и новости компании были удалены.<br>'
+                'Имущество компании было продано, а прибыль распределена между бывшими акционерами '
+                'компании.',
         date=datetime.now(),
-        author=f'<b>{companyTitle}</b>'
+        author=f'<b>{company.title}</b>'
     )
     db_sess.add(news)
     db_sess.commit()
