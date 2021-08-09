@@ -282,7 +282,7 @@ def editOffer(json=None):
                 sum(map(lambda x: x[0], db_sess.query(Stock.stocks).filter(
                     Stock.session_id == get_session_id(),
                     Stock.company_id == company_id,
-                    Stock.user_id.in_([current_user.id, offer.user_id])
+                    str(Stock.user_id).in_([current_user.id, offer.user_id])
                 ))) + sum(map(lambda x: x[0], db_sess.query(Offer.stocks).filter(
                     Offer.session_id == get_session_id(),
                     Offer.company_id == company_id,
@@ -290,8 +290,8 @@ def editOffer(json=None):
                 )))
             )
 
-            second_cost += int(row['price']) * int(
-                row['stocks']) * get_constant('FEE_FOR_STOCK') * stocks_get_profit
+            second_cost += int(row['price']) * int(row['stocks']) * get_constant('FEE_FOR_STOCK')\
+                           * stocks_get_profit
 
         if customer_wallet.money < first_cost + second_cost:
             return send_response(
