@@ -27,7 +27,7 @@ function deleteOffer(company, stocks, price) {
 
 function renderBalance() {
     balance = document.getElementById('balance')
-    balance.textContent = wallet.money.toString() + '💰'
+    balance.innerHTML = wallet.money.toString() + '<span class="material-icons-round md-money">paid</span>'
 }
 
 function renderUserStocksTable() {

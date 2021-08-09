@@ -36,8 +36,8 @@ function addNews(page=0) {
                 if (n.canEdit)
                     authorButtons = `
                                     <div style="display: inline-flex">
-                                    <button onclick="deleteNews('${ n.id }')" class="btn btn-outline-danger btn-delete">❌</button>
-                                    <button onclick="editNews('${ n.id }')" class="btn btn-outline-warning btn-edit" style="margin-left: 3px">✏</button>
+                                    <button onclick="deleteNews('${ n.id }')" class="btn btn-outline-danger btn-delete btn-icon"><span class="material-icons md-red">clear</span></button>
+                                    <button onclick="editNews('${ n.id }')" class="btn btn-outline-warning btn-edit btn-icon"><span class="material-icons-round md-yellow">edit</span></button>
                                     </div>`
                 else authorButtons = ''
                 if (n.author.split('|').length === 2)
@@ -63,7 +63,10 @@ function addNews(page=0) {
                                 </p>
                             </td>
                             <td rowspan="2" style="text-align: right; border: 0; width: 1px">
-                                <button id="${ n.id }-like" onclick="like('${ n.id }')" class="btn btn-outline-danger btn-like" style="white-space: nowrap">❤${ likes }</button>
+                                <button id="${ n.id }-like" onclick="like('${ n.id }')" class="btn btn-outline-danger btn-like btn-icon">
+                                    <span id="${ n.id }-like-symbol" class="material-icons-round md-red">favorite${ n.isLiked ? "" : "_border" }</span>
+                                    <span id="${ n.id }-like-counter" class="btn-icon-text">${ likes }</span>
+                                </button>
                             </td>
                         </tr>
                         <tr style="border: 0">
@@ -198,9 +201,19 @@ function deleteNews(id) {
 
 function like(id) {
     news.put(id, null, null, null, true, function (data) {
-        likeButton = document.getElementById(id + '-like')
-        if (data["likes"] === 0)
-            likeButton.textContent = "❤"
-        else likeButton.textContent = "❤ " + data["likes"].toString()
+        let likeSymbol = document.getElementById(id + "-like-symbol")
+        let likeCounter = document.getElementById(id + "-like-counter")
+
+        if (data["isLiked"]) {
+            likeSymbol.textContent = "favorite"
+        } else {
+            likeSymbol.textContent = "favorite_border"
+        }
+
+        if (data["likes"] === 0) {
+            likeCounter.textContent = ""
+        } else {
+            likeCounter.textContent = data["likes"].toString()
+        }
     })
 }

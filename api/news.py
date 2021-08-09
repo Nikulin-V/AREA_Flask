@@ -198,11 +198,13 @@ def editNews(json=None):
             liked_ids = [] if not news.liked_ids else news.liked_ids.split(';')
             likes = len(liked_ids) + 1
             news.liked_ids = ';'.join(liked_ids + [str(current_user.id)])
+            is_liked = True
         else:
             liked_ids = news.liked_ids.split(';')
             likes = len(liked_ids) - 1
             liked_ids.remove(str(current_user.id))
             news.liked_ids = ';'.join(liked_ids)
+            is_liked = False
         db_sess.merge(news)
         db_sess.commit()
         return send_response(
@@ -210,6 +212,7 @@ def editNews(json=None):
             {
                 'message': 'Success',
                 'likes': likes,
+                'isLiked': is_liked,
                 'errors': []
             }
         )
