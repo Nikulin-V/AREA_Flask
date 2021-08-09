@@ -110,9 +110,17 @@ main {
 }
 
 .btn-like {
-    padding-bottom: 0;
+    min-width: max-content;
 }
 
 .md-red {
     color: #cc0404;
+}
+
+.btn-icon-text {
+    vertical-align: top;
+}
+
+.btn-icon {
+    height: 2.5rem;
 }
