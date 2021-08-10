@@ -22,14 +22,14 @@ app = Flask(__name__, subdomain_matching=True)
 app.config.update(
     DEBUG=True,
     TESTING=True,
-    SERVER_NAME='area-146.ru:80',
+    SERVER_NAME='area-146.tk',
     SECRET_KEY='area_secret_key',
     SQLALCHEMY_DATABASE_URI='sqlite:///db/database.db',
     SQLALCHEMY_TRACK_MODIFICATIONS=False,
-    SESSION_COOKIE_DOMAIN='area-146.ru'
+    SESSION_COOKIE_DOMAIN='area-146.tk',
+    MAX_CONTENT_LENGTH=32 * 1024 * 1024
 )
-app.config['SERVER_NAME'] = 'area-146.ru:80'
-app.config['MAX_CONTENT_LENGTH'] = 32 * 1024 * 1024
+
 async_mode = None
 socket_ = SocketIO(app, cors_allowed_origins="*", async_mode=async_mode)
 
