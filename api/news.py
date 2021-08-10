@@ -3,7 +3,7 @@ import datetime
 import os
 import random
 
-from flask import request, abort, jsonify
+from flask import request, abort, jsonify, url_for
 from flask_login import current_user, login_required
 from werkzeug.utils import secure_filename
 
@@ -12,9 +12,10 @@ from config import NEWS_PER_PAGE, ALLOWED_EXTENSIONS
 from data import db_session
 from data.functions import get_session_id, get_company_title, get_company_id
 from data.news import News
+from data.scheduled_job import ScheduledJob
 from data.sessions import Session
 from data.users import User
-from tools.tools import send_response, fillJson
+from tools.tools import send_response, fillJson, safe_remove
 
 
 @sock.on('getNews')
@@ -72,7 +73,7 @@ def getNews(json=None):
                         'title': n.title,
                         'message': n.message,
                         'date': n.date.strftime('%d %b at %H:%M'),
-                        'picture': url_for('static', filename=n.picture.removeprefix("static\\").replace("\\", "/")),
+                        'picture': url_for('static', filename=n.picture.removeprefix("static\\").replace("\\", "/")) if n.picture is not None else n.picture,
                         'likes': 0 if n.liked_ids is None or n.liked_ids == ''
                         else len(str(n.liked_ids).split(';')),
                         'isLiked': n.is_liked,
@@ -94,7 +95,7 @@ def createNews(json=None):
         json = dict()
 
     event_name = 'createNews'
-    fillJson(json, ['companyTitle', 'title', 'message', 'imagePath'])
+    fillJson(json, ['companyTitle', 'title', 'message', 'imagePath', 'jobId'])
 
     if json['companyTitle'] is None:
         return send_response(
@@ -137,6 +138,8 @@ def createNews(json=None):
             }
         )
 
+    delete_job(db_sess, json['jobId'])
+
     news = News(
         session_id=get_session_id(),
         user_id=current_user.id,
@@ -168,7 +171,7 @@ def editNews(json=None):
         json = dict()
 
     event_name = 'editNews'
-    fillJson(json, ['identifier', 'title', 'message', 'imagePath', 'isLike'])
+    fillJson(json, ['identifier', 'title', 'message', 'imagePath', 'isLike', 'jobId'])
 
     db_sess = db_session.create_session()
 
@@ -233,7 +236,7 @@ def editNews(json=None):
     if json['imagePath'] == '!clear':
         json['imagePath'] = ''
         if news.picture is not None:
-            os.remove(news.picture)
+            safe_remove(news.picture)
         news.picture = None
         db_sess.merge(news)
         db_sess.commit()
@@ -255,12 +258,14 @@ def editNews(json=None):
             }
         )
 
+    delete_job(db_sess, json['jobId'])
+
     news.title = json['title'] or news.title
     news.message = news.message if json['message'] is None else json['message']
 
     if json['imagePath'] is not None:
         if news.picture is not None:
-            os.remove(news.picture)
+            safe_remove(news.picture)
         news.picture = json['imagePath']
 
     db_sess.merge(news)
@@ -311,7 +316,7 @@ def deleteNews(json=None):
         )
 
     if news.picture is not None:
-        os.remove(news.picture)
+        safe_remove(news.picture)
 
     db_sess.delete(news)
     db_sess.commit()
@@ -349,10 +354,22 @@ def uploadImage():
             ext = path.rfind(".")
             path = path[:ext] + str(random.randint(1, 1000000)) + path[ext:]
         uploaded.save(path)
+
+        db_sess = db_session.create_session()
+        scheduled_job = ScheduledJob(
+            model=None,
+            object_id=path,
+            action='Delete unused picture',
+            datetime=datetime.datetime.now() + datetime.timedelta(seconds=30)
+        )
+
+        db_sess.add(scheduled_job)
+        db_sess.commit()
+
         return jsonify(
             {
                 "path": path,
-                "url": request.host_url + str(path).replace("\\", "/")
+                "jobId": scheduled_job.id
             }
         )
     else:
@@ -369,3 +386,9 @@ def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS and \
            '/' not in filename
+
+
+def delete_job(db_sess, job_id):
+    scheduled_job = db_sess.query(ScheduledJob).get(job_id)
+    if scheduled_job:
+        db_sess.delete(scheduled_job)

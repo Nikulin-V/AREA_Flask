@@ -26,6 +26,7 @@ news.post = function (companyTitle=null,
                      title=null,
                      message=null,
                      imagePath=null,
+                     jobId=null,
                      fn=null) {
     if (fn)
         news.postFn = fn
@@ -35,7 +36,8 @@ news.post = function (companyTitle=null,
         'companyTitle': companyTitle,
         'title': title,
         'message': message,
-        'imagePath': imagePath
+        'imagePath': imagePath,
+        'jobId': jobId
     })
 }
 
@@ -51,6 +53,7 @@ news.put = function (identifier=null,
                      message=null,
                      imagePath=null,
                      isLike=null,
+                     jobId=null,
                      fn=null) {
     if (fn)
         news.putFn = fn
@@ -61,6 +64,7 @@ news.put = function (identifier=null,
         'title': title,
         'message': message,
         'imagePath': imagePath,
+        'jobId': jobId,
         'isLike': isLike
     })
 }

@@ -130,7 +130,7 @@ function createNews() {
                 const author = document.getElementById('author-select')
                 const authorValue = author.options[author.selectedIndex].value
 
-                news.post(authorValue, title, text, null, updatePage)
+                news.post(authorValue, title, text, null, null, updatePage)
                 closeModal()
             } else {
                 let image = document.getElementById('image-input').files[0]
@@ -140,10 +140,11 @@ function createNews() {
                     } else {
                         const text = document.getElementById('text-input').value
                         const imagePath = data["path"]
+                        const jobId = data["jobId"]
                         const author = document.getElementById('author-select')
                         const authorValue = author.options[author.selectedIndex].value
 
-                        news.post(authorValue, title, text, imagePath, updatePage)
+                        news.post(authorValue, title, text, imagePath, jobId, updatePage)
                         closeModal()
                     }
                 })
@@ -208,7 +209,7 @@ function editNews(id) {
         if (newTitle) {
             const newText = document.getElementById('text-input').value
             if (document.getElementById('image-input').files.length === 0) {
-                news.put(id, newTitle, newText, null, null, updatePage)
+                news.put(id, newTitle, newText, null, null, null, updatePage)
                 closeModal()
             } else {
                 let newImage = document.getElementById('image-input').files[0]
@@ -217,7 +218,8 @@ function editNews(id) {
                         document.getElementById('image-input').classList.add('is-invalid')
                     } else {
                         const newImagePath = data["path"]
-                        news.put(id, newTitle, newText, newImagePath, null, updatePage)
+                        const jobId = data["jobId"]
+                        news.put(id, newTitle, newText, newImagePath, null, jobId, updatePage)
                         closeModal()
                     }
                 })
@@ -229,7 +231,7 @@ function editNews(id) {
     btnClear.textContent = "Удалить изображение"
     btnClear.className = "btn btn-info"
     btnClear.onclick = () => {
-        news.put(id, null, null, "!clear", null, updatePage)
+        news.put(id, null, null, "!clear", null, null, updatePage)
         closeModal()
     }
     showModal(message, 'Изменение поста', noImage? [button] : [btnClear, button])
@@ -243,7 +245,7 @@ function deleteNews(id) {
 }
 
 function like(id) {
-    news.put(id, null, null, null, true, function (data) {
+    news.put(id, null, null, null, true, null, function (data) {
         let likeSymbol = document.getElementById(id + "-like-symbol")
         let likeCounter = document.getElementById(id + "-like-counter")
 
