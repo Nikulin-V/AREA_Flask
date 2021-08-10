@@ -108,8 +108,8 @@ def createNews(json=None):
             }
         )
 
-    if (json['imagePath'] is not None) and (
-            not str(json['imagePath']).startswith("static\\images\\uploaded\\")):
+    if (json['imagePath'] is not None) and\
+            (not str(json['imagePath']).startswith(os.path.join("static", "images", "uploaded"))):
         return send_response(
             event_name,
             {
@@ -252,8 +252,8 @@ def editNews(json=None):
             }
         )
 
-    if (json['imagePath'] is not None) and (
-            not str(json['imagePath']).startswith("static\\images\\uploaded\\")):
+    if (json['imagePath'] is not None) and \
+            (not str(json['imagePath']).startswith(os.path.join("static", "images", "uploaded"))):
         return send_response(
             event_name,
             {
