@@ -25,7 +25,7 @@ socket.on('getNews', function (data) {
 news.post = function (companyTitle=null,
                      title=null,
                      message=null,
-                     imageUrl=null,
+                     imagePath=null,
                      fn=null) {
     if (fn)
         news.postFn = fn
@@ -35,7 +35,7 @@ news.post = function (companyTitle=null,
         'companyTitle': companyTitle,
         'title': title,
         'message': message,
-        'imageUrl': imageUrl
+        'imagePath': imagePath
     })
 }
 
@@ -49,7 +49,7 @@ socket.on('createNews', function (data) {
 news.put = function (identifier=null,
                      title=null,
                      message=null,
-                     imageUrl=null,
+                     imagePath=null,
                      isLike=null,
                      fn=null) {
     if (fn)
@@ -60,7 +60,7 @@ news.put = function (identifier=null,
         'identifier': identifier,
         'title': title,
         'message': message,
-        'imageUrl': imageUrl,
+        'imagePath': imagePath,
         'isLike': isLike
     })
 }

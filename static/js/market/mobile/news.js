@@ -98,7 +98,7 @@ function createNews() {
     message =
         `<div>
             <div class="form-floating">
-                <input id="title-input" class="form-control" placeholder="Заголовок">
+                <input id="title-input" class="form-control" placeholder="Заголовок" onclick="valid(this)">
                 <label for="title-input">Заголовок</label>
                 <div class="invalid-feedback">
                     Необходимо указать заголовок
@@ -111,8 +111,8 @@ function createNews() {
             </div>
             <br>
             <div class="mb-3">
-                <label for="image-input">Ссылка на изображение</label>
-                <input type="file" id="image-input" name="illustration" class="form-control" placeholder="Изображение" accept="image/*">
+                <label for="image-input">Изображение</label>
+                <input type="file" id="image-input" name="illustration" class="form-control" placeholder="Изображение" accept="image/*"  onclick="valid(this)">
             </div>
             <br>
             <div class="form-floating">
@@ -135,20 +135,24 @@ function createNews() {
                 const authorValue = author.options[author.selectedIndex].value
 
                 news.post(authorValue, title, text, null, updatePage)
+                closeModal()
             } else {
                 let image = document.getElementById('image-input').files[0]
-
                 news.uploadImage(image, (data) => {
-                    const text = document.getElementById('text-input').value
-                    const imageUrl = data["url"]
-                    const author = document.getElementById('author-select')
-                    const authorValue = author.options[author.selectedIndex].value
+                    if (data["error"]) {
+                        document.getElementById('image-input').classList.add('is-invalid')
+                    } else {
+                        const text = document.getElementById('text-input').value
+                        const imagePath = data["path"]
+                        const author = document.getElementById('author-select')
+                        const authorValue = author.options[author.selectedIndex].value
 
-                    news.post(authorValue, title, text, imageUrl, updatePage)
+                        news.post(authorValue, title, text, imagePath, updatePage)
+                        closeModal()
+                    }
                 })
-            }
 
-            closeModal()
+            }
         } else document.getElementById('title-input').classList.add('is-invalid')
     }
     fillAuthors()
@@ -179,12 +183,12 @@ function editNews(id) {
     const textElement = document.getElementById(id + "-text")
     if (textElement)
         text = textElement ? textElement.textContent : ''
-    const imageUrlElement = document.getElementById(id + "-picture")
-    imageUrl = imageUrlElement ? imageUrlElement.src : ''
+    const imageElement = document.getElementById(id + "-picture")
+    noImage = !imageElement
     message =
         `<div>
             <div class="form-floating">
-                <input id="title-input" class="form-control" placeholder="Заголовок" value="${ title }">
+                <input id="title-input" class="form-control" placeholder="Заголовок" value="${ title }" onclick="valid(this)">
                 <label for="title-input">Заголовок</label>
                 <div class="invalid-feedback">
                     Необходимо указать заголовок
@@ -196,25 +200,46 @@ function editNews(id) {
                 <label for="text-input">Текст</label>
             </div>
             <br>
-            <div class="form-floating">
-                <input id="image-input" class="form-control" placeholder="Ссылка на изображение" value="${ imageUrl }">
-                <label for="image-input">Ссылка на изображение</label>
+            <div class="mb-3">
+                <label for="image-input">Изображение</label>
+                <input type="file" id="image-input" name="illustration" class="form-control" placeholder="Изображение" accept="image/*" onclick="valid(this)">
             </div>
             <br>
         </div>`
     button = document.createElement('button')
     button.textContent = "Сохранить"
     button.className = "btn btn-info"
-    button.onclick = function () {
+    button.onclick = () => {
         const newTitle = document.getElementById('title-input').value
-        const newText = document.getElementById('text-input').value
-        const newImageUrl = document.getElementById('image-input').value
-        if (title) {
-            news.put(id, newTitle, newText, newImageUrl, null, updatePage)
-            closeModal()
+
+        if (newTitle) {
+            const newText = document.getElementById('text-input').value
+            if (document.getElementById('image-input').files.length === 0) {
+                news.put(id, newTitle, newText, null, null, updatePage)
+                closeModal()
+            } else {
+                let newImage = document.getElementById('image-input').files[0]
+                news.uploadImage(newImage, (data) => {
+                    if (data["error"]) {
+                        document.getElementById('image-input').classList.add('is-invalid')
+                    } else {
+                        const newImagePath = data["path"]
+                        news.put(id, newTitle, newText, newImagePath, null, updatePage)
+                        closeModal()
+                    }
+                })
+            }
         } else document.getElementById('title-input').classList.add('is-invalid')
     }
-    showModal(message, 'Изменение поста', [button])
+
+    btnClear = document.createElement("clear-image")
+    btnClear.textContent = "Удалить изображение"
+    btnClear.className = "btn btn-info"
+    btnClear.onclick = () => {
+        news.put(id, null, null, "!clear", null, updatePage)
+        closeModal()
+    }
+    showModal(message, 'Изменение поста', noImage? [button] : [btnClear, button])
 }
 
 function deleteNews(id) {
@@ -241,4 +266,10 @@ function like(id) {
             likeCounter.textContent = data["likes"].toString()
         }
     })
+}
+
+function valid(element) {
+    if (element.classList.contains("is-invalid")) {
+        element.classList.remove("is-invalid")
+    }
 }

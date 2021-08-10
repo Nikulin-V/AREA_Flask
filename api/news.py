@@ -1,6 +1,5 @@
 #  Nikulin Vasily © 2021
 import datetime
-import logging
 import os
 import random
 
@@ -95,14 +94,23 @@ def createNews(json=None):
         json = dict()
 
     event_name = 'createNews'
-    fillJson(json, ['companyTitle', 'title', 'message', 'imageUrl'])
+    fillJson(json, ['companyTitle', 'title', 'message', 'imagePath'])
 
     if json['companyTitle'] is None:
         return send_response(
             event_name,
             {
                 'message': 'Error',
-                'errors': ['Specify companyTitle']
+                'errors': ['Specify company title']
+            }
+        )
+
+    if (json['imagePath'] is not None) and (not str(json['imagePath']).startswith("static\\images\\uploaded\\")):
+        return send_response(
+            event_name,
+            {
+                'message': 'Error',
+                'errors': ['File is unsafe or located on a foreign server']
             }
         )
 
@@ -137,7 +145,7 @@ def createNews(json=None):
         message=json['message'] or '',
         date=datetime.datetime.now(),
         author=get_signature(current_user.id, company_id),
-        picture=json['imageUrl']
+        picture=json['imagePath']
     )
 
     db_sess.add(news)
@@ -160,7 +168,7 @@ def editNews(json=None):
         json = dict()
 
     event_name = 'editNews'
-    fillJson(json, ['identifier', 'title', 'message', 'imageUrl', 'isLike'])
+    fillJson(json, ['identifier', 'title', 'message', 'imagePath', 'isLike'])
 
     db_sess = db_session.create_session()
 
@@ -222,9 +230,38 @@ def editNews(json=None):
             }
         )
 
+    if json['imagePath'] == '!clear':
+        json['imagePath'] = ''
+        if news.picture is not None:
+            os.remove(news.picture)
+        news.picture = None
+        db_sess.merge(news)
+        db_sess.commit()
+
+        return send_response(
+            event_name,
+            {
+                'message': 'Success',
+                'errors': []
+            }
+        )
+
+    if (json['imagePath'] is not None) and (not str(json['imagePath']).startswith("static\\images\\uploaded\\")):
+        return send_response(
+            event_name,
+            {
+                'message': 'Error',
+                'errors': ['File is unsafe or located on a foreign server']
+            }
+        )
+
     news.title = json['title'] or news.title
-    news.message = news.title if json['message'] is None else json['message']
-    news.picture = news.title if json['imageUrl'] is None else json['imageUrl']
+    news.message = news.message if json['message'] is None else json['message']
+
+    if json['imagePath'] is not None:
+        if news.picture is not None:
+            os.remove(news.picture)
+        news.picture = json['imagePath']
 
     db_sess.merge(news)
     db_sess.commit()
@@ -273,6 +310,9 @@ def deleteNews(json=None):
             }
         )
 
+    if news.picture is not None:
+        os.remove(news.picture)
+
     db_sess.delete(news)
     db_sess.commit()
 
@@ -296,9 +336,6 @@ def get_signature(user_id, company_id=None):
 
 @api.route("/api/news/image", methods=['POST'])
 def uploadImage():
-    logging.warning(request)
-    logging.warning(request.files)
-
     uploaded = request.files["illustration"]
     if (not uploaded) or (uploaded.filename == ''):
         abort(400)
@@ -319,7 +356,13 @@ def uploadImage():
             }
         )
     else:
-        abort(415)
+        return jsonify(
+            {
+                "code": 1001,
+                "error": "Security error",
+                "description": "Wrong file format or potentially unsafe file"
+            }
+        )
 
 
 def allowed_file(filename):
