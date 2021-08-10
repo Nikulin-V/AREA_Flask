@@ -6,3 +6,4 @@ tokens
 README.md
 REST_API.md
 static/images/uploaded/*
+/logs.txt

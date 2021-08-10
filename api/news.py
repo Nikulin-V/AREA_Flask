@@ -72,7 +72,7 @@ def getNews(json=None):
                         'title': n.title,
                         'message': n.message,
                         'date': n.date.strftime('%d %b at %H:%M'),
-                        'picture': n.picture,
+                        'picture': url_for('static', filename=n.picture.removeprefix("static\\").replace("\\", "/")),
                         'likes': 0 if n.liked_ids is None or n.liked_ids == ''
                         else len(str(n.liked_ids).split(';')),
                         'isLiked': n.is_liked,
