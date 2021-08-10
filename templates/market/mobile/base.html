@@ -30,7 +30,7 @@
 
 
         <script>
-            let socket = io("https://market.area-146.tk", {transports: ["polling"]});
+            let socket = io(window.location.origin, {transports: ["polling"]});
         </script>
         <script src="/static/js/api/sessions.js"></script>
         <script src="/static/js/api/socket.js"></script>
