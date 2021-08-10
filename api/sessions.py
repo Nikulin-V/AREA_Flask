@@ -76,12 +76,13 @@ def getSessions(json=None):
         {
             'message': 'Success',
             'sessions':
-                [item.to_dict(only=('id', 'title', 'admins_ids', 'players_ids'))
+                [item.to_dict(only=('id', 'title'))
                  for item in sessions],
             'currentSession': {
                 'id': current_session.id,
                 'title': current_session.title
-                }
+                },
+            'isAdmin': str(current_user.id) in str(current_session.admins_ids).split(';')
         }
     )
 

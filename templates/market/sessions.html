@@ -22,7 +22,7 @@
     </button>
     <hr>
     <br>
-    {% if 'Admin' in game_role %}
+    <div id="delete-session" style="border: red 1px solid; border-radius: 10px; padding: 10px">
         <h4>Удалить текущую игру</h4>
         <br>
         <div class="form-check">
@@ -35,7 +35,7 @@
         <button class="btn btn-info btn-danger" id="delete-session-btn" onclick="deleteSession()">
             Удалить текущую фондовую биржу
         </button>
-    {% endif %}
+    </div>
 
     {% if message %}
         <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

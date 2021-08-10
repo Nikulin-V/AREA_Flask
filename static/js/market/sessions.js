@@ -49,6 +49,13 @@ function fillSessions(fn=null) {
                 option.selected = true
             sessionSelect.appendChild(option)
         }
+
+        deleteSessionDiv = document.getElementById('delete-session')
+        deleteSessionDiv.style.display = data["isAdmin"] ? "block" : "none"
+
+        adminLinksDiv = document.getElementById('admin-links')
+        adminLinksDiv.style.display = data["isAdmin"] ? "block" : "none"
+
         if (fn)
             fn()
     })
