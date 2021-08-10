@@ -6,7 +6,7 @@
     <hr style="margin-top: 0">
     <form action="" method="post">
         {{ form.hidden_tag() }}
-        <p>
+        <div>
             {{ form.user.label }}<br>
             {{ form.user(class='form-control') }}
             {% for error in form.game_role.errors %}
@@ -14,8 +14,9 @@
                         {{ error }}
                     </div>
             {% endfor %}
-        </p>
-        <p>
+        </div>
+        <br>
+        <div>
             {{ form.game_role.label }}<br>
             {{ form.game_role(class='form-control') }}<br>
             {% for error in form.game_role.errors %}
@@ -23,7 +24,7 @@
                     {{ error }}
                 </div>
             {% endfor %}
-        </p>
+        </div>
         {{ form.submit(type="submit", class="btn btn-info") }}
     </form>
     <!-- Всплывающее сообщение -->

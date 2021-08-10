@@ -17,8 +17,10 @@ function createTable() {
     votesJson = votes.getJson['votes']
     sectors = Object.keys(votesJson)
 
+    companiesExist = false
     for (sectorId = 0; sectorId < sectors.length; sectorId++) {
         if (Object.keys(votesJson[sectors[sectorId]]).length > 0) {
+            companiesExist = true
             const table = main.appendChild(document.createElement('table'));
             table.className = "companies-table dairy-table table-hover table-info"
             const caption = table.appendChild(document.createElement('caption'))
@@ -72,6 +74,19 @@ function createTable() {
             });
         }
     }
+
+    if (!companiesExist) {
+        main.insertAdjacentHTML('beforeend', `
+        <table class="dairy-table table-hover table-info companies-table">
+            <tr style="background-color: #86CFDA">
+                <td style="text-align: center;padding: 5px">Нет компаний</td>
+            </tr>
+        </table>
+        `)
+        pointsInput = document.getElementById('points')
+        pointsInput.disabled = true
+    }
+
 }
 
 function changeVotingValues(companyTitle, points, data) {

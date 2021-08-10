@@ -1,6 +1,6 @@
 #  Nikulin Vasily © 2021
 
-from flask import render_template, Blueprint, abort
+from flask import render_template, Blueprint, abort, redirect
 from flask_login import login_required
 from flask_mobility.decorators import mobile_template
 
@@ -20,7 +20,7 @@ app = game_result_page
 @login_required
 def game_result(template):
     if get_constant('GAME_RUN'):
-        abort(404)
+        return redirect('/marketplace')
 
     if not get_game_roles():
         abort(404)
@@ -38,7 +38,7 @@ def game_result(template):
         user = ' '.join(db_sess.query(User.surname, User.name).filter(
             User.id == user_id
         ).first())
-        players_wallets.append([i, user, money])
+        players_wallets.append([i, user, round(money)])
         i += 1
 
     balances = sorted(list(set(map(lambda x: x[2], players_wallets))), reverse=True)
@@ -46,7 +46,7 @@ def game_result(template):
         count_wallets = len(list(db_sess.query(Wallet).
                                  filter(Wallet.money == balance,
                                         Wallet.session_id == get_session_id())))
-        if count_wallets != 1:
+        if count_wallets > 1:
             current_wallets = list(filter(lambda x: x[2] == balance, players_wallets))
             current_wallets.sort()
             i = f'{current_wallets[0][0]}-{current_wallets[-1][0]}'

@@ -259,7 +259,6 @@ def editOffer(json=None):
         delete_scheduled_jobs(chequeJson, db_sess)
 
         cheque = json['json']['offers']
-
         first_cost = sum([int(row['price']) * int(row['stocks']) for row in cheque])
 
         customer_wallet = db_sess.query(Wallet).filter(
@@ -286,11 +285,12 @@ def editOffer(json=None):
                         Stock.session_id == get_session_id(),
                         Stock.company_id == company_id,
                         or_(Stock.user_id == current_user.id, Stock.user_id == offer.user_id)
-                    ))) + sum(map(lambda x: x[0], db_sess.query(Offer.stocks).filter(
-                Offer.session_id == get_session_id(),
-                Offer.company_id == company_id,
-                or_(Stock.user_id == current_user.id, Stock.user_id == offer.user_id)
-            )))
+                    ))) +
+                    sum(map(lambda x: x[0], db_sess.query(Offer.stocks).filter(
+                        Offer.session_id == get_session_id(),
+                        Offer.company_id == company_id,
+                        or_(Offer.user_id == current_user.id, Offer.user_id == offer.user_id)
+                    )))
             )
 
             second_cost += int(row['price']) * int(
@@ -320,11 +320,12 @@ def editOffer(json=None):
                         Stock.session_id == get_session_id(),
                         Stock.company_id == company_id,
                         or_(Stock.user_id == current_user.id, Stock.user_id == offer.user_id)
-                    ))) + sum(map(lambda x: x[0], db_sess.query(Offer.stocks).filter(
-                Offer.session_id == get_session_id(),
-                Offer.company_id == company_id,
-                or_(Stock.user_id == current_user.id, Stock.user_id == offer.user_id)
-            )))
+                    ))) +
+                    sum(map(lambda x: x[0], db_sess.query(Offer.stocks).filter(
+                        Offer.session_id == get_session_id(),
+                        Offer.company_id == company_id,
+                        or_(Offer.user_id == current_user.id, Offer.user_id == offer.user_id)
+                    )))
             )
             offer_first_cost = int(row['stocks']) * int(row['price'])
             offer_second_cost = offer_first_cost * stocks_get_profit * get_constant('FEE_FOR_STOCK')
@@ -365,13 +366,13 @@ def editOffer(json=None):
                 db_sess.merge(stock)
 
             # Начисление комиссии третьим лицам
-            all_stocks = list(map(lambda x: x[0], db_sess.query(Stock.stocks).filter(
+            all_stocks = db_sess.query(Stock).filter(
                 Stock.session_id == get_session_id(),
                 Stock.company_id == company_id
-            ).all())) + list(map(lambda x: x[0], db_sess.query(Offer.stocks).filter(
+            ).all() + db_sess.query(Offer.stocks).filter(
                 Offer.session_id == get_session_id(),
                 Offer.company_id == company_id
-            ).all()))
+            ).all()
             for stock in all_stocks:
 
                 if str(stock.user_id) not in [current_user.id, offer.user_id]:
@@ -527,7 +528,8 @@ def get_offer_fee(company_id, offer_id, buy_stocks):
                 Stock.session_id == get_session_id(),
                 Stock.company_id == company_id,
                 or_(Stock.user_id == current_user.id, Stock.user_id == offer.user_id)
-            ))) + sum(map(lambda x: x[0], db_sess.query(Offer.stocks).filter(
+            ))) +
+            sum(map(lambda x: x[0], db_sess.query(Offer.stocks).filter(
                 Offer.session_id == get_session_id(),
                 Offer.company_id == company_id,
                 or_(Stock.user_id == current_user.id, Stock.user_id == offer.user_id)

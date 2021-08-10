@@ -16,7 +16,6 @@ from data.users import User
 from site_pages import pages_blueprints
 from tools.tools import use_subdomains, get_subdomain
 
-SCOPES = ['https://www.googleapis.com/auth/classroom.coursework.me.readonly']
 
 app = Flask(__name__, subdomain_matching=True)
 app.config['SECRET_KEY'] = 'area_secret_key'

@@ -1,15 +1,16 @@
 #  Nikulin Vasily © 2021
 
 import flask
-from flask import request, jsonify
+from flask import request, jsonify, redirect
 from flask_login import current_user
 from flask_socketio import emit
 
 from config import HOST, DEV_HOST
 from data import db_session
-from data.functions import get_session_id
+from data.functions import get_session_id, get_constant
 from data.offers import Offer
 from data.stocks import Stock
+from data.wallets import Wallet
 
 
 def use_subdomains(subdomains=None):
@@ -99,3 +100,26 @@ def send_response(event_name, response=None):
             emit(event_name, response)
     else:
         return jsonify(response)
+
+
+def game_running_required(func):
+    def wrapper(*args, **kwargs):
+        if get_constant('GAME_RUN'):
+            return func(*args, **kwargs)
+        return redirect('/game-result')
+
+    return wrapper
+
+
+def deposit_wallet(user_id, money):
+    db_sess = db_session.create_session()
+    wallet = db_sess.query(Wallet).filter(Wallet.user_id == user_id).first()
+    if wallet is None:
+        wallet = Wallet(
+            session_id=get_session_id(),
+            user_id=user_id,
+            money=get_constant('START_WALLET_MONEY')
+        )
+        db_sess.add(wallet)
+    wallet.money += money
+    db_sess.commit()

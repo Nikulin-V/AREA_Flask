@@ -6,7 +6,7 @@
     <hr>
     <form action="" method="post" style="text-align: -webkit-center;">
         {{ form.hidden_tag() }}
-        <p>
+        <div>
             {{ form.game_run.label }}<br>
             {{ form.game_run(class='form-check-input', style='width: 2em; height: 2em; text-align: center') }}<br>
             {% for error in form.game_run.errors %}
@@ -14,8 +14,8 @@
                     {{ error }}
                 </div>
             {% endfor %}
-        </p>
-        <p>
+        </div>
+        <div>
             {{ form.start_wallet_money.label }}<br>
             {{ form.start_wallet_money(class='form-control', style='width: fit-content;text-align: center') }}<br>
             {% for error in form.start_wallet_money.errors %}
@@ -23,8 +23,8 @@
                     {{ error }}
                 </div>
             {% endfor %}
-        </p>
-        <p>
+        </div>
+        <div>
             {{ form.fee.label }}<br>
             {{ form.fee(class='form-control', style='width: fit-content;text-align: center') }}<br>
             {% for error in form.fee.errors %}
@@ -32,8 +32,8 @@
                     {{ error }}
                 </div>
             {% endfor %}
-        </p>
-        <p>
+        </div>
+        <div>
             {{ form.new_company_fee.label }}<br>
             {{ form.new_company_fee(class='form-control', style='width: fit-content;text-align: center') }}<br>
             {% for error in form.new_company_fee.errors %}
@@ -41,8 +41,8 @@
                     {{ error }}
                 </div>
             {% endfor %}
-        </p>
-        <p>
+        </div>
+        <div>
             {{ form.start_stocks.label }}<br>
             {{ form.start_stocks(class='form-control', style='width: fit-content;text-align: center') }}<br>
             {% for error in form.start_stocks.errors %}
@@ -50,7 +50,7 @@
                     {{ error }}
                 </div>
             {% endfor %}
-        </p>
+        </div>
         {{ form.submit(type="submit", class="btn btn-info") }}
     </form>
     <!-- Всплывающее сообщение -->

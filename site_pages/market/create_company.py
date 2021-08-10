@@ -5,7 +5,7 @@ from flask_login import login_required
 from flask_mobility.decorators import mobile_template
 
 from data.functions import get_game_roles, get_constant
-from tools.tools import use_subdomains
+from tools.tools import use_subdomains, game_running_required
 
 my_companies_page = Blueprint('my-companies', __name__)
 app = my_companies_page
@@ -15,6 +15,7 @@ app = my_companies_page
 @use_subdomains(subdomains=['market'])
 @mobile_template('market/{mobile/}create-company.html')
 @login_required
+@game_running_required
 def my_companies(template):
     if not get_game_roles():
         abort(404)

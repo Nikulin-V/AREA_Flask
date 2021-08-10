@@ -17,4 +17,4 @@ class UserAdminManagementForm(FlaskForm):
     role = StringField('Роли (Введите роли пользователя через пробел (Ученик, Учитель, Админ) )')
     game_role = StringField('Роли в игре (Введите роли пользователя через пробел '
                             '(Игрок, Эксперт, Админ) )')
-    submit = SubmitField('Готово ✅')
+    submit = SubmitField('Готово')
