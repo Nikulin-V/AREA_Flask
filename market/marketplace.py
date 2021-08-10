@@ -1,17 +1,14 @@
 #  Nikulin Vasily © 2021
-from flask import Blueprint, render_template, redirect, abort
+from flask import render_template, abort
 from flask_login import login_required
 from flask_mobility.decorators import mobile_template
 
-from data.functions import get_game_roles, get_constant
-from tools.tools import use_subdomains, game_running_required
-
-marketplace_page = Blueprint('marketplace', __name__)
-app = marketplace_page
+from data.functions import get_game_roles
+from market import market
+from tools.tools import game_running_required
 
 
-@app.route('/marketplace', methods=['GET', 'POST'])
-@use_subdomains(subdomains=['market'])
+@market.route('/marketplace', methods=['GET', 'POST'])
 @mobile_template('market/{mobile/}marketplace.html')
 @login_required
 @game_running_required

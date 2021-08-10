@@ -1,6 +1,5 @@
 #  Nikulin Vasily © 2021
-
-from flask import render_template, Blueprint, abort, redirect
+from flask import render_template, abort, redirect
 from flask_login import login_required
 from flask_mobility.decorators import mobile_template
 
@@ -8,14 +7,10 @@ from data import db_session
 from data.functions import get_constant, get_game_roles, get_session_id
 from data.users import User
 from data.wallets import Wallet
-from tools.tools import use_subdomains
-
-game_result_page = Blueprint('game-result', __name__)
-app = game_result_page
+from market import market
 
 
-@app.route('/game-result')
-@use_subdomains(subdomains=['market'])
+@market.route('/game-result')
 @mobile_template('market/{mobile/}session-result.html')
 @login_required
 def game_result(template):
@@ -27,8 +22,7 @@ def game_result(template):
 
     db_sess = db_session.create_session()
 
-    data = list(db_sess.query(Wallet.user_id, Wallet.money).
-                filter(
+    data = list(db_sess.query(Wallet.user_id, Wallet.money).filter(
         Wallet.session_id == get_session_id()
     ))
     data.sort(key=lambda x: -x[1])

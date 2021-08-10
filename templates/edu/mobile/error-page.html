@@ -8,6 +8,6 @@
         <p id="error-message">{{ message }}</p>
     </div>
     {% if code == 401 %}
-        <meta http-equiv="refresh" content="5; url=\login">
+        <meta http-equiv="refresh" content="3; url={{ url_for('area.login') + '?redirect_page=' + request.endpoint}}">
     {% endif %}
 {% endblock %}

@@ -1,22 +1,18 @@
 #  Nikulin Vasily © 2021
-
-from flask import Blueprint, render_template, abort
+from flask import render_template, abort
 from flask_login import login_required
 from flask_mobility.decorators import mobile_template
 
 from data.functions import get_game_roles, get_constant
-from tools.tools import use_subdomains, game_running_required
-
-my_companies_page = Blueprint('my-companies', __name__)
-app = my_companies_page
+from market import market
+from tools.tools import game_running_required
 
 
-@app.route('/create-company', methods=['GET', 'POST'])
-@use_subdomains(subdomains=['market'])
+@market.route('/create-company', methods=['GET', 'POST'])
 @mobile_template('market/{mobile/}create-company.html')
 @login_required
 @game_running_required
-def my_companies(template):
+def create_company(template):
     if not get_game_roles():
         abort(404)
 

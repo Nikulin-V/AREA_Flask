@@ -1,6 +1,9 @@
 #  Nikulin Vasily © 2021
 import sqlalchemy
 import datetime
+
+import sqlalchemy
+
 from data.db_session import SqlAlchemyBase
 from uuid import uuid4
 

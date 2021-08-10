@@ -1,17 +1,18 @@
 #  Nikulin Vasily © 2021
-from flask import Blueprint, render_template
+from flask import render_template
 from flask_mobility.decorators import mobile_template
 
 from data.functions import get_game_roles
-from tools.tools import use_subdomains, get_subdomain
+from app import area
+from edu import edu
+from market import market
+from tools.tools import get_subdomain
 
-privacy_policy_page = Blueprint('privacy-policy', __name__)
-app = privacy_policy_page
 
-
-@app.route('/privacy-policy')
+@area.route('/privacy-policy')
+@market.route('/privacy-policy')
+@edu.route('/privacy-policy')
 @mobile_template('/{mobile/}privacy-policy.html')
-@use_subdomains(subdomains=['area', 'market', 'edu'])
 def privacy_policy(template: str):
     template = get_subdomain() + template
     return render_template(template,

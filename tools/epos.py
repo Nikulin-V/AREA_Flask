@@ -1,5 +1,4 @@
 #  Nikulin Vasily © 2021
-
 import selenium.common.exceptions
 from selenium import webdriver
 from selenium.webdriver.common.by import By

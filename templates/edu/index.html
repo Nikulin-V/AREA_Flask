@@ -2,6 +2,12 @@
 {% extends "edu/base.html" %}
 
 {% block content %}
+    <style>
+        body {
+            background-image: url({{ url_for('static', filename='images/index-background.jpg') }});
+            background-attachment: fixed;
+        }
+    </style>
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
     <div>

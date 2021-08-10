@@ -6,7 +6,7 @@
     <hr>
     <form action="" method="post" id="profile-form">
         {{ form.hidden_tag() }}
-        <p>
+        <div>
             {{ form.email.label }}<br>
             {{ form.email(class="form-control", type="email", value=current_user.email) }}<br>
             {% for error in form.email.errors %}
@@ -14,8 +14,8 @@
                     {{ error }}
                 </p>
             {% endfor %}
-        </p>
-        <p>
+        </div>
+        <div>
             {{ form.old_password.label }}<br>
             {{ form.old_password(class="form-control", type="password") }}<br>
             {% for error in form.old_password.errors %}
@@ -23,8 +23,8 @@
                     {{ error }}
                 </p>
             {% endfor %}
-        </p>
-        <p>
+        </div>
+        <div>
             {{ form.password.label }}<br>
             {{ form.password(class="form-control", type="password") }}<br>
             {% for error in form.password.errors %}
@@ -32,8 +32,8 @@
                     {{ error }}
                 </p>
             {% endfor %}
-        </p>
-        <p>
+        </div>
+        <div>
             {{ form.password_again.label }}<br>
             {{ form.password_again(class="form-control", type="password") }}<br>
             {% for error in form.password_again.errors %}
@@ -41,8 +41,8 @@
                     {{ error }}
                 </p>
             {% endfor %}
-        </p>
-        <p>
+        </div>
+        <div>
             {{ form.surname.label }}<br>
             {{ form.surname(class="form-control", value=current_user.surname) }}<br>
             {% for error in form.surname.errors %}
@@ -50,8 +50,8 @@
                     {{ error }}
                 </p>
             {% endfor %}
-        </p>
-        <p>
+        </div>
+        <div>
             {{ form.name.label }}<br>
             {{ form.name(class="form-control", value=current_user.name) }}<br>
             {% for error in form.name.errors %}
@@ -59,8 +59,8 @@
                     {{ error }}
                 </p>
             {% endfor %}
-        </p>
-        <p>
+        </div>
+        <div>
             {{ form.patronymic.label }}<br>
             {{ form.patronymic(class="form-control", value=current_user.patronymic if current_user.patronymic else '') }}<br>
             {% for error in form.patronymic.errors %}
@@ -68,8 +68,8 @@
                     {{ error }}
                 </p>
             {% endfor %}
-        </p>
-        <p>
+        </div>
+        <div>
             {{ form.date_of_birth.label }}<br>
             {{ form.date_of_birth(class="form-control", value=date if date else '01.01.1970')}}<br>
             {% for error in form.date_of_birth.errors %}
@@ -77,8 +77,8 @@
                     {{ error }}
                 </p>
             {% endfor %}
-        </p>
-        <p>
+        </div>
+        <div>
             {{ form.school.label }}<br>
             {{ form.school(class="form-control", value=school if school else '') }}<br>
             {% for error in form.school.errors %}
@@ -86,8 +86,8 @@
                     {{ error }}
                 </p>
             {% endfor %}
-        </p>
-        <p>
+        </div>
+        <div>
             {{ form.role.label }}<br>
             {{ form.role(class="form-control", value=current_user.role if current_user.role else 'Ученик')  }}<br>
             {% for error in form.role.errors %}
@@ -95,8 +95,8 @@
                     {{ error }}
                 </p>
             {% endfor %}
-        </p>
-        <p>
+        </div>
+        <div>
             {{ form.epos_login.label }}<br>
             {{ form.epos_login(class="form-control", value=current_user.epos_login if current_user.epos_login else '') }}<br>
             {% for error in form.epos_login.errors %}
@@ -104,8 +104,8 @@
                     {{ error }}
                 </p>
             {% endfor %}
-        </p>
-        <p>
+        </div>
+        <div>
             {{ form.epos_password.label }}<br>
             {{ form.epos_password(class="form-control", type="password", value=current_user.epos_password) }}<br>
             {% for error in form.epos_password.errors %}
@@ -113,8 +113,8 @@
                     {{ error }}
                 </p>
             {% endfor %}
-        </p>
-        <p>
+        </div>
+        <div>
             {{ form.about.label }}<br>
             {{ form.about(class="form-control", value=current_user.about if current_user.about else '') }}<br>
             {% for error in form.about.errors %}
@@ -122,8 +122,8 @@
                     {{ error }}
                 </p>
             {% endfor %}
-        </p>
-        <p>{{ form.submit(type="submit", class="btn btn-info", value=btn_label) }}</p>
+        </div>
+        <div>{{ form.submit(type="submit", class="btn btn-info", value=btn_label) }}</div>
     </form>
     {% if message %}
         <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

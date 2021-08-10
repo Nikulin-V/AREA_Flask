@@ -1,5 +1,4 @@
 #  Nikulin Vasily © 2021
-
 import os
 
 from flask import Flask, render_template, redirect
@@ -13,14 +12,23 @@ from flask_sqlalchemy import SQLAlchemy
 from api import api, sock
 from data import db_session
 from data.users import User
-from site_pages import pages_blueprints
-from tools.tools import use_subdomains, get_subdomain
+from tools.tools import get_subdomain
 
+from area import area
+from market import market
+from edu import edu
 
 app = Flask(__name__, subdomain_matching=True)
-app.config['SECRET_KEY'] = 'area_secret_key'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db/database.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config.update(
+    DEBUG=True,
+    TESTING=True,
+    SERVER_NAME='area-146.ru:80',
+    SECRET_KEY='area_secret_key',
+    SQLALCHEMY_DATABASE_URI='sqlite:///db/database.db',
+    SQLALCHEMY_TRACK_MODIFICATIONS=False,
+    SESSION_COOKIE_DOMAIN='area-146.ru'
+)
+app.config['SERVER_NAME'] = 'area-146.ru:80'
 app.config['MAX_CONTENT_LENGTH'] = 32 * 1024 * 1024
 async_mode = None
 socket_ = SocketIO(app, cors_allowed_origins="*", async_mode=async_mode)
@@ -28,8 +36,9 @@ socket_ = SocketIO(app, cors_allowed_origins="*", async_mode=async_mode)
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
-for blueprint in pages_blueprints:
-    app.register_blueprint(blueprint)
+services = [area, market, edu]
+for service in services:
+    app.register_blueprint(service)
 
 app.register_blueprint(api)
 socket_ = sock.init_io(socket_)
@@ -65,7 +74,6 @@ def secrets_of_literacy():
 @app.errorhandler(415)
 @app.errorhandler(500)
 @mobile_template('/{mobile/}error-page.html')
-@use_subdomains(subdomains=['', 'area', 'market', 'edu'])
 def page_not_found(error, template: str):
     template = get_subdomain() + template
     messages = {

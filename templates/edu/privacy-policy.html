@@ -11,6 +11,10 @@
            counter-increment: li;
            content: counters(li, ".") ". ";
         }
+        body {
+            background-image: url({{ url_for('static', filename='images/index-background.jpg') }});
+            background-attachment: fixed;
+        }
     </style>
     <h1 style="margin: 70px; color: white; text-align: center;">Политика конфиденциальности</h1>
     <div style="background-color: white; padding: 20px 40px;">

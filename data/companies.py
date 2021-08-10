@@ -1,5 +1,4 @@
 #  Nikulin Vasily © 2021
-
 import sqlalchemy
 
 from uuid import uuid4

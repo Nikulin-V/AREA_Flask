@@ -1,19 +1,25 @@
 #  Nikulin Vasily © 2021
-from flask import render_template, Blueprint
+from flask import render_template
 from flask_mobility.decorators import mobile_template
 
+from area import area
+from market import market
+from edu import edu
+
 from data.functions import get_game_roles
-from tools.tools import use_subdomains, get_subdomain
 
-index_page = Blueprint('index', __name__)
-app = index_page
+from tools.tools import get_subdomain
 
 
-@app.route('/')
-@app.route('/index')
-@use_subdomains(subdomains=['area', 'edu', 'market'])
+@area.route('/')
+@area.route('/index')
+@market.route('/')
+@market.route('/index')
+@edu.route('/')
+@edu.route('/index')
 @mobile_template('/{mobile/}index.html')
 def index(template: str):
+    print(1)
     template = get_subdomain() + template
     return render_template(template,
                            game_role=get_game_roles(),

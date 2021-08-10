@@ -1,7 +1,7 @@
 #  Nikulin Vasily © 2021
 from datetime import date
 
-from flask import Blueprint, render_template
+from flask import render_template
 from flask_login import login_required, current_user
 from flask_mobility.decorators import mobile_template
 
@@ -10,14 +10,10 @@ from data.db_functions import repair_dependencies_students_and_groups
 from data.groups import Group
 from data.homeworks import Homework
 from data.students import Student
-from tools.tools import use_subdomains
-
-area_diary_page = Blueprint('area-diary', __name__)
-app = area_diary_page
+from edu import edu
 
 
-@app.route('/area-diary')
-@use_subdomains(subdomains=['edu'])
+@edu.route('/area-diary')
 @mobile_template('edu/{mobile/}area-diary.html')
 @login_required
 def area_diary(template):

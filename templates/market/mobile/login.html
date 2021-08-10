@@ -6,7 +6,7 @@
         <h3>{{ title }}</h3>
         <form action="" method="post">
             {{ form.hidden_tag() }}
-            <p>
+            <div>
                 {{ form.email.label }}<br>
                 {{ form.email(class="form-control", type="email") }}<br>
                 {% for error in form.email.errors %}
@@ -14,8 +14,8 @@
                         {{ error }}
                     </div>
                 {% endfor %}
-            </p>
-            <p>
+            </div>
+            <div>
                 {{ form.password.label }}<br>
                 {{ form.password(class="form-control", type="password") }}<br>
                 {% for error in form.password.errors %}
@@ -23,7 +23,7 @@
                         {{ error }}
                     </div>
                 {% endfor %}
-            </p>
+            </div>
             <p style="width: 100vw">{{ form.remember_me() }} {{ form.remember_me.label }}</p>
             <p>{{ form.submit(type="submit", class="btn btn-info") }}</p>
         </form>

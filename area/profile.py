@@ -1,20 +1,19 @@
 #  Nikulin Vasily © 2021
-from flask import Blueprint, render_template
+from flask import render_template, redirect, url_for
 from flask_login import login_required, current_user
 from flask_mobility.decorators import mobile_template
 
 from data import db_session
 from data.functions import get_game_roles
 from data.schools import School
+from edu import edu
 from forms.profile import ProfileForm
-from tools.tools import use_subdomains, get_subdomain
+from app import area
+from market import market
+from tools.tools import get_subdomain
 
-profile_page = Blueprint('profile', __name__)
-app = profile_page
 
-
-@app.route('/profile', methods=['GET', 'POST'])
-@use_subdomains(subdomains=['area', 'market', 'edu'])
+@area.route('/profile', methods=['GET', 'POST'])
 @mobile_template('/{mobile/}profile.html')
 @login_required
 def profile(template: str):
@@ -64,7 +63,7 @@ def profile(template: str):
         db_sess.commit()
 
     school = db_sess.query(School.title).filter(
-                               School.id == user.school_id).first()
+        School.id == user.school_id).first()
     if not school:
         school = ''
     else:
@@ -84,3 +83,13 @@ def profile(template: str):
                            school=school,
                            date=date,
                            btn_label='Сохранить')
+
+
+@market.route('/profile', methods=['GET', 'POST'])
+def redirect_profile():
+    return redirect(url_for('area.profile') + '?redirect_page=market.index')
+
+
+@edu.route('/profile', methods=['GET', 'POST'])
+def redirect_profile():
+    return redirect(url_for('area.profile') + '?redirect_page=edu.index')

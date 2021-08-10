@@ -1,25 +1,25 @@
 #  Nikulin Vasily © 2021
-from flask import Blueprint, redirect, render_template
+from flask import redirect, render_template, url_for, request
 from flask_login import current_user, login_user, login_required, logout_user
 from flask_mobility.decorators import mobile_template
+
+from area import area
+from market import market
+from edu import edu
 
 from data import db_session
 from data.users import User
 from forms.login import LoginForm
-from tools.tools import use_subdomains, get_subdomain
-
-login_page = Blueprint('login', __name__)
-app = login_page
+from tools.tools import get_subdomain
 
 
-@app.route('/login', methods=['GET', 'POST'])
-@use_subdomains(subdomains=['area', 'market', 'edu'])
+@area.route('/login', methods=['GET', 'POST'])
 @mobile_template('/{mobile/}login.html')
 def login(template: str):
     template = get_subdomain() + template
 
     if current_user.is_authenticated:
-        return redirect('/profile')
+        return redirect(url_for('.profile'))
 
     form = LoginForm()
 
@@ -34,7 +34,7 @@ def login(template: str):
                                    form=form)
         if user.check_password(form.password.data):
             login_user(user, remember=form.remember_me.data)
-            return redirect("/index")
+            return redirect(url_for(request.args.get('redirect_page')) or url_for("/index"))
         return render_template(template,
                                title='Авторизация',
                                message="Неправильный логин или пароль",
@@ -44,7 +44,19 @@ def login(template: str):
                            form=form)
 
 
-@app.route('/logout')
+@market.route('/login', methods=['GET', 'POST'])
+def redirect_login():
+    return redirect(url_for('area.login') + '?redirect_page=market.index')
+
+
+@edu.route('/login', methods=['GET', 'POST'])
+def redirect_login():
+    return redirect(url_for('area.login') + '?redirect_page=edu.index')
+
+
+@area.route('/logout')
+@market.route('/logout')
+@edu.route('/logout')
 @login_required
 def logout():
     logout_user()

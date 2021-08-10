@@ -1,8 +1,9 @@
 #  Nikulin Vasily © 2021
+import functools
 import os
 
 import flask
-from flask import request, jsonify, redirect
+from flask import request, jsonify, redirect, url_for
 from flask_login import current_user
 from flask_socketio import emit
 
@@ -20,14 +21,14 @@ def use_subdomains(subdomains=None):
 
     def subdomains_decorator(func):
 
-        def wrapper(*args, **kwargs):
+        def subdomains_wrapper(*args, **kwargs):
             subdomain = get_subdomain()
             if subdomain in subdomains:
                 return func(*args, **kwargs)
             else:
                 return 'Неверный поддомен сайта'
 
-        return wrapper
+        return subdomains_wrapper
 
     return subdomains_decorator
 
@@ -103,15 +104,6 @@ def send_response(event_name, response=None):
         return jsonify(response)
 
 
-def game_running_required(func):
-    def wrapper(*args, **kwargs):
-        if get_constant('GAME_RUN'):
-            return func(*args, **kwargs)
-        return redirect('/game-result')
-
-    return wrapper
-
-
 def deposit_wallet(user_id, money):
     db_sess = db_session.create_session()
     wallet = db_sess.query(Wallet).filter(Wallet.user_id == user_id).first()
@@ -131,3 +123,13 @@ def safe_remove(file):
         os.remove(file)
         return True
     return False
+
+
+def game_running_required(func):
+    @functools.wraps(func)
+    def game_running_wrapper(*args, **kwargs):
+        if get_constant('GAME_RUN'):
+            return func(*args, **kwargs)
+        return redirect('/game-result')
+
+    return game_running_wrapper

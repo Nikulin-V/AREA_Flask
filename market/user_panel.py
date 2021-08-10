@@ -1,5 +1,5 @@
 #  Nikulin Vasily © 2021
-from flask import Blueprint, render_template, abort
+from flask import render_template, abort
 from flask_login import login_required, current_user
 from flask_mobility.decorators import mobile_template
 
@@ -10,15 +10,11 @@ from data.sessions import Session
 from data.stocks import Stock
 from data.users import User
 from forms.user_management import UserManagementForm
-from tools.tools import use_subdomains
-
-user_panel_page = Blueprint('user-panel', __name__)
-app = user_panel_page
+from market import market
 
 
 # noinspection PyArgumentList
-@app.route('/user-panel', methods=['GET', 'POST'])
-@use_subdomains(subdomains=['market'])
+@market.route('/user-panel', methods=['GET', 'POST'])
 @mobile_template('market/{mobile/}user-panel.html')
 @login_required
 def user_panel(template):
