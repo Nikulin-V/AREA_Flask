@@ -88,3 +88,20 @@ socket.on('deleteNews', function (data) {
     if (news.deleteFn)
         news.deleteFn(data)
 })
+
+news.uploadImage = (image, fn = null) => {
+    let form = new FormData();
+    form.append("illustration", image, image.name)
+
+    $.ajax({
+        url: 'api/news/image',
+        data: form,
+        cache: false,
+        contentType: false,
+        processData: false,
+        method: 'POST',
+        success: (data) => {
+            fn(data)
+        }
+    })
+}

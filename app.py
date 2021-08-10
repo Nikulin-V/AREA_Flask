@@ -21,6 +21,7 @@ app = Flask(__name__, subdomain_matching=True)
 app.config['SECRET_KEY'] = 'area_secret_key'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db/database.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['MAX_CONTENT_LENGTH'] = 32 * 1024 * 1024
 async_mode = None
 socket_ = SocketIO(app, cors_allowed_origins="*", async_mode=async_mode)
 
@@ -56,16 +57,21 @@ def secrets_of_literacy():
     return redirect('https://secrets-of-literacy.wixsite.com/website')
 
 
+@app.errorhandler(400)
 @app.errorhandler(401)
 @app.errorhandler(403)
 @app.errorhandler(404)
 @app.errorhandler(408)
+@app.errorhandler(415)
 @app.errorhandler(500)
 @mobile_template('/{mobile/}error-page.html')
 @use_subdomains(subdomains=['', 'area', 'market', 'edu'])
 def page_not_found(error, template: str):
     template = get_subdomain() + template
     messages = {
+        400: ['Некорректный запрос',
+              'Попробуйте сделать запрос еще раз. Если проблема повторится, обратитесь в '
+              'техподдержку'],
         401: ['Вы не вошли в систему',
               'Через несколько секунд Вы будете направлены на страницу авторизации'],
         403: ['Ошибка при авторизации в ЭПОС.Школа',
@@ -74,6 +80,9 @@ def page_not_found(error, template: str):
         404: ['Страница не найдена',
               'Проверьте правильность введённого адреса'],
         408: ['Превышено время ожидания',
+              'Попробуйте сделать запрос еще раз. Если проблема повторится, обратитесь в '
+              'техподдержку'],
+        415: ['Неподдерживаемый формат файла',
               'Попробуйте сделать запрос еще раз. Если проблема повторится, обратитесь в '
               'техподдержку'],
         500: ['Ошибка на стороне сайта',

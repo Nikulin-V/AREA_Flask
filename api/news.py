@@ -1,10 +1,15 @@
 #  Nikulin Vasily © 2021
 import datetime
+import logging
+import os
+import random
 
+from flask import request, abort, jsonify
 from flask_login import current_user, login_required
+from werkzeug.utils import secure_filename
 
 from api import sock, api
-from config import NEWS_PER_PAGE
+from config import NEWS_PER_PAGE, ALLOWED_EXTENSIONS
 from data import db_session
 from data.functions import get_session_id, get_company_title, get_company_id
 from data.news import News
@@ -73,7 +78,7 @@ def getNews(json=None):
                         else len(str(n.liked_ids).split(';')),
                         'isLiked': n.is_liked,
                         'canEdit': current_user.id == n.user_id or
-                        str(current_user.id) in admins_ids
+                                   str(current_user.id) in admins_ids
                     }
                     for n in news
                 ],
@@ -258,7 +263,7 @@ def deleteNews(json=None):
 
     admins_ids = str(db_sess.query(Session).get(news.session_id).admins_ids).split(';')
 
-    if news.user_id != current_user.id and str(current_user.id) not in admins_ids and\
+    if news.user_id != current_user.id and str(current_user.id) not in admins_ids and \
             current_user.id != '7':
         return send_response(
             event_name,
@@ -287,3 +292,37 @@ def get_signature(user_id, company_id=None):
         return f'{user.surname} {user.name}'
     else:
         return f'{user.surname} {user.name} | <b>{get_company_title(company_id)}</b>'
+
+
+@api.route("/api/news/image", methods=['POST'])
+def uploadImage():
+    logging.warning(request)
+    logging.warning(request.files)
+
+    uploaded = request.files["illustration"]
+    if (not uploaded) or (uploaded.filename == ''):
+        abort(400)
+    if allowed_file(uploaded.filename):
+        filename = secure_filename(uploaded.filename)
+        save_dir = os.path.join("static", "images", "uploaded")
+        if not os.path.exists(save_dir):
+            os.mkdir(save_dir)
+        path = str(os.path.join(save_dir, filename))
+        while os.path.exists(path):
+            ext = path.rfind(".")
+            path = path[:ext] + str(random.randint(1, 1000000)) + path[ext:]
+        uploaded.save(path)
+        return jsonify(
+            {
+                "path": path,
+                "url": request.host_url + str(path).replace("\\", "/")
+            }
+        )
+    else:
+        abort(415)
+
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS and \
+           '/' not in filename

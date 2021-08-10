@@ -36,8 +36,8 @@ function addNews(page=0) {
                 if (n.canEdit)
                     authorButtons = `
                                     <div style="display: inline-flex">
-                                    <button onclick="deleteNews('${ n.id }')" class="btn btn-outline-danger btn-delete btn-icon"><span class="material-icons md-red">clear</span></button>
-                                    <button onclick="editNews('${ n.id }')" class="btn btn-outline-warning btn-edit btn-icon"><span class="material-icons-round md-yellow">edit</span></button>
+                                        <button onclick="deleteNews('${ n.id }')" class="btn btn-outline-danger btn-delete btn-icon"><span class="material-icons md-red">clear</span></button>
+                                        <button onclick="editNews('${ n.id }')" class="btn btn-outline-warning btn-edit btn-icon"><span class="material-icons-round md-yellow">edit</span></button>
                                     </div>`
                 else authorButtons = ''
                 if (n.author.split('|').length === 2)
@@ -110,9 +110,9 @@ function createNews() {
                 <label for="text-input">Текст</label>
             </div>
             <br>
-            <div class="form-floating">
-                <input id="image-input" class="form-control" placeholder="Ссылка на изображение">
+            <div class="mb-3">
                 <label for="image-input">Ссылка на изображение</label>
+                <input type="file" id="image-input" name="illustration" class="form-control" placeholder="Изображение" accept="image/*">
             </div>
             <br>
             <div class="form-floating">
@@ -127,12 +127,27 @@ function createNews() {
     button.className = "btn btn-info"
     button.onclick = function () {
         const title = document.getElementById('title-input').value
-        const text = document.getElementById('text-input').value
-        const imageUrl = document.getElementById('image-input').value
-        const author = document.getElementById('author-select')
-        const authorValue = author.options[author.selectedIndex].value
         if (title) {
-            news.post(authorValue, title, text, imageUrl, updatePage)
+
+            if (document.getElementById('image-input').files.length === 0) {
+                const text = document.getElementById('text-input').value
+                const author = document.getElementById('author-select')
+                const authorValue = author.options[author.selectedIndex].value
+
+                news.post(authorValue, title, text, null, updatePage)
+            } else {
+                let image = document.getElementById('image-input').files[0]
+
+                news.uploadImage(image, (data) => {
+                    const text = document.getElementById('text-input').value
+                    const imageUrl = data["url"]
+                    const author = document.getElementById('author-select')
+                    const authorValue = author.options[author.selectedIndex].value
+
+                    news.post(authorValue, title, text, imageUrl, updatePage)
+                })
+            }
+
             closeModal()
         } else document.getElementById('title-input').classList.add('is-invalid')
     }
@@ -198,7 +213,6 @@ function editNews(id) {
             news.put(id, newTitle, newText, newImageUrl, null, updatePage)
             closeModal()
         } else document.getElementById('title-input').classList.add('is-invalid')
-
     }
     showModal(message, 'Изменение поста', [button])
 }
