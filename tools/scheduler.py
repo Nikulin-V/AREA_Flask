@@ -8,6 +8,7 @@ from data.companies import Company
 from data.offers import Offer
 from data.scheduled_job import ScheduledJob
 from data.stockholders_votes import SVote
+from tools.tools import safe_remove
 
 models = {
     'SVote': SVote,
@@ -59,6 +60,10 @@ class Task(Thread):
         self.db_sess.commit()
         return True
 
+    def delete_unused_picture(self):
+        path = self.job.object_id
+        return safe_remove(path)
+
     def run(self):
         result = 'Success'
         action = self.job.action
@@ -69,6 +74,9 @@ class Task(Thread):
                 result = 'Failed'
         elif action.startswith('Undo'):
             if not self.undo_buying():
+                result = 'Failed'
+        elif action == 'Delete unused picture':
+            if not self.delete_unused_picture():
                 result = 'Failed'
 
         log = f'{datetime.datetime.now()}\t|\t{result}\t|\t' \

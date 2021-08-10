@@ -13,4 +13,6 @@ sectors = sorted(
      'Образование', 'Медицина', 'Туризм', 'Культура', 'Логистика']
 )
 
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'bmp', 'ico', 'webp'}
+
 NEWS_PER_PAGE = 10

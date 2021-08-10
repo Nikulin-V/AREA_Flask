@@ -1,4 +1,5 @@
 #  Nikulin Vasily © 2021
+import os
 
 import flask
 from flask import request, jsonify, redirect
@@ -123,3 +124,10 @@ def deposit_wallet(user_id, money):
         db_sess.add(wallet)
     wallet.money += money
     db_sess.commit()
+
+
+def safe_remove(file):
+    if os.path.exists(file):
+        os.remove(file)
+        return True
+    return False

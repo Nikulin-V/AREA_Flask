@@ -1,16 +1,21 @@
 #  Nikulin Vasily © 2021
 import datetime
+import os
+import random
 
+from flask import request, abort, jsonify, url_for
 from flask_login import current_user, login_required
+from werkzeug.utils import secure_filename
 
 from api import sock, api
-from config import NEWS_PER_PAGE
+from config import NEWS_PER_PAGE, ALLOWED_EXTENSIONS
 from data import db_session
 from data.functions import get_session_id, get_company_title, get_company_id
 from data.news import News
+from data.scheduled_job import ScheduledJob
 from data.sessions import Session
 from data.users import User
-from tools.tools import send_response, fillJson
+from tools.tools import send_response, fillJson, safe_remove
 
 
 @sock.on('getNews')
@@ -68,12 +73,12 @@ def getNews(json=None):
                         'title': n.title,
                         'message': n.message,
                         'date': n.date.strftime('%d %b at %H:%M'),
-                        'picture': n.picture,
+                        'picture': url_for('static', filename=n.picture.removeprefix("static\\").replace("\\", "/")) if n.picture is not None else n.picture,
                         'likes': 0 if n.liked_ids is None or n.liked_ids == ''
                         else len(str(n.liked_ids).split(';')),
                         'isLiked': n.is_liked,
                         'canEdit': current_user.id == n.user_id or
-                        str(current_user.id) in admins_ids
+                                   str(current_user.id) in admins_ids
                     }
                     for n in news
                 ],
@@ -90,14 +95,23 @@ def createNews(json=None):
         json = dict()
 
     event_name = 'createNews'
-    fillJson(json, ['companyTitle', 'title', 'message', 'imageUrl'])
+    fillJson(json, ['companyTitle', 'title', 'message', 'imagePath', 'jobId'])
 
     if json['companyTitle'] is None:
         return send_response(
             event_name,
             {
                 'message': 'Error',
-                'errors': ['Specify companyTitle']
+                'errors': ['Specify company title']
+            }
+        )
+
+    if (json['imagePath'] is not None) and (not str(json['imagePath']).startswith("static\\images\\uploaded\\")):
+        return send_response(
+            event_name,
+            {
+                'message': 'Error',
+                'errors': ['File is unsafe or located on a foreign server']
             }
         )
 
@@ -124,6 +138,8 @@ def createNews(json=None):
             }
         )
 
+    delete_job(db_sess, json['jobId'])
+
     news = News(
         session_id=get_session_id(),
         user_id=current_user.id,
@@ -132,7 +148,7 @@ def createNews(json=None):
         message=json['message'] or '',
         date=datetime.datetime.now(),
         author=get_signature(current_user.id, company_id),
-        picture=json['imageUrl']
+        picture=json['imagePath']
     )
 
     db_sess.add(news)
@@ -155,7 +171,7 @@ def editNews(json=None):
         json = dict()
 
     event_name = 'editNews'
-    fillJson(json, ['identifier', 'title', 'message', 'imageUrl', 'isLike'])
+    fillJson(json, ['identifier', 'title', 'message', 'imagePath', 'isLike', 'jobId'])
 
     db_sess = db_session.create_session()
 
@@ -217,9 +233,40 @@ def editNews(json=None):
             }
         )
 
+    if json['imagePath'] == '!clear':
+        json['imagePath'] = ''
+        if news.picture is not None:
+            safe_remove(news.picture)
+        news.picture = None
+        db_sess.merge(news)
+        db_sess.commit()
+
+        return send_response(
+            event_name,
+            {
+                'message': 'Success',
+                'errors': []
+            }
+        )
+
+    if (json['imagePath'] is not None) and (not str(json['imagePath']).startswith("static\\images\\uploaded\\")):
+        return send_response(
+            event_name,
+            {
+                'message': 'Error',
+                'errors': ['File is unsafe or located on a foreign server']
+            }
+        )
+
+    delete_job(db_sess, json['jobId'])
+
     news.title = json['title'] or news.title
-    news.message = news.title if json['message'] is None else json['message']
-    news.picture = news.title if json['imageUrl'] is None else json['imageUrl']
+    news.message = news.message if json['message'] is None else json['message']
+
+    if json['imagePath'] is not None:
+        if news.picture is not None:
+            safe_remove(news.picture)
+        news.picture = json['imagePath']
 
     db_sess.merge(news)
     db_sess.commit()
@@ -258,7 +305,7 @@ def deleteNews(json=None):
 
     admins_ids = str(db_sess.query(Session).get(news.session_id).admins_ids).split(';')
 
-    if news.user_id != current_user.id and str(current_user.id) not in admins_ids and\
+    if news.user_id != current_user.id and str(current_user.id) not in admins_ids and \
             current_user.id != '7':
         return send_response(
             event_name,
@@ -267,6 +314,9 @@ def deleteNews(json=None):
                 'errors': ['You do not have permissions to delete this post.']
             }
         )
+
+    if news.picture is not None:
+        safe_remove(news.picture)
 
     db_sess.delete(news)
     db_sess.commit()
@@ -287,3 +337,58 @@ def get_signature(user_id, company_id=None):
         return f'{user.surname} {user.name}'
     else:
         return f'{user.surname} {user.name} | <b>{get_company_title(company_id)}</b>'
+
+
+@api.route("/api/news/image", methods=['POST'])
+def uploadImage():
+    uploaded = request.files["illustration"]
+    if (not uploaded) or (uploaded.filename == ''):
+        abort(400)
+    if allowed_file(uploaded.filename):
+        filename = secure_filename(uploaded.filename)
+        save_dir = os.path.join("static", "images", "uploaded")
+        if not os.path.exists(save_dir):
+            os.mkdir(save_dir)
+        path = str(os.path.join(save_dir, filename))
+        while os.path.exists(path):
+            ext = path.rfind(".")
+            path = path[:ext] + str(random.randint(1, 1000000)) + path[ext:]
+        uploaded.save(path)
+
+        db_sess = db_session.create_session()
+        scheduled_job = ScheduledJob(
+            model=None,
+            object_id=path,
+            action='Delete unused picture',
+            datetime=datetime.datetime.now() + datetime.timedelta(seconds=30)
+        )
+
+        db_sess.add(scheduled_job)
+        db_sess.commit()
+
+        return jsonify(
+            {
+                "path": path,
+                "jobId": scheduled_job.id
+            }
+        )
+    else:
+        return jsonify(
+            {
+                "code": 1001,
+                "error": "Security error",
+                "description": "Wrong file format or potentially unsafe file"
+            }
+        )
+
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS and \
+           '/' not in filename
+
+
+def delete_job(db_sess, job_id):
+    scheduled_job = db_sess.query(ScheduledJob).get(job_id)
+    if scheduled_job:
+        db_sess.delete(scheduled_job)

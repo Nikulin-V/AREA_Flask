@@ -25,7 +25,8 @@ socket.on('getNews', function (data) {
 news.post = function (companyTitle=null,
                      title=null,
                      message=null,
-                     imageUrl=null,
+                     imagePath=null,
+                     jobId=null,
                      fn=null) {
     if (fn)
         news.postFn = fn
@@ -35,7 +36,8 @@ news.post = function (companyTitle=null,
         'companyTitle': companyTitle,
         'title': title,
         'message': message,
-        'imageUrl': imageUrl
+        'imagePath': imagePath,
+        'jobId': jobId
     })
 }
 
@@ -49,8 +51,9 @@ socket.on('createNews', function (data) {
 news.put = function (identifier=null,
                      title=null,
                      message=null,
-                     imageUrl=null,
+                     imagePath=null,
                      isLike=null,
+                     jobId=null,
                      fn=null) {
     if (fn)
         news.putFn = fn
@@ -60,7 +63,8 @@ news.put = function (identifier=null,
         'identifier': identifier,
         'title': title,
         'message': message,
-        'imageUrl': imageUrl,
+        'imagePath': imagePath,
+        'jobId': jobId,
         'isLike': isLike
     })
 }
@@ -88,3 +92,20 @@ socket.on('deleteNews', function (data) {
     if (news.deleteFn)
         news.deleteFn(data)
 })
+
+news.uploadImage = (image, fn = null) => {
+    let form = new FormData();
+    form.append("illustration", image, image.name)
+
+    $.ajax({
+        url: 'api/news/image',
+        data: form,
+        cache: false,
+        contentType: false,
+        processData: false,
+        method: 'POST',
+        success: (data) => {
+            fn(data)
+        }
+    })
+}
