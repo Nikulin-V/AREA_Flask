@@ -19,7 +19,6 @@ from tools.tools import get_subdomain
 @edu.route('/index')
 @mobile_template('/{mobile/}index.html')
 def index(template: str):
-    print(1)
     template = get_subdomain() + template
     return render_template(template,
                            game_role=get_game_roles(),

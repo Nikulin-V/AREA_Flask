@@ -9,4 +9,4 @@ from .privacy_policy import privacy_policy
 from .profile import profile
 from .register import register
 from .user_admin_panel import user_panel
-from .yandex_verification import yandex_verification
+from .verification import yandex_verification, ssl_verification
