@@ -46,18 +46,18 @@
                     </a>
                 </li>
                 <li>
-                    <a class="menu__item" href="/index">Главная</a>
+                    <a class="menu__item" href="{{ url('.index') }}">Главная</a>
                 </li>
                 {% if current_user.is_authenticated %}
                     {% if 'Ученик' in current_user.role %}
                         <li>
-                            <a class="menu__item" href="/area-diary">Дневник AREA</a>
-                                    </li>
-                                    <li>
-                                        <a class="menu__item" href="/epos-diary">Дневник ЭПОСа</a>
-                                    </li>
-                                {% endif %}
-                            {% endif %}
+                            <a class="menu__item" href="{{ url('.area_diary') }}">Дневник AREA</a>
+                        </li>
+                        <li>
+                            <a class="menu__item" href="{{ url('.epos_diary') }}">Дневник ЭПОСа</a>
+                        </li>
+                    {% endif %}
+                {% endif %}
 
             </ul>
         </div>
@@ -76,12 +76,13 @@
 
         {% else %}
             <div class="navbar-right" style="padding: 5px">
-                <a id="sign-in-btn" class="btn btn-info" href="/login">Вход</a>
-                <a id="sign-up-btn" class="btn btn-info" href="/register">Регистрация</a>
+                <a id="sign-in-btn" class="btn btn-info" href="{{ url('.login') }}">Вход</a>
+                <a id="sign-up-btn" class="btn btn-info"
+                   href="{{ url('.register') }}">Регистрация</a>
             </div>
         {% endif %}
     </nav>
-        </header>
+</header>
 
 <!-- Begin page content -->
 <main role="main" class="container">

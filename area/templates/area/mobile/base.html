@@ -46,10 +46,11 @@
                     </a>
                 </li>
                 <li>
-                    <a class="menu__item" href="/index">Главная</a>
+                    <a class="menu__item" href="{{ url('area.index') }}">Главная</a>
                 </li>
                 <li>
-                    <a class="menu__item" href="/privacy-policy">Политика конфиденциальности</a>
+                    <a class="menu__item" href="{{ url('area.privacy_policy') }}">Политика
+                        конфиденциальности</a>
                 </li>
             </ul>
         </div>
@@ -61,19 +62,21 @@
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton"
                     style="right: 5px; left: auto; text-align: center;">
-                    <li><a class="dropdown-item" href="{{ url('.profile') }}">Профиль</a></li>
-                    <li><a class="dropdown-item" href="{{ url('.logout') }}">Выйти</a></li>
+                    <li><a class="dropdown-item" href="{{ url('area.profile') }}">Профиль</a></li>
+                    <li><a class="dropdown-item" href="{{ url('area.logout') }}">Выйти</a></li>
                 </ul>
             </div>
 
         {% else %}
             <div class="navbar-right" style="padding: 5px">
-                <a id="sign-in-btn" class="btn btn-info" href="/login">Вход</a>
-                <a id="sign-up-btn" class="btn btn-info" href="/register">Регистрация</a>
+                <a id="sign-in-btn" class="btn btn-info" href="{{ url('area.login') }}">Вход</a>
+                <a id="sign-up-btn" class="btn btn-info"
+                   href="{{ url('area.register') }}">Регистрация
+                </a>
             </div>
         {% endif %}
     </nav>
-        </header>
+</header>
 
 <!-- Begin page content -->
 <main role="main" class="container">

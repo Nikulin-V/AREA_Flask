@@ -71,12 +71,12 @@ def register(template: str):
 
 
 @market.route('/register', methods=['GET', 'POST'])
-def redirect_register():
+def register():
     return redirect(url('area.register') +
                     '?redirect_page=market.index')
 
 
 @edu.route('/register', methods=['GET', 'POST'])
-def redirect_register():
+def register():
     return redirect(url('area.register') +
                     '?redirect_page=edu.index')

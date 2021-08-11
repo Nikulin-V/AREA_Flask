@@ -48,10 +48,10 @@
                 {% if current_user.is_authenticated %}
                     {% if 'Ученик' in current_user.role %}
                         <li class="nav-item">
-                            <a href="{{ url('.area-diary') }}" class="nav-link">Дневник AREA</a>
+                            <a href="{{ url('.area_diary') }}" class="nav-link">Дневник AREA</a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ url('.epos-diary') }}" id="epos-diary" class="nav-link">
+                            <a href="{{ url('.epos_diary') }}" id="epos-diary" class="nav-link">
                                 Дневник ЭПОСа
                                 <span id="epos-spinner" style="visibility: hidden"
                                       class="spinner-border spinner-border-sm" role="status"></span>
@@ -74,14 +74,15 @@
 
         {% else %}
             <div class="navbar-right" style="padding: 5px">
-                <a id="sign-in-btn" class="btn btn-info" href="/login">Вход</a>
-                <a id="sign-up-btn" class="btn btn-info" href="/register">Регистрация</a>
+                <a id="sign-in-btn" class="btn btn-info" href="{{ url('.login') }}">Вход</a>
+                <a id="sign-up-btn" class="btn btn-info"
+                   href="{{ url('.register') }}">Регистрация</a>
             </div>
         {% endif %}
 
         <hr class="header-hr">
-            </nav>
-        </header>
+    </nav>
+</header>
 
 <!-- Begin page content -->
 <main role="main" class="container">
