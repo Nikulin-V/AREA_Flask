@@ -4,6 +4,7 @@ import os
 import random
 
 from flask import request, abort, jsonify
+from flask_cors import cross_origin
 from flask_login import current_user, login_required
 from werkzeug.utils import secure_filename
 
@@ -344,6 +345,7 @@ def get_signature(user_id, company_id=None):
 
 
 @api.route("/api/news/image", methods=['POST'])
+@cross_origin()
 def uploadImage():
     uploaded = request.files["illustration"]
     if (not uploaded) or (uploaded.filename == ''):

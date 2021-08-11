@@ -98,7 +98,7 @@ news.uploadImage = (image, fn = null) => {
     form.append("illustration", image, image.name)
 
     $.ajax({
-        url: 'api/news/image',
+        url: imageUploadEndpoint,
         data: form,
         cache: false,
         contentType: false,

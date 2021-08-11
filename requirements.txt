@@ -13,5 +13,6 @@ flask-ngrok
 flask-migrate
 flask-socketio
 flask-babel
+flask-cors
 sqlalchemy-serializer
 requests
