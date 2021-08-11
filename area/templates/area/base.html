@@ -62,14 +62,15 @@
 
         {% else %}
             <div class="navbar-right" style="padding: 5px">
-                <a id="sign-in-btn" class="btn btn-info" href="/login">Вход</a>
-                <a id="sign-up-btn" class="btn btn-info" href="/register">Регистрация</a>
+                <a id="sign-in-btn" class="btn btn-info" href="{{ url('.login') }}">Вход</a>
+                <a id="sign-up-btn" class="btn btn-info"
+                   href="{{ url('.register') }}">Регистрация</a>
             </div>
         {% endif %}
 
         <hr class="header-hr">
-            </nav>
-        </header>
+    </nav>
+</header>
 
 <!-- Begin page content -->
 <main role="main" class="container">
