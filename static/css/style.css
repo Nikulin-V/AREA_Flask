@@ -111,6 +111,28 @@ main {
 
 .btn-like {
     min-width: max-content;
+    color: #dc3545;
+}
+
+.btn-icon {
+    height: 2.5rem;
+    margin: 1px 2px;
+}
+
+.btn-icon:focus {
+    box-shadow: none !important;
+}
+
+.btn-icon:active {
+    box-shadow: none !important;
+}
+
+@media screen and (max-width: 980px) {
+    .btn-icon:hover {
+        box-shadow: none;
+        color: #dc3545;
+        background-color: white;
+    }
 }
 
 .md-red {
@@ -159,9 +181,8 @@ main {
     vertical-align: top;
 }
 
-.btn-icon {
-    height: 2.5rem;
-    margin: 1px 2px;
+.dropdown-item:active {
+    background-color: #17a2b8;
 }
 
 .btn-danger {
@@ -171,3 +192,4 @@ main {
     border-color: #cc0404;
     border-width: medium;
 }
+
