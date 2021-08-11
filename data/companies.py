@@ -1,7 +1,8 @@
 #  Nikulin Vasily © 2021
+from uuid import uuid4
+
 import sqlalchemy
 
-from uuid import uuid4
 from .db_session import SqlAlchemyBase
 
 

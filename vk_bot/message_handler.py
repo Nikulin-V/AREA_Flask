@@ -2,12 +2,12 @@
 
 import importlib
 import os
-import vkapi
 
+import vkapi
+from command_system import command_list
+from data import db_session
 from data.users import User
 from data.vk_users import VkUser
-from data import db_session
-from command_system import command_list
 
 
 def get_answer(body, vk_id):

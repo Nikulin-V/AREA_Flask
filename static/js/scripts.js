@@ -9,7 +9,7 @@ dropdownElementList.map(function (dropdownToggleEl) {
     return new bootstrap.Dropdown(dropdownToggleEl)
 });
 
-let pageUrl = document.location.pathname
+// let pageUrl = document.location.pathname
 // if (pageUrl === "/" || pageUrl === "/index" || pageUrl === "/privacy-policy") {
 //     document.body.style.background = "url('/static/images/index-background.jpg') fixed"
 // }

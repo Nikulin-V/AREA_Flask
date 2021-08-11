@@ -3,11 +3,11 @@ from flask import render_template, abort
 from flask_login import current_user, login_required
 from flask_mobility.decorators import mobile_template
 
+from area import area
 from data import db_session
 from data.functions import get_game_roles
 from data.users import User
 from forms.user_management import UserManagementForm
-from app import area
 
 
 # noinspection PyArgumentList
@@ -139,7 +139,6 @@ def user_panel(template):
                     form.role.data = user.role
 
     return render_template(template,
-                           game_role=get_game_roles(),
                            title='Панель управления пользователями',
                            message=message,
                            form=form)

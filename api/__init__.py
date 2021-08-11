@@ -1,5 +1,6 @@
 #  Nikulin Vasily © 2021
 from flask import Blueprint
+
 from tools.io_blueprint import IOBlueprint
 
 api = Blueprint('api', __name__)

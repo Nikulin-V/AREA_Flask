@@ -2,14 +2,12 @@
 
 import json
 
-import message_handler
-
 from flask import Flask, request
 
+import message_handler
 from credentials import TOKEN, confirmation_token
 from data import db_session
 from data.vk_users import VkUser
-
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'

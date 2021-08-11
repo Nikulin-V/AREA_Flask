@@ -92,7 +92,6 @@ def user_panel(template):
         form.user.data = form.user.choices[0]
 
     return render_template(template,
-                           game_role=get_game_roles(),
                            title='Панель управления пользователями',
                            message=message,
                            form=form)

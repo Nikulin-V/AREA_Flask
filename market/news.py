@@ -6,6 +6,7 @@ from flask_mobility.decorators import mobile_template
 from data.functions import get_game_roles
 from market import market
 
+
 @market.route('/news')
 @mobile_template('market/{mobile/}news.html')
 @login_required
@@ -14,5 +15,4 @@ def news(template):
         abort(404)
 
     return render_template(template,
-                           game_role=get_game_roles(),
                            title='Новости')

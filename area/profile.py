@@ -1,24 +1,21 @@
 #  Nikulin Vasily © 2021
-from flask import render_template, redirect, url_for
+from flask import render_template, redirect, request
 from flask_login import login_required, current_user
 from flask_mobility.decorators import mobile_template
 
+from area import area
 from data import db_session
-from data.functions import get_game_roles
 from data.schools import School
 from edu import edu
 from forms.profile import ProfileForm
-from app import area
 from market import market
-from tools.tools import get_subdomain
+from tools.url import url
 
 
 @area.route('/profile', methods=['GET', 'POST'])
-@mobile_template('/{mobile/}profile.html')
+@mobile_template('area/{mobile/}profile.html')
 @login_required
 def profile(template: str):
-    template = get_subdomain() + template
-
     form = ProfileForm()
     db_sess = db_session.create_session()
     user = current_user
@@ -62,6 +59,9 @@ def profile(template: str):
         db_sess.merge(user)
         db_sess.commit()
 
+        if request.args.get('redirect_page'):
+            return redirect(url(request.args.get('redirect_page')))
+
     school = db_sess.query(School.title).filter(
         School.id == user.school_id).first()
     if not school:
@@ -76,7 +76,6 @@ def profile(template: str):
         date = date.strftime('%d.%m.%Y')
 
     return render_template(template,
-                           game_role=get_game_roles(),
                            title='Профиль',
                            form=form,
                            message=message,
@@ -86,10 +85,12 @@ def profile(template: str):
 
 
 @market.route('/profile', methods=['GET', 'POST'])
-def redirect_profile():
-    return redirect(url_for('area.profile') + '?redirect_page=market.index')
+def profile():
+    return redirect(url('area.profile') +
+                    '?redirect_page=market.index')
 
 
 @edu.route('/profile', methods=['GET', 'POST'])
-def redirect_profile():
-    return redirect(url_for('area.profile') + '?redirect_page=edu.index')
+def profile():
+    return redirect(url('area.profile') +
+                    '?redirect_page=edu.index')

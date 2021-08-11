@@ -10,7 +10,6 @@ from data.sessions import Session
 from data.stocks import Stock
 from data.users import User
 from forms.company_admin_management import CompanyAdminManagementForm
-
 from market import market
 
 
@@ -110,7 +109,6 @@ def company_panel(template):
                 message = 'Все компании удалены'
 
     return render_template(template,
-                           game_role=get_game_roles(),
                            title='Панель управления компаниями',
                            message=message,
                            form=form)

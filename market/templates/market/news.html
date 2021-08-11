@@ -1,0 +1,23 @@
+<!--suppress ALL -->
+{% extends "market/base.html" %}
+
+{% block content %}
+    <table style="width: 100%; border: 0">
+        <tr style="font-size: 1.5em; border: 0">
+            <td style="text-align: left; border: 0">
+                <h1>{{ title }}</h1>
+            </td>
+            <td style="text-align: right; border: 0">
+                <button id="create-news" class="btn btn-info" onclick="createNews()">Создать пост</button>
+            </td>
+        </tr>
+    </table>
+
+    <div class="text-center news">
+        <div class="spinner-border text-info" role="status">
+            <span class="visually-hidden">Загрузка...</span>
+        </div>
+    </div>
+
+    <script src="{{ url('static', filename='js/market/news.js') }}"></script>
+{% endblock %}

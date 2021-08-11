@@ -1,0 +1,140 @@
+<!--suppress ALL -->
+{% extends "market/mobile/base.html" %}
+
+{% block content %}
+    <h3 style="text-align: center">{{ title }}</h3>
+    <hr>
+    <h6>Добавить/Удалить/Изменить компанию</h6>
+    <form action="" method="post">
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.action.label }}<br>
+            {{ form.action(class='form-control') }}<br>
+        </p>
+        {% if form.action.data == 'Открыть компанию' or not form.action.data %}
+            <p>
+                {{ form.new_sector.label }}<br>
+                {{ form.new_sector(class='form-control') }}<br>
+                {% for error in form.new_sector.errors %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+            </p>
+            <p>
+                {{ form.title.label }}<br>
+                {{ form.title(class='form-control') }}<br>
+                {% for error in form.title.errors %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+            </p>
+            <p>
+                {{ form.authors.label }}<br>
+                {{ form.authors(class='form-control') }}<br>
+                {% for error in form.authors.errors %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+            </p>
+        {% elif form.action.data == 'Изменить компанию' %}
+            <p>
+                {{ form.sector.label }}<br>
+                {{ form.sector(class='form-control') }}
+            </p>
+            {% if form.sector.data %}
+                <p>
+                    {{ form.company.label }}<br>
+                    {{ form.company(class='form-control') }}<br>
+                    {% for error in form.company.errors %}
+                        <div class="alert alert-danger" role="alert">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+                </p>
+            {% endif %}
+            {% if form.company.data %}
+                <p>
+                    {{ form.title.label }}<br>
+                    {{ form.title(class='form-control') }}<br>
+                    {% for error in form.title.errors %}
+                        <div class="alert alert-danger" role="alert">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+                </p>
+                <p>
+                    {{ form.new_sector.label }}<br>
+                    {{ form.new_sector(class='form-control') }}<br>
+                    {% for error in form.new_sector.errors %}
+                        <div class="alert alert-danger" role="alert">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+                </p>
+                <p>
+                    {{ form.authors.label }}<br>
+                    {{ form.authors(class='form-control') }}<br>
+                    {% for error in form.authors.errors %}
+                        <div class="alert alert-danger" role="alert">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+                </p>
+            {% endif %}
+        {% elif form.action.data == 'Закрыть компанию' %}
+            <p>
+                {{ form.sector.label }}<br>
+                {{ form.sector(class='form-control') }}
+                {% for error in form.sector.errors %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+            </p>
+            <p>
+                {{ form.company.label }}<br>
+                {{ form.company(class='form-control') }}<br>
+                {% for error in form.company.errors %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+            </p>
+        {% elif form.action.data == 'Удалить все компании' %}
+            <p style="display: flex">
+                {{ form.accept_delete_all_companies.label }}
+                {{ form.accept_delete_all_companies(class='form-control', style='width: 10%') }}<br>
+                {% for error in form.accept_delete_all_companies.errors %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+            </p>
+        {% endif %}
+        {{ form.submit(type="submit", class="btn btn-info") }}
+    </form>
+    <!-- Всплывающее сообщение -->
+    {% if message %}
+        <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Сообщение от сайта</h5>
+                        <button type="button" class="close" id="modal-close-btn" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        {{ message }}
+                    </div>
+                    <div class="modal-footer" id="modal-ok-btn">
+                        <button type="button" class="btn btn-info">ОК</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

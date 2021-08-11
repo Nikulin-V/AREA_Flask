@@ -17,6 +17,5 @@ def create_company(template):
         abort(404)
 
     return render_template(template,
-                           game_role=get_game_roles(),
                            title='Открыть компанию',
                            new_company_fee=get_constant('NEW_COMPANY_FEE'))

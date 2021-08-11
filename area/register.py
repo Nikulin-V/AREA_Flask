@@ -1,24 +1,22 @@
 #  Nikulin Vasily © 2021
-from flask import redirect, render_template, url_for, request
+from flask import redirect, render_template, request
 from flask_login import current_user, login_user
 from flask_mobility.decorators import mobile_template
 
+from area import area
 from data import db_session
 from data.schools import School
 from data.sessions import Session
 from data.users import User
 from edu import edu
 from forms.register import RegisterForm
-from app import area
 from market import market
-from tools.tools import get_subdomain
+from tools.url import url
 
 
 @area.route('/register', methods=['GET', 'POST'])
-@mobile_template('/{mobile/}register.html')
+@mobile_template('area/{mobile/}register.html')
 def register(template: str):
-    template = get_subdomain() + template
-
     if current_user.is_authenticated:
         return redirect('/profile')
 
@@ -64,7 +62,7 @@ def register(template: str):
         login_user(user)
         session = db_sess.query(Session).get('77777777')
         session.players_ids = ';'.join(session.players_ids.split(';') + [str(current_user.id)])
-        redirect(url_for(request.args.get('redirect_page')) or url_for("/profile"))
+        redirect(url(request.args.get('redirect_page') or ".profile"))
 
     return render_template(template,
                            title='Регистрация',
@@ -74,9 +72,11 @@ def register(template: str):
 
 @market.route('/register', methods=['GET', 'POST'])
 def redirect_register():
-    return redirect(url_for('area.register') + '?redirect_page=market.index')
+    return redirect(url('area.register') +
+                    '?redirect_page=market.index')
 
 
 @edu.route('/register', methods=['GET', 'POST'])
 def redirect_register():
-    return redirect(url_for('area.register') + '?redirect_page=edu.index')
+    return redirect(url('area.register') +
+                    '?redirect_page=edu.index')

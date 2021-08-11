@@ -1,14 +1,13 @@
 #  Nikulin Vasily © 2021
-from flask import render_template, send_file
+from flask import render_template
 
-from app import area
+from area import area
+from edu import edu
+from market import market
 
 
 @area.route('/yandex_58762f224fa898fc.html')
+@market.route('/yandex_58762f224fa898fc.html')
+@edu.route('/yandex_58762f224fa898fc.html')
 def yandex_verification():
-    return render_template('yandex_58762f224fa898fc.html')
-
-
-@area.route('/.well-known/pki-validation/98E7C8AF09D499DE1DF3015280BFC66A.txt')
-def ssl_verification():
-    return send_file('98E7C8AF09D499DE1DF3015280BFC66A.txt')
+    return render_template('area/yandex_58762f224fa898fc.html')

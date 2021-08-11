@@ -1,25 +1,22 @@
 #  Nikulin Vasily © 2021
-from flask import redirect, render_template, url_for, request
+from flask import redirect, render_template, request
 from flask_login import current_user, login_user, login_required, logout_user
 from flask_mobility.decorators import mobile_template
 
 from area import area
-from market import market
-from edu import edu
-
 from data import db_session
 from data.users import User
+from edu import edu
 from forms.login import LoginForm
-from tools.tools import get_subdomain
+from market import market
+from tools.url import url
 
 
 @area.route('/login', methods=['GET', 'POST'])
-@mobile_template('/{mobile/}login.html')
+@mobile_template('area/{mobile/}login.html')
 def login(template: str):
-    template = get_subdomain() + template
-
     if current_user.is_authenticated:
-        return redirect(url_for('.profile'))
+        return redirect(url('.profile'))
 
     form = LoginForm()
 
@@ -34,7 +31,7 @@ def login(template: str):
                                    form=form)
         if user.check_password(form.password.data):
             login_user(user, remember=form.remember_me.data)
-            return redirect(url_for(request.args.get('redirect_page')) or url_for("/index"))
+            return redirect(url(request.args.get('redirect_page') or ".index"))
         return render_template(template,
                                title='Авторизация',
                                message="Неправильный логин или пароль",
@@ -45,19 +42,25 @@ def login(template: str):
 
 
 @market.route('/login', methods=['GET', 'POST'])
-def redirect_login():
-    return redirect(url_for('area.login') + '?redirect_page=market.index')
+def login():
+    return redirect(url('area.login') +
+                    '?redirect_page=market.index')
 
 
 @edu.route('/login', methods=['GET', 'POST'])
-def redirect_login():
-    return redirect(url_for('area.login') + '?redirect_page=edu.index')
+def login():
+    return redirect(url('area.login') +
+                    '?redirect_page=edu.index')
 
 
 @area.route('/logout')
-@market.route('/logout')
-@edu.route('/logout')
 @login_required
 def logout():
     logout_user()
-    return redirect("/login")
+    return redirect(url('area.login'))
+
+
+@market.route('/logout')
+@edu.route('/logout')
+def logout():
+    return redirect(url('area.logout'))

@@ -1,11 +1,10 @@
 #  Nikulin Vasily © 2021
-import sqlalchemy
 import datetime
+from uuid import uuid4
 
 import sqlalchemy
 
 from data.db_session import SqlAlchemyBase
-from uuid import uuid4
 
 
 class ScheduledJob(SqlAlchemyBase):

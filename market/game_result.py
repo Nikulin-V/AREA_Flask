@@ -49,6 +49,5 @@ def game_result(template):
                     players_wallets[wallet_id][0] = i
 
     return render_template(template,
-                           game_role=get_game_roles(),
                            title='Итоги торгов',
                            wallets=players_wallets)

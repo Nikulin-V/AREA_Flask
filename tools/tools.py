@@ -3,7 +3,7 @@ import functools
 import os
 
 import flask
-from flask import request, jsonify, redirect, url_for
+from flask import request, jsonify, redirect
 from flask_login import current_user
 from flask_socketio import emit
 
