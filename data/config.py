@@ -1,7 +1,9 @@
 #  Nikulin Vasily © 2021
 from uuid import uuid4
-from .db_session import SqlAlchemyBase
+
 import sqlalchemy
+
+from .db_session import SqlAlchemyBase
 
 
 class Constant(SqlAlchemyBase):

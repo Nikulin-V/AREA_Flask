@@ -19,7 +19,7 @@
     position: fixed;
     right: 10px;
     left: auto;
-    top: 70px;
+    top: 44px;
 }
 .dropdown-menu {
     width: min-content;
@@ -86,7 +86,7 @@ span.label {
 
 .nav-item {
     color: black;
-    padding-right: 30px;
+    padding-right: 20px;
 }
 
 .nav-link {

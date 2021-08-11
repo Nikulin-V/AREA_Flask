@@ -3,7 +3,7 @@ import datetime
 import os
 import random
 
-from flask import request, abort, jsonify, url_for
+from flask import request, abort, jsonify
 from flask_login import current_user, login_required
 from werkzeug.utils import secure_filename
 
@@ -16,6 +16,7 @@ from data.scheduled_job import ScheduledJob
 from data.sessions import Session
 from data.users import User
 from tools.tools import send_response, fillJson, safe_remove
+from tools.url import url
 
 
 @sock.on('getNews')
@@ -73,14 +74,13 @@ def getNews(json=None):
                         'title': n.title,
                         'message': n.message,
                         'date': n.date.strftime('%d %b at %H:%M'),
-                        'picture': url_for('static',
-                                           filename=n.picture[7:].replace("\\", "/"))
+                        'picture': url('static', filename=n.picture[7:].replace("\\", "/"))
                         if n.picture is not None else n.picture,
                         'likes': 0 if n.liked_ids is None or n.liked_ids == ''
                         else len(str(n.liked_ids).split(';')),
                         'isLiked': n.is_liked,
-                        'canEdit': current_user.id == n.user_id or
-                                   str(current_user.id) in admins_ids
+                        'canEdit': current_user.id == n.user_id or str(
+                            current_user.id) in admins_ids
                     }
                     for n in news
                 ],

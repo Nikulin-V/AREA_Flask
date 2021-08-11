@@ -9,8 +9,8 @@ from data.db_functions import get_session_id
 from data.offers import Offer
 from data.sessions import Session
 from data.stocks import Stock
-from data.votes import Vote
 from data.users import User
+from data.votes import Vote
 from data.wallets import Wallet
 
 

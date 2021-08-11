@@ -1,5 +1,4 @@
 #  Nikulin Vasily © 2021
-
 import datetime
 from threading import Thread
 

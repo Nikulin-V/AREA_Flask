@@ -1,5 +1,4 @@
 #  Nikulin Vasily © 2021
-
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileAllowed
 from wtforms import SubmitField, SelectField, StringField, FileField, TextAreaField

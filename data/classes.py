@@ -1,7 +1,7 @@
 #  Nikulin Vasily © 2021
+import sqlalchemy
 
 from .db_session import SqlAlchemyBase
-import sqlalchemy
 
 
 class Class(SqlAlchemyBase):

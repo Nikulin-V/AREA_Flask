@@ -1,16 +1,14 @@
 #  Kozhevnikov Kirill © 2021
-from flask import abort
 from PIL import Image, ImageDraw, ImageFont
+from flask import abort
 from vk_api import VkApi
 from vk_api.upload import VkUpload
 
-from tools.epos import EPOS
-from vk_bot import command_system
-
-from vk_bot.credentials import TOKEN
 from data import db_session
 from data.vk_users import VkUser
-
+from tools.epos import EPOS
+from vk_bot import command_system
+from vk_bot.credentials import TOKEN
 
 epos = EPOS()
 

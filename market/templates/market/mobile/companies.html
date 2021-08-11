@@ -1,0 +1,40 @@
+<!--suppress ALL -->
+{% extends "market/mobile/base.html" %}
+
+{% block content %}
+    <table style="width: 100%; border: 0">
+        <tr style="border: 0">
+            <td style="text-align: left; border: 0; width: 1%; padding-right: 30px" colspan="2">
+                <h3>{{ title }}</h3></td>
+            <td style="text-align: right; border: 0"><a style="text-decoration: unset"
+                                                        href="{{ url('.stockholders_voting') }}">Управление
+                компаниями</a></td>
+        </tr>
+    </table>
+    <hr class="header-hr">
+    <a class="btn btn-info"
+       style="font-size: .8em; display: block; padding: .3em .5em; margin: 5px 0"
+       href="{{ url('.create_company') }}">Открыть компанию</a>
+    <hr class="header-hr">
+    <div style="font-size: 1em">
+        <p>Введите сюда количество очков доверия, которое Вы хотите присвоить компании и нажмите на
+            нужную строку.</p>
+        <p>Чтобы снять все очки, введите 0.</p>
+        <p>Имейте ввиду, что у Вас всего 100 очков доверия.</p>
+    </div>
+
+    <hr>
+    <p style="margin-bottom: 0">
+        <label for="points">Очки</label><br>
+        <input class="form-control" id="points" type="number" maxlength="3" minlength="1" value="0"
+               min="0" max="100"><br>
+    </p>
+
+    <div class="text-center companies-table">
+        <div class="spinner-border text-info" role="status">
+            <span class="visually-hidden">Загрузка...</span>
+        </div>
+    </div>
+
+    <script src="{{ url('static', filename='js/market/companies.js') }}"></script>
+{% endblock %}
