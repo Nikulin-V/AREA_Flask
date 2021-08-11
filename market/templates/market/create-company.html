@@ -2,6 +2,11 @@
 {% extends "market/base.html" %}
 
 {% block content %}
+
+    <script>
+        const imageUploadEndpoint = "{{ url('api.uploadImage') }}"
+    </script>
+
     <h3 style="text-align: center">{{ title }}</h3>
     <h5 style="text-align: center">Взнос: {{ new_company_fee }}<span class="material-icons-round md-money">paid</span></h5>
     <h6 style="text-align: center">Автоматически будет опубликована новость об открытии компании.</h6>
