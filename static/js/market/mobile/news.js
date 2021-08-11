@@ -98,7 +98,7 @@ function createNews() {
     message =
         `<div>
             <div class="form-floating">
-                <input id="title-input" class="form-control" placeholder="Заголовок" onclick="valid(this)">
+                <input id="title-input" class="form-control" placeholder="Заголовок" onclick="valid(this)" autocomplete="off">
                 <label for="title-input">Заголовок</label>
                 <div class="invalid-feedback">
                     Необходимо указать заголовок
@@ -112,7 +112,7 @@ function createNews() {
             <br>
             <div class="mb-3">
                 <label for="image-input">Изображение</label>
-                <input type="file" id="image-input" name="illustration" class="form-control" placeholder="Изображение" accept="image/*"  onclick="valid(this)">
+                <input type="file" id="image-input" name="illustration" class="form-control" placeholder="Изображение" accept="image/*"  onclick="valid(this)" autocomplete="off">
             </div>
             <br>
             <div class="form-floating">
@@ -189,7 +189,7 @@ function editNews(id) {
     message =
         `<div>
             <div class="form-floating">
-                <input id="title-input" class="form-control" placeholder="Заголовок" value="${ title }" onclick="valid(this)">
+                <input id="title-input" class="form-control" placeholder="Заголовок" value="${title}" onclick="valid(this)" autocomplete="off">
                 <label for="title-input">Заголовок</label>
                 <div class="invalid-feedback">
                     Необходимо указать заголовок
@@ -197,13 +197,13 @@ function editNews(id) {
             </div>
             <br>
             <div class="form-floating">
-                <textarea id="text-input" class="form-control" placeholder="Текст">${ text }</textarea>
+                <textarea id="text-input" class="form-control" placeholder="Текст">${text}</textarea>
                 <label for="text-input">Текст</label>
             </div>
             <br>
             <div class="mb-3">
                 <label for="image-input">Изображение</label>
-                <input type="file" id="image-input" name="illustration" class="form-control" placeholder="Изображение" accept="image/*" onclick="valid(this)">
+                <input type="file" id="image-input" name="illustration" class="form-control" placeholder="Изображение" accept="image/*" onclick="valid(this)" autocomplete="off">
             </div>
             <br>
         </div>`
