@@ -93,7 +93,7 @@ socket.on('deleteNews', function (data) {
         news.deleteFn(data)
 })
 
-news.uploadImage = (image, progress = null, fn = null) => {
+news.uploadImage = (image, progress = null, fn = null, fnTooLarge = null) => {
     let form = new FormData();
     form.append("illustration", image, image.name)
 
@@ -117,6 +117,9 @@ news.uploadImage = (image, progress = null, fn = null) => {
         },
         success: (data) => {
             fn(data)
+        },
+        statusCode: {
+            413: fnTooLarge
         }
     })
 }

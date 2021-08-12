@@ -109,6 +109,7 @@ function createNews() {
             <div class="mb-3">
                 <label for="image-input">Изображение</label>
                 <input type="file" id="image-input" name="illustration" class="form-control" placeholder="Изображение" accept="image/*"  onclick="valid(this)" autocomplete="off">
+                <div class="invalid-feedback" id="image-feedback"></div>
             </div>
             <br>
             <div class="form-floating">
@@ -159,6 +160,9 @@ function createNews() {
                 }, (data) => {
                     if (data["error"]) {
                         document.getElementById('image-input').classList.add('is-invalid')
+                        if (data["code"] === 1001) {
+                            document.getElementById('image-feedback').textContent = "Неверный или небезопасный формат файла"
+                        }
                         progressBarBack.style.display="none"
                         progressBar.style.width = "0%"
                         progressBar.setAttribute("aria-valuemin", "0")
@@ -173,6 +177,13 @@ function createNews() {
                         news.post(authorValue, title, text, imagePath, jobId, updatePage)
                         closeModal()
                     }
+                }, () => {
+                    document.getElementById('image-input').classList.add('is-invalid')
+                    document.getElementById('image-feedback').textContent = "Файл слишком большой, пожалуйста выберите файл менее 32МБ"
+                    progressBarBack.style.display="none"
+                    progressBar.style.width = "0%"
+                    progressBar.setAttribute("aria-valuemin", "0")
+                    button.style.removeProperty("display")
                 })
 
             }
@@ -223,6 +234,7 @@ function editNews(id) {
             <div class="mb-3">
                 <label for="image-input">Изображение</label>
                 <input type="file" id="image-input" name="illustration" class="form-control" placeholder="Изображение" accept="image/*" onclick="valid(this)" autocomplete="off">
+                <div class="invalid-feedback" id="image-feedback"></div>
             </div>
             <br>
         </div>`
@@ -272,6 +284,9 @@ function editNews(id) {
                 }, (data) => {
                     if (data["error"]) {
                         document.getElementById('image-input').classList.add('is-invalid')
+                        if (data["code"] === 1001) {
+                            document.getElementById('image-feedback').textContent = "Неверный или небезопасный формат файла"
+                        }
                         progressBarBack.style.display="none"
                         progressBar.style.width = "0%"
                         progressBar.setAttribute("aria-valuemin", "0")
@@ -283,6 +298,13 @@ function editNews(id) {
                         news.put(id, newTitle, newText, newImagePath, null, jobId, updatePage)
                         closeModal()
                     }
+                }, () => {
+                    document.getElementById('image-input').classList.add('is-invalid')
+                    document.getElementById('image-feedback').textContent = "Файл слишком большой, пожалуйста выберите файл менее 32МБ"
+                    progressBarBack.style.display="none"
+                    progressBar.style.width = "0%"
+                    progressBar.setAttribute("aria-valuemin", "0")
+                    button.style.removeProperty("display")
                 })
             }
         } else document.getElementById('title-input').classList.add('is-invalid')
