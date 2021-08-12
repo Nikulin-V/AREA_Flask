@@ -114,6 +114,10 @@ main {
     color: #dc3545;
 }
 
+.btn-icon-text {
+    vertical-align: top;
+}
+
 .btn-icon {
     height: 2.5rem;
     margin: 1px 2px;
@@ -133,6 +137,14 @@ main {
         color: #dc3545;
         background-color: white;
     }
+}
+
+.btn-danger {
+    background-color: white;
+    font-weight: bolder;
+    color: #cc0404;
+    border-color: #cc0404;
+    border-width: medium;
 }
 
 .md-red {

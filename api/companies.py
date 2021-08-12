@@ -1,4 +1,5 @@
 #  Nikulin Vasily © 2021
+import os
 from datetime import datetime
 
 from flask_login import login_required, current_user
@@ -25,11 +26,11 @@ def createCompany(json=None):
     if json is None:
         json = dict()
     event_name = 'createCompany'
-    fillJson(json, ['sector', 'title', 'logoUrl', 'description'])
+    fillJson(json, ['sector', 'title', 'logoPath', 'description'])
 
     sector = json['sector']
     title = json['title']
-    logoUrl = json['logoUrl']
+    logoPath = json['logoPath']
     description = json['description']
 
     if not sector or sector not in sectors:
@@ -64,12 +65,22 @@ def createCompany(json=None):
             }
         )
 
+    if (json['logoPath'] is not None) and \
+            (not str(json['logoPath']).startswith(os.path.join("static", "images", "uploaded"))):
+        return send_response(
+            event_name,
+            {
+                'message': 'Error',
+                'errors': ['File is unsafe or located on a foreign server']
+            }
+        )
+
     company = Company(
         session_id=get_session_id(),
         title=title,
         description=description if description else '',
         sector=sector,
-        logo_url=logoUrl if logoUrl else ''
+        logo_url=logoPath if logoPath else ''
     )
     db_sess.add(company)
     db_sess.commit()
@@ -81,7 +92,7 @@ def createCompany(json=None):
         company_id=company.id,
         date=datetime.now(),
         author=f'<b>{title}</b>',
-        picture=logoUrl
+        picture=logoPath
     )
     db_sess.add(news)
     wallet = db_sess.query(Wallet).filter(

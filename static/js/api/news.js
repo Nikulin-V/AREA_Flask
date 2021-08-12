@@ -93,7 +93,7 @@ socket.on('deleteNews', function (data) {
         news.deleteFn(data)
 })
 
-news.uploadImage = (image, fn = null) => {
+news.uploadImage = (image, progress = null, fn = null, fnTooLarge = null) => {
     let form = new FormData();
     form.append("illustration", image, image.name)
 
@@ -104,8 +104,22 @@ news.uploadImage = (image, fn = null) => {
         contentType: false,
         processData: false,
         method: 'POST',
+        xhr: () => {
+            let xhr = $.ajaxSettings.xhr()
+            xhr.upload.addEventListener('progress', e => {
+                if(e.lengthComputable) {
+                    const percent = Math.ceil(e.loaded / e.total * 100)
+
+                    progress(percent)
+                }
+            }, false)
+            return xhr
+        },
         success: (data) => {
             fn(data)
+        },
+        statusCode: {
+            413: fnTooLarge
         }
     })
 }

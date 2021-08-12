@@ -26,7 +26,7 @@ socket.on('getCompanies', function (data) {
 companies.post = function (sector=null,
                            title=null,
                            description=null,
-                           logoUrl=null,
+                           logoPath=null,
                            fn=null) {
     if (fn)
         companies.postFn = fn
@@ -36,7 +36,7 @@ companies.post = function (sector=null,
         'sector': sector,
         'title': title,
         'description': description,
-        'logoUrl': logoUrl
+        'logoPath': logoPath
     })
 }
 
@@ -107,3 +107,34 @@ socket.on('deleteCompany', function (data) {
 //         }
 //     })
 // }
+
+companies.uploadImage = (image, progress = null, fn = null, fnTooLarge = null) => {
+    let form = new FormData();
+    form.append("illustration", image, image.name)
+
+    $.ajax({
+        url: imageUploadEndpoint,
+        data: form,
+        cache: false,
+        contentType: false,
+        processData: false,
+        method: 'POST',
+        xhr: () => {
+            let xhr = $.ajaxSettings.xhr()
+            xhr.upload.addEventListener('progress', e => {
+                if(e.lengthComputable) {
+                    const percent = Math.ceil(e.loaded / e.total * 100)
+
+                    progress(percent)
+                }
+            }, false)
+            return xhr
+        },
+        success: (data) => {
+            fn(data)
+        },
+        statusCode: {
+            413: fnTooLarge
+        }
+    })
+}

@@ -27,13 +27,15 @@
         <label for="description">Описание</label>
     </div>
     <br>
-    <div class="form-floating">
-        <input id="logo-url" class="form-control" type="url"
-               placeholder="Ссылка на изображение логотипа" disabled
-               style="background-color: red"></input>
-        <label for="logo-url">логотип (in development)</label> <!-- TODO: image upload -->
+    <div class="mb-3">
+        <label for="image-input">Логотип</label>
+        <input type="file" id="logo" name="illustration" class="form-control" placeholder="Логотип" accept="image/*" onclick="valid(this)" autocomplete="off">
+        <div class="invalid-feedback" id="logo-feedback"></div>
+    </div>
+    <div class="progress" id="progressBarBack" style="display: none">
+        <div class="progress-bar progress-bar-striped progress-bar-animated" id="progressBar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
     </div>
     <br>
-    <button class="btn btn-info" type="submit" onclick="createCompany()">Готово</button>
+    <button class="btn btn-info" type="submit" onclick="createCompany(this)">Готово</button>
     <script src="{{ url('static', filename='js/market/create-company.js') }}"></script>
 {% endblock %}

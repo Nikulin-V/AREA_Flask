@@ -109,6 +109,7 @@ function createNews() {
             <div class="mb-3">
                 <label for="image-input">Изображение</label>
                 <input type="file" id="image-input" name="illustration" class="form-control" placeholder="Изображение" accept="image/*"  onclick="valid(this)" autocomplete="off">
+                <div class="invalid-feedback" id="image-feedback"></div>
             </div>
             <br>
             <div class="form-floating">
@@ -121,6 +122,21 @@ function createNews() {
     button = document.createElement('button')
     button.textContent = "Опубликовать"
     button.className = "btn btn-info"
+
+    progressBarBack = document.createElement('div')
+    progressBarBack.className = "progress"
+    progressBar = document.createElement('div')
+    progressBarBack.appendChild(progressBar)
+    progressBar.className = "progress-bar progress-bar-striped progress-bar-animated btn-info"
+    progressBar.setAttribute("role", "progressbar")
+    progressBar.setAttribute("aria-valuemin", "0")
+    progressBar.setAttribute("aria-valuemax", "0")
+    progressBar.setAttribute("aria-valuenow", "0")
+    progressBarBack.style.width = "100%"
+    progressBar.style.width = "0%"
+    progressBarBack.style.display = "none"
+
+
     button.onclick = function () {
         const title = document.getElementById('title-input').value
         if (title) {
@@ -134,9 +150,23 @@ function createNews() {
                 closeModal()
             } else {
                 let image = document.getElementById('image-input').files[0]
-                news.uploadImage(image, (data) => {
+
+                button.style.display = "none"
+                progressBarBack.style.removeProperty("display")
+
+                news.uploadImage(image, (progress) => {
+                    progressBar.style.width = progress + "%"
+                    progressBar.setAttribute("aria-valuemin", progress.toString())
+                }, (data) => {
                     if (data["error"]) {
                         document.getElementById('image-input').classList.add('is-invalid')
+                        if (data["code"] === 1001) {
+                            document.getElementById('image-feedback').textContent = "Неверный или небезопасный формат файла"
+                        }
+                        progressBarBack.style.display="none"
+                        progressBar.style.width = "0%"
+                        progressBar.setAttribute("aria-valuemin", "0")
+                        button.style.removeProperty("display")
                     } else {
                         const text = document.getElementById('text-input').value
                         const imagePath = data["path"]
@@ -147,13 +177,20 @@ function createNews() {
                         news.post(authorValue, title, text, imagePath, jobId, updatePage)
                         closeModal()
                     }
+                }, () => {
+                    document.getElementById('image-input').classList.add('is-invalid')
+                    document.getElementById('image-feedback').textContent = "Файл слишком большой, пожалуйста выберите файл менее 32МБ"
+                    progressBarBack.style.display="none"
+                    progressBar.style.width = "0%"
+                    progressBar.setAttribute("aria-valuemin", "0")
+                    button.style.removeProperty("display")
                 })
 
             }
         } else document.getElementById('title-input').classList.add('is-invalid')
     }
     fillAuthors()
-    showModal(message, 'Новый пост', [button])
+    showModal(message, 'Новый пост', [button, progressBarBack])
 }
 
 function fillAuthors (selectedValue=null) {
@@ -197,12 +234,35 @@ function editNews(id) {
             <div class="mb-3">
                 <label for="image-input">Изображение</label>
                 <input type="file" id="image-input" name="illustration" class="form-control" placeholder="Изображение" accept="image/*" onclick="valid(this)" autocomplete="off">
+                <div class="invalid-feedback" id="image-feedback"></div>
             </div>
             <br>
         </div>`
     button = document.createElement('button')
     button.textContent = "Сохранить"
     button.className = "btn btn-info"
+
+    progressBarBack = document.createElement('div')
+    progressBarBack.className = "progress"
+    progressBar = document.createElement('div')
+    progressBarBack.appendChild(progressBar)
+    progressBar.className = "progress-bar progress-bar-striped progress-bar-animated btn-info"
+    progressBar.setAttribute("role", "progressbar")
+    progressBar.setAttribute("aria-valuemin", "0")
+    progressBar.setAttribute("aria-valuemax", "0")
+    progressBar.setAttribute("aria-valuenow", "0")
+    progressBarBack.style.width = "100%"
+    progressBar.style.width = "0%"
+    progressBarBack.style.display = "none"
+
+    btnClear = document.createElement("clear-image")
+    btnClear.textContent = "Удалить изображение"
+    btnClear.className = "btn btn-info"
+    btnClear.onclick = () => {
+        news.put(id, null, null, "!clear", null, null, updatePage)
+        closeModal()
+    }
+
     button.onclick = () => {
         const newTitle = document.getElementById('title-input').value
 
@@ -213,28 +273,43 @@ function editNews(id) {
                 closeModal()
             } else {
                 let newImage = document.getElementById('image-input').files[0]
-                news.uploadImage(newImage, (data) => {
+
+                button.style.display = "none"
+                if (noImage) btnClear.style.display = "none"
+                progressBarBack.style.removeProperty("display")
+
+                news.uploadImage(newImage, (progress) => {
+                    progressBar.style.width = progress + "%"
+                    progressBar.setAttribute("aria-valuemin", progress.toString())
+                }, (data) => {
                     if (data["error"]) {
                         document.getElementById('image-input').classList.add('is-invalid')
+                        if (data["code"] === 1001) {
+                            document.getElementById('image-feedback').textContent = "Неверный или небезопасный формат файла"
+                        }
+                        progressBarBack.style.display="none"
+                        progressBar.style.width = "0%"
+                        progressBar.setAttribute("aria-valuemin", "0")
+                        button.style.removeProperty("display")
+                        if (noImage) btnClear.style.removeProperty("display")
                     } else {
                         const newImagePath = data["path"]
                         const jobId = data["jobId"]
                         news.put(id, newTitle, newText, newImagePath, null, jobId, updatePage)
                         closeModal()
                     }
+                }, () => {
+                    document.getElementById('image-input').classList.add('is-invalid')
+                    document.getElementById('image-feedback').textContent = "Файл слишком большой, пожалуйста выберите файл менее 32МБ"
+                    progressBarBack.style.display="none"
+                    progressBar.style.width = "0%"
+                    progressBar.setAttribute("aria-valuemin", "0")
+                    button.style.removeProperty("display")
                 })
             }
         } else document.getElementById('title-input').classList.add('is-invalid')
     }
-
-    btnClear = document.createElement("clear-image")
-    btnClear.textContent = "Удалить изображение"
-    btnClear.className = "btn btn-info"
-    btnClear.onclick = () => {
-        news.put(id, null, null, "!clear", null, null, updatePage)
-        closeModal()
-    }
-    showModal(message, 'Изменение поста', noImage? [button] : [btnClear, button])
+    showModal(message, 'Изменение поста', noImage? [button, progressBarBack] : [btnClear, button, progressBarBack])
 }
 
 function deleteNews(id) {
