@@ -39,4 +39,4 @@ def error_page(error, template: str):
     return render_template(template,
                            code=error.code,
                            title=messages[error.code][0],
-                           message=messages[error.code][1])
+                           message=messages[error.code][1]), error.code
