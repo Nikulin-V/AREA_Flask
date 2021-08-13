@@ -20,7 +20,7 @@ svotes.get = function (fn=null) {
 socket.on('getStockholdersVotes', function (data) {
     svotes.getJson = data
     if (svotes.getFn)
-        svotes.getFn()
+        svotes.getFn(data)
 })
 
 svotes.put = function (votingId=null,

@@ -16,3 +16,4 @@ flask-babel
 flask-cors
 sqlalchemy-serializer
 requests
+pymorphy2

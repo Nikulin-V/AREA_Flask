@@ -157,12 +157,34 @@ def createNews(json=None):
     db_sess.add(news)
     db_sess.commit()
 
-    return send_response(
+    send_response(
         event_name,
         {
             'message': 'Success',
             'errors': []
         }
+    )
+
+    return send_response(
+        'showNotifications',
+        {
+            'message': 'Success',
+            'notifications': [
+                {
+                    'logoSource': 'post_add',
+                    'author': news.author.split(' | ')[0],
+                    'company': None if len(news.author.split(' | ')) == 1
+                    else news.author.split(' | ')[1],
+                    'date': news.date.strftime('%d %B'),
+                    'time': news.date.strftime('%H:%M'),
+                    'message': f'<b>{news.title}</b><br>'
+                               f'{news.message}',
+                    'redirectLink': f'{url("market.news")}#{news.id}'
+                }
+            ],
+            'errors': []
+        },
+        broadcast=True, include_self=False
     )
 
 

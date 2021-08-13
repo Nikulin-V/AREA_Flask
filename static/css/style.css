@@ -10,9 +10,52 @@ main {
     margin-bottom: 100px;
 }
 
+.normal-link {
+    text-decoration: unset;
+    color: #191919;
+}
+
+.notification-icon {
+    font-size: xx-large;
+    color: #17A2B8;
+}
+
+.toast {
+    max-height: 200px;
+    overflow: auto;
+}
+
+@media screen and (max-width: 980px) {
+    .toast {
+        width: 300px;
+        max-height: 100px;
+    }
+
+    .toast-header table tr td a b, .toast-header table tr td small {
+        font-size: .95em;
+    }
+
+    .toast-header {
+        padding: 3px 10px 3px 5px;
+    }
+
+    .toast-body {
+        font-size: .95em;
+        padding: 0 3px 3px 7px;
+    }
+}
+
+.normal-link :hover {
+    text-decoration: unset;
+    color: #86CFDA;
+}
 
 .dairy-table {
     width: 100%;
+}
+
+.layout-table, .layout-table tbody, .layout-table tr, .layout-table td {
+    border: none;
 }
 
 #error-message {

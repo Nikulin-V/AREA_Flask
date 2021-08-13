@@ -97,7 +97,7 @@ function changeVotingValues(votingId, data) {
         a = parseInt(tdVotesArray[0])
 
         if (tdDecision.innerHTML === '<span class="material-icons md-green" style="vertical-align: middle">check_circle</span>') {
-            tdDecision.innerHTML = '<span class="material-icons md-red" style="vertical-align: middle;">clear</span>'
+            tdDecision.innerHTML = '<span class="material-icons md-red" style="vertical-align: middle;">cancel</span>'
             tdVotesArray[0] = (a - 1).toString()
         } else {
             tdDecision.innerHTML = '<span class="material-icons md-green" style="vertical-align: middle">check_circle</span>'
@@ -134,6 +134,7 @@ function createVotingAction() {
         count = count.value
     }
     svotes.post(action, companyTitle, count, closeModalAndRenderPage)
+    setTimeout(fillCompanies, 300)
 }
 
 function createVoting() {

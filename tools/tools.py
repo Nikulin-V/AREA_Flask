@@ -94,12 +94,12 @@ def fillJson(json, args):
             json[arg] = request.args.get(arg)
 
 
-def send_response(event_name, response=None):
+def send_response(event_name, response=None, *args, **kwargs):
     if hasattr(flask.request, 'namespace'):
         if response is None:
-            emit(event_name)
+            emit(event_name, *args, **kwargs)
         else:
-            emit(event_name, response)
+            emit(event_name, response, *args, **kwargs)
     else:
         return jsonify(response)
 

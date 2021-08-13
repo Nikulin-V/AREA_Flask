@@ -13,6 +13,8 @@ from data.scheduled_job import ScheduledJob
 from data.stockholders_votes import SVote
 from data.stocks import Stock
 from tools.tools import is_stockholder, votes, is_voted, fillJson, send_response
+from tools.url import url
+from tools.words import morph
 
 
 @sock.on('createStockholdersVoting')
@@ -126,7 +128,6 @@ def createStockholdersVoting(json=None):
     )
     db_sess.add(voting)
     db_sess.commit()
-    print(voting.id)
 
     new_scheduled_job = ScheduledJob(
         model='SVote',
@@ -137,7 +138,7 @@ def createStockholdersVoting(json=None):
     db_sess.add(new_scheduled_job)
     db_sess.commit()
 
-    return send_response(
+    send_response(
         event_name,
         {
             'message': 'Success',
@@ -146,6 +147,25 @@ def createStockholdersVoting(json=None):
                 'id': voting.id
             }
         }
+    )
+
+    return send_response(
+        'showNotifications',
+        {
+            'message': 'Success',
+            'notifications': [
+                {
+                    'logoSource': 'rule',
+                    'company': get_company_title(companyId),
+                    'author': voting.action,
+                    'date': datetime.datetime.now().strftime('%d %B'),
+                    'time': datetime.datetime.now().strftime('%H:%M'),
+                    'redirectLink': f'{url("market.stockholders_voting")}#{voting.id}'
+                }
+            ],
+            'errors': []
+        },
+        broadcast=True, include_self=False
     )
 
 
@@ -241,6 +261,26 @@ def release_new_stocks(voting, count):
     )
     db_sess.add(news)
     db_sess.commit()
+    send_response(
+        'showNotifications',
+        {
+            'message': 'Success',
+            'notifications': [
+                {
+                    'logoSource': 'addchart',
+                    'company': news.author,
+                    'author': str(released_stocks_count) + ' ' +
+                              morph.parse("акций")[0].make_agree_with_number(
+                                  released_stocks_count).word,
+                    'date': news.date.strftime('%d %B'),
+                    'time': news.date.strftime('%H:%M'),
+                    'redirectLink': f'{url("market.news")}#{news.id}'
+                }
+            ],
+            'errors': []
+        },
+        broadcast=True, include_self=False
+    )
 
 
 def do_voting_action(voting):

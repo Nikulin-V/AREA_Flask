@@ -17,6 +17,7 @@ from data.stocks import Stock
 from data.votes import Vote
 from data.wallets import Wallet
 from tools.tools import fillJson, send_response, deposit_wallet
+from tools.url import url
 
 
 @sock.on('createCompany')
@@ -114,6 +115,7 @@ def createCompany(json=None):
             money=get_constant('START_WALLET_MONEY')
         )
         db_sess.add(wallet)
+        db_sess.commit()
 
     new_company_fee = get_constant('NEW_COMPANY_FEE')
     if wallet.money < new_company_fee:
@@ -129,12 +131,32 @@ def createCompany(json=None):
         wallet.money -= new_company_fee
         db_sess.merge(wallet)
         db_sess.commit()
-        return send_response(
+        send_response(
             event_name,
             {
                 'message': 'Success',
                 'errors': []
             }
+        )
+
+        return send_response(
+            'showNotifications',
+            {
+                'message': 'Success',
+                'notifications': [
+                    {
+                        'logoSource': 'business',
+                        'author': news.author.split(' | ')[0],
+                        'company': None if len(news.author.split(' | ')) == 1
+                        else news.author.split(' | ')[1],
+                        'date': news.date.strftime('%d %B'),
+                        'time': news.date.strftime('%H:%M'),
+                        'redirectLink': f'{url("market.news")}#{news.id}'
+                    }
+                ],
+                'errors': []
+            },
+            broadcast=True, include_self=False
         )
 
 
@@ -223,12 +245,32 @@ def deleteCompanyAction(event_name=None, companyId=None, companyTitle=None):
     db_sess.add(news)
     db_sess.commit()
 
-    return send_response(
+    send_response(
         event_name,
         {
             'message': 'Success',
-            'errors': [],
+            'errors': []
         }
+    )
+
+    return send_response(
+        'showNotifications',
+        {
+            'message': 'Success',
+            'notifications': [
+                {
+                    'logoSource': 'domain_disabled',
+                    'author': news.author.split(' | ')[0],
+                    'company': None if len(news.author.split(' | ')) == 1
+                    else news.author.split(' | ')[1],
+                    'date': news.date.strftime('%d %B'),
+                    'time': news.date.strftime('%H:%M'),
+                    'redirectLink': f'{url("market.news")}#{news.id}'
+                }
+            ],
+            'errors': []
+        },
+        broadcast=True, include_self=False
     )
 
 
