@@ -329,6 +329,15 @@ def deleteNews(json=None):
 
     news = db_sess.query(News).get(json['identifier'])
 
+    if news is None:
+        return send_response(
+            event_name,
+            {
+                'message': 'Error',
+                'errors': ['News not found']
+            }
+        )
+
     admins_ids = str(db_sess.query(Session).get(news.session_id).admins_ids).split(';')
 
     if news.user_id != current_user.id and str(current_user.id) not in admins_ids and \

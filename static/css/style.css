@@ -45,6 +45,12 @@ main {
     }
 }
 
+#news-update-btn {
+    display: none;
+    width: 170px;
+    white-space: nowrap;
+}
+
 .normal-link :hover {
     text-decoration: unset;
     color: #86CFDA;
