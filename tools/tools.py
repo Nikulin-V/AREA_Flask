@@ -76,7 +76,9 @@ def votes(stockholders, company_id):
 
     db_sess = db_session.create_session()
 
-    all_stockholders = len(set(db_sess.query(Stock.user_id).filter(Stock.company_id == company_id)))
+    all_stockholders = len(set(list(db_sess.query(Stock.user_id).filter(
+        Stock.company_id == company_id
+    )) + list(db_sess.query(Offer.user_id).filter(Offer.company_id == company_id))))
     voted_for_stockholders = len(stockholders)
 
     return voted_for_stockholders, all_stockholders
@@ -94,12 +96,12 @@ def fillJson(json, args):
             json[arg] = request.args.get(arg)
 
 
-def send_response(event_name, response=None):
+def send_response(event_name, response=None, *args, **kwargs):
     if hasattr(flask.request, 'namespace'):
         if response is None:
-            emit(event_name)
+            emit(event_name, *args, **kwargs)
         else:
-            emit(event_name, response)
+            emit(event_name, response, *args, **kwargs)
     else:
         return jsonify(response)
 

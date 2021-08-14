@@ -64,7 +64,7 @@
             <div class="navbar-right" style="padding: 5px">
                 <a id="sign-in-btn" class="btn btn-info" href="{{ url('area.login') }}">Вход</a>
                 <a id="sign-up-btn" class="btn btn-info"
-                   href="{{ url('.register') }}">Регистрация</a>
+                   href="{{ url('area.register') }}">Регистрация</a>
             </div>
         {% endif %}
 
@@ -76,6 +76,7 @@
 <main role="main" class="container">
     {% block content %}{% endblock %}
 </main>
+<div id="notifications" class="position-fixed bottom-0 end-0 p-3" style="z-index: 11"></div>
 <footer class="copy-w3right footer mt-auto">
     <div class="container">
         <p class="bottom-w3lnav"><small>Design by <a href="https://vk.com/vasil1y">Nikulin

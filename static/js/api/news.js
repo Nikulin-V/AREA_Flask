@@ -71,8 +71,12 @@ news.put = function (identifier=null,
 
 socket.on('editNews', function (data) {
     news.putJson = data
-    if (news.putFn)
+    if (news.putFn && data['message'] === 'Success')
         news.putFn(data)
+    else if (data['message'] === 'Error') {
+        showModal(createParagraph('Новость не найдена'))
+        updatePage()
+    }
 })
 
 
@@ -89,8 +93,12 @@ news.delete = function (identifier=null,
 
 socket.on('deleteNews', function (data) {
     news.deleteJson = data
-    if (news.deleteFn)
+    if (news.deleteFn && data['message'] === 'Success')
         news.deleteFn(data)
+    else if (data['message'] === 'Error') {
+        showModal(createParagraph('Новость не найдена'))
+        updatePage()
+    }
 })
 
 news.uploadImage = (image, progress = null, fn = null, fnTooLarge = null) => {

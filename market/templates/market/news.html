@@ -6,17 +6,28 @@
     <script>
         const imageUploadEndpoint = "{{ url('api.uploadImage') }}"
     </script>
+    <div style="position: sticky; top: 0; background-color: white">
+        <table class="layout-table" style="width: 100%">
+            <tr style="font-size: 1.5em">
+                <td style="text-align: left">
+                    <h1>{{ title }}</h1>
+                </td>
+                <td style="text-align: -webkit-center">
+                    <button id="news-update-btn" class="btn btn-info"
+                            onclick="updatePage(); document.getElementById('news-update-btn').style.display = 'none'">
+                        Свежие записи <span class="material-icons" style="vertical-align: bottom">update</span>
+                    </button>
+                </td>
+                <td style="text-align: right">
+                    <button id="create-news" class="btn btn-info" onclick="createNews()">Создать
+                        пост
+                    </button>
+                </td>
+            </tr>
+        </table>
+        <hr style="margin: 5px 0">
+    </div>
 
-    <table style="width: 100%; border: 0">
-        <tr style="font-size: 1.5em; border: 0">
-            <td style="text-align: left; border: 0">
-                <h1>{{ title }}</h1>
-            </td>
-            <td style="text-align: right; border: 0">
-                <button id="create-news" class="btn btn-info" onclick="createNews()">Создать пост</button>
-            </td>
-        </tr>
-    </table>
 
     <div class="text-center news">
         <div class="spinner-border text-info" role="status">

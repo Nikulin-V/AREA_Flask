@@ -8,7 +8,7 @@ from flask_login import current_user, login_required
 from werkzeug.utils import secure_filename
 
 from api import sock, api
-from config import NEWS_PER_PAGE, ALLOWED_EXTENSIONS
+from config import NEWS_PER_PAGE, ALLOWED_EXTENSIONS, icons
 from data import db_session
 from data.functions import get_session_id, get_company_title, get_company_id
 from data.news import News
@@ -158,11 +158,25 @@ def createNews(json=None):
     db_sess.commit()
 
     return send_response(
-        event_name,
+        'showNotifications',
         {
             'message': 'Success',
+            'notifications': [
+                {
+                    'logoSource': icons['new_post'],
+                    'author': news.author.split(' | ')[0],
+                    'company': None if len(news.author.split(' | ')) == 1
+                    else news.author.split(' | ')[1],
+                    'date': news.date.strftime('%d %B'),
+                    'time': news.date.strftime('%H:%M'),
+                    'message': f'<b>{news.title}</b><br>'
+                               f'{news.message}',
+                    'redirectLink': f'{url("market.news")}#{news.id}'
+                }
+            ],
             'errors': []
-        }
+        },
+        broadcast=True, include_self=False
     )
 
 
@@ -306,6 +320,15 @@ def deleteNews(json=None):
         )
 
     news = db_sess.query(News).get(json['identifier'])
+
+    if news is None:
+        return send_response(
+            event_name,
+            {
+                'message': 'Error',
+                'errors': ['News not found']
+            }
+        )
 
     admins_ids = str(db_sess.query(Session).get(news.session_id).admins_ids).split(';')
 
