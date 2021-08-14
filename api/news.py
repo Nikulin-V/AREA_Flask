@@ -157,14 +157,6 @@ def createNews(json=None):
     db_sess.add(news)
     db_sess.commit()
 
-    send_response(
-        event_name,
-        {
-            'message': 'Success',
-            'errors': []
-        }
-    )
-
     return send_response(
         'showNotifications',
         {

@@ -131,13 +131,6 @@ def createCompany(json=None):
         wallet.money -= new_company_fee
         db_sess.merge(wallet)
         db_sess.commit()
-        send_response(
-            event_name,
-            {
-                'message': 'Success',
-                'errors': []
-            }
-        )
 
         return send_response(
             'showNotifications',
@@ -244,14 +237,6 @@ def deleteCompanyAction(event_name=None, companyId=None, companyTitle=None):
     )
     db_sess.add(news)
     db_sess.commit()
-
-    send_response(
-        event_name,
-        {
-            'message': 'Success',
-            'errors': []
-        }
-    )
 
     return send_response(
         'showNotifications',
