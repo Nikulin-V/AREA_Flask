@@ -5,6 +5,7 @@ from flask_login import login_required, current_user
 
 from api import api, sock
 from api.companies import deleteCompanyAction
+from config import icons
 from data import db_session
 from data.functions import get_session_id, get_company_id, get_company_title
 from data.news import News
@@ -155,7 +156,7 @@ def createStockholdersVoting(json=None):
             'message': 'Success',
             'notifications': [
                 {
-                    'logoSource': 'rule',
+                    'logoSource': icons['new_svoting'],
                     'company': get_company_title(companyId),
                     'author': voting.action,
                     'date': datetime.datetime.now().strftime('%d %B'),
@@ -267,7 +268,7 @@ def release_new_stocks(voting, count):
             'message': 'Success',
             'notifications': [
                 {
-                    'logoSource': 'addchart',
+                    'logoSource': icons['release_stocks'],
                     'company': news.author,
                     'author': str(released_stocks_count) + ' ' + morph.parse("акций")[
                         0].make_agree_with_number(released_stocks_count).word,

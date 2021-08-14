@@ -9,7 +9,10 @@ sock = IOBlueprint()
 
 CORS(api)
 
+clients_sid = dict()
+
 # noinspection PyPep8
+from .sockets import registerUserSessionSID
 from .companies import createCompany, getCompanies, deleteCompany
 from .news import createNews, getNews, editNews, deleteNews
 from .offers import createOffer, getOffers, editOffer, deleteOffer

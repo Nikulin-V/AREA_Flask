@@ -15,6 +15,7 @@ socket.on('showNotifications', function (data) {
 })
 
 socket.on('connect', function () {
+    socket.emit('registerUserSessionSID')
     if (typeof disconnected === 'boolean' && disconnected)
         showConnected()
     disconnected = false

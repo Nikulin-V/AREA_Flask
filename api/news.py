@@ -8,7 +8,7 @@ from flask_login import current_user, login_required
 from werkzeug.utils import secure_filename
 
 from api import sock, api
-from config import NEWS_PER_PAGE, ALLOWED_EXTENSIONS
+from config import NEWS_PER_PAGE, ALLOWED_EXTENSIONS, icons
 from data import db_session
 from data.functions import get_session_id, get_company_title, get_company_id
 from data.news import News
@@ -171,7 +171,7 @@ def createNews(json=None):
             'message': 'Success',
             'notifications': [
                 {
-                    'logoSource': 'post_add',
+                    'logoSource': icons['new_post'],
                     'author': news.author.split(' | ')[0],
                     'company': None if len(news.author.split(' | ')) == 1
                     else news.author.split(' | ')[1],

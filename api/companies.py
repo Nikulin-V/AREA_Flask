@@ -5,7 +5,7 @@ from datetime import datetime
 from flask_login import login_required, current_user
 
 from api import api, sock
-from config import sectors
+from config import sectors, icons
 from data import db_session
 from data.companies import Company
 from data.db_functions import get_session_id
@@ -145,7 +145,7 @@ def createCompany(json=None):
                 'message': 'Success',
                 'notifications': [
                     {
-                        'logoSource': 'business',
+                        'logoSource': icons['new_company'],
                         'author': news.author.split(' | ')[0],
                         'company': None if len(news.author.split(' | ')) == 1
                         else news.author.split(' | ')[1],
@@ -259,7 +259,7 @@ def deleteCompanyAction(event_name=None, companyId=None, companyTitle=None):
             'message': 'Success',
             'notifications': [
                 {
-                    'logoSource': 'domain_disabled',
+                    'logoSource': icons['close_company'],
                     'author': news.author.split(' | ')[0],
                     'company': None if len(news.author.split(' | ')) == 1
                     else news.author.split(' | ')[1],

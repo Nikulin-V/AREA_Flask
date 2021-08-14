@@ -4,7 +4,8 @@ import datetime
 from flask_login import current_user, login_required
 from sqlalchemy import or_
 
-from api import api, sock
+from api import api, sock, clients_sid
+from config import icons
 from data import db_session
 from data.companies import Company
 from data.functions import get_session_id, get_company_title, get_company_id, get_constant
@@ -14,6 +15,8 @@ from data.stocks import Stock
 from data.votes import Vote
 from data.wallets import Wallet
 from tools.tools import fillJson, send_response
+from tools.url import url
+from tools.words import morph
 
 
 @sock.on('getOffers')
@@ -242,8 +245,9 @@ def editOffer(json=None):
 
             for row in cheque:
                 offer = db_sess.query(Offer).get(row['id'])
-                offer.reserved_stocks -= int(row['stocks'])
-                db_sess.merge(offer)
+                if offer:
+                    offer.reserved_stocks -= int(row['stocks'])
+                    db_sess.merge(offer)
 
         db_sess.commit()
 
@@ -277,6 +281,8 @@ def editOffer(json=None):
         ).all()))
 
         second_cost = 0
+        sold_stocks = dict()
+
         for row in cheque:
             offer = db_sess.query(Offer).get(row['id'])
 
@@ -295,6 +301,10 @@ def editOffer(json=None):
 
             second_cost += int(row['price']) * int(
                 row['stocks']) * get_constant('FEE_FOR_STOCK') * stocks_get_profit
+            if offer.user_id in sold_stocks.keys():
+                sold_stocks[offer.user_id] += int(row['stocks'])
+            else:
+                sold_stocks[offer.user_id] = int(row['stocks'])
 
         if customer_wallet.money < first_cost + second_cost:
             # Отмена резервации акций
@@ -366,15 +376,15 @@ def editOffer(json=None):
                 db_sess.merge(stock)
 
             # Начисление комиссии третьим лицам
-            all_stocks = db_sess.query(Stock).filter(
+            all_stocks = list(db_sess.query(Stock).filter(
                 Stock.session_id == get_session_id(),
                 Stock.company_id == company_id
-            ).all() + db_sess.query(Offer.stocks).filter(
+            ).all()) + list(db_sess.query(Offer).filter(
                 Offer.session_id == get_session_id(),
                 Offer.company_id == company_id
-            ).all()
-            for stock in all_stocks:
+            ).all())
 
+            for stock in all_stocks:
                 if str(stock.user_id) not in [current_user.id, offer.user_id]:
                     stockholder_wallet = db_sess.query(Wallet).filter(
                         Wallet.session_id == get_session_id(),
@@ -388,6 +398,28 @@ def editOffer(json=None):
 
         deleteCompanyVotes(company_id, db_sess)
         db_sess.commit()
+
+        for seller_id, stocks_count in sold_stocks.items():
+            stocks_word = morph.parse("акцию")[0].make_agree_with_number(stocks_count).word
+            if clients_sid[seller_id]:
+                send_response(
+                    'showNotifications',
+                    {
+                        'message': 'Success',
+                        'notifications': [
+                            {
+                                'logoSource': icons['deal'],
+                                'company': cheque[0]['company'],
+                                'author': f'Вы продали {stocks_count} {stocks_word}',
+                                'date': datetime.datetime.now().strftime('%d %B'),
+                                'time': datetime.datetime.now().strftime('%H:%M'),
+                                'redirectLink': url("market.news")
+                            }
+                        ],
+                        'errors': []
+                    },
+                    room=clients_sid[seller_id]
+                )
 
         return send_response(
             event_name,
@@ -532,7 +564,7 @@ def get_offer_fee(company_id, offer_id, buy_stocks):
             sum(map(lambda x: x[0], db_sess.query(Offer.stocks).filter(
                 Offer.session_id == get_session_id(),
                 Offer.company_id == company_id,
-                or_(Stock.user_id == current_user.id, Stock.user_id == offer.user_id)
+                or_(Offer.user_id == current_user.id, Offer.user_id == offer.user_id)
             )))
     )
 
