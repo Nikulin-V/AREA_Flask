@@ -13,3 +13,14 @@ socket.on('showNotifications', function (data) {
         showNotifications(n.logoSource, n.author, n.company, n.date, n.time, n.message, n.redirectLink)
     }
 })
+
+socket.on('connect', function () {
+    if (typeof disconnected === 'boolean' && disconnected)
+        showConnected()
+    disconnected = false
+})
+
+socket.on('disconnect', function () {
+    showConnected(false)
+    disconnected = true
+})

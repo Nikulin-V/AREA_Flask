@@ -269,12 +269,11 @@ def release_new_stocks(voting, count):
                 {
                     'logoSource': 'addchart',
                     'company': news.author,
-                    'author': str(released_stocks_count) + ' ' +
-                              morph.parse("акций")[0].make_agree_with_number(
-                                  released_stocks_count).word,
+                    'author': str(released_stocks_count) + ' ' + morph.parse("акций")[
+                        0].make_agree_with_number(released_stocks_count).word,
                     'date': news.date.strftime('%d %B'),
                     'time': news.date.strftime('%H:%M'),
-                    'redirectLink': f'{url("market.news")}#{news.id}'
+                    'redirectLink': f'{url("market.marketplace")}#{news.id}'
                 }
             ],
             'errors': []

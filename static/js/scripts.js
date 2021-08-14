@@ -148,14 +148,17 @@ function closeModalAndRenderPage() {
 
 function showNotifications(logoSource, author = null, company = null, date, time, message = null, redirectLink = '#') {
     id = redirectLink.split('#')[1]
-    if (logoSource === 'rule')
-        svotes.get(function (data) {
-            svotesList = data['votes']
-            if (svotesList.length > 0)
-                if (svotesList[svotesList.length - 1]['id'] === id)
-                    showNotificationAction(logoSource, author, company, date, time, message, redirectLink)
-        })
-    else showNotificationAction(logoSource, author, company, date, time, message, redirectLink)
+    if (!(logoSource === 'rule' && window.location.pathname === '/companies-management'))
+        if (logoSource === 'rule')
+            svotes.get(function (data) {
+                svotesList = data['votes']
+                if (svotesList.length > 0)
+                    if (svotesList[svotesList.length - 1]['id'] === id)
+                        showNotificationAction(logoSource, author, company, date, time, message, redirectLink)
+            })
+        else if (logoSource === 'post_add' && window.location.pathname === '/news')
+            showNewPostsBtn()
+        else showNotificationAction(logoSource, author, company, date, time, message, redirectLink)
 }
 
 function showNotificationAction(logoSource, author = null, company = null, date, time, message = null, redirectLink = '#') {
@@ -219,4 +222,20 @@ function showNotificationAction(logoSource, author = null, company = null, date,
     });
     notification = toastList[toastList.length - 1]
     notification.show()
+}
+
+function showNewPostsBtn() {
+    document.getElementById('news-update-btn').style.display = "block"
+}
+
+function showConnected(connected = true) {
+    const monthNames = ["January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+    ];
+    let now = new Date()
+    let date = monthNames[now.getMonth()] + ' ' + now.getDate().toString()
+    let time = now.toLocaleString().split(', ')[1].slice(-8, -3)
+    let logoSource = connected ? 'wifi' : 'wifi_off'
+    let message = connected ? 'Соединение восстановлено' : 'Соединение разорвано'
+    showNotifications(logoSource, message, 'AREA', date, time)
 }
