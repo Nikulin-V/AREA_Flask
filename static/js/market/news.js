@@ -24,73 +24,100 @@ function updatePage() {
 main = document.getElementsByTagName('main')[0]
 function addNews(page=0) {
     if (!was_end)
-    news.get(page, function (data) {
-        if (data['news']) {
-            newsList = data['news']
-            for (newsId = 0; newsId < newsList.length; newsId++) {
-                n = Object(newsList[newsId])
-                if (n.picture)
-                    picture = `<img id="${ n.id }-picture" src="${ n.picture }" alt="Неверная ссылка на изображение новости" class="rounded img-fluid mx-auto d-block">`
-                else
-                    picture = ''
-                if (n.canEdit)
-                    authorButtons = `
-                                    <div style="display: inline-flex">
-                                        <button onclick="deleteNews('${ n.id }')" class="btn btn-outline-danger btn-delete btn-icon"><span class="material-icons md-red">clear</span></button>
-                                        <button onclick="editNews('${ n.id }')" class="btn btn-outline-warning btn-edit btn-icon"><span class="material-icons-round md-yellow">edit</span></button>
-                                    </div>`
-                else authorButtons = ''
-                likes = parseInt(n.likes) > 0 ? " " + n.likes.toString() : ""
-                main.innerHTML = main.innerHTML +
-                `
-                <div class="news" id="${ n.id }" style="border: 1px solid black; border-radius: 5px; margin-bottom: 5px; padding: 5px 5px 0 5px">
-                    <table style="width: 100%; border: 0">
-                        <tr style="border: 0">
-                            <td rowspan="2" style="text-align: left; border: 0; word-wrap: anywhere">
-                                <h4 id="${ n.id }-title">${ n.title }</h4>
-                            </td>
-                            <td style="text-align: right; border: 0">
-                                <p style="margin-bottom: 0"><small>${ n.author }</small></p>
-                            </td>
-                        </tr>
-                        <tr style="border: 0">
-                            <td style="text-align: right; border: 0">
-                                <p style="margin-bottom: 0"><small> ${ n.date }</small></p>
-                            </td>
-                        </tr>
-                    </table>
-                    <p id="${ n.id }-text" style="word-break: break-all; white-space: pre-wrap">${ n.message }</p>
-                    ${ picture }
+        news.get(page, function (data) {
+            if (data['news']) {
+                const newsList = data['news']
+                for (newsId = 0; newsId < newsList.length; newsId++) {
+                    const n = Object(newsList[newsId])
+                    if (n.picture)
+                        picture = `<img id="${n.id}-picture" src="${n.picture}" alt="Неверная ссылка на изображение новости" class="rounded img-fluid mx-auto d-block">`
+                    else
+                        picture = ''
+                    if (n.canEdit)
+                        authorButtons = `
+                                <div style="display: inline-flex">
+                                    <button onclick="deleteNews('${n.id}')" class="btn btn-outline-danger btn-delete btn-icon"><span class="material-icons md-red">clear</span></button>
+                                    <button onclick="editNews('${n.id}')" class="btn btn-outline-warning btn-edit btn-icon"><span class="material-icons-round md-yellow">edit</span></button>
+                                </div>`
+                    else authorButtons = ''
+                    likes = parseInt(n.likes) > 0 ? " " + n.likes.toString() : ""
+                    newsFooter = window.isMobile ? `
+                    <table style="width: 100%; border: 0; margin: 5px 0">
+                            <tr style="border: 0">
+                                <td rowspan="2" style="text-align: left; border: 0; width: 1%">
+                                    ${authorButtons}
+                                </td>
+                                <td style="border: 0">
+                                    <p style="margin-bottom: 0; font-size: .7em; text-align: center">
+                                        ${n.author}
+                                    </p>
+                                </td>
+                                <td rowspan="2" style="text-align: right; border: 0; width: 1px">
+                                    <button id="${n.id}-like" onclick="like('${n.id}')" class="btn btn-outline-danger btn-like btn-icon">
+                                        <span id="${n.id}-like-symbol" class="material-icons-round md-red">favorite${n.isLiked ? "" : "_border"}</span>
+                                        <span id="${n.id}-like-counter" class="btn-icon-text">${likes}</span>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr style="border: 0">
+                                <td style="border: 0">
+                                    <p style="margin-bottom: 0; font-size: .7em; text-align: center">${n.date}</p>
+                                </td>
+                            </tr>
+                        </table>
+                    ` : `
                     <table style="width: 100%; border: 0; margin: 5px 0">
                         <tr style="font-size: 1em; border: 0">
                             <td style="text-align: left; border: 0">
-                                ${ authorButtons }
+                                ${authorButtons}
                             </td>
                             <td style="text-align: right; border: 0">
-                                <button id="${ n.id }-like" onclick="like('${ n.id }')" class="btn btn-outline-danger btn-like btn-icon">
-                                    <span id="${ n.id }-like-symbol" class="material-icons-round md-red">favorite${ n.isLiked ? "" : "_border" }</span>
-                                    <span id="${ n.id }-like-counter" class="btn-icon-text">${ likes }</span>
+                                <button id="${n.id}-like" onclick="like('${n.id}')" class="btn btn-outline-danger btn-like btn-icon">
+                                    <span id="${n.id}-like-symbol" class="material-icons-round md-red">favorite${n.isLiked ? "" : "_border"}</span>
+                                    <span id="${n.id}-like-counter" class="btn-icon-text">${likes}</span>
                                 </button>
                             </td>
                         </tr>
                     </table>
-                </div>
-                `
-            }
-        } else {
-            was_end = true
-            if (k === 0)
-                main.insertAdjacentHTML('beforeend',
                     `
+                    main.innerHTML = main.innerHTML +
+                        `
+                        <div class="news" id="${n.id}" style="border: 1px solid black; border-radius: 5px; margin-bottom: 5px; padding: 5px 5px 0 5px">
+                            <table style="width: 100%; border: 0">
+                                <tr style="border: 0">
+                                    <td rowspan="2" style="text-align: left; border: 0; word-wrap: anywhere">
+                                        <h4 id="${n.id}-title">${n.title}</h4>
+                                    </td>
+                                    <td style="text-align: right; border: 0">
+                                        <p style="margin-bottom: 0"><small>${n.author}</small></p>
+                                    </td>
+                                </tr>
+                                <tr style="border: 0">
+                                    <td style="text-align: right; border: 0">
+                                        <p style="margin-bottom: 0"><small> ${n.date}</small></p>
+                                    </td>
+                                </tr>
+                            </table>
+                            <p id="${n.id}-text" style="word-break: break-all; white-space: pre-wrap">${n.message}</p>
+                            ${picture}
+                            ${newsFooter}
+                        </div>
+                        `
+                }
+            } else {
+                was_end = true
+                if (k === 0)
+                    main.insertAdjacentHTML('beforeend',
+                        `
                         <table class="dairy-table table-hover table-info">
                             <tr style="background-color: #86CFDA">
                                 <td style="text-align: center;padding: 5px">Новостей нет</td>
                             </tr>
                         </table>
                     `)
-        }
-        k += 1
-    })
+            }
+            k += 1
+        })
 }
 
 function createNews() {
@@ -99,6 +126,9 @@ function createNews() {
             <div class="form-floating">
                 <input id="title-input" class="form-control" placeholder="Заголовок" onclick="valid(this)" autocomplete="off">
                 <label for="title-input">Заголовок</label>
+                <div class="invalid-feedback">
+                    Необходимо указать заголовок
+                </div>
             </div>
             <br>
             <div class="form-floating">
@@ -140,7 +170,6 @@ function createNews() {
     button.onclick = function () {
         const title = document.getElementById('title-input').value
         if (title) {
-
             if (document.getElementById('image-input').files.length === 0) {
                 const text = document.getElementById('text-input').value
                 const author = document.getElementById('author-select')
@@ -163,7 +192,7 @@ function createNews() {
                         if (data["code"] === 1001) {
                             document.getElementById('image-feedback').textContent = "Неверный или небезопасный формат файла"
                         }
-                        progressBarBack.style.display="none"
+                        progressBarBack.style.display = "none"
                         progressBar.style.width = "0%"
                         progressBar.setAttribute("aria-valuemin", "0")
                         button.style.removeProperty("display")
@@ -180,7 +209,7 @@ function createNews() {
                 }, () => {
                     document.getElementById('image-input').classList.add('is-invalid')
                     document.getElementById('image-feedback').textContent = "Файл слишком большой, пожалуйста выберите файл менее 32МБ"
-                    progressBarBack.style.display="none"
+                    progressBarBack.style.display = "none"
                     progressBar.style.width = "0%"
                     progressBar.setAttribute("aria-valuemin", "0")
                     button.style.removeProperty("display")
@@ -193,7 +222,7 @@ function createNews() {
     showModal(message, 'Новый пост', [button, progressBarBack])
 }
 
-function fillAuthors (selectedValue=null) {
+function fillAuthors(selectedValue = null) {
     stocks.get(
         function () {
             stocksJson = stocks.getJson['stocks']
@@ -224,6 +253,9 @@ function editNews(id) {
             <div class="form-floating">
                 <input id="title-input" class="form-control" placeholder="Заголовок" value="${title}" onclick="valid(this)" autocomplete="off">
                 <label for="title-input">Заголовок</label>
+                <div class="invalid-feedback">
+                    Необходимо указать заголовок
+                </div>
             </div>
             <br>
             <div class="form-floating">
@@ -287,7 +319,7 @@ function editNews(id) {
                         if (data["code"] === 1001) {
                             document.getElementById('image-feedback').textContent = "Неверный или небезопасный формат файла"
                         }
-                        progressBarBack.style.display="none"
+                        progressBarBack.style.display = "none"
                         progressBar.style.width = "0%"
                         progressBar.setAttribute("aria-valuemin", "0")
                         button.style.removeProperty("display")
@@ -301,7 +333,7 @@ function editNews(id) {
                 }, () => {
                     document.getElementById('image-input').classList.add('is-invalid')
                     document.getElementById('image-feedback').textContent = "Файл слишком большой, пожалуйста выберите файл менее 32МБ"
-                    progressBarBack.style.display="none"
+                    progressBarBack.style.display = "none"
                     progressBar.style.width = "0%"
                     progressBar.setAttribute("aria-valuemin", "0")
                     button.style.removeProperty("display")
@@ -309,7 +341,7 @@ function editNews(id) {
             }
         } else document.getElementById('title-input').classList.add('is-invalid')
     }
-    showModal(message, 'Изменение поста', noImage? [button, progressBarBack] : [btnClear, button, progressBarBack])
+    showModal(message, 'Изменение поста', noImage ? [button, progressBarBack] : [btnClear, button, progressBarBack])
 }
 
 function deleteNews(id) {

@@ -1,13 +1,19 @@
-<!--suppress ALL -->
 {% extends "edu/base.html" %}
 
 {% block content %}
-    <br>
-    <h1 style="text-align:center ">{{ title }}</h1>
+    {% if not request.MOBILE %}
+        <br>
+        <h1 style="text-align:center ">{{ title }}</h1>
+    {% else %}
+        <h3>{{ title }}</h3>
+    {% endif %}
     {% for day_id in range(days|length) %}
 
         <table class="dairy-table table-hover table-info">
         <caption style="caption-side: top">{{ dates[day_id] + ', ' + days[day_id] }}</caption>
+        {% if request.MOBILE %}
+            <tbody style="font-size: .9em">
+        {% endif %}
             {% if schedule[days[day_id]] %}
                 {% for data_id in range(schedule[days[day_id]]|length) %}
 
@@ -29,6 +35,9 @@
                 <tr>
                     <td style="text-align: center;">Нет расписания</td>
                 </tr>
+            {% endif %}
+            {% if request.MOBILE %}
+                </tbody>
             {% endif %}
         </table>
         <p></p>

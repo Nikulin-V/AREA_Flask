@@ -1,7 +1,6 @@
 #  Nikulin Vasily © 2021
 from flask import redirect, render_template, request
 from flask_login import current_user, login_user
-from flask_mobility.decorators import mobile_template
 
 from area import area
 from data import db_session
@@ -15,8 +14,7 @@ from tools.url import url
 
 
 @area.route('/register', methods=['GET', 'POST'])
-@mobile_template('area/{mobile/}register.html')
-def register(template: str):
+def register():
     if current_user.is_authenticated:
         return redirect('/profile')
 
@@ -29,14 +27,14 @@ def register(template: str):
 
     if form.validate_on_submit():
         if form.password.data != form.password_again.data:
-            return render_template(template,
+            return render_template("area/register.html",
                                    title='Регистрация',
                                    form=form,
                                    message="Пароли не совпадают",
                                    btn_label='Войти')
 
         if db_sess.query(User).filter(User.email == form.email.data).first():
-            return render_template(template,
+            return render_template("area/register.html",
                                    title='Регистрация',
                                    form=form,
                                    message="Такой пользователь уже есть",
@@ -64,7 +62,7 @@ def register(template: str):
         session.players_ids = ';'.join(session.players_ids.split(';') + [str(current_user.id)])
         redirect(url(request.args.get('redirect_page') or ".profile"))
 
-    return render_template(template,
+    return render_template("area/register.html",
                            title='Регистрация',
                            form=form,
                            btn_label='Войти')

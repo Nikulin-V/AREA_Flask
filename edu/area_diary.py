@@ -3,7 +3,6 @@ from datetime import date
 
 from flask import render_template
 from flask_login import login_required, current_user
-from flask_mobility.decorators import mobile_template
 
 from data import db_session
 from data.db_functions import repair_dependencies_students_and_groups
@@ -14,9 +13,8 @@ from edu import edu
 
 
 @edu.route('/area-diary')
-@mobile_template('edu/{mobile/}area-diary.html')
 @login_required
-def area_diary(template):
+def area_diary():
     repair_dependencies_students_and_groups()
     db_sess = db_session.create_session()
     days = ['пн', 'вт', 'ср', 'чт', 'пт', 'сб']
@@ -58,7 +56,7 @@ def area_diary(template):
             if homeworks:
                 homework[days[day_n]][lesson_n - 1] = homeworks
     dates = [str(begin_date.day + i).rjust(2, '0') for i in range(6)]
-    return render_template(template,
+    return render_template("edu/area_diary.html",
                            title='Дневник AREA',
                            schedule=schedule,
                            homework=homework,

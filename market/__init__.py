@@ -14,3 +14,4 @@ from .game_panel import game_panel
 from .sessions import sessions
 from .user_panel import user_panel
 from .voting import stockholders_voting
+from .errors import error_page

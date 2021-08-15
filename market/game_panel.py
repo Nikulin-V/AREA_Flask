@@ -1,7 +1,6 @@
 #  Nikulin Vasily © 2021
 from flask import render_template, abort
 from flask_login import login_required
-from flask_mobility.decorators import mobile_template
 
 from data import db_session
 from data.config import Constant
@@ -11,11 +10,10 @@ from market import market
 
 
 @market.route('/game-panel', methods=['GET', 'POST'])
-@mobile_template('market/{mobile/}session-panel.html')
 @login_required
-def game_panel(template):
+def game_panel():
     if 'Admin' not in get_game_roles():
-        abort(404)
+        abort(403)
 
     db_sess = db_session.create_session()
 
@@ -61,7 +59,7 @@ def game_panel(template):
     if not form.start_stocks.data:
         form.start_stocks.data = get_constant('START_STOCKS')
 
-    return render_template(template,
+    return render_template("market/session_panel.html",
                            title='Управление фондовой биржей',
                            message=message,
                            form=form)

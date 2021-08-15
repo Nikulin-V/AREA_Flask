@@ -1,7 +1,6 @@
 #  Nikulin Vasily © 2021
 from flask import render_template, redirect, request
 from flask_login import login_required, current_user
-from flask_mobility.decorators import mobile_template
 
 from area import area
 from data import db_session
@@ -13,9 +12,8 @@ from tools.url import url
 
 
 @area.route('/profile', methods=['GET', 'POST'])
-@mobile_template('area/{mobile/}profile.html')
 @login_required
-def profile(template: str):
+def profile():
     form = ProfileForm()
     db_sess = db_session.create_session()
     user = current_user
@@ -75,7 +73,7 @@ def profile(template: str):
     else:
         date = date.strftime('%d.%m.%Y')
 
-    return render_template(template,
+    return render_template("area/profile.html",
                            title='Профиль',
                            form=form,
                            message=message,
