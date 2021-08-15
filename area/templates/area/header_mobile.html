@@ -1,0 +1,48 @@
+<nav class="navbar navbar-expand-lg" style="padding: 0; height: auto">
+    <div class="hamburger-menu">
+        <input id="menu__toggle" type="checkbox"/>
+        <label class="menu__btn" for="menu__toggle">
+            <span></span>
+        </label>
+        <ul class="menu__box" style="padding-left: 0">
+            <li>
+                <a class="menu__item" id="menu-item" href="{{ url('area.index') }}"
+                   style="color: black; font-size: 1.5em">
+                    <img id="logo-header" src="{{ url('static', filename='images/Wolf.png') }}"
+                         alt="Logo">
+                    AREA
+                </a>
+            </li>
+            {% block header_content %}
+                <li>
+                    <a class="menu__item" href="{{ url('area.index') }}">Главная</a>
+                </li>
+                <li>
+                    <a class="menu__item" href="{{ url('area.privacy_policy') }}">Политика
+                        конфиденциальности</a>
+                </li>
+            {% endblock header_content %}
+        </ul>
+    </div>
+
+    {% if current_user.is_authenticated %}
+        <div class="navbar-right" style="padding: 5px">
+            <a id="username" class="btn btn-info dropdown-toggle" data-bs-toggle="dropdown">
+                {{ current_user.surname + ' ' + current_user.name }}
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton"
+                style="right: 5px; left: auto; text-align: center;">
+                <li><a class="dropdown-item" href="{{ url('.profile') }}">Профиль</a></li>
+                <li><a class="dropdown-item" href="{{ url('.logout') }}">Выйти</a></li>
+            </ul>
+        </div>
+
+    {% else %}
+        <div class="navbar-right" style="padding: 5px">
+            <a id="sign-in-btn" class="btn btn-info" href="{{ url('.login') }}">Вход</a>
+            <a id="sign-up-btn" class="btn btn-info"
+               href="{{ url('.register') }}">Регистрация
+            </a>
+        </div>
+    {% endif %}
+</nav>

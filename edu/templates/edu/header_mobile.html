@@ -1,0 +1,17 @@
+{% extends "area/header_mobile.html" %}
+
+{% block header_content %}
+    <li>
+        <a class="menu__item" href="{{ url('.index') }}">Главная</a>
+    </li>
+    {% if current_user.is_authenticated %}
+        {% if 'Ученик' in current_user.role %}
+            <li>
+                <a class="menu__item" href="{{ url('.area_diary') }}">Дневник AREA</a>
+            </li>
+            <li>
+                <a class="menu__item" href="{{ url('.epos_diary') }}">Дневник ЭПОСа</a>
+            </li>
+        {% endif %}
+    {% endif %}
+{% endblock %}

@@ -1,16 +1,18 @@
-<!--suppress ALL -->
 {% extends "edu/base.html" %}
 
 {% block content %}
-    <h1 style="text-align: center">{{ title }}</h1>
+    {% if not request.MOBILE %}
+        <h1 style="text-align:center ">{{ title }}</h1>
+    {% else %}
+        <h3>{{ title }}</h3>
+    {% endif %}
     {% for day in schedule.keys() %}
-
         <table class="dairy-table table-hover table-info">
         <caption style="caption-side: top">{{ day }}</caption>
-            <tbody style="font-size: .9em">
+            {% if not request.MOBILE %}
+                <tbody style="font-size: .9em">
                 {% if schedule[days[day_id]] %}
                     {% for data_id in range(schedule[days[day_id]]|length) %}
-
                         <tr>
                             <td style="width: 15px; text-align: center; padding: 0 5px 0 5px">{{ loop.index }}</td>
                             <td style="width: 20%;text-align: center">{{ schedule[days[day_id]][data_id][0] }}</td>
@@ -23,16 +25,35 @@
                                 {% endfor %}
                             </td>
                         </tr>
-
                     {% endfor %}
                 {% else %}
                     <tr>
                         <td style="text-align: center;">Нет расписания</td>
                     </tr>
                 {% endif %}
-            </tbody>
+                </tbody>
+            {% else %}
+                {% if schedule[day]['lessons'] %}
+                    {% for lesson_id in range(schedule[day]['lessons']|length) %}
+
+                        <tr id="row">
+                            <td style="width: 15px; text-align: center">{{ loop.index }}</td>
+                            <td style="width: 20%;text-align: center">
+                                {{ schedule[day]['lessons'][lesson_id] }}</td>
+                            {% if schedule[day]['homeworks'][lesson_id] %}
+                                <td style="padding-left: 20px">{{ schedule[day]['homeworks'][lesson_id] }}</td>
+                            {% else %}
+                                <td></td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr id="row">
+                        <td style="text-align: center;">Нет расписания</td>
+                    </tr>
+                {% endif %}
+            {% endif %}
         </table>
         <p></p>
-
     {% endfor %}
 {% endblock %}

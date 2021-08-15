@@ -1,7 +1,6 @@
 #  Nikulin Vasily © 2021
 from flask import redirect, render_template, request
 from flask_login import current_user, login_user, login_required, logout_user
-from flask_mobility.decorators import mobile_template
 
 from area import area
 from data import db_session
@@ -13,8 +12,7 @@ from tools.url import url
 
 
 @area.route('/login', methods=['GET', 'POST'])
-@mobile_template('area/{mobile/}login.html')
-def login(template: str):
+def login():
     if current_user.is_authenticated:
         return redirect(url('.profile'))
 
@@ -25,18 +23,18 @@ def login(template: str):
         user: User
         user = db_sess.query(User).filter(User.email == form.email.data).first()
         if not user:
-            return render_template(template,
+            return render_template("area/login.html",
                                    title='Авторизация',
                                    message="Вы не зарегистрированы в системе",
                                    form=form)
         if user.check_password(form.password.data):
             login_user(user, remember=form.remember_me.data)
             return redirect(url(request.args.get('redirect_page') or ".index"))
-        return render_template(template,
+        return render_template("area/login.html",
                                title='Авторизация',
                                message="Неправильный логин или пароль",
                                form=form)
-    return render_template(template,
+    return render_template("area/login.html",
                            title='Авторизация',
                            form=form)
 

@@ -1,20 +1,20 @@
 #  Nikulin Vasily © 2021
 from flask import render_template, abort
 from flask_login import current_user, login_required
-from flask_mobility.decorators import mobile_template
 
-from area import area
 from data import db_session
 from data.functions import get_game_roles
 from data.users import User
 from forms.user_management import UserManagementForm
+from market import market
 
 
 # noinspection PyArgumentList
-@area.route('/user-panel', methods=['GET', 'POST'])
-@mobile_template('area/{mobile/}user-panel.html')
+
+
+@market.route('/user-panel', methods=['GET', 'POST'])
 @login_required
-def user_panel(template):
+def user_panel():
     if 'Admin' not in get_game_roles():
         abort(404)
 
@@ -138,7 +138,7 @@ def user_panel(template):
                     form.email.data = user.email
                     form.role.data = user.role
 
-    return render_template(template,
+    return render_template("market/user_admin_panel.html",
                            title='Панель управления пользователями',
                            message=message,
                            form=form)

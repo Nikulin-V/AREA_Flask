@@ -1,6 +1,14 @@
 <!--suppress ALL -->
 {% extends "market/base.html" %}
 
+{% set width %}
+    {% if not request.MOBILE %}
+        75%
+    {% else %}
+        auto
+    {% endif %}
+{% endset %}
+
 {% block content %}
     <style>
         body {
@@ -12,10 +20,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap"
           rel="stylesheet">
     <div style="text-align: center;color: white;margin-top: 20px;text-shadow: 1px 1px 1px #000;">
-        <div style="font-size: 100px;">AREA</div>
-        <div style="font-size: 50px">of young brokers</div>
+        <div style="font-size: {{ "100px" if not request.MOBILE else "70px" }};">AREA</div>
+        <div style="font-size: {{ "50px" if not request.MOBILE else "30px" }}">of young brokers</div>
     </div>
-    <div style="padding: 5px;color:white; font-family: Montserrat, monospace; font-weight: 500; vertical-align: baseline;width: 70%;background-color: rgba(0,0,0,.3);border: 3px solid white;display: block;border-radius: 10px; margin: 30px auto auto;text-align: justify;">
+    <div style="{{ "font-size: .7em;" if request.MOBILE }}padding: 5px;color:white; font-family: Montserrat, monospace; font-weight: 500; vertical-align: baseline;width: {{ width }};background-color: rgba(0,0,0,.3);border: 3px solid white;display: block;border-radius: 10px; margin: 30px auto auto;text-align: justify;">
         <p style="margin: 5px;">Этот сервис позволяет вам познакомиться с основами фондового рынка. В частности, с торговлей акциями.</p>
         <p style="margin: 5px;">Здесь вы можете создавать компании или ОАО и управлять ими, выпускать новые акции
             и продавать их на торговой площадке, увеличивая баланс на своём счёте.
@@ -26,11 +34,11 @@
         </p>
         <p style="margin: 5px;">Прежде чем начать - прочитайте правила. Мы старались сделать их максимально интересными.</p>
     </div>
-    <div style="padding: 5px 10px 5px 5px;color:white; font-family: Montserrat, monospace; font-weight: 500; vertical-align: baseline;width: 80%;background-color: rgba(0,0,0,0.65);border: 3px solid white;display: block;border-radius: 10px; margin: 30px auto auto;text-align: justify;">
+    <div style="{{ "font-size: .7em;" if request.MOBILE }}padding: 5px 10px 5px 5px;color:white; font-family: Montserrat, monospace; font-weight: 500; vertical-align: baseline;width: {{ width }};background-color: rgba(0,0,0,0.65);border: 3px solid white;display: block;border-radius: 10px; margin: 30px auto auto;text-align: justify;">
         <p style="margin: 5px;text-align: center">Правила торговли на фондовой бирже</p>
 
-        <p style="margin: 5px;text-indent: 10px">Термины и сокращения:</p>
-        <p style="margin: 5px;padding-left: 50px">
+        <p style="margin: 5px{{ ";text-indent: 10px" if not request.MOBILE }}">Термины и сокращения:</p>
+        <p style="margin: 5px;padding-left: {{ "50px" if not request.MOBILE else "w0px" }}">
             <span data-toggle="tooltip" data-placement="top" title="Внутриигровая фондовая биржа"><span class="material-icons md-white">trending_up</span></span> - Внутриигровая фондовая биржа<br>
             <span data-toggle="tooltip" data-placement="top" title="Администратор фондовой биржи"><span class="material-icons md-blue">self_improvement</span></span> - Администратор фондовой биржи<br>
             <span data-toggle="tooltip" data-placement="top" title="Игрок фондовой биржи"><span class="material-icons md-player">hiking</span></span> - Игрок фондовой биржи<br>
@@ -42,8 +50,8 @@
             Месяц - Интервал реального времени, является Константой
         </p>
 
-        <p style="margin: 5px;text-indent: 10px">Порядок игры:</p>
-        <div style="padding-left: 50px">
+        <p style="margin: 5px{{ ";text-indent: 10px" if not request.MOBILE }}">Порядок игры:</p>
+        <div style="padding-left: {{ "50px" if not request.MOBILE else "20px" }}">
             <p style="margin: 5px">1. Выберите или создайте <span data-toggle="tooltip" data-placement="top" title="Внутриигровая фондовая биржа"><span class="material-icons md-white">trending_up</span></span> в разделе "Фондовые биржи". В случае создания <span data-toggle="tooltip" data-placement="top" title="Внутриигровая фондовая биржа"><span class="material-icons md-white">trending_up</span></span>, Вы станете её <span data-toggle="tooltip" data-placement="top" title="Администратор фондовой биржи"><span class="material-icons md-blue">self_improvement</span></span>.</p>
             <p style="margin: 5px">2. При Вашем первом посещении <span data-toggle="tooltip" data-placement="top" title="Торговая площадка"><span class="material-icons md-cart">shopping_cart</span></span> создаётся кошелёк со стартовой суммой, которая является Константой.</p>
             <p style="margin: 5px">3. В целях получения прибыли Вы можете открыть компанию в разделе "Компании". Чтобы открыть компанию Вам необходимо будет заплатить взнос, который является Константой. После открытия компании у Вас появится определенное количество акций, которое является Константой.</p>
@@ -60,8 +68,8 @@
             <p style="margin: 5px">14. Удачной игры. Ни кризиса, ни инфляции!</p>
         </div>
 
-        <p style="margin: 5px;text-indent: 10px; margin-top: 30px">Администрирование:</p>
-        <div style="padding-left: 50px">
+        <p style="margin: 5px{{ ";text-indent: 10px" if not request.MOBILE }}; margin-top: 30px">Администрирование:</p>
+        <div style="padding-left: {{ "50px" if not request.MOBILE else "20px" }}">
             <p style="margin: 5px">1. В обязанности <span data-toggle="tooltip" data-placement="top" title="Администратор фондовой биржи"><span class="material-icons md-blue">self_improvement</span></span> входит: первоначальная настройка <span data-toggle="tooltip" data-placement="top" title="Внутриигровая фондовая биржа"><span class="material-icons md-white">trending_up</span></span>, назначение ролей пользователям, модерирование новостей, остановка игры (например, для подведения результатов).</p>
             <p style="margin: 5px">2. Первоначальная настройка <span data-toggle="tooltip" data-placement="top" title="Внутриигровая фондовая биржа"><span class="material-icons md-white">trending_up</span></span>. В разделе "Панель управления" -> "Управление фондовой биржей" <span data-toggle="tooltip" data-placement="top" title="Администратор фондовой биржи"><span class="material-icons md-blue">self_improvement</span></span> может настроить Константы, а также приостановить игру.</p>
             <p style="margin: 5px">3. Назначение ролей пользователям. В разделе "Панель управления" -> "Управление пользователями" <span data-toggle="tooltip" data-placement="top" title="Администратор фондовой биржи"><span class="material-icons md-blue">self_improvement</span></span> может назначить роли пользователям. Внимание: При удалении пользователя нельзя вернуть ему его акции, а при удалении ролей акции пользователя остаются на <span data-toggle="tooltip" data-placement="top" title="Внутриигровая фондовая биржа"><span class="material-icons md-white">trending_up</span></span> (пользователь лишь теряет доступ к <span data-toggle="tooltip" data-placement="top" title="Внутриигровая фондовая биржа"><span class="material-icons md-white">trending_up</span></span> до назначения ему роли "Игрок")</p>

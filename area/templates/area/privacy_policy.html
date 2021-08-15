@@ -1,12 +1,13 @@
-<!--suppress ALL -->
-{% extends "area/mobile/base.html" %}
+{% extends "area/base.html" %}
 
 {% block content %}
     <style>
         .privacy-ol {
-           list-style: none;
-           counter-reset: li;
-            padding-left: 10px;
+            list-style: none;
+            counter-reset: li;
+            {% if request.MOBILE %}
+                padding-left: 10px;
+            {% endif %}
         }
 
         .privacy-li:before {
@@ -14,18 +15,25 @@
             content: counters(li, ".") ". ";
         }
 
-        main {
-            padding: 0 !important;
-        }
+        {% if request.MOBILE %}
+            main {
+                padding: 0 !important;
+            }
+        {% endif %}
 
         body {
             background-image: url({{ url('static', filename='images/index-background.jpg') }});
             background-attachment: fixed;
         }
     </style>
-    <h2 style="margin: 10px; color: white; text-align: center;">Политика конфиденциальности</h2>
-    <div style="background-color: white; padding: 5px 10px; margin: 0 15px 0 15px; font-size: .7em;">
-        <h6>Политика в отношении обработки персональных данных</h6>
+    {% if not request.MOBILE %}
+        <h1 style="margin: 70px; color: white; text-align: center;">Политика конфиденциальности</h1>
+        <div style="background-color: white; padding: 20px 40px;">
+    {% else %}
+        <h2 style="margin: 10px; color: white; text-align: center;">Политика конфиденциальности</h2>
+        <div style="background-color: white; padding: 5px 10px; margin: 0 15px 0 15px; font-size: .7em;">
+    {% endif %}
+    <h6>Политика в отношении обработки персональных данных</h6>
         <ol class="privacy-ol">
 
             <li class="privacy-li">Общие положения

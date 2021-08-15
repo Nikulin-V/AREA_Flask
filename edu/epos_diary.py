@@ -1,7 +1,6 @@
 #  Nikulin Vasily © 2021
 from flask import abort, render_template
 from flask_login import login_required, current_user
-from flask_mobility.decorators import mobile_template
 
 from edu import edu
 from tools.epos import EPOS
@@ -10,9 +9,8 @@ epos = EPOS()
 
 
 @edu.route('/epos-diary')
-@mobile_template('edu/{mobile/}epos-diary.html')
 @login_required
-def epos_diary(template):
+def epos_diary():
     if not current_user.is_authenticated:
         abort(401)
 
@@ -35,7 +33,7 @@ def epos_diary(template):
 
     days = ['пн', 'вт', 'ср', 'чт', 'пт', 'сб']
 
-    return render_template(template,
+    return render_template("edu/epos_diary.html",
                            title='Дневник ЭПОСа',
                            schedule=schedule,
                            days=days)

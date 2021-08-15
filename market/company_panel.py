@@ -1,7 +1,6 @@
 #  Nikulin Vasily © 2021
 from flask import render_template, abort
 from flask_login import login_required
-from flask_mobility.decorators import mobile_template
 
 from data import db_session
 from data.companies import Company
@@ -15,11 +14,10 @@ from market import market
 
 # noinspection PyArgumentList
 @market.route('/company-panel', methods=['GET', 'POST'])
-@mobile_template('market/{mobile/}company-panel.html')
 @login_required
-def company_panel(template):
+def company_panel():
     if 'Admin' not in get_game_roles():
-        abort(404)
+        abort(403)
 
     db_sess = db_session.create_session()
 
@@ -108,7 +106,7 @@ def company_panel(template):
                 db_sess.commit()
                 message = 'Все компании удалены'
 
-    return render_template(template,
+    return render_template("market/company_panel.html",
                            title='Панель управления компаниями',
                            message=message,
                            form=form)

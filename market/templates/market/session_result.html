@@ -1,8 +1,11 @@
-<!--suppress ALL -->
-{% extends "market/mobile/base.html" %}
+{% extends "market/base.html" %}
 
 {% block content %}
-    <h3>{{ title }}</h3>
+    {% if not request.MOBILE %}
+        <h1>{{ title }}</h1>
+    {% else %}
+        <h3>{{ title }}</h3>
+    {% endif %}
     {% if game_role() %}
         {% if wallets %}
             <table class="dairy-table table-hover table-info">

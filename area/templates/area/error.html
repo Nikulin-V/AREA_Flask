@@ -1,0 +1,18 @@
+{% if not request.MOBILE %}
+    <script type="text/javascript" src="{{ url('static', filename='js/error-page.js') }}"></script>
+    <div class="parallax" id="office-background"></div>
+    <div class="parallax" id="logo-background"></div>
+{% endif %}
+<div class="parallax" id="error-block">
+    <h4 id="error-code">Ошибка {{ code }}</h4>
+    {% if not request.MOBILE %}
+        <h2 id="error-title">{{ title }}</h2>
+    {% else %}
+        <h4 id="error-title">{{ title }}</h4>
+    {% endif %}
+    <p id="error-message">{{ message|safe }}</p>
+</div>
+{% if code == 401 %}
+    <meta http-equiv="refresh"
+          content="3; url={{ url('area.login') + '?redirect_page=' + request.endpoint }}">
+{% endif %}
