@@ -1,7 +1,7 @@
 #  Nikulin Vasily © 2021
+
 from flask_login import current_user, login_required
 
-from api import api, sock
 from config import FEE_FOR_STOCK, GAME_RUN, START_STOCKS, NEW_COMPANY_FEE, START_WALLET_MONEY
 from data import db_session
 from data.companies import Company
@@ -15,10 +15,11 @@ from data.transactions import Transaction
 from data.users import User
 from data.votes import Vote
 from data.wallets import Wallet
+from market.api import api, socket
 from tools.tools import fillJson, send_response
 
 
-@sock.on('getSessions')
+@socket.on('getSessions')
 @api.route('/api/sessions', methods=['GET'])
 @login_required
 def getSessions(json=None):
@@ -81,14 +82,14 @@ def getSessions(json=None):
             'currentSession': {
                 'id': current_session.id,
                 'title': current_session.title
-                },
+            },
             'isAdmin': str(current_user.id) in str(current_session.admins_ids).split(';')
         }
     )
 
 
 # noinspection PyArgumentList
-@sock.on('createSession')
+@socket.on('createSession')
 @api.route('/api/sessions', methods=['POST'])
 @login_required
 def createSession(json=None):
@@ -180,7 +181,7 @@ def createSession(json=None):
     )
 
 
-@sock.on('editSession')
+@socket.on('editSession')
 @api.route('/api/sessions', methods=['PUT'])
 @login_required
 def editSession(json=None):
@@ -244,7 +245,7 @@ def editSession(json=None):
     )
 
 
-@sock.on('deleteSession')
+@socket.on('deleteSession')
 @api.route('/api/sessions', methods=['DELETE'])
 @login_required
 def deleteSession():

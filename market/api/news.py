@@ -7,7 +7,6 @@ from flask import request, abort, jsonify
 from flask_login import current_user, login_required
 from werkzeug.utils import secure_filename
 
-from api import sock, api
 from config import NEWS_PER_PAGE, ALLOWED_EXTENSIONS, icons
 from data import db_session
 from data.functions import get_session_id, get_company_title, get_company_id
@@ -15,11 +14,12 @@ from data.news import News
 from data.scheduled_job import ScheduledJob
 from data.sessions import Session
 from data.users import User
+from market.api import api, socket
 from tools.tools import send_response, fillJson, safe_remove
 from tools.url import url
 
 
-@sock.on('getNews')
+@socket.on('getNews')
 @api.route('/api/news', methods=['GET'])
 @login_required
 def getNews(json=None):
@@ -89,7 +89,7 @@ def getNews(json=None):
     )
 
 
-@sock.on('createNews')
+@socket.on('createNews')
 @api.route('/api/news', methods=['POST'])
 @login_required
 def createNews(json=None):
@@ -108,7 +108,7 @@ def createNews(json=None):
             }
         )
 
-    if (json['imagePath'] is not None) and\
+    if (json['imagePath'] is not None) and \
             (not str(json['imagePath']).startswith(os.path.join("static", "images", "uploaded"))):
         return send_response(
             event_name,
@@ -157,6 +157,14 @@ def createNews(json=None):
     db_sess.add(news)
     db_sess.commit()
 
+    send_response(
+        event_name,
+        {
+            'message': 'Success',
+            'errors': []
+        }
+    )
+
     return send_response(
         'showNotifications',
         {
@@ -180,7 +188,7 @@ def createNews(json=None):
     )
 
 
-@sock.on('editNews')
+@socket.on('editNews')
 @api.route('/api/news', methods=['PUT'])
 @login_required
 def editNews(json=None):
@@ -298,7 +306,7 @@ def editNews(json=None):
     )
 
 
-@sock.on('deleteNews')
+@socket.on('deleteNews')
 @api.route('/api/news', methods=['DELETE'])
 @login_required
 def deleteNews(json=None):

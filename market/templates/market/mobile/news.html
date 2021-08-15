@@ -4,7 +4,7 @@
 {% block content %}
 
     <script>
-        const imageUploadEndpoint = "{{ url('api.uploadImage') }}"
+        const imageUploadEndpoint = "{{ url('market.market-market.market-api.uploadImage') }}"
     </script>
 
     <div style="position: sticky; top: 0; background-color: white">
@@ -28,10 +28,6 @@
         </table>
         <hr style="margin: 5px 0">
     </div>
-
-    <button id="news-update-btn" class="btn btn-secondary" onclick="window.location.reload()">
-        Свежие записи <span class="material-icons">update</span>
-    </button>
 
     <div class="text-center news">
         <div class="spinner-border text-info" role="status">

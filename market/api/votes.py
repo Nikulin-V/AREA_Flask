@@ -1,16 +1,16 @@
 #  Nikulin Vasily © 2021
 from flask_login import login_required, current_user
 
-from api import api, sock
 from config import sectors
 from data import db_session
 from data.companies import Company
 from data.functions import get_session_id, get_company_id
 from data.votes import Vote
+from market.api import api, socket
 from tools.tools import is_stockholder, fillJson, send_response
 
 
-@sock.on('getCompaniesVotes')
+@socket.on('getCompaniesVotes')
 @api.route('/api/votes', methods=['GET'])
 @login_required
 def getCompaniesVotes():
@@ -44,7 +44,7 @@ def getCompaniesVotes():
     return send_response(event_name, response)
 
 
-@sock.on('voteInCompaniesVoting')
+@socket.on('voteInCompaniesVoting')
 @api.route('/api/votes', methods=['PUT'])
 @login_required
 def voteInCompaniesVoting(json=None):
@@ -106,11 +106,11 @@ def voteInCompaniesVoting(json=None):
         Vote.session_id == get_session_id(),
         Vote.user_id == current_user.id
     ).all())) - \
-        sum(map(lambda x: x[0], db_sess.query(Vote.points).filter(
-          Vote.session_id == get_session_id(),
-          Vote.company_id == companyId,
-          Vote.user_id == current_user.id
-        )))
+                  sum(map(lambda x: x[0], db_sess.query(Vote.points).filter(
+                      Vote.session_id == get_session_id(),
+                      Vote.company_id == companyId,
+                      Vote.user_id == current_user.id
+                  )))
 
     if used_points + points > 100:
         return send_response(

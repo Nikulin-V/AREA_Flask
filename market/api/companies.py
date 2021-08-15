@@ -4,7 +4,6 @@ from datetime import datetime
 
 from flask_login import login_required, current_user
 
-from api import api, sock
 from config import sectors, icons
 from data import db_session
 from data.companies import Company
@@ -16,11 +15,12 @@ from data.stockholders_votes import SVote
 from data.stocks import Stock
 from data.votes import Vote
 from data.wallets import Wallet
+from market.api import api, socket
 from tools.tools import fillJson, send_response, deposit_wallet
 from tools.url import url
 
 
-@sock.on('createCompany')
+@socket.on('createCompany')
 @api.route('/api/companies', methods=['POST'])
 @login_required
 def createCompany(json=None):
@@ -131,6 +131,13 @@ def createCompany(json=None):
         wallet.money -= new_company_fee
         db_sess.merge(wallet)
         db_sess.commit()
+        send_response(
+            event_name,
+            {
+                'message': 'Success',
+                'errors': []
+            }
+        )
 
         return send_response(
             'showNotifications',
@@ -153,7 +160,7 @@ def createCompany(json=None):
         )
 
 
-@sock.on('getCompanies')
+@socket.on('getCompanies')
 @api.route('/api/companies', methods=['GET'])
 @login_required
 def getCompanies():
@@ -259,7 +266,7 @@ def deleteCompanyAction(event_name=None, companyId=None, companyTitle=None):
     )
 
 
-@sock.on('deleteCompany')
+@socket.on('deleteCompany')
 @api.route('/api/companies', methods=['DELETE'])
 @login_required
 def deleteCompany(json=None):

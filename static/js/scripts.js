@@ -15,14 +15,13 @@ dropdownElementList.map(function (dropdownToggleEl) {
 // }
 
 
-
 let myModal = document.getElementById('myModal');
 let myInput = document.getElementById('myInput');
 
 if (myModal && myInput) {
     myModal.addEventListener('shown.bs.modal', function () {
         myInput.focus()
-})
+    })
 }
 
 let modal_close_btn = document.getElementById('modal-close-btn')
@@ -55,11 +54,10 @@ if (homework_link) {
  * @param {boolean} isBuyMode
  */
 function showModal(message,
-                   title='Сообщение от сайта',
-                   buttons=null,
-                   isBuyMode=false)
-{
-    if (buttons === null){
+                   title = 'Сообщение от сайта',
+                   buttons = null,
+                   isBuyMode = false) {
+    if (buttons === null) {
         button = document.createElement('button')
         button.type = 'button'
         button.className = "btn btn-info"
@@ -121,6 +119,7 @@ function showModal(message,
         }
     }
 }
+
 function closeModal() {
     shadow = document.getElementsByClassName('modal-backdrop fade show')
     if (shadow.length > 0)
@@ -133,7 +132,7 @@ function createParagraph(message) {
     return p
 }
 
-function fillCompanies () {
+function fillCompanies() {
     stocksJson = stocks.getJson['stocks']
     for (companyId = 0; companyId < stocksJson.length; companyId++) {
         companyTitle = stocksJson[companyId]['company']
@@ -241,4 +240,9 @@ function showConnected(connected = true) {
     let logoSource = connected ? 'wifi' : 'wifi_off'
     let message = connected ? 'Соединение восстановлено' : 'Соединение разорвано'
     showNotifications(logoSource, message, 'AREA', date, time)
+}
+
+window.onunload = function () {
+    socket.disconnect()
+    socket.close()
 }

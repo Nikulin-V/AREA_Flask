@@ -1,7 +1,10 @@
 #  Nikulin Vasily © 2021
 from flask import Blueprint
 
+from .api import api, socket
+
 market = Blueprint('market', __name__, subdomain='market', template_folder='templates')
+market.register_blueprint(api)
 
 from .index import index
 from .companies import companies

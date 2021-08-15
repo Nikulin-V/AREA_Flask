@@ -42,7 +42,10 @@
     <link rel="stylesheet" href="{{ url('static', filename='css/light-footer.css') }}">
 
     <script>
-        let socket = io(window.location.origin, {secure: true, transports: ["polling"]});
+        let socket = io(window.location.origin, {
+            secure: true,
+            transports: ["polling"]
+        });
     </script>
     <script src="{{ url('static', filename='js/api/sessions.js') }}"></script>
     <script src="{{ url('static', filename='js/api/socket.js') }}"></script>

@@ -4,12 +4,14 @@
 {% block content %}
 
     <script>
-        const imageUploadEndpoint = "{{ url('api.uploadImage') }}"
+        const imageUploadEndpoint = "{{ url('market.market-api.uploadImage') }}"
     </script>
 
     <h3 style="text-align: center">{{ title }}</h3>
-    <h6 style="text-align: center">Взнос: {{ new_company_fee }}<span class="material-icons-round md-money">paid</span></h6>
-    <p style="font-size: .9em; text-align: center">Автоматически будет опубликована новость об открытии компании.</p>
+    <h6 style="text-align: center">Взнос: {{ new_company_fee }}<span
+            class="material-icons-round md-money">paid</span></h6>
+    <p style="font-size: .9em; text-align: center">Автоматически будет опубликована новость об
+        открытии компании.</p>
     <hr>
     <div class="form-floating">
         <select id="sector" class="form-select" type="text"></select>
@@ -29,11 +31,14 @@
     <br>
     <div class="mb-3">
         <label for="image-input">Логотип</label>
-        <input type="file" id="logo" name="illustration" class="form-control" placeholder="Логотип" accept="image/*" onclick="valid(this)" autocomplete="off">
+        <input type="file" id="logo" name="illustration" class="form-control" placeholder="Логотип"
+               accept="image/*" onclick="valid(this)" autocomplete="off">
         <div class="invalid-feedback" id="logo-feedback"></div>
     </div>
     <div class="progress" id="progressBarBack" style="display: none">
-        <div class="progress-bar progress-bar-striped progress-bar-animated" id="progressBar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
+        <div class="progress-bar progress-bar-striped progress-bar-animated" id="progressBar"
+             role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"
+             style="width: 0%"></div>
     </div>
     <br>
     <button class="btn btn-info" type="submit" onclick="createCompany(this)">Готово</button>
