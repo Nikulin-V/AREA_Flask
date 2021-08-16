@@ -3,7 +3,11 @@
 
 {% block content %}
     <div id="login-form">
-        <h1 style="text-align: center">{{ title }}</h1>
+        {% if not request.MOBILE %}
+            <h1 style="text-align: center">{{ title }}</h1>
+        {% else %}
+            <h3>{{ title }}</h3>
+        {% endif %}
         <br>
         <form action="" method="post">
             {{ form.hidden_tag() }}
@@ -25,8 +29,9 @@
                     </div>
                 {% endfor %}
             </div>
-            <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
-            <p>{{ form.submit(type="submit", class="btn btn-info") }}</p>
+            <div{% if request.MOBILE %}
+                style="width: 100vw"{% endif %}>{{ form.remember_me() }} {{ form.remember_me.label }}</div>
+            <div>{{ form.submit(type="submit", class="btn btn-info") }}</div>
         </form>
     </div>
     {% if message %}

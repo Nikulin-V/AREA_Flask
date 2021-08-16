@@ -4,7 +4,7 @@ from flask_cors import CORS
 
 from tools.io_blueprint import IOBlueprint
 
-api = Blueprint('area-api', __name__)
+api = Blueprint('api', __name__)
 CORS(api)
 socket = IOBlueprint()
 

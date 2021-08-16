@@ -1,12 +1,15 @@
-<!--suppress ALL -->
-{% extends "market/mobile/base.html" %}
+{% extends "market/base.html" %}
 
 {% block content %}
-    <h3>{{ title }}</h3>
+    {% if not request.MOBILE %}
+        <h1>{{ title }}</h1>
+    {% else %}
+        <h3>{{ title }}</h3>
+    {% endif %}
     {% if game_role() %}
         {% if wallets %}
             <table class="dairy-table table-hover table-info">
-            <caption style="caption-side: top">Итоговый баланс игроков</caption>
+                <caption style="caption-side: top">Итоговый баланс игроков</caption>
                 <tr style="background-color: #86CFDA">
                     <td style="text-align: center;padding: 5px">Место</td>
                     <td style="text-align: center;padding: 5px">Игрок</td>

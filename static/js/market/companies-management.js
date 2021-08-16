@@ -10,7 +10,7 @@ function renderPage() {
 }
 
 
-function createTable(){
+function createTable() {
 
     let main = document.getElementsByTagName('main')[0]
     votingsTable = document.getElementsByClassName('votings-table')
@@ -22,6 +22,8 @@ function createTable(){
 
         const table = main.appendChild(document.createElement('table'));
         table.className = "dairy-table table-hover table-info votings-table"
+        if (window.isMobile)
+            table.style.fontSize = ".7em"
         const caption = table.appendChild(document.createElement('caption'))
         caption.textContent = 'Голосования акционеров'
         caption.style.captionSide = "top"
@@ -31,7 +33,7 @@ function createTable(){
 
         let votesJson = svotes.getJson["votes"]
         tableData = []
-        for (i = 0;i < votesJson.length;i++) {
+        for (i = 0; i < votesJson.length; i++) {
             v = votesJson[i]
             if (v["is_voted"] === true)
                 v["is_voted"] = '<span class="material-icons md-green" style="vertical-align: middle">check_circle</span>'
@@ -64,7 +66,8 @@ function createTable(){
 
             tr.onclick = function () {
                 svotes.put(values[0], function (data) {
-                    changeVotingValues(values[0], data)})
+                    changeVotingValues(values[0], data)
+                })
             }
 
             values.forEach(value => {

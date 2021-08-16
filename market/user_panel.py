@@ -1,7 +1,6 @@
 #  Nikulin Vasily © 2021
 from flask import render_template, abort
 from flask_login import login_required, current_user
-from flask_mobility.decorators import mobile_template
 
 from data import db_session
 from data.functions import get_game_roles, get_session_id
@@ -15,11 +14,10 @@ from market import market
 
 # noinspection PyArgumentList
 @market.route('/user-panel', methods=['GET', 'POST'])
-@mobile_template('market/{mobile/}user-panel.html')
 @login_required
-def user_panel(template):
+def user_panel():
     if 'Admin' not in get_game_roles():
-        abort(404)
+        abort(403)
 
     db_sess = db_session.create_session()
 
@@ -91,7 +89,7 @@ def user_panel(template):
     if not form.user.data:
         form.user.data = form.user.choices[0]
 
-    return render_template(template,
+    return render_template("market/user_panel.html",
                            title='Панель управления пользователями',
                            message=message,
                            form=form)

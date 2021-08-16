@@ -7,13 +7,13 @@
     <h4>Добавить/Удалить/Изменить пользователя</h4>
     <form action="" method="post">
         {{ form.hidden_tag() }}
-        <p>
+        <div>
             {{ form.action.label }}<br>
             {{ form.action(class='form-control') }}<br>
-        </p>
+        </div>
         {% if form.action.data == 'Добавить пользователя' or not form.action.data %}
 
-            <p>
+            <div>
                 {{ form.game_role.label }}<br>
                 {{ form.game_role(class='form-control') }}<br>
                 {% for error in form.game_role.errors %}
@@ -21,14 +21,14 @@
                         {{ error }}
                     </div>
                 {% endfor %}
-            </p>
+            </div>
         {% elif form.action.data == 'Изменить пользователя' %}
-            <p>
+            <div>
                 {{ form.user.label }}<br>
                 {{ form.user(class='form-control') }}
-            </p>
+            </div>
             {% if form.user.data %}
-                <p>
+                <div>
                     {{ form.surname.label }}<br>
                     {{ form.surname(class='form-control') }}<br>
                     {% for error in form.surname.errors %}
@@ -36,8 +36,8 @@
                             {{ error }}
                         </div>
                     {% endfor %}
-                </p>
-                <p>
+                </div>
+                <div>
                     {{ form.name.label }}<br>
                     {{ form.name(class='form-control') }}<br>
                     {% for error in form.name.errors %}
@@ -45,8 +45,8 @@
                             {{ error }}
                         </div>
                     {% endfor %}
-                </p>
-                <p>
+                </div>
+                <div>
                     {{ form.patronymic.label }}<br>
                     {{ form.patronymic(class='form-control') }}<br>
                     {% for error in form.patronymic.errors %}
@@ -54,8 +54,8 @@
                             {{ error }}
                         </div>
                     {% endfor %}
-                </p>
-                <p>
+                </div>
+                <div>
                     {{ form.email.label }}<br>
                     {{ form.email(class='form-control') }}<br>
                     {% for error in form.email.errors %}
@@ -63,8 +63,8 @@
                             {{ error }}
                         </div>
                     {% endfor %}
-                </p>
-                <p>
+                </div>
+                <div>
                     {{ form.password.label }}<br>
                     {{ form.password(class='form-control') }}<br>
                     {% for error in form.password.errors %}
@@ -72,8 +72,8 @@
                             {{ error }}
                         </div>
                     {% endfor %}
-                </p>
-                <p>
+                </div>
+                <div>
                     {{ form.role.label }}<br>
                     {{ form.role(class='form-control') }}<br>
                     {% for error in form.role.errors %}
@@ -81,8 +81,8 @@
                             {{ error }}
                         </div>
                     {% endfor %}
-                </p>
-                <p>
+                </div>
+                <div>
                     {{ form.game_role.label }}<br>
                     {{ form.game_role(class='form-control') }}<br>
                     {% for error in form.game_role.errors %}
@@ -90,13 +90,13 @@
                             {{ error }}
                         </div>
                     {% endfor %}
-                </p>
+                </div>
             {% endif %}
         {% elif form.action.data == 'Удалить пользователя' %}
-            <p>
+            <div>
                 {{ form.user.label }}<br>
                 {{ form.user(class='form-control') }}
-            </p>
+            </div>
         {% endif %}
         {{ form.submit(type="submit", class="btn btn-info") }}
     </form>

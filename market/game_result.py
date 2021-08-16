@@ -1,7 +1,6 @@
 #  Nikulin Vasily © 2021
 from flask import render_template, abort, redirect
 from flask_login import login_required
-from flask_mobility.decorators import mobile_template
 
 from data import db_session
 from data.functions import get_constant, get_game_roles, get_session_id
@@ -11,9 +10,8 @@ from market import market
 
 
 @market.route('/game-result')
-@mobile_template('market/{mobile/}session-result.html')
 @login_required
-def game_result(template):
+def game_result():
     if get_constant('GAME_RUN'):
         return redirect('/marketplace')
 
@@ -48,6 +46,6 @@ def game_result(template):
                 if players_wallets[wallet_id][2] == balance:
                     players_wallets[wallet_id][0] = i
 
-    return render_template(template,
+    return render_template("market/session_result.html",
                            title='Итоги торгов',
                            wallets=players_wallets)

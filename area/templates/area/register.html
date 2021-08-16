@@ -2,11 +2,14 @@
 {% extends "area/base.html" %}
 
 {% block content %}
-    <h1 style="text-align: center">{{ title }}</h1>
-    <br>
+    {% if not request.MOBILE %}
+        <h1 style="text-align: center">{{ title }}</h1>
+    {% else %}
+        <h3>{{ title }}</h3>
+    {% endif %}
     <form action="" method="post" id="register-form">
         {{ form.hidden_tag() }}
-        <p>
+        <div>
             {{ form.email.label }}<br>
             {{ form.email(class="form-control", type="email") }}<br>
             {% for error in form.email.errors %}
@@ -14,8 +17,8 @@
                     {{ error }}
                 </p>
             {% endfor %}
-        </p>
-        <p>
+        </div>
+        <div>
             {{ form.password.label }}<br>
             {{ form.password(class="form-control", type="password") }}<br>
             {% for error in form.password.errors %}
@@ -23,8 +26,8 @@
                     {{ error }}
                 </p>
             {% endfor %}
-        </p>
-        <p>
+        </div>
+        <div>
             {{ form.password_again.label }}<br>
             {{ form.password_again(class="form-control", type="password") }}<br>
             {% for error in form.password_again.errors %}
@@ -32,8 +35,8 @@
                     {{ error }}
                 </p>
             {% endfor %}
-        </p>
-        <p>
+        </div>
+        <div>
             {{ form.surname.label }}<br>
             {{ form.surname(class="form-control") }}<br>
             {% for error in form.surname.errors %}
@@ -41,8 +44,8 @@
                     {{ error }}
                 </p>
             {% endfor %}
-        </p>
-        <p>
+        </div>
+        <div>
             {{ form.name.label }}<br>
             {{ form.name(class="form-control") }}<br>
             {% for error in form.name.errors %}
@@ -50,8 +53,8 @@
                     {{ error }}
                 </p>
             {% endfor %}
-        </p>
-        <p>
+        </div>
+        <div>
             {{ form.patronymic.label }}<br>
             {{ form.patronymic(class="form-control") }}<br>
             {% for error in form.patronymic.errors %}
@@ -59,8 +62,8 @@
                     {{ error }}
                 </p>
             {% endfor %}
-        </p>
-        <p>
+        </div>
+        <div>
             {{ form.date_of_birth.label }}<br>
             {{ form.date_of_birth(class="form-control") }}<br>
             {% for error in form.date_of_birth.errors %}
@@ -68,8 +71,8 @@
                     {{ error }}
                 </p>
             {% endfor %}
-        </p>
-        <p>
+        </div>
+        <div>
             {{ form.school.label }}<br>
             {{ form.school(class="form-control") }}<br>
             {% for error in form.school.errors %}
@@ -77,8 +80,8 @@
                     {{ error }}
                 </p>
             {% endfor %}
-        </p>
-        <p>
+        </div>
+        <div>
             {{ form.role.label }}<br>
             {{ form.role(class="form-control") }}<br>
             {% for error in form.role.errors %}
@@ -86,8 +89,8 @@
                     {{ error }}
                 </p>
             {% endfor %}
-        </p>
-        <p>
+        </div>
+        <div>
             {{ form.epos_login.label }}<br>
             {{ form.epos_login(class="form-control") }}<br>
             {% for error in form.epos_login.errors %}
@@ -95,8 +98,8 @@
                     {{ error }}
                 </p>
             {% endfor %}
-        </p>
-        <p>
+        </div>
+        <div>
             {{ form.epos_password.label }}<br>
             {{ form.epos_password(class="form-control", type="password") }}<br>
             {% for error in form.epos_password.errors %}
@@ -104,8 +107,8 @@
                     {{ error }}
                 </p>
             {% endfor %}
-        </p>
-        <p>
+        </div>
+        <div>
             {{ form.about.label }}<br>
             {{ form.about(class="form-control") }}<br>
             {% for error in form.about.errors %}
@@ -113,8 +116,8 @@
                     {{ error }}
                 </p>
             {% endfor %}
-        </p>
-        <p>{{ form.submit(type="submit", class="btn btn-info", value=btn_label) }}</p>
+        </div>
+        <div>{{ form.submit(type="submit", class="btn btn-info", value=btn_label) }}</div>
     </form>
     {% if message %}
         <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel"
@@ -128,12 +131,12 @@
                     </div>
                     <div class="modal-body">
                         {{ message }}
-              </div>
-              <div class="modal-footer" id="modal-ok-btn">
-                <button type="button" class="btn btn-info">ОК</button>
-              </div>
+                    </div>
+                    <div class="modal-footer" id="modal-ok-btn">
+                        <button type="button" class="btn btn-info">ОК</button>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
     {% endif %}
 {% endblock %}

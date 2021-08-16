@@ -1,0 +1,55 @@
+{% extends "area/header_mobile.html" %}
+
+{% block header_content %}
+    <li>
+        <a class="menu__item" href="{{ url('.index') }}">Главная</a>
+    </li>
+    {% if current_user.is_authenticated %}
+        <li class="nav-item">
+            <a href="{{ url('.sessions') }}" class="menu__item">Фондовые биржи</a>
+        </li>
+        {% if game_role() %}
+            {% if 'Player' in game_role() %}
+                <li>
+                    <a href="{{ url('.news') }}" class="menu__item">
+                        Новости
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ url('.marketplace') }}" class="menu__item">
+                        Торговая площадка
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ url('.companies') }}" class="menu__item">
+                        Компании
+                    </a>
+                </li>
+            {% endif %}
+            <div id="admin-links">
+                <div class="btn-group nav-item">
+                    <a class="menu__item dropdown-toggle" data-toggle="dropdown"
+                       aria-expanded="false">
+                        Панель управления
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+
+                        <li class="dropdown-item">
+                            <a href="{{ url('.game_panel') }}" class="menu__item"
+                               style="font-size: 1em">
+                                Управление фондовой биржей
+                            </a>
+                        </li>
+                        <li class="dropdown-item">
+                            <a href="{{ url('.user_panel') }}" class="menu__item"
+                               style="font-size: 1em">
+                                Управление пользователями
+                            </a>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+        {% endif %}
+    {% endif %}
+{% endblock %}

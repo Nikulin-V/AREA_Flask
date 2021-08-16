@@ -1,21 +1,26 @@
-<!--suppress ALL -->
 {% extends "market/base.html" %}
 
 {% block content %}
-    <h1 style="text-align: center">{{ title }}</h1>
-    <hr>
+    {% if not request.MOBILE %}
+        <h1 style="text-align: center">{{ title }}</h1>
+        <hr>
+    {% else %}
+        <h3 style="text-align: center">{{ title }}</h3>
+        <hr style="margin-top: 0">
+    {% endif %}
     <form action="" method="post">
         {{ form.hidden_tag() }}
-        <p>
+        <div>
             {{ form.user.label }}<br>
             {{ form.user(class='form-control') }}
             {% for error in form.game_role.errors %}
-                    <div class="alert alert-danger" role="alert">
-                        {{ error }}
-                    </div>
+                <div class="alert alert-danger" role="alert">
+                    {{ error }}
+                </div>
             {% endfor %}
-        </p>
-        <p>
+        </div>
+        <br>
+        <div>
             {{ form.game_role.label }}<br>
             {{ form.game_role(class='form-control') }}<br>
             {% for error in form.game_role.errors %}
@@ -23,7 +28,7 @@
                     {{ error }}
                 </div>
             {% endfor %}
-        </p>
+        </div>
         {{ form.submit(type="submit", class="btn btn-info") }}
     </form>
     <!-- Всплывающее сообщение -->

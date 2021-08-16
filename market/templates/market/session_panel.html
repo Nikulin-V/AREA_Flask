@@ -1,10 +1,15 @@
-<!--suppress ALL -->
 {% extends "market/base.html" %}
 
 {% block content %}
-    <h1 style="text-align: center">{{ title }}</h1>
-    <hr>
-    <form action="" method="post" style="text-align: -webkit-center;">
+    {% if not request.MOBILE %}
+        <h1 style="text-align: center">{{ title }}</h1>
+        <hr>
+    {% else %}
+        <h4 style="text-align: center">{{ title }}</h4>
+        <hr style="margin-top: 0">
+    {% endif %}
+    <form action="" method="post"
+          style="text-align: -webkit-center{{ ";font-size: .9em" if request.MOBILE }}">
         {{ form.hidden_tag() }}
         <div>
             {{ form.game_run.label }}<br>

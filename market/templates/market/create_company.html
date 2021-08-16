@@ -1,17 +1,24 @@
 <!--suppress ALL -->
-{% extends "market/mobile/base.html" %}
+{% extends "market/base.html" %}
 
 {% block content %}
 
     <script>
-        const imageUploadEndpoint = "{{ url('market.market-api.uploadImage') }}"
+        const imageUploadEndpoint = "{{ url('market.api.uploadImage') }}"
     </script>
 
     <h3 style="text-align: center">{{ title }}</h3>
-    <h6 style="text-align: center">Взнос: {{ new_company_fee }}<span
-            class="material-icons-round md-money">paid</span></h6>
-    <p style="font-size: .9em; text-align: center">Автоматически будет опубликована новость об
-        открытии компании.</p>
+    {% if not request.MOBILE %}
+        <h5 style="text-align: center">Взнос: {{ new_company_fee }}<span
+                class="material-icons-round md-money">paid</span></h5>
+        <h6 style="text-align: center">Автоматически будет опубликована новость об открытии
+            компании.</h6>
+    {% else %}
+        <h6 style="text-align: center">Взнос: {{ new_company_fee }}<span
+                class="material-icons-round md-money">paid</span></h6>
+        <p style="font-size: .9em; text-align: center">Автоматически будет опубликована новость об
+            открытии компании.</p>
+    {% endif %}
     <hr>
     <div class="form-floating">
         <select id="sector" class="form-select" type="text"></select>
