@@ -1,7 +1,7 @@
 #  Nikulin Vasily © 2021
 import os
 
-from flask import Flask, redirect, request
+from flask import Flask, redirect
 from flask_login import LoginManager
 from flask_migrate import Migrate
 from flask_mobility.mobility import Mobility
@@ -19,8 +19,6 @@ from tools.url import url
 
 app = Flask(__name__, subdomain_matching=True)
 app.config.update(
-    DEBUG=True,
-    TESTING=True,
     SERVER_NAME=SERVER_NAME,
     SECRET_KEY='area_secret_key',
     SQLALCHEMY_DATABASE_URI='sqlite:///db/database.db',
@@ -41,7 +39,7 @@ services = [area.area, market.market, edu.edu]
 for service in services:
     app.register_blueprint(service)
 
-sockets = [market.socket]
+sockets = [area.socket, market.socket]
 for socket in sockets:
     socket_ = socket.init_io(socket_)
 
@@ -53,11 +51,10 @@ app.jinja_env.globals.update(url=url)
 app.jinja_env.globals.update(game_role=get_game_roles)
 db_session.global_init('db/database.sqlite')
 
-port = int(os.environ.get('PORT', 80))
-
 
 def main():
-    socket_.run(app, host='0.0.0.0', port=port, debug=True)
+    port = int(os.environ.get('PORT', 80))
+    socket_.run(app, host='0.0.0.0', port=port)
 
 
 @login_manager.user_loader
@@ -69,11 +66,6 @@ def load_user(user_id):
 @app.route('/secrets-of-literacy')
 def secrets_of_literacy():
     return redirect('https://secrets-of-literacy.wixsite.com/website')
-
-
-@socket_.on('disconnect')
-def error_handler():
-    socket_.close_room(request.sid)
 
 
 if __name__ == '__main__':

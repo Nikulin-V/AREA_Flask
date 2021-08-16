@@ -8,7 +8,7 @@ window.addEventListener('scroll', function () {
     let height = Math.max(document.body.scrollHeight, document.body.offsetHeight,
         html.clientHeight, html.scrollHeight, html.offsetHeight)
     if (pageYOffset + window.innerHeight + 1 >= height) {
-        addNews(k)
+        addNews(k, false)
     }
 })
 
@@ -20,13 +20,15 @@ function updatePage() {
 
 main = document.getElementsByTagName('main')[0]
 
-function addNews(page = 0) {
+function addNews(page = 0, isFullUpdate = true) {
     if (!was_end)
         news.get(page, function (data) {
-            main = document.getElementsByTagName('main')[0]
-            while (document.getElementsByClassName('news').length > 0)
-                main.removeChild(document.getElementsByClassName('news')[0])
             if (data['news']) {
+                if (isFullUpdate)
+                    main = document.getElementsByTagName('main')[0]
+                while (document.getElementsByClassName('news').length > 0)
+                    main.removeChild(document.getElementsByClassName('news')[0])
+
                 newsList = data['news']
                 for (newsId = 0; newsId < newsList.length; newsId++) {
                     n = Object(newsList[newsId])
