@@ -105,12 +105,11 @@ def voteInCompaniesVoting(json=None):
     used_points = sum(map(lambda x: x[0], db_sess.query(Vote.points).filter(
         Vote.session_id == get_session_id(),
         Vote.user_id == current_user.id
-    ).all())) - \
-                  sum(map(lambda x: x[0], db_sess.query(Vote.points).filter(
-                      Vote.session_id == get_session_id(),
-                      Vote.company_id == companyId,
-                      Vote.user_id == current_user.id
-                  )))
+    ).all())) - sum(map(lambda x: x[0], db_sess.query(Vote.points).filter(
+        Vote.session_id == get_session_id(),
+        Vote.company_id == companyId,
+        Vote.user_id == current_user.id
+    )))
 
     if used_points + points > 100:
         return send_response(

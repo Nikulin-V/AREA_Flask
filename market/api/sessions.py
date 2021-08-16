@@ -79,10 +79,11 @@ def getSessions(json=None):
             'sessions':
                 [item.to_dict(only=('id', 'title'))
                  for item in sessions],
-            'currentSession': {
-                'id': current_session.id,
-                'title': current_session.title
-            },
+            'currentSession':
+                {
+                    'id': current_session.id,
+                    'title': current_session.title
+                },
             'isAdmin': str(current_user.id) in str(current_session.admins_ids).split(';')
         }
     )

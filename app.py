@@ -29,8 +29,7 @@ app.config.update(
     PREFERRED_URL_SCHEME=SCHEME
 )
 
-async_mode = None
-socket_ = SocketIO(app, cors_allowed_origins="*", async_mode=async_mode)
+socket_ = SocketIO(app, cors_allowed_origins="*")
 
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
