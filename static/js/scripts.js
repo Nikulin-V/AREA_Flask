@@ -213,7 +213,7 @@ function showNotificationAction(logoSource, author = null, company = null, date,
                         ${td2}
                     </tr>
                 </table>
-                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Закрыть"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="${_('Закрыть')}"></button>
               </div>
               ${messageDiv}
             </div>
@@ -227,14 +227,15 @@ function showNotificationAction(logoSource, author = null, company = null, date,
 }
 
 function showConnected(connected = true) {
-    const monthNames = ["January", "February", "March", "April", "May", "June",
-        "July", "August", "September", "October", "November", "December"
+    const monthNames = [
+        _("Январь"), _("Февраль"), _("Март"), _("Апрель"), _("Май"), _("Июнь"),
+        _("Июль"), _("Август"), _("Сентябрь"), _("Октябрь"), _("Ноябрь"), _("Декабрь")
     ];
     let now = new Date()
     let date = monthNames[now.getMonth()] + ' ' + now.getDate().toString()
     let time = now.toLocaleString().split(', ')[1].slice(-8, -3)
     let logoSource = connected ? 'wifi' : 'wifi_off'
-    let message = connected ? 'Соединение восстановлено' : 'Соединение разорвано'
+    let message = connected ? _('Соединение восстановлено') : _('Соединение разорвано')
     showNotifications(logoSource, message, 'AREA', date, time)
 }
 
@@ -245,3 +246,14 @@ window.isMobile = function () {
     })(navigator.userAgent || navigator.vendor || window.opera);
     return check;
 };
+
+generalTrustWord = _('Общее доверие')
+yourTrustWord = _('Ваше доверие')
+
+votingIdWord = _('ID Голосования')
+companyWord = _('Компания')
+actionWord = _('Действие')
+votesWord = _('Голосов')
+yourChoice = _('Ваш выбор')
+
+noOpenedVotingsWord = _('Нет открытых голосований')

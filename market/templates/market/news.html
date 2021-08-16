@@ -17,8 +17,8 @@
                     </button>
                 </td>
                 <td style="text-align: right">
-                    <button id="create-news" class="btn btn-info" onclick="createNews()">Создать
-                        пост
+                    <button id="create-news" class="btn btn-info" onclick="createNews()">
+                        {{ _('Создать пост') }}
                     </button>
                 </td>
             </tr>
@@ -29,7 +29,7 @@
 
     <div class="text-center news">
         <div class="spinner-border text-info" role="status">
-            <span class="visually-hidden">Загрузка...</span>
+            <span class="visually-hidden">{{ _('Загрузка') }}...</span>
         </div>
     </div>
 

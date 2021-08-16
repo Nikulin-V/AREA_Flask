@@ -2,10 +2,6 @@
  * Nikulin Vasily © 2021
  */
 
-/*
- * Nikulin Vasily © 2021
- */
-
 companies.get(fillSectors)
 
 function createCompany(button) {
@@ -33,20 +29,20 @@ function createCompany(button) {
                 if (data["code"] === 1001) {
                     document.getElementById('logo-feedback').textContent = "Неверный или небезопасный формат файла"
                 }
-                progressBarBack.style.display="none"
+                progressBarBack.style.display = "none"
                 progressBar.style.width = "0%"
                 progressBar.setAttribute("aria-valuemin", "0")
                 button.disabled = false
             } else {
                 companies.post(sector, title, description, data["path"], showMessage)
-                progressBarBack.style.display="none"
+                progressBarBack.style.display = "none"
                 progressBar.style.width = "0%"
                 button.disabled = false
             }
         }, () => {
             document.getElementById('image-input').classList.add('is-invalid')
             document.getElementById('image-feedback').textContent = "Файл слишком большой, пожалуйста выберите файл менее 32МБ"
-            progressBarBack.style.display="none"
+            progressBarBack.style.display = "none"
             progressBar.style.width = "0%"
             progressBar.setAttribute("aria-valuemin", "0")
             button.disabled = false
@@ -68,7 +64,7 @@ function showMessage() {
         if (postJson['errors'][0] === 'File is unsafe or located on a foreign server')
             showModal(createParagraph('Файл небезопасный или находится на удаленном сервере'))
     }
-    if (postJson['message'] === 'Success'){
+    if (postJson['message'] === 'Success') {
         button = document.createElement('button')
         button.type = 'button'
         button.className = "btn btn-info"
@@ -77,7 +73,7 @@ function showMessage() {
         }
         button.textContent = 'OK'
         showModal(createParagraph('Компания успешно открыта.'),
-            'Сообщение от сайта',  button)
+            'Сообщение от сайта', button)
     }
 
 }

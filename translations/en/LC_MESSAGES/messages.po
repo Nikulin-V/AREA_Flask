@@ -1,0 +1,1311 @@
+# English translations for .
+# Copyright (C) 2021 ORGANIZATION
+# This file is distributed under the same license as the  project.
+# Nikulin Vasiliy, 2021.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: v0.1\n"
+"Report-Msgid-Bugs-To: area-supp0rt@yandex.ru\n"
+"POT-Creation-Date: 2021-08-16 23:17+0500\n"
+"PO-Revision-Date: 2021-08-16 23:25+0500\n"
+"Last-Translator: Nikulin Vasiliy, Mark Karlinsky\n"
+"Language: en\n"
+"Language-Team: ru AREA\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.9.1\n"
+"X-Generator: Poedit 2.2\n"
+
+#: area/error_page.py:23
+msgid "Некорректный запрос"
+msgstr "Bad request"
+
+#: area/error_page.py:24 area/error_page.py:33 area/error_page.py:36
+#: area/error_page.py:39
+msgid ""
+"Попробуйте сделать запрос еще раз. Если проблема повторится, обратитесь в "
+"техподдержку"
+msgstr "Please, try again. If the problem persists, contact support"
+
+#: area/error_page.py:26
+msgid "Вы не вошли в систему"
+msgstr "You are not logged in"
+
+#: area/error_page.py:27
+msgid "Через несколько секунд Вы будете направлены на страницу авторизации"
+msgstr "Within a few seconds, you will be redirected to the authorization page"
+
+#: area/error_page.py:28
+msgid "Доступ запрещён"
+msgstr "Access denied"
+
+#: area/error_page.py:29
+msgid "Данный ресурс недоступен для вашего типа учетной записи"
+msgstr "This resource is not available for your account type"
+
+#: area/error_page.py:30
+msgid "Страница не найдена"
+msgstr "Page not found"
+
+#: area/error_page.py:31
+msgid "Проверьте правильность введённого адреса"
+msgstr "Check correctness of the address"
+
+#: area/error_page.py:32
+msgid "Превышено время ожидания"
+msgstr "Timed out"
+
+#: area/error_page.py:35
+msgid "Неподдерживаемый формат файла"
+msgstr "Unsupported file type"
+
+#: area/error_page.py:38
+msgid "Ошибка на стороне сайта"
+msgstr "Server side error"
+
+#: area/index.py:12 area/templates/area/header.html:15
+#: area/templates/area/header_mobile.html:19 edu/index.py:12
+#: edu/templates/edu/header.html:7 edu/templates/edu/header_mobile.html:5
+#: market/index.py:12 market/templates/market/header.html:8
+#: market/templates/market/header_mobile.html:6
+msgid "Главная"
+msgstr "Home"
+
+#: area/login.py:28 area/login.py:35 area/login.py:39
+msgid "Авторизация"
+msgstr "Log in"
+
+#: area/login.py:29
+msgid "Вы не зарегистрированы в системе"
+msgstr "You are not signed up"
+
+#: area/login.py:36
+msgid "Неправильный логин или пароль"
+msgstr "The username or password is incorrect"
+
+#: area/privacy_policy.py:11 area/templates/area/header.html:20
+#: area/templates/area/header_mobile.html:24
+#: area/templates/area/privacy_policy.html:31
+#: area/templates/area/privacy_policy.html:36
+msgid "Политика конфиденциальности"
+msgstr "Privacy Policy"
+
+#: area/profile.py:28 market/game_panel.py:47
+msgid "Сохранено"
+msgstr "Saved"
+
+#: area/profile.py:46
+msgid "Введите старый пароль"
+msgstr "Enter old password"
+
+#: area/profile.py:48
+msgid "Введите новый пароль"
+msgstr "Enter new password"
+
+#: area/profile.py:50
+msgid "Повторите новый пароль"
+msgstr "Repeat new password"
+
+#: area/profile.py:52
+msgid "Неверный старый пароль"
+msgstr "Invalid old password"
+
+#: area/profile.py:54 area/register.py:34
+msgid "Пароли не совпадают"
+msgstr "Passwords don't match"
+
+#: area/profile.py:78 area/templates/area/header.html:32
+#: area/templates/area/header_mobile.html:38
+msgid "Профиль"
+msgstr "Profile"
+
+#: area/profile.py:83 static/js/market/news.js:276
+msgid "Сохранить"
+msgstr "Save"
+
+#: area/register.py:32 area/register.py:39 area/templates/area/header.html:42
+#: area/templates/area/header_mobile.html:50
+msgid "Регистрация"
+msgstr "Sign up"
+
+#: area/register.py:35 area/register.py:42 forms/login.py:15
+msgid "Войти"
+msgstr "Log in"
+
+#: area/register.py:41
+msgid "Такой пользователь уже есть"
+msgstr "The user with this email already exists"
+
+#: area/templates/area/header.html:5 area/templates/area/header_mobile.html:12
+#: forms/my_company_management.py:16 market/templates/market/create_company.html:47
+#: market/templates/market/create_company.html:49
+msgid "Логотип"
+msgstr "Logo"
+
+#: area/templates/area/header.html:33 area/templates/area/header_mobile.html:40
+msgid "Выйти"
+msgstr "Log out"
+
+#: area/templates/area/header.html:39 area/templates/area/header_mobile.html:47
+msgid "Вход"
+msgstr "Log in"
+
+#: area/templates/area/index.html:26
+msgid ""
+"Вся наша жизнь состоит из различных областей. Их довольно много. Сложно сделать "
+"лучше\n"
+"            всё и сразу."
+msgstr ""
+"Our whole life consists of different areas. There is a lot of them. It is hard "
+"to make everything better at once."
+
+#: area/templates/area/index.html:28
+msgid "Мы будем делать это постепенно, частями."
+msgstr "We will do it gradually, in parts."
+
+#: area/templates/area/index.html:33
+msgid "Наши системы:"
+msgstr "Our services:"
+
+#: area/templates/area/index.html:43
+msgid "(в разработке)"
+msgstr "(in development)"
+
+#: area/templates/area/login.html:43 area/templates/area/profile.html:138
+#: area/templates/area/register.html:128
+#: market/templates/market/company_panel.html:132
+#: market/templates/market/session_panel.html:69
+#: market/templates/market/session_result.html:42
+#: market/templates/market/sessions.html:58
+#: market/templates/market/user_admin_panel.html:161
+#: market/templates/market/user_panel.html:42
+msgid "Сообщение от сайта"
+msgstr "Technical message"
+
+#: area/templates/area/privacy_policy.html:42
+msgid "Политика в отношении обработки персональных данных"
+msgstr "Personal Data Processing Policy"
+
+#: area/templates/area/privacy_policy.html:47
+msgid "Общие положения"
+msgstr "General Terms"
+
+#: area/templates/area/privacy_policy.html:49
+msgid ""
+"Настоящая политика обработки персональных данных составлена в соответствии с\n"
+"            требованиями Федерального закона от 27.07.2006. №152-ФЗ «О "
+"персональных данных» и\n"
+"            определяет порядок обработки персональных данных и меры по "
+"обеспечению безопасности\n"
+"            персональных данных, предпринимаемые Никулин Василий (далее – "
+"Оператор)."
+msgstr ""
+
+#: area/templates/area/privacy_policy.html:54
+msgid ""
+"Оператор ставит своей важнейшей целью и условием осуществления\n"
+"                    своей деятельности соблюдение прав и свобод человека и "
+"гражданина при обработке его\n"
+"                    персональных данных, в том числе защиты прав на "
+"неприкосновенность частной жизни,\n"
+"                    личную и семейную тайну."
+msgstr ""
+
+#: area/templates/area/privacy_policy.html:60
+msgid ""
+"Настоящая политика Оператора в отношении обработки персональных\n"
+"                данных (далее – Политика) применяется ко всей информации, "
+"которую Оператор может\n"
+"                получить о посетителях данного веб-сайта"
+msgstr ""
+
+#: area/templates/area/privacy_policy.html:68
+msgid "Основные понятия, используемые в Политике"
+msgstr ""
+
+#: area/templates/area/privacy_policy.html:71
+msgid ""
+"Автоматизированная обработка персональных данных – обработка\n"
+"                персональных данных с помощью средств вычислительной техники;"
+msgstr ""
+
+#: area/templates/area/privacy_policy.html:75
+msgid ""
+"Блокирование персональных данных – временное прекращение\n"
+"                обработки персональных данных (за исключением случаев, если "
+"обработка необходима для\n"
+"                уточнения персональных данных);"
+msgstr ""
+
+#: area/templates/area/privacy_policy.html:80
+msgid ""
+"Веб-сайт – совокупность графических и информационных материалов,\n"
+"                а также программ для ЭВМ и баз данных, обеспечивающих их "
+"доступность в сети интернет\n"
+"                по данному сетевому адресу;"
+msgstr ""
+
+#: area/templates/area/privacy_policy.html:85
+msgid ""
+"Информационная система персональных данных — совокупность\n"
+"            содержащихся в базах данных персональных данных, и обеспечивающих их "
+"обработку\n"
+"            информационных технологий и технических средств;"
+msgstr ""
+
+#: area/templates/area/privacy_policy.html:90
+msgid ""
+"Обезличивание персональных данных — действия, в результате\n"
+"                которых невозможно определить без использования дополнительной "
+"информации\n"
+"                принадлежность персональных данных конкретному Пользователю или "
+"иному субъекту\n"
+"                персональных данных;"
+msgstr ""
+
+#: area/templates/area/privacy_policy.html:96
+msgid ""
+"Обработка персональных данных – любое действие (операция) или\n"
+"            совокупность действий (операций), совершаемых с использованием "
+"средств автоматизации\n"
+"            или без использования таких средств с персональными данными, включая "
+"сбор, запись,\n"
+"            систематизацию, накопление, хранение, уточнение (обновление, "
+"изменение), извлечение,\n"
+"            использование, передачу (распространение, предоставление, доступ), "
+"обезличивание,\n"
+"            блокирование, удаление, уничтожение персональных данных;"
+msgstr ""
+
+#: area/templates/area/privacy_policy.html:104
+msgid ""
+"Оператор – государственный орган, муниципальный орган,\n"
+"                юридическое или физическое лицо, самостоятельно или совместно с "
+"другими лицами\n"
+"                организующие и (или) осуществляющие обработку персональных "
+"данных, а также\n"
+"                определяющие цели обработки персональных данных, состав "
+"персональных данных,\n"
+"                подлежащих обработке, действия (операции), совершаемые с "
+"персональными данными;"
+msgstr ""
+
+#: area/templates/area/privacy_policy.html:111
+msgid ""
+"Персональные данные – любая информация, относящаяся прямо или\n"
+"            косвенно к определенному или определяемому Пользователю веб-сайта"
+msgstr ""
+
+#: area/templates/area/privacy_policy.html:115
+msgid "Пользователь – любой посетитель данного веб-сайта;"
+msgstr ""
+
+#: area/templates/area/privacy_policy.html:118
+msgid ""
+"Предоставление персональных данных – действия, направленные на\n"
+"            раскрытие персональных данных определенному лицу или определенному "
+"кругу лиц;"
+msgstr ""
+
+#: area/templates/area/privacy_policy.html:122
+msgid ""
+"Распространение персональных данных – любые действия,\n"
+"                направленные на раскрытие персональных данных неопределенному "
+"кругу лиц (передача\n"
+"                персональных данных) или на ознакомление с персональными данными "
+"неограниченного\n"
+"                круга лиц, в том числе обнародование персональных данных в "
+"средствах массовой\n"
+"                информации, размещение в информационно-телекоммуникационных "
+"сетях или предоставление\n"
+"                доступа к персональным данным каким-либо иным способом;"
+msgstr ""
+
+#: area/templates/area/privacy_policy.html:130
+msgid ""
+"Трансграничная передача персональных данных – передача\n"
+"            персональных данных на территорию иностранного государства органу "
+"власти\n"
+"            иностранного государства, иностранному физическому или иностранному "
+"юридическому\n"
+"            лицу;"
+msgstr ""
+
+#: area/templates/area/privacy_policy.html:136
+msgid ""
+"Уничтожение персональных данных – любые действия, в результате\n"
+"                которых персональные данные уничтожаются безвозвратно с "
+"невозможностью дальнейшего\n"
+"                восстановления содержания персональных данных в информационной "
+"системе персональных\n"
+"                данных и (или) уничтожаются материальные носители персональных "
+"данных."
+msgstr ""
+
+#: area/templates/area/privacy_policy.html:145
+msgid "Оператор может обрабатывать следующие персональные данные Пользователя"
+msgstr ""
+
+#: area/templates/area/privacy_policy.html:148
+msgid "Фамилия, имя, отчество;"
+msgstr ""
+
+#: area/templates/area/privacy_policy.html:151
+msgid "Электронный адрес;"
+msgstr ""
+
+#: area/templates/area/privacy_policy.html:154
+msgid ""
+"Также на сайте происходит сбор и обработка обезличенных данных о\n"
+"                посетителях (в т.ч. файлов «cookie») с помощью сервисов интернет-"
+"статистики (Яндекс\n"
+"                Метрика и Гугл Аналитика и других)."
+msgstr ""
+
+#: area/templates/area/privacy_policy.html:159
+msgid ""
+"Вышеперечисленные данные далее по тексту Политики объединены\n"
+"                общим понятием Персональные данные."
+msgstr ""
+
+#: area/templates/area/privacy_policy.html:166
+msgid "Цели обработки персональных данных"
+msgstr ""
+
+#: area/templates/area/privacy_policy.html:169
+msgid ""
+"Цель обработки персональных данных Пользователя — информирование\n"
+"                Пользователя посредством отправки электронных писем; "
+"предоставление доступа\n"
+"                Пользователю к сервисам, информации и/или материалам, "
+"содержащимся на веб-сайте;\n"
+"                Упрощение и увеличение эффективности работы Пользователя на "
+"данном сайте."
+msgstr ""
+
+#: area/templates/area/privacy_policy.html:175
+msgid ""
+"Также Оператор имеет право направлять Пользователю уведомления о\n"
+"                новых продуктах и услугах, специальных предложениях и различных "
+"событиях.\n"
+"                Пользователь всегда может отказаться от получения информационных "
+"сообщений, направив\n"
+"                Оператору письмо на адрес электронной почты area-supp0rt@yandex."
+"ru с пометкой\n"
+"                «Отказ от уведомлений о новых продуктах и услугах и специальных "
+"предложениях»."
+msgstr ""
+
+#: area/templates/area/privacy_policy.html:182
+msgid ""
+"Обезличенные данные Пользователей, собираемые с помощью сервисов\n"
+"                интернет-статистики, служат для сбора информации о действиях "
+"Пользователей на сайте,\n"
+"                улучшения качества сайта и его содержания."
+msgstr ""
+
+#: area/templates/area/privacy_policy.html:190
+msgid "Правовые основания обработки персональных данных"
+msgstr ""
+
+#: area/templates/area/privacy_policy.html:193
+msgid ""
+"Оператор обрабатывает персональные данные Пользователя только в\n"
+"                случае их заполнения и/или отправки Пользователем самостоятельно "
+"через специальные\n"
+"                формы, расположенные на данном сайте. Заполняя соответствующие "
+"формы и/или отправляя\n"
+"                свои персональные данные Оператору, Пользователь выражает свое "
+"согласие с данной\n"
+"                Политикой."
+msgstr ""
+
+#: area/templates/area/privacy_policy.html:200
+msgid ""
+"Оператор обрабатывает обезличенные данные о Пользователе в\n"
+"                случае, если это разрешено в настройках браузера Пользователя "
+"(включено сохранение\n"
+"                файлов «cookie» и использование технологии JavaScript)."
+msgstr ""
+
+#: area/templates/area/privacy_policy.html:208
+msgid ""
+"Порядок сбора, хранения, передачи и других видов обработки персональных данных"
+msgstr ""
+
+#: area/templates/area/privacy_policy.html:211
+msgid ""
+"Оператор обеспечивает сохранность персональных данных и принимает\n"
+"                все возможные меры, исключающие доступ к персональным данным "
+"неуполномоченных лиц."
+msgstr ""
+
+#: area/templates/area/privacy_policy.html:215
+msgid ""
+"Персональные данные Пользователя никогда, ни при каких условиях\n"
+"                не будут переданы третьим лицам, за исключением случаев, "
+"связанных с исполнением\n"
+"                действующего законодательства."
+msgstr ""
+
+#: area/templates/area/privacy_policy.html:220
+msgid ""
+"В случае выявления неточностей в персональных данных,\n"
+"                Пользователь может актуализировать их самостоятельно, путем "
+"направления Оператору\n"
+"                уведомление на адрес электронной почты Оператора area.of."
+"education@gmail.com. с\n"
+"                пометкой «Актуализация персональных данных»."
+msgstr ""
+
+#: area/templates/area/privacy_policy.html:226
+msgid ""
+"Срок обработки персональных данных является неограниченным.\n"
+"                Пользователь может в любой момент отозвать свое согласие на "
+"обработку персональных\n"
+"                данных, направив Оператору уведомление посредством электронной "
+"почты на электронный\n"
+"                адрес Оператора area-supp0rt@yandex.ru с пометкой «Отзыв "
+"согласия на обработку\n"
+"                персональных данных»."
+msgstr ""
+
+#: area/templates/area/privacy_policy.html:236
+msgid "Трансграничная передача персональных данных"
+msgstr ""
+
+#: area/templates/area/privacy_policy.html:239
+msgid ""
+"Оператор до начала осуществления трансграничной передачи\n"
+"                персональных данных обязан убедиться в том, что иностранным "
+"государством, на\n"
+"                территорию которого предполагается осуществлять передачу "
+"персональных данных,\n"
+"                обеспечивается надежная защита прав субъектов персональных "
+"данных."
+msgstr ""
+
+#: area/templates/area/privacy_policy.html:245
+msgid ""
+"Трансграничная передача персональных данных на территории\n"
+"                иностранных государств, не отвечающих вышеуказанным требованиям, "
+"может\n"
+"                осуществляться только в случае наличия согласия в письменной "
+"форме субъекта\n"
+"                персональных данных на трансграничную передачу его персональных "
+"данных и/или\n"
+"                исполнения договора, стороной которого является субъект "
+"персональных данных."
+msgstr ""
+
+#: area/templates/area/privacy_policy.html:255
+msgid "Заключительные положения"
+msgstr ""
+
+#: area/templates/area/privacy_policy.html:258
+msgid ""
+"Пользователь может получить любые разъяснения по интересующим\n"
+"                вопросам, касающимся обработки его персональных данных, "
+"обратившись к Оператору с\n"
+"                помощью электронной почты area.of.education@gmail.com."
+msgstr ""
+
+#: area/templates/area/privacy_policy.html:263
+msgid ""
+"В данном документе будут отражены любые изменения политики\n"
+"                обработки персональных данных Оператором. Политика действует "
+"бессрочно до замены ее\n"
+"                новой версией."
+msgstr ""
+
+#: area/templates/area/privacy_policy.html:268
+msgid ""
+"Актуальная версия Политики в свободном доступе расположена в сети Интернет по "
+"адресу"
+msgstr "You can find an up to date version of Privacy Policy at"
+
+#: area/templates/area/yandex_58762f224fa898fc.html:4
+msgid "Метрика"
+msgstr "Metrics"
+
+#: edu/errors.py:8
+msgid "Ошибка при авторизации в ЭПОС.Школа"
+msgstr "Error while logging in to the EPOS.School"
+
+#: edu/errors.py:9
+msgid ""
+"Попробуйте ещё раз. При повторном возникновении ошибки проверьте пароль от ЭПОС."
+"Школа и обновите его в профиле"
+msgstr ""
+"Try again later. If the problem persists, check the password from EPOS.School "
+"and update it in your profile"
+
+#: edu/templates/edu/area_diary.html:36 edu/templates/edu/epos_diary.html:31
+#: edu/templates/edu/epos_diary.html:52
+msgid "Нет расписания"
+msgstr "No schedule"
+
+#: edu/templates/edu/index.html:27
+msgid ""
+"AREA – Ваш помощник в планировании. Теперь\n"
+"            организация учебного процесса перестанет быть рутиной.\n"
+"            Удобный интерфейс и приятный дизайн - что еще нужно\n"
+"            для комфортной учебы?"
+msgstr ""
+"AREA - Your planning helper. From now on, academic activity organization is no "
+"longer routine. Comfortable interface and neat design - what else do you need "
+"for comfortable studying?"
+
+#: edu/templates/edu/index.html:35
+msgid ""
+"Мы создаем систему, которая обеспечит\n"
+"            комфортный и продуктивный процесс обучения\n"
+"            как ученикам, так и учителям."
+msgstr ""
+"We are creating the system that will ensure comfortable and productive study "
+"process for both teachers and students."
+
+#: forms/company_admin_management.py:9 market/company_panel.py:31
+#: market/company_panel.py:147 market/create_company.py:19
+#: market/templates/market/companies.html:11
+#: market/templates/market/companies.html:32
+#: market/templates/market/company_panel.html:19
+msgid "Открыть компанию"
+msgstr "Open a company"
+
+#: forms/company_admin_management.py:9 market/company_panel.py:68
+#: market/company_panel.py:140 market/company_panel.py:157
+#: market/templates/market/company_panel.html:47
+msgid "Изменить компанию"
+msgstr "Edit the company"
+
+#: forms/company_admin_management.py:10 market/company_panel.py:52
+#: market/company_panel.py:140 market/templates/market/company_panel.html:92
+#: static/js/market/companies-management.js:202
+msgid "Закрыть компанию"
+msgstr "Close the company"
+
+#: forms/company_admin_management.py:10 market/company_panel.py:30
+#: market/company_panel.py:101 market/company_panel.py:168
+#: market/templates/market/company_panel.html:111
+msgid "Удалить все компании"
+msgstr "Delete all companies"
+
+#: forms/company_admin_management.py:11 forms/company_admin_management.py:12
+#: forms/my_company_management.py:12 market/templates/market/create_company.html:31
+msgid "Отрасль"
+msgstr "Industry"
+
+#: forms/company_admin_management.py:13
+#: market/templates/market/user_admin_panel.html:115
+#: static/js/market/companies-management.js:178 static/js/market/marketplace.js:51
+#: static/js/market/marketplace.js:146 static/js/market/marketplace.js:242
+#: static/js/market/marketplace.js:364 static/js/market/marketplace.js:437
+#: static/js/market/marketplace.js:453 static/js/market/marketplace.js:530
+#: static/js/market/marketplace.js:536 static/js/scripts.js:260
+msgid "Компания"
+msgstr "Company"
+
+#: forms/company_admin_management.py:14 forms/my_company_management.py:13
+#: market/templates/market/create_company.html:36
+#: market/templates/market/create_company.html:37
+msgid "Название компании"
+msgstr "Company name"
+
+#: forms/company_admin_management.py:16 market/templates/market/sessions.html:42
+#: static/js/market/marketplace.js:410 static/js/market/marketplace.js:505
+msgid "Подтвердить"
+msgstr "Confirm"
+
+#: forms/company_admin_management.py:17
+msgid "Авторы"
+msgstr "Authors"
+
+#: forms/company_admin_management.py:18 forms/config_management.py:17
+#: forms/my_company_management.py:21 forms/user_admin_management.py:22
+#: forms/user_management.py:16 market/templates/market/create_company.html:60
+msgid "Готово"
+msgstr "Submit"
+
+#: forms/config_management.py:8
+msgid ""
+"Игра идёт (когда выключено - на торговой площадке показываются текущие "
+"результаты игры)"
+msgstr ""
+"The game is running (when it is turned off, the currentgame results are shown on "
+"the trading platform)"
+
+#: forms/config_management.py:11
+msgid "Начальный баланс на кошельке игрока"
+msgstr "The initial balance on the player's wallet"
+
+#: forms/config_management.py:12
+msgid ""
+"Комиссия от сделки (умножается на сумму сделки для вычисления комиссии за 1 "
+"акцию)"
+msgstr ""
+"Transaction commission (multiplied by the transaction amount to calculate the "
+"commission for  1 share)"
+
+#: forms/config_management.py:14
+msgid "Взнос за создание компании"
+msgstr "Company creation fee"
+
+#: forms/config_management.py:16
+msgid "Количество акций, которое игрок получает при создании компании"
+msgstr "The number of shares that the player receives when creating a company"
+
+#: forms/login.py:10 forms/profile.py:13 forms/register.py:13
+#: forms/user_admin_management.py:16
+msgid "Почта"
+msgstr "Email"
+
+#: forms/login.py:11 forms/login.py:13 forms/my_company_management.py:14
+msgid "Вы пропустили это поле"
+msgstr "You missed this field"
+
+#: forms/login.py:12 forms/profile.py:18 forms/register.py:17
+#: forms/user_admin_management.py:17
+msgid "Пароль"
+msgstr "The password to enter the EPOS.School"
+
+#: forms/login.py:14
+msgid "Запомнить меня"
+msgstr "Remember me"
+
+#: forms/my_company_management.py:15 market/templates/market/create_company.html:42
+#: market/templates/market/create_company.html:43
+msgid "Описание"
+msgstr "Description"
+
+#: forms/my_company_management.py:19
+msgid "Только изображения в форматах jpg, png, bmp"
+msgstr "Only images in jpg, png, bmp formats"
+
+#: forms/profile.py:10 forms/register.py:10 forms/user_admin_management.py:13
+msgid "Фамилия"
+msgstr "Surname"
+
+#: forms/profile.py:11 forms/register.py:11 forms/user_admin_management.py:14
+msgid "Имя"
+msgstr "Name"
+
+#: forms/profile.py:12 forms/register.py:12 forms/user_admin_management.py:15
+msgid "Отчество"
+msgstr "Patronymic"
+
+#: forms/profile.py:14 forms/register.py:14
+msgid "Учебное заведение"
+msgstr "Educational institution"
+
+#: forms/profile.py:15 forms/register.py:15
+msgid "Роль"
+msgstr "Role"
+
+#: forms/profile.py:16 forms/register.py:16
+msgid "Ученик"
+msgstr "Student"
+
+#: forms/profile.py:16 forms/register.py:16
+msgid "Учитель"
+msgstr "Teacher"
+
+#: forms/profile.py:16 forms/register.py:16
+msgid "Родитель"
+msgstr "Profile"
+
+#: forms/profile.py:17
+msgid "Старый пароль"
+msgstr "Enter old password"
+
+#: forms/profile.py:19 forms/register.py:18
+msgid "Повторите пароль"
+msgstr "Repeat new password"
+
+#: forms/profile.py:20 forms/register.py:19
+msgid "Логин / Email для входа в ЭПОС.Школа"
+msgstr "Login / Email to log in to the EPIC.School"
+
+#: forms/profile.py:21 forms/register.py:20
+msgid "Пароль для входа в ЭПОС.Школа"
+msgstr "The password to enter the EPOS.School"
+
+#: forms/profile.py:22 forms/register.py:21
+msgid "Дата рождения в формате 01.01.1970"
+msgstr "Date of birth in the format 01.01.1970"
+
+#: forms/profile.py:23 forms/register.py:22
+msgid "О себе"
+msgstr "About me"
+
+#: forms/user_admin_management.py:9 static/js/market/companies-management.js:208
+#: static/js/scripts.js:261
+msgid "Действие"
+msgstr "Action"
+
+#: forms/user_admin_management.py:9
+#: market/templates/market/user_admin_panel.html:13 market/user_admin_panel.py:28
+#: market/user_admin_panel.py:33
+msgid "Добавить пользователя"
+msgstr "Add a user"
+
+#: forms/user_admin_management.py:10
+#: market/templates/market/user_admin_panel.html:94 market/user_admin_panel.py:48
+msgid "Удалить пользователя"
+msgstr "Delete the user"
+
+#: forms/user_admin_management.py:11
+#: market/templates/market/user_admin_panel.html:24 market/user_admin_panel.py:78
+msgid "Изменить пользователя"
+msgstr "Edit the user"
+
+#: forms/user_admin_management.py:12
+msgid "Пользователь"
+msgstr "The user with this email already exists"
+
+#: forms/user_admin_management.py:19
+msgid "Роли (Введите роли пользователя через пробел (Ученик, Учитель, Админ) )"
+msgstr ""
+"Roles (Enter the user roles separated by a space (Student, Teacher, Admin) )"
+
+#: forms/user_admin_management.py:20
+msgid ""
+"Роли в игре (Введите роли пользователя через пробел (Игрок, Эксперт, Админ) )"
+msgstr ""
+"Roles in the game (Enter the user roles separated by a space (Player, Expert,  "
+"Admin) )"
+
+#: forms/user_management.py:8
+msgid ""
+"Пользователь (Нажмите на поле и начните вводить фамилию нужного пользователя)"
+msgstr ""
+"User (Click on the field and start entering the last name of the desired  user)"
+
+#: forms/user_management.py:10
+msgid "Роли в текущей игре"
+msgstr "Delete the current stock exchange"
+
+#: forms/user_management.py:11 market/templates/market/session_result.html:15
+msgid "Игрок"
+msgstr "Player"
+
+#: forms/user_management.py:12
+msgid "Администратор"
+msgstr "Administrator"
+
+#: forms/user_management.py:13
+msgid "Нет ролей"
+msgstr "No roles"
+
+#: forms/user_management.py:14
+msgid "Удалить (Все акции и предложения на торговой площадке переходят Вам)"
+msgstr ""
+"Delete (All his/her shares and offers on the marketplace will be your property.)"
+
+#: market/companies.py:15 market/templates/market/header.html:30
+#: market/templates/market/header_mobile.html:29
+msgid "Компании"
+msgstr "Companies"
+
+#: market/company_panel.py:51
+msgid "Компания добавлена"
+msgstr "Company added"
+
+#: market/company_panel.py:65
+msgid "Компания удалена"
+msgstr "The company was deleted"
+
+#: market/company_panel.py:67 market/company_panel.py:100
+msgid "Компания с указанными данными не существует"
+msgstr "The specified company does not exist"
+
+#: market/company_panel.py:97
+msgid "Компания изменена"
+msgstr "The company was edited"
+
+#: market/company_panel.py:108
+msgid "Все компании удалены"
+msgstr "All companies have been deleted"
+
+#: market/company_panel.py:111
+msgid "Панель управления компаниями"
+msgstr "Company management panel"
+
+#: market/errors.py:8
+msgid "Нет прав доступа"
+msgstr "Access denied"
+
+#: market/errors.py:9
+msgid "Управление пользователями доступно только администратору."
+msgstr "User management is available only to administrators."
+
+#: market/errors.py:10
+msgid "Управление фондовой биржей доступно только её создателю."
+msgstr "Stock exchange management is available only to its creator."
+
+#: market/game_panel.py:64 market/templates/market/header.html:44
+#: market/templates/market/header_mobile.html:44
+msgid "Управление фондовой биржей"
+msgstr "Stock exchange management"
+
+#: market/game_result.py:51
+msgid "Итоги торгов"
+msgstr "Trading results"
+
+#: market/marketplace.py:19 market/templates/market/header.html:25
+#: market/templates/market/header_mobile.html:24
+#: static/js/market/marketplace.js:235
+msgid "Торговая площадка"
+msgstr "Marketplace"
+
+#: market/news.py:17 market/templates/market/header.html:20
+#: market/templates/market/header_mobile.html:19
+msgid "Новости"
+msgstr "News"
+
+#: market/sessions.py:13 market/templates/market/header.html:14
+#: market/templates/market/header_mobile.html:12
+msgid "Фондовые биржи"
+msgstr "Stock exchanges"
+
+#: market/user_admin_panel.py:47
+msgid "Пользователь добавлен"
+msgstr "The user was added"
+
+#: market/user_admin_panel.py:73
+msgid "Пользователь удалён"
+msgstr "The user was deleted"
+
+#: market/user_admin_panel.py:75 market/user_admin_panel.py:126
+msgid "Пользователь с указанными данными не существует"
+msgstr "The specified user does not exist"
+
+#: market/user_admin_panel.py:110
+msgid "Пользователь изменён"
+msgstr "The user was edited"
+
+#: market/user_admin_panel.py:143 market/user_panel.py:94
+msgid "Панель управления пользователями"
+msgstr "User control panel"
+
+#: market/user_panel.py:73
+msgid ""
+"Пользователь удалён из игры. Все его акции и предложения на торговой площадке "
+"перешли в Вашу собственность."
+msgstr ""
+"The user has been removed from the game. All of its shares and offers on the "
+"marketplace are now your property."
+
+#: market/user_panel.py:83
+msgid "Текущие роли пользователя:"
+msgstr "User's current roles:"
+
+#: market/user_panel.py:85
+msgid "У пользователя нет ролей."
+msgstr "The user has no roles."
+
+#: market/templates/market/companies.html:20 market/voting.py:15
+msgid "Управление компаниями"
+msgstr "Company management"
+
+#: market/templates/market/companies.html:38
+msgid ""
+"Введите сюда количество очков доверия, которое Вы хотите присвоить компании и "
+"нажмите на\n"
+"    нужную строку."
+msgstr ""
+"Enter here the number of trust points that you want to assign to the company and "
+"click on the\n"
+" the desired line."
+
+#: market/templates/market/companies.html:42
+msgid "Чтобы снять все очки, введите 0."
+msgstr "To remove all points, enter 0."
+
+#: market/templates/market/companies.html:45
+msgid "Имейте ввиду, что у Вас всего 100 очков доверия."
+msgstr "Keep in mind that you only have 100 trust points."
+
+#: market/templates/market/companies.html:52
+msgid "Очки"
+msgstr "Points"
+
+#: market/templates/market/companies.html:59
+#: market/templates/market/companies_management.html:33
+#: market/templates/market/marketplace.html:24 market/templates/market/news.html:32
+msgid "Загрузка"
+msgstr "Loading"
+
+#: market/templates/market/companies_management.html:12
+#: market/templates/market/companies_management.html:23
+#: static/js/market/companies-management.js:154
+msgid "Начать голосование"
+msgstr "Start voting"
+
+#: market/templates/market/company_panel.html:7
+#: market/templates/market/company_panel.html:11
+msgid "Добавить/Удалить/Изменить компанию"
+msgstr "Edit the company"
+
+#: market/templates/market/create_company.html:12
+msgid "Взнос"
+msgstr "Fee"
+
+#: market/templates/market/create_company.html:18
+#: market/templates/market/create_company.html:25
+msgid "Автоматически будет опубликована новость об открытии компании."
+msgstr "The news about the opening of the company will be published automatically."
+
+#: market/templates/market/header.html:38
+#: market/templates/market/header_mobile.html:37
+msgid "Панель управления"
+msgstr "Company management panel"
+
+#: market/templates/market/header.html:49
+#: market/templates/market/header_mobile.html:50
+msgid "Управление пользователями"
+msgstr "User control panel"
+
+#: market/templates/market/index.html:28
+msgid ""
+"Этот сервис позволяет вам познакомиться с основами фондового рынка.\n"
+"            В частности, с торговлей акциями."
+msgstr ""
+"This service allows you to get familiar with the basics of the stock market.\n"
+"            In particular, with stock trading."
+
+#: market/templates/market/index.html:32
+msgid ""
+"Здесь вы можете создавать компании или ОАО и управлять ими,\n"
+"            выпускать новые акции\n"
+"            и продавать их на торговой площадке, увеличивая баланс на своём "
+"счёте.\n"
+"            Создавайте новости, увеличивая доверие других игроков на бирже к "
+"своей\n"
+"            компании и повышая её прибыль или занижая доверие к другим "
+"компаниям.\n"
+"            Помните: чем больше доверия, тем больше прибыль компании, тем больше "
+"стоят её акции\n"
+"            на торговой площадке."
+msgstr ""
+"Here you can create companies and manage them, \n"
+"            issue new shares\n"
+"            and sell them on the trading platform, increasing your balance.\n"
+"            Create news to increase other players' trust in your\n"
+"            company, increasing its profit or lowering the trust in other  "
+"companies.\n"
+"            Remember: the more there is trust, the greater is the company's "
+"profit, the more its shares are worth\n"
+"             on the market."
+
+#: market/templates/market/index.html:41
+msgid ""
+"Прежде чем начать - прочитайте правила. Мы старались сделать их\n"
+"            максимально интересными."
+msgstr ""
+"Before you start, please read the rules. We tried to make them\n"
+"            as interesting as possible."
+
+#: market/templates/market/news.html:21
+msgid "Создать пост"
+msgstr "Create post"
+
+#: market/templates/market/session_result.html:12
+msgid "Итоговый баланс игроков"
+msgstr "The final balance of the players"
+
+#: market/templates/market/session_result.html:14
+msgid "Место"
+msgstr "Place"
+
+#: market/templates/market/session_result.html:16
+msgid "Итоговый баланс"
+msgstr "Final balance"
+
+#: market/templates/market/session_result.html:29
+msgid "Игроков нет"
+msgstr "No players"
+
+#: market/templates/market/sessions.html:11
+msgid "Текущая фондовая биржа"
+msgstr "Current stock exchange"
+
+#: market/templates/market/sessions.html:22
+#: market/templates/market/sessions.html:24
+msgid "Имя новой фондовой биржи"
+msgstr "Name of the new stock exchange"
+
+#: market/templates/market/sessions.html:29
+msgid "Создать фондовую биржу"
+msgstr "Create stock exchange"
+
+#: market/templates/market/sessions.html:36
+#: market/templates/market/sessions.html:47
+msgid "Удалить текущую фондовую биржу"
+msgstr "Delete the current stock exchange"
+
+#: market/templates/market/user_admin_panel.html:110
+msgid "Подтверждение покупки"
+msgstr "Order confirmation"
+
+#: market/templates/market/user_admin_panel.html:116
+#: static/js/market/marketplace.js:55 static/js/market/marketplace.js:150
+#: static/js/market/marketplace.js:246 static/js/market/marketplace.js:364
+#: static/js/market/marketplace.js:462 static/js/market/marketplace.js:468
+#: static/js/market/marketplace.js:576 static/js/market/marketplace.js:582
+msgid "Акции"
+msgstr "Shares"
+
+#: market/templates/market/user_admin_panel.html:117
+msgid "Цена за акцию"
+msgstr "Price per share"
+
+#: market/templates/market/user_admin_panel.html:118
+#: static/js/market/marketplace.js:364
+msgid "Стоимость"
+msgstr "Cost"
+
+#: market/templates/market/user_admin_panel.html:129
+msgid "Итого:"
+msgstr "Total:"
+
+#: static/js/scripts.js:237
+msgid "Январь"
+msgstr "January"
+
+#: static/js/scripts.js:237
+msgid "Февраль"
+msgstr "February"
+
+#: static/js/scripts.js:237
+msgid "Март"
+msgstr "March"
+
+#: static/js/scripts.js:237
+msgid "Апрель"
+msgstr "April"
+
+#: static/js/scripts.js:237
+msgid "Май"
+msgstr "May"
+
+#: static/js/scripts.js:237
+msgid "Июнь"
+msgstr "June"
+
+#: static/js/scripts.js:238
+msgid "Июль"
+msgstr "July"
+
+#: static/js/scripts.js:238
+msgid "Август"
+msgstr "August"
+
+#: static/js/scripts.js:238
+msgid "Сентябрь"
+msgstr "September"
+
+#: static/js/scripts.js:238
+msgid "Октябрь"
+msgstr "October"
+
+#: static/js/scripts.js:238
+msgid "Ноябрь"
+msgstr "November"
+
+#: static/js/scripts.js:238
+msgid "Декабрь"
+msgstr "December"
+
+#: static/js/scripts.js:244
+msgid "Соединение восстановлено"
+msgstr "Connection restored"
+
+#: static/js/scripts.js:244
+msgid "Соединение разорвано"
+msgstr "Connection lost"
+
+#: static/js/scripts.js:256
+msgid "Общее доверие"
+msgstr "Total trust"
+
+#: static/js/scripts.js:257
+msgid "Ваше доверие"
+msgstr "Your trust"
+
+#: static/js/scripts.js:259
+msgid "ID Голосования"
+msgstr "Voting ID"
+
+#: static/js/scripts.js:262
+msgid "Голосов"
+msgstr "Votes"
+
+#: static/js/scripts.js:263
+msgid "Ваш выбор"
+msgstr "Your choice"
+
+#: static/js/scripts.js:265
+msgid "Нет открытых голосований"
+msgstr "No active votings"
+
+#: static/js/market/companies-management.js:28
+msgid "Голосования акционеров"
+msgstr "Voting for shareholders"
+
+#: static/js/market/companies-management.js:150
+msgid "Создать голосование"
+msgstr "Start voting"
+
+#: static/js/market/companies-management.js:197
+msgid "Выпустить новые акции"
+msgstr "Buy shares"
+
+#: static/js/market/companies-management.js:233
+msgid "Количество новых акций на 1 старую"
+msgstr "Count of new shares per 1 old one"
+
+#: static/js/market/companies.js:110
+msgid "Количество очков должно быть натуральным числом"
+msgstr "The number of points must be a natural number"
+
+#: static/js/market/companies.js:112
+msgid "Вы не можете голосовать за компании, акционером которых Вы являетесь"
+msgstr "You cannot vote for company if you are its shareholder"
+
+#: static/js/market/companies.js:118
+msgid "Недостаточно очков доверия"
+msgstr "Not enough trust points"
+
+#: static/js/market/companies.js:120
+msgid "Свободных очков: "
+msgstr "Free points: "
+
+#: static/js/market/marketplace.js:44
+msgid "Ваши акции"
+msgstr "Your shares"
+
+#: static/js/market/marketplace.js:84 static/js/market/marketplace.js:515
+msgid "Продать акции"
+msgstr "Sell shares"
+
+#: static/js/market/marketplace.js:112
+msgid "У вас нет акций"
+msgstr "You have no shares"
+
+#: static/js/market/marketplace.js:139
+msgid "Ваши акции на торговой площадке"
+msgstr "Your shares on market"
+
+#: static/js/market/marketplace.js:154 static/js/market/marketplace.js:250
+msgid "Зарезервировано"
+msgstr "Reserved"
+
+#: static/js/market/marketplace.js:158 static/js/market/marketplace.js:254
+#: static/js/market/marketplace.js:477 static/js/market/marketplace.js:482
+msgid "Цена за 1 акцию"
+msgstr "Price per 1 share"
+
+#: static/js/market/marketplace.js:186
+msgid "Снять с продажи"
+msgstr "Withdraw shares"
+
+#: static/js/market/marketplace.js:286 static/js/market/marketplace.js:421
+#: static/js/market/marketplace.js:599 static/js/market/marketplace.js:600
+msgid "Купить акции"
+msgstr "Buy shares"
+
+#: static/js/market/marketplace.js:288
+msgid "Это ваши акции)"
+msgstr "These are your shares)"
+
+#: static/js/market/marketplace.js:331
+msgid "Нет предложений"
+msgstr "No offers"
+
+#: static/js/market/marketplace.js:347
+msgid "На торговой площадке нет свободных акций этой компании"
+msgstr "There are no free shares of this company on the market"
+
+#: static/js/market/marketplace.js:354
+msgid ""
+"ВНИМАНИЕ: На торговой площадке не хватает акций. Вам предложены акции, имеющиеся "
+"в наличии."
+msgstr ""
+"CAUTION: There is not enough shares on the market. You are offered available "
+"shares."
+
+#: static/js/market/marketplace.js:361
+msgid "Чек"
+msgstr "Cheque"
+
+#: static/js/market/marketplace.js:364
+msgid "Цена"
+msgstr "Price"
+
+#: static/js/market/marketplace.js:364
+msgid "Комиссия"
+msgstr "Fee"
+
+#: static/js/market/marketplace.js:395
+msgid "Итого"
+msgstr "Total"
+
+#: static/js/market/marketplace.js:419 static/js/market/marketplace.js:513
+msgid "Отклонить"
+msgstr "Cancel"
+
+#: static/js/market/marketplace.js:499 static/js/market/marketplace.js:595
+msgid "Количество акций должно быть больше нуля."
+msgstr "The number of shares must be greater than zero."
+
+#: static/js/market/marketplace.js:501
+msgid "Цена должна быть больше нуля."
+msgstr "The price must be greater than zero."
+
+#: static/js/market/marketplace.js:606
+msgid "У Вас нет такого количества акций данной компании."
+msgstr "You do not have enough shares of this company."
+
+#: static/js/market/marketplace.js:612
+msgid "На Вашем счёте недостаточно средств."
+msgstr "You do not have enough money."
+
+#: static/js/market/news.js:155
+msgid "Опубликовать"
+msgstr "Publish"
+
+#: static/js/market/news.js:197 static/js/market/news.js:323
+msgid "Неверный или небезопасный формат файла"
+msgstr "Invalid or potentially unsafe file type"
+
+#: static/js/market/news.js:216 static/js/market/news.js:339
+msgid "Файл слишком большой, пожалуйста выберите файл менее 1МБ"
+msgstr "The file is too large, please select a file less than 1MB"
+
+#: static/js/market/news.js:227
+msgid "Новый пост"
+msgstr "Create post"
+
+#: static/js/market/news.js:238
+msgid "от лица компании"
+msgstr "on behalf of the company"
+
+#: static/js/market/news.js:293
+msgid "Удалить изображение"
+msgstr "Delete image"
+
+#: static/js/market/news.js:348
+msgid "Изменение поста"
+msgstr "Edit post"
+
+#: static/js/market/sessions.js:25
+msgid "Это название занято."
+msgstr "This name is taken."
+
+#: static/js/market/sessions.js:27
+msgid "Укажите имя новой фондовой биржи."
+msgstr "Enter the name of the new stock exchange."

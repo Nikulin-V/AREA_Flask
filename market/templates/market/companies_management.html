@@ -9,7 +9,7 @@
                     <h1>{{ title }}</h1></td>
                 <td style="text-align: right; border: 0">
                     <a class="btn btn-info" onclick="createVoting()">
-                        Начать голосование
+                        {{ _('Начать голосование') }}
                     </a>
                 </td>
             </tr>
@@ -19,8 +19,9 @@
                     <h3>{{ title }}</h3></td>
                 <td style="text-align: right; border: 0">
                     <a class="btn btn-info" onclick="createVoting()"
-                       style="padding: .1em .5em; margin-top: 5px">Начать
-                        голосование</a>
+                       style="padding: .1em .5em; margin-top: 5px">
+                        {{ _('Начать голосование') }}
+                    </a>
                 </td>
             </tr>
         {% endif %}
@@ -29,7 +30,7 @@
 
     <div class="text-center votings-table">
         <div class="spinner-border text-info" role="status">
-            <span class="visually-hidden">Загрузка...</span>
+            <span class="visually-hidden">{{ _('Загрузка') }}...</span>
         </div>
     </div>
 

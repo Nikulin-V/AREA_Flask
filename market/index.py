@@ -1,5 +1,6 @@
 #  Nikulin Vasily © 2021
 from flask import render_template
+from flask_babel import _
 
 from market import market
 
@@ -8,4 +9,4 @@ from market import market
 @market.route('/index')
 def index():
     return render_template("market/index.html",
-                           title='Главная')
+                           title=_('Главная'))

@@ -2,7 +2,7 @@
 
 {% block header_content %}
     <li>
-        <a class="menu__item" href="{{ url('.index') }}">Главная</a>
+        <a class="menu__item" href="{{ url('.index') }}">{{ _('Главная') }}</a>
     </li>
     {% if current_user.is_authenticated %}
         {% if 'Ученик' in current_user.role %}

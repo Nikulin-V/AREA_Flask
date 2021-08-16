@@ -2,27 +2,31 @@
 
 {% block header_content %}
     <li>
-        <a class="menu__item" href="{{ url('.index') }}">Главная</a>
+        <a class="menu__item" href="{{ url('.index') }}">
+            {{ _('Главная') }}
+        </a>
     </li>
     {% if current_user.is_authenticated %}
         <li class="nav-item">
-            <a href="{{ url('.sessions') }}" class="menu__item">Фондовые биржи</a>
+            <a href="{{ url('.sessions') }}" class="menu__item">
+                {{ _('Фондовые биржи') }}
+            </a>
         </li>
         {% if game_role() %}
             {% if 'Player' in game_role() %}
                 <li>
                     <a href="{{ url('.news') }}" class="menu__item">
-                        Новости
+                        {{ _('Новости') }}
                     </a>
                 </li>
                 <li>
                     <a href="{{ url('.marketplace') }}" class="menu__item">
-                        Торговая площадка
+                        {{ _('Торговая площадка') }}
                     </a>
                 </li>
                 <li>
                     <a href="{{ url('.companies') }}" class="menu__item">
-                        Компании
+                        {{ _('Компании') }}
                     </a>
                 </li>
             {% endif %}
@@ -30,20 +34,20 @@
                 <div class="btn-group nav-item">
                     <a class="menu__item dropdown-toggle" data-toggle="dropdown"
                        aria-expanded="false">
-                        Панель управления
+                        {{ _('Панель управления') }}
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 
                         <li class="dropdown-item">
                             <a href="{{ url('.game_panel') }}" class="menu__item"
                                style="font-size: 1em">
-                                Управление фондовой биржей
+                                {{ _('Управление фондовой биржей') }}
                             </a>
                         </li>
                         <li class="dropdown-item">
                             <a href="{{ url('.user_panel') }}" class="menu__item"
                                style="font-size: 1em">
-                                Управление пользователями
+                                {{ _('Управление пользователями') }}
                             </a>
                         </li>
 

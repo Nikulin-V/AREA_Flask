@@ -4,11 +4,11 @@
     {% if not request.MOBILE %}
         <h1 style="text-align: center">{{ title }}</h1>
         <hr>
-        <h4>Добавить/Удалить/Изменить компанию</h4>
+        <h4>{{ _('Добавить/Удалить/Изменить компанию') }}</h4>
     {% else %}
         <h3 style="text-align: center">{{ title }}</h3>
         <hr>
-        <h6>Добавить/Удалить/Изменить компанию</h6>
+        <h6>{{ _('Добавить/Удалить/Изменить компанию') }}</h6>
     {% endif %}
     <form action="" method="post">
         {{ form.hidden_tag() }}
@@ -16,7 +16,7 @@
             {{ form.action.label }}<br>
             {{ form.action(class='form-control') }}<br>
         </div>
-        {% if form.action.data == 'Открыть компанию' or not form.action.data %}
+        {% if form.action.data == _('Открыть компанию') or not form.action.data %}
             <div>
                 {{ form.new_sector.label }}<br>
                 {{ form.new_sector(class='form-control') }}<br>
@@ -44,7 +44,7 @@
                     </div>
                 {% endfor %}
             </div>
-        {% elif form.action.data == 'Изменить компанию' %}
+        {% elif form.action.data == _('Изменить компанию') %}
             <div>
                 {{ form.sector.label }}<br>
                 {{ form.sector(class='form-control') }}
@@ -89,7 +89,7 @@
                     {% endfor %}
                 </div>
             {% endif %}
-        {% elif form.action.data == 'Закрыть компанию' %}
+        {% elif form.action.data == _('Закрыть компанию') %}
             <div>
                 {{ form.sector.label }}<br>
                 {{ form.sector(class='form-control') }}
@@ -108,7 +108,7 @@
                     </div>
                 {% endfor %}
             </div>
-        {% elif form.action.data == 'Удалить все компании' %}
+        {% elif form.action.data == _('Удалить все компании') %}
             <div style="display: flex">
                 {{ form.accept_delete_all_companies.label }}
                 {{ form.accept_delete_all_companies(class='form-control', style='width: 10%') }}<br>
@@ -128,7 +128,8 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Сообщение от сайта</h5>
+                        <h5 class="modal-title"
+                            id="exampleModalLabel">{{ _('Сообщение от сайта') }}</h5>
                         <button type="button" class="close" id="modal-close-btn"
                                 data-dismiss="modal"
                                 aria-label="Close">

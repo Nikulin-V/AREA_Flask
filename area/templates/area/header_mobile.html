@@ -9,17 +9,20 @@
                 <a class="menu__item" id="menu-item" href="{{ url('area.index') }}"
                    style="color: black; font-size: 1.5em">
                     <img id="logo-header" src="{{ url('static', filename='images/Wolf.png') }}"
-                         alt="Logo">
+                         alt="{{ _('Логотип') }}">
                     AREA
                 </a>
             </li>
             {% block header_content %}
                 <li>
-                    <a class="menu__item" href="{{ url('area.index') }}">Главная</a>
+                    <a class="menu__item" href="{{ url('area.index') }}">
+                        {{ _('Главная') }}
+                    </a>
                 </li>
                 <li>
-                    <a class="menu__item" href="{{ url('area.privacy_policy') }}">Политика
-                        конфиденциальности</a>
+                    <a class="menu__item" href="{{ url('area.privacy_policy') }}">
+                        {{ _('Политика конфиденциальности') }}
+                    </a>
                 </li>
             {% endblock header_content %}
         </ul>
@@ -32,16 +35,19 @@
             </a>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton"
                 style="right: 5px; left: auto; text-align: center;">
-                <li><a class="dropdown-item" href="{{ url('.profile') }}">Профиль</a></li>
-                <li><a class="dropdown-item" href="{{ url('.logout') }}">Выйти</a></li>
+                <li><a class="dropdown-item" href="{{ url('.profile') }}">{{ _('Профиль') }}</a>
+                </li>
+                <li><a class="dropdown-item" href="{{ url('.logout') }}">{{ _('Выйти') }}</a></li>
             </ul>
         </div>
 
     {% else %}
         <div class="navbar-right" style="padding: 5px">
-            <a id="sign-in-btn" class="btn btn-info" href="{{ url('.login') }}">Вход</a>
+            <a id="sign-in-btn" class="btn btn-info" href="{{ url('.login') }}">
+                {{ _('Вход') }}
+            </a>
             <a id="sign-up-btn" class="btn btn-info"
-               href="{{ url('.register') }}">Регистрация
+               href="{{ url('.register') }}">{{ _('Регистрация') }}
             </a>
         </div>
     {% endif %}

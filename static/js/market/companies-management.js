@@ -25,7 +25,7 @@ function createTable() {
         if (window.isMobile)
             table.style.fontSize = ".7em"
         const caption = table.appendChild(document.createElement('caption'))
-        caption.textContent = 'Голосования акционеров'
+        caption.textContent = _('Голосования акционеров')
         caption.style.captionSide = "top"
         const thead = table.appendChild(document.createElement('thead'));
         thead.style.backgroundColor = "#86CFDA"
@@ -41,11 +41,11 @@ function createTable() {
             // noinspection JSNonASCIINames
             tableData.push(
                 {
-                    'ID Голосования': v["id"],
-                    'Компания': v["company"],
-                    'Действие': v["action"],
-                    'Голосов': v["votes"],
-                    'Ваш выбор': v["is_voted"]
+                    votingIdWord: v["id"],
+                    companyWord: v["company"],
+                    actionWord: v["action"],
+                    votesWord: v["votes"],
+                    yourChoice: v["is_voted"]
                 }
             )
         }
@@ -83,7 +83,7 @@ function createTable() {
         main.insertAdjacentHTML('beforeend', `
         <table class="dairy-table table-hover table-info votings-table">
             <tr style="background-color: #86CFDA">
-                <td style="text-align: center;padding: 5px">Нет открытых голосований</td>
+                <td style="text-align: center;padding: 5px">${noOpenedVotingsWord}</td>
             </tr>
         </table>
         `)
@@ -119,7 +119,7 @@ function changeVotingValues(votingId, data) {
             main.insertAdjacentHTML('beforeend', `
                                             <table class="dairy-table table-hover table-info votings-table">
                                                 <tr  style="background-color: #86CFDA">
-                                                    <td style="text-align: center;padding: 5px">Нет открытых голосований</td>
+                                                    <td style="text-align: center;padding: 5px">${noOpenedVotingsWord}</td>
                                                 </tr>
                                             </table>
                                         `)
@@ -146,11 +146,11 @@ function createVoting() {
     createVotingButton.onclick = function () {
         createVotingAction()
     }
-    createVotingButton.textContent = 'Создать голосование'
+    createVotingButton.textContent = _('Создать голосование')
 
 
     if (stocks.getJson['stocks'].length > 0) {
-        showModal(getVotingElement(), 'Начать голосование', [createVotingButton]);
+        showModal(getVotingElement(), _('Начать голосование'), [createVotingButton]);
         $('#actions-select').bind('change', function () {
             if (document.getElementById('actions-select').selectedIndex === 0)
                 document.getElementById('stocks-count').style.display = "block"
@@ -174,7 +174,7 @@ function getVotingElement() {
 
     companiesLabel = document.createElement('label')
     companiesLabel.htmlFor = "companies-select"
-    companiesLabel.textContent = "Компания"
+    companiesLabel.textContent = _("Компания")
 
     companiesDiv.appendChild(companiesSelect)
     companiesDiv.appendChild(companiesLabel)
@@ -193,18 +193,18 @@ function getVotingElement() {
 
     option1 = document.createElement('option')
     option1.value = "releaseNewStocks"
-    option1.textContent = "Выпустить новые акции"
+    option1.textContent = _("Выпустить новые акции")
     actionsSelect.appendChild(option1)
 
     option2 = document.createElement('option')
     option2.value = "closeCompany"
-    option2.textContent = "Закрыть компанию"
+    option2.textContent = _("Закрыть компанию")
     actionsSelect.appendChild(option2)
     actionsDiv.appendChild(actionsSelect)
 
     actionsLabel = document.createElement('label')
     actionsLabel.htmlFor = "actions-select"
-    actionsLabel.textContent = "Действие"
+    actionsLabel.textContent = _("Действие")
     actionsDiv.appendChild(actionsLabel)
 
     createVotingDiv.appendChild(actionsDiv)
@@ -229,7 +229,7 @@ function getVotingElement() {
 
     stocksLabel = document.createElement('label')
     stocksLabel.htmlFor = "stocks-input"
-    stocksLabel.textContent = "Количество новых акций на 1 старую"
+    stocksLabel.textContent = _("Количество новых акций на 1 старую")
 
     stocksCountDiv.appendChild(stocksLabel)
 

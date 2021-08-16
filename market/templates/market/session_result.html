@@ -9,11 +9,11 @@
     {% if game_role() %}
         {% if wallets %}
             <table class="dairy-table table-hover table-info">
-                <caption style="caption-side: top">Итоговый баланс игроков</caption>
+                <caption style="caption-side: top">{{ _('Итоговый баланс игроков') }}</caption>
                 <tr style="background-color: #86CFDA">
-                    <td style="text-align: center;padding: 5px">Место</td>
-                    <td style="text-align: center;padding: 5px">Игрок</td>
-                    <td style="text-align: center;padding: 5px">Итоговый баланс</td>
+                    <td style="text-align: center;padding: 5px">{{ _('Место') }}</td>
+                    <td style="text-align: center;padding: 5px">{{ _('Игрок') }}</td>
+                    <td style="text-align: center;padding: 5px">{{ _('Итоговый баланс') }}</td>
                 </tr>
                 {% for i, user, balance in wallets %}
                     <tr>
@@ -26,7 +26,7 @@
         {% else %}
             <table class="dairy-table table-hover table-info">
                 <tr style="background-color: #86CFDA">
-                    <td style="text-align: center;padding: 5px">Игроков нет</td>
+                    <td style="text-align: center;padding: 5px">{{ _('Игроков нет') }}</td>
                 </tr>
             </table>
         {% endif %}
@@ -38,7 +38,8 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Сообщение от сайта</h5>
+                        <h5 class="modal-title"
+                            id="exampleModalLabel">{{ _('Сообщение от сайта') }}</h5>
                         <button type="button" class="close" id="modal-close-btn"
                                 data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>

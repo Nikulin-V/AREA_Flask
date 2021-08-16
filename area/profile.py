@@ -1,5 +1,6 @@
 #  Nikulin Vasily © 2021
 from flask import render_template, redirect, request
+from flask_babel import _
 from flask_login import login_required, current_user
 
 from area import area
@@ -24,7 +25,7 @@ def profile():
     message = ''
 
     if form.validate_on_submit():
-        message = "Сохранено"
+        message = _("Сохранено")
 
         user.surname = form.surname.data
         user.name = form.name.data
@@ -42,15 +43,15 @@ def profile():
 
         if form.old_password.data or form.password.data or form.password_again.data:
             if not form.old_password.data:
-                message = "Введите старый пароль"
+                message = _("Введите старый пароль")
             elif not form.password.data:
-                message = "Введите новый пароль"
+                message = _("Введите новый пароль")
             elif not form.password_again.data:
-                message = "Повторите новый пароль"
+                message = _("Повторите новый пароль")
             elif not user.check_password(form.old_password.data):
-                message = "Неверный старый пароль"
+                message = _("Неверный старый пароль")
             elif form.password.data != form.password_again.data:
-                message = "Пароли не совпадают"
+                message = _("Пароли не совпадают")
             else:
                 user.set_password(form.password.data)
 
@@ -74,12 +75,12 @@ def profile():
         date = date.strftime('%d.%m.%Y')
 
     return render_template("area/profile.html",
-                           title='Профиль',
+                           title=_('Профиль'),
                            form=form,
                            message=message,
                            school=school,
                            date=date,
-                           btn_label='Сохранить')
+                           btn_label=_('Сохранить'))
 
 
 @market.route('/profile', methods=['GET', 'POST'])

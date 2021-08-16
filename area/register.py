@@ -1,5 +1,6 @@
 #  Nikulin Vasily © 2021
 from flask import redirect, render_template, request
+from flask_babel import _
 from flask_login import current_user, login_user
 
 from area import area
@@ -28,17 +29,17 @@ def register():
     if form.validate_on_submit():
         if form.password.data != form.password_again.data:
             return render_template("area/register.html",
-                                   title='Регистрация',
+                                   title=_('Регистрация'),
                                    form=form,
-                                   message="Пароли не совпадают",
-                                   btn_label='Войти')
+                                   message=_("Пароли не совпадают"),
+                                   btn_label=_('Войти'))
 
         if db_sess.query(User).filter(User.email == form.email.data).first():
             return render_template("area/register.html",
-                                   title='Регистрация',
+                                   title=_('Регистрация'),
                                    form=form,
-                                   message="Такой пользователь уже есть",
-                                   btn_label='Войти')
+                                   message=_("Такой пользователь уже есть"),
+                                   btn_label=_('Войти'))
 
         # noinspection PyArgumentList
         user = User(

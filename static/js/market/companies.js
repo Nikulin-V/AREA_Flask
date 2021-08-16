@@ -3,6 +3,7 @@
  */
 
 renderPage()
+
 function renderPage() {
     votes.get(createTable)
     companies.get()
@@ -31,17 +32,15 @@ function createTable() {
             const tr = thead.appendChild(document.createElement('tr'));
 
             tableData = []
-            for (i = 0;i < Object.keys(votesJson[sectors[sectorId]]).length; i++) {
+            for (i = 0; i < Object.keys(votesJson[sectors[sectorId]]).length; i++) {
                 v = votesJson[sectors[sectorId]][i]
                 if (v["user_points"] === 0)
                     v["user_points"] = '-'
-                tableData.push(
-                    {
-                        'Компания': v["company"],
-                        'Общее доверие': v["points"],
-                        'Ваше доверие': v["user_points"]
-                    }
-                )
+                let obj = Object()
+                obj[companyWord] = v["company"]
+                obj[generalTrustWord] = v["points"]
+                obj[yourTrustWord] = v["user_points"]
+                tableData.push(obj)
             }
 
             let columnTexts = Object.keys(tableData[0]);
@@ -95,29 +94,30 @@ function changeVotingValues(companyTitle, points, data) {
         if (points === 0) {
             if (tr.children[2].textContent !== "-")
                 tr.children[1].textContent = (parseInt(tr.children[1].textContent) -
-                parseInt(tr.children[2].textContent)).toString()
+                    parseInt(tr.children[2].textContent)).toString()
             tr.children[2].textContent = '-'
         } else {
             if (tr.children[2].textContent === "-")
                 tr.children[1].textContent = (parseInt(tr.children[1].textContent) + points).toString()
             else
                 tr.children[1].textContent = (parseInt(tr.children[1].textContent) -
-                parseInt(tr.children[2].textContent) + points).toString()
+                    parseInt(tr.children[2].textContent) + points).toString()
             tr.children[2].textContent = points.toString()
         }
     } else {
 
         if (data['errors'][0] === 'Points must be an integer number')
-            message = createParagraph('Количество очков должно быть натуральным числом')
+            message = createParagraph(_('Количество очков должно быть натуральным числом'))
         if (data['errors'][0] === 'You are stockholder of this company')
-            message = createParagraph('Вы не можете голосовать за компании, акционером которых Вы являетесь')
+            message = createParagraph(_('Вы не можете голосовать за компании, акционером которых' +
+                ' Вы являетесь'))
         if (data['errors'][0] === 'You do not have enough points') {
             points = data['data']['points']
             message = document.createElement('div')
             p1 = document.createElement('p')
-            p1.textContent = "Недостаточно очков доверия"
+            p1.textContent = _("Недостаточно очков доверия")
             p2 = document.createElement('p')
-            p2.textContent = "Свободных очков: " + points
+            p2.textContent = _("Свободных очков: ") + points
             message.appendChild(p1)
             message.appendChild(p2)
         }
@@ -125,7 +125,7 @@ function changeVotingValues(companyTitle, points, data) {
         votes.get()
         sectors = Object.keys(votes.getJson['votes'])
 
-        for (sectorId = 0; sectorId < sectors.length; sectorId++){
+        for (sectorId = 0; sectorId < sectors.length; sectorId++) {
             for (companyId = 0; companyId < votes.getJson['votes'][sectors[sectorId]].length;
                  companyId++) {
 

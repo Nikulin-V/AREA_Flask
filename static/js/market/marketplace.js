@@ -41,18 +41,18 @@ function renderUserStocksTable() {
     if (stocks.getJson['stocks'].length > 0) {
         userStocksTableCaption = document.createElement('caption')
         userStocksTableCaption.style.captionSide = "top"
-        userStocksTableCaption.textContent = "Ваши акции"
+        userStocksTableCaption.textContent = _("Ваши акции")
 
         userStocksTable.appendChild(userStocksTableCaption)
 
         userStocksTableThead = document.createElement('thead')
         userStocksTableThead.style.backgroundColor = "#86CFDA"
         userStocksTableTheadCompany = document.createElement('td')
-        userStocksTableTheadCompany.textContent = "Компания"
+        userStocksTableTheadCompany.textContent = _("Компания")
         userStocksTableTheadCompany.style.textAlign = "center"
         userStocksTableTheadCompany.style.padding = "5px"
         userStocksTableTheadStocks = document.createElement('td')
-        userStocksTableTheadStocks.textContent = "Акции"
+        userStocksTableTheadStocks.textContent = _("Акции")
         userStocksTableTheadStocks.style.textAlign = "center"
         userStocksTableTheadStocks.style.padding = "5px"
         userStocksTableThead.appendChild(userStocksTableTheadCompany)
@@ -65,12 +65,12 @@ function renderUserStocksTable() {
             const row = document.createElement('tr')
 
             row.onclick = function () {
-                    sellStocks(this.company, this.stocks)
-                }
+                sellStocks(this.company, this.stocks)
+            }
             row.addEventListener("mouseout", function () {
                 clicked = false
                 renderElements()
-                
+
                 this.onmouseup = function () {
                     sellStocks(this.company, this.stocks)
                 }
@@ -81,7 +81,7 @@ function renderUserStocksTable() {
                     this.removeChild(this.children[0])
                 const td = document.createElement('td')
                 td.style.textAlign = "center"
-                td.textContent = "Продать акции"
+                td.textContent = _("Продать акции")
                 td.colSpan = 2
                 this.onmouseup = function () {
                     clicked = false
@@ -109,7 +109,7 @@ function renderUserStocksTable() {
         userStocksTableThead = document.createElement('thead')
         userStocksTableThead.style.backgroundColor = "#86CFDA"
         userStocksTableTheadNotStocks = document.createElement('td')
-        userStocksTableTheadNotStocks.textContent = "У вас нет акций"
+        userStocksTableTheadNotStocks.textContent = _("У вас нет акций")
         userStocksTableTheadNotStocks.style.textAlign = "center"
         userStocksTableTheadNotStocks.style.padding = "5px"
         userStocksTableThead.appendChild(userStocksTableTheadNotStocks)
@@ -136,26 +136,26 @@ function renderUserSellStocksTable() {
 
         userSellStocksTableCaption = document.createElement('caption')
         userSellStocksTableCaption.style.captionSide = "top"
-        userSellStocksTableCaption.textContent = "Ваши акции на торговой площадке"
+        userSellStocksTableCaption.textContent = _("Ваши акции на торговой площадке")
 
         userSellStocksTable.appendChild(userSellStocksTableCaption)
 
         userSellStocksTableThead = document.createElement('thead')
         userSellStocksTableThead.style.backgroundColor = "#86CFDA"
         userSellStocksTableTheadCompany = document.createElement('td')
-        userSellStocksTableTheadCompany.textContent = "Компания"
+        userSellStocksTableTheadCompany.textContent = _("Компания")
         userSellStocksTableTheadCompany.style.textAlign = "center"
         userSellStocksTableTheadCompany.style.padding = "5px"
         userSellStocksTableTheadStocks = document.createElement('td')
-        userSellStocksTableTheadStocks.textContent = "Акции"
+        userSellStocksTableTheadStocks.textContent = _("Акции")
         userSellStocksTableTheadStocks.style.textAlign = "center"
         userSellStocksTableTheadStocks.style.padding = "5px"
         userSellStocksTableTheadReservedStocks = document.createElement('td')
-        userSellStocksTableTheadReservedStocks.textContent = "Зарезервировано"
+        userSellStocksTableTheadReservedStocks.textContent = _("Зарезервировано")
         userSellStocksTableTheadReservedStocks.style.textAlign = "center"
         userSellStocksTableTheadReservedStocks.style.padding = "5px"
         userSellStocksTableTheadPrice = document.createElement('td')
-        userSellStocksTableTheadPrice.textContent = "Цена за 1 акцию"
+        userSellStocksTableTheadPrice.textContent = _("Цена за 1 акцию")
         userSellStocksTableTheadPrice.style.textAlign = "center"
         userSellStocksTableTheadPrice.style.padding = "5px"
         userSellStocksTableThead.appendChild(userSellStocksTableTheadCompany)
@@ -183,7 +183,7 @@ function renderUserSellStocksTable() {
                     this.removeChild(this.children[0])
                 const td = document.createElement('td')
                 td.style.textAlign = "center"
-                td.textContent = "Снять с продажи"
+                td.textContent = _("Снять с продажи")
                 td.colSpan = 4
                 this.onmouseup = function () {
                     clicked = false
@@ -232,26 +232,26 @@ function renderStocksTable() {
 
     sellStocksTableCaption = document.createElement('caption')
     sellStocksTableCaption.style.captionSide = "top"
-    sellStocksTableCaption.textContent = "Торговая площадка"
+    sellStocksTableCaption.textContent = _("Торговая площадка")
     sellStocksTable.appendChild(sellStocksTableCaption)
 
     if (offersJson.length > 0) {
         sellStocksTableThead = document.createElement('thead')
         sellStocksTableThead.style.backgroundColor = "#86CFDA"
         sellStocksTableTheadCompany = document.createElement('td')
-        sellStocksTableTheadCompany.textContent = "Компания"
+        sellStocksTableTheadCompany.textContent = _("Компания")
         sellStocksTableTheadCompany.style.textAlign = "center"
         sellStocksTableTheadCompany.style.padding = "5px"
         sellStocksTableTheadStocks = document.createElement('td')
-        sellStocksTableTheadStocks.textContent = "Акции"
+        sellStocksTableTheadStocks.textContent = _("Акции")
         sellStocksTableTheadStocks.style.textAlign = "center"
         sellStocksTableTheadStocks.style.padding = "5px"
         sellStocksTableTheadReservedStocks = document.createElement('td')
-        sellStocksTableTheadReservedStocks.textContent = "Зарезервировано"
+        sellStocksTableTheadReservedStocks.textContent = _("Зарезервировано")
         sellStocksTableTheadReservedStocks.style.textAlign = "center"
         sellStocksTableTheadReservedStocks.style.padding = "5px"
         sellStocksTableTheadPrice = document.createElement('td')
-        sellStocksTableTheadPrice.textContent = "Цена за 1 акцию"
+        sellStocksTableTheadPrice.textContent = _("Цена за 1 акцию")
         sellStocksTableTheadPrice.style.textAlign = "center"
         sellStocksTableTheadPrice.style.padding = "5px"
         sellStocksTableThead.appendChild(sellStocksTableTheadCompany)
@@ -283,9 +283,9 @@ function renderStocksTable() {
                 td.style.textAlign = "center"
 
                 if (!this.canEdit)
-                    td.textContent = "Купить акции"
+                    td.textContent = _("Купить акции")
                 else
-                    td.textContent = "Это ваши акции)"
+                    td.textContent = _("Это ваши акции)")
 
                 td.colSpan = 4
                 this.appendChild(td)
@@ -328,7 +328,7 @@ function renderStocksTable() {
         sellStocksTableThead = document.createElement('thead')
         sellStocksTableThead.style.backgroundColor = "#86CFDA"
         sellStocksTableTheadNotStocks = document.createElement('td')
-        sellStocksTableTheadNotStocks.textContent = "Нет предложений"
+        sellStocksTableTheadNotStocks.textContent = _("Нет предложений")
         sellStocksTableTheadNotStocks.style.textAlign = "center"
         sellStocksTableTheadNotStocks.style.padding = "5px"
         sellStocksTableThead.appendChild(sellStocksTableTheadNotStocks)
@@ -343,24 +343,25 @@ function createCheque(company, stocks, isBuy) {
 
 function createChequeResponse() {
     if (offers.putJson['message'] === 'Error' &&
-            offers.putJson['errors'][0] === 'Not enough stocks')
-            showModal(createParagraph('На торговой площадке нет свободных акций этой компании'))
+        offers.putJson['errors'][0] === 'Not enough stocks')
+        showModal(createParagraph(_('На торговой площадке нет свободных акций этой компании')))
     else {
         renderPage()
         offersJson = offers.putJson['offers']
         const message = document.createElement('div')
 
         if (!offers.putJson['isEnough'])
-            message.appendChild(createParagraph('ВНИМАНИЕ: На торговой площадке не хватает акций. Вам предложены акции, имеющиеся в наличии.'))
+            message.appendChild(createParagraph(_('ВНИМАНИЕ: На торговой площадке не хватает' +
+                ' акций. Вам предложены акции, имеющиеся в наличии.')))
 
         chequeTable = document.createElement('table')
         chequeTable.id = "cheque"
         chequeTableCaption = document.createElement('caption')
         chequeTableCaption.style.captionSide = "top"
-        chequeTableCaption.textContent = "Чек"
+        chequeTableCaption.textContent = _("Чек")
         chequeTable.appendChild(chequeTableCaption)
         chequeTable.className = "dairy-table table-hover table-info"
-        tableHeaders = ['Компания', 'Акции', 'Цена', 'Стоимость', 'Комиссия']
+        tableHeaders = [_('Компания'), _('Акции'), _('Цена'), _('Стоимость'), _('Комиссия')]
         chequeTableThead = document.createElement('thead')
         chequeTableThead.style.backgroundColor = "#86CFDA"
         for (headerId = 0; headerId < tableHeaders.length; headerId++) {
@@ -391,7 +392,7 @@ function createChequeResponse() {
         }
         const row = document.createElement('tr')
         const tdTotal = document.createElement('td')
-        tdTotal.textContent = "Итого: " + total
+        tdTotal.textContent = _("Итого") + ': ' + total
         tdTotal.style.textAlign = "center"
         tdTotal.colSpan = 5
         row.appendChild(tdTotal)
@@ -406,7 +407,7 @@ function createChequeResponse() {
             clearTimeout(timeoutId)
             offers.put(null, null, 'accept', offers.putJson, checkBuyResponse)
         }
-        buttonAccept.textContent = 'Подтвердить'
+        buttonAccept.textContent = _('Подтвердить')
 
         buttonDecline = document.createElement('button')
         buttonDecline.type = 'button'
@@ -415,9 +416,9 @@ function createChequeResponse() {
             clearTimeout(timeoutId)
             offers.put(null, null, 'decline', offers.putJson, closeModalAndRenderPage)
         }
-        buttonDecline.textContent = 'Отклонить'
+        buttonDecline.textContent = _('Отклонить')
         timeoutId = setTimeout(declineBuying, 16384)
-        showModal(message, 'Купить акции', [buttonAccept, buttonDecline])
+        showModal(message, _('Купить акции'), [buttonAccept, buttonDecline])
     }
 }
 
@@ -433,7 +434,7 @@ function sellStocks(company_title, max_stocks) {
     companyTitleSelect.className = "form-select"
     companyTitleSelect.type = "text"
     companyTitleSelect.id = "company-title"
-    companyTitleSelect.placeholder = "Компания"
+    companyTitleSelect.placeholder = _("Компания")
     companyTitleSelect.readOnly = true
 
     stocksJson = stocks.getJson['stocks']
@@ -449,7 +450,7 @@ function sellStocks(company_title, max_stocks) {
     companyTitleDiv.appendChild(companyTitleSelect)
     const companyTitleLabel = document.createElement('label')
     companyTitleLabel.htmlFor = "company-title"
-    companyTitleLabel.textContent = "Компания"
+    companyTitleLabel.textContent = _("Компания")
     companyTitleDiv.appendChild(companyTitleLabel)
 
     const stocksCountDiv = document.createElement('div')
@@ -458,13 +459,13 @@ function sellStocks(company_title, max_stocks) {
     stocksCountInput.className = "form-control"
     stocksCountInput.type = "number"
     stocksCountInput.id = "stocks-input"
-    stocksCountInput.placeholder = "Акции"
+    stocksCountInput.placeholder = _("Акции")
     stocksCountInput.min = "1"
     stocksCountInput.max = max_stocks
     stocksCountDiv.appendChild(stocksCountInput)
     const stocksCountLabel = document.createElement('label')
     stocksCountLabel.htmlFor = "company-title"
-    stocksCountLabel.textContent = "Акции"
+    stocksCountLabel.textContent = _("Акции")
     stocksCountDiv.appendChild(stocksCountLabel)
 
     const priceDiv = document.createElement('div')
@@ -473,14 +474,14 @@ function sellStocks(company_title, max_stocks) {
     priceInput.className = "form-control"
     priceInput.type = "number"
     priceInput.id = "price-input"
-    priceInput.placeholder = "Цена за 1 акцию"
+    priceInput.placeholder = _("Цена за 1 акцию")
     priceInput.min = "1"
     priceDiv.appendChild(priceInput)
     const priceLabel = document.createElement('label')
     priceLabel.htmlFor = "company-title"
-    priceLabel.textContent = "Цена за 1 акцию"
+    priceLabel.textContent = _("Цена за 1 акцию")
     priceDiv.appendChild(priceLabel)
-    
+
     message.appendChild(companyTitleDiv)
     message.appendChild(document.createElement('br'))
     message.appendChild(stocksCountDiv)
@@ -495,13 +496,13 @@ function sellStocks(company_title, max_stocks) {
         const stocks = document.getElementById('stocks-input').value
         const price = document.getElementById('price-input').value
         if (stocks <= 0)
-            showModal(createParagraph('Количество акций должно быть больше нуля.'))
+            showModal(createParagraph(_('Количество акций должно быть больше нуля.')))
         else if (price <= 0)
-                showModal(createParagraph('Цена должна быть больше нуля.'))
-            else
-                offers.post(company, stocks, price, checkSellResponse)
+            showModal(createParagraph(_('Цена должна быть больше нуля.')))
+        else
+            offers.post(company, stocks, price, checkSellResponse)
     }
-    buttonAccept.textContent = 'Подтвердить'
+    buttonAccept.textContent = _('Подтвердить')
 
     buttonDecline = document.createElement('button')
     buttonDecline.type = 'button'
@@ -509,9 +510,9 @@ function sellStocks(company_title, max_stocks) {
     buttonDecline.onclick = function () {
         closeModal()
     }
-    buttonDecline.textContent = 'Отклонить'
+    buttonDecline.textContent = _('Отклонить')
 
-    showModal(message, 'Продать акции', [buttonAccept, buttonDecline])
+    showModal(message, _('Продать акции'), [buttonAccept, buttonDecline])
 }
 
 function declineBuying() {
@@ -526,20 +527,20 @@ function showBuyModal(row) {
     companyTitleSelect.className = "form-select"
     companyTitleSelect.type = "text"
     companyTitleSelect.id = "companies-select"
-    companyTitleSelect.placeholder = "Компания"
+    companyTitleSelect.placeholder = _("Компания")
     companyTitleSelect.readOnly = true
     companyTitleSelect.value = row.company
     companyTitleDiv.appendChild(companyTitleSelect)
     const companyTitleLabel = document.createElement('label')
     companyTitleLabel.htmlFor = "company-title"
-    companyTitleLabel.textContent = "Компания"
+    companyTitleLabel.textContent = _("Компания")
     companyTitleDiv.appendChild(companyTitleLabel)
 
     offersJson = offers.getJson['offers']
     companiesList = []
 
     for (offerId = 0; offerId < offersJson.length; offerId++)
-        if (! (offersJson[offerId]['company'] in companiesList))
+        if (!(offersJson[offerId]['company'] in companiesList))
 
             companiesList.push(offersJson[offerId]['company'])
 
@@ -572,13 +573,13 @@ function showBuyModal(row) {
     stocksCountInput.className = "form-control"
     stocksCountInput.type = "number"
     stocksCountInput.id = "stocks-input"
-    stocksCountInput.placeholder = "Акции"
+    stocksCountInput.placeholder = _("Акции")
     stocksCountInput.value = row.stocks
     stocksCountInput.min = "1"
     stocksCountDiv.appendChild(stocksCountInput)
     const stocksCountLabel = document.createElement('label')
     stocksCountLabel.htmlFor = "company-title"
-    stocksCountLabel.textContent = "Акции"
+    stocksCountLabel.textContent = _("Акции")
     stocksCountDiv.appendChild(stocksCountLabel)
 
     message.appendChild(companyTitleDiv)
@@ -591,24 +592,24 @@ function showBuyModal(row) {
         const company = document.getElementById('companies-select').value
         const stocks = document.getElementById('stocks-input').value
         if (stocks <= 0)
-            showModal(createParagraph('Количество акций должно быть больше нуля.'))
+            showModal(createParagraph(_('Количество акций должно быть больше нуля.')))
         else
             createCheque(company, stocks, 'cheque')
     }
-    button.textContent = "Купить акции"
-    showModal(message, "Купить акции", [button], true)
+    button.textContent = _("Купить акции")
+    showModal(message, _("Купить акции"), [button], true)
 }
 
 function checkSellResponse() {
     closeModalAndRenderPage()
     if (offers.postJson['message'] === 'Error')
-        showModal(createParagraph('У Вас нет такого количества акций данной компании.'))
+        showModal(createParagraph(_('У Вас нет такого количества акций данной компании.')))
 }
 
 function checkBuyResponse() {
     if (offers.putJson['message'] === 'Error') {
         if (offers.putJson['errors'][0] === 'You do not have enough money')
-            showModal(createParagraph('На Вашем счёте недостаточно средств.'))
+            showModal(createParagraph(_('На Вашем счёте недостаточно средств.')))
         offers.put(null, null, 'decline', offers.prevPutJson)
     } else
         closeModalAndRenderPage()

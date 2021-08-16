@@ -1,4 +1,6 @@
 #  Nikulin Vasily © 2021
+from flask_babel import _
+
 HOST = 'area-146.tk'
 DEV_HOST = 'area-146.ru'
 SERVER_NAME = DEV_HOST
@@ -10,10 +12,9 @@ START_STOCKS = 100
 NEW_COMPANY_FEE = 500
 START_WALLET_MONEY = 1500
 
-sectors = sorted(
-    ['IT', 'Энергетика', 'Экономика', 'Пищевая промышленность', 'Машиностроение',
-     'Образование', 'Медицина', 'Туризм', 'Культура', 'Логистика']
-)
+sectors = sorted(list(map(lambda x: _(x),
+                          ['IT', 'Энергетика', 'Экономика', 'Пищевая промышленность',
+                           'Машиностроение', 'Медицина', 'Туризм', 'Культура', 'Логистика'])))
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'bmp', 'ico', 'webp'}
 

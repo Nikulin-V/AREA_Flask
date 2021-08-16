@@ -15,24 +15,6 @@ from data.stocks import Stock
 from data.wallets import Wallet
 
 
-def use_subdomains(subdomains=None):
-    if subdomains is None:
-        subdomains = ['area']
-
-    def subdomains_decorator(func):
-
-        def subdomains_wrapper(*args, **kwargs):
-            subdomain = get_subdomain()
-            if subdomain in subdomains:
-                return func(*args, **kwargs)
-            else:
-                return 'Неверный поддомен сайта'
-
-        return subdomains_wrapper
-
-    return subdomains_decorator
-
-
 def get_subdomain():
     host = request.host
     if host == HOST or host == DEV_HOST:

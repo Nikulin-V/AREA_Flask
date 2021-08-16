@@ -1,5 +1,6 @@
 #  Nikulin Vasily © 2021
 from flask import render_template, abort
+from flask_babel import _
 from flask_login import login_required
 
 from data import db_session
@@ -43,7 +44,7 @@ def game_panel():
                 db_sess.merge(constant)
 
         db_sess.commit()
-        message = 'Сохранено'
+        message = _('Сохранено')
 
     form.game_run.data = get_constant('GAME_RUN')
 
@@ -60,6 +61,6 @@ def game_panel():
         form.start_stocks.data = get_constant('START_STOCKS')
 
     return render_template("market/session_panel.html",
-                           title='Управление фондовой биржей',
+                           title=_('Управление фондовой биржей'),
                            message=message,
                            form=form)

@@ -31,7 +31,7 @@ class User(SqlAlchemyBase, UserMixin, SerializerMixin):
 
     role = sqlalchemy.Column(sqlalchemy.String)
     game_session_id = sqlalchemy.Column(sqlalchemy.String, sqlalchemy.ForeignKey("sessions.id"),
-                                        default='77777777')
+                                        default='77777777', nullable=False)
 
     def set_password(self, password):
         self.hashed_password = generate_password_hash(password)

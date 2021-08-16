@@ -1,5 +1,6 @@
 #  Nikulin Vasily © 2021
 from flask import render_template, abort
+from flask_babel import _
 from flask_login import current_user, login_required
 
 from data import db_session
@@ -24,12 +25,12 @@ def user_panel():
     message = ''
 
     if not form.action.data:
-        form.action.data = 'Добавить пользователя'
+        form.action.data = _('Добавить пользователя')
 
     evaluate_form(form)
 
     if form.validate_on_submit() or (form.is_submitted() and not form.user.data):
-        if form.action.data == 'Добавить пользователя':
+        if form.action.data == _('Добавить пользователя'):
             if form.surname.data and form.name.data and form.email.data and form.password.data:
                 user = User(
                     surname=form.surname.data,
@@ -43,8 +44,8 @@ def user_panel():
                 db_sess.add(user)
                 db_sess.commit()
                 evaluate_form(form)
-                message = 'Пользователь добавлен'
-        elif form.action.data == 'Удалить пользователя':
+                message = _('Пользователь добавлен')
+        elif form.action.data == _('Удалить пользователя'):
             if form.user.data and form.user.description != '!':
                 surname, name, email = form.user.data.replace('|', '').split()
                 user = db_sess.query(User).filter(
@@ -69,12 +70,12 @@ def user_panel():
                     form.email.data = user.email
                     form.role.data = user.role
                     form.game_role.data = user.game_role
-                    message = 'Пользователь удалён'
+                    message = _('Пользователь удалён')
                 else:
-                    message = 'Пользователь с указанными данными не существует'
+                    message = _('Пользователь с указанными данными не существует')
             else:
                 form.user.data = form.user.choices[0]
-        elif form.action.data == 'Изменить пользователя':
+        elif form.action.data == _('Изменить пользователя'):
             if form.user.data:
                 surname, name, email = form.user.data.replace('|', '').split()
                 user = db_sess.query(User).filter(
@@ -106,7 +107,7 @@ def user_panel():
                         user.set_password(form.password.data)
                     db_sess.merge(user)
                     db_sess.commit()
-                    message = 'Пользователь изменён'
+                    message = _('Пользователь изменён')
                     evaluate_form(form)
                     form.user.data = form.user.choices[0]
                     surname, name, email = form.user.data.replace('|', '').split()
@@ -122,7 +123,7 @@ def user_panel():
                     form.role.data = user.role
 
                 else:
-                    message = 'Пользователь с указанными данными не существует'
+                    message = _('Пользователь с указанными данными не существует')
             else:
                 if not form.user.data:
                     form.user.data = form.user.choices[0]
@@ -139,7 +140,7 @@ def user_panel():
                     form.role.data = user.role
 
     return render_template("market/user_admin_panel.html",
-                           title='Панель управления пользователями',
+                           title=_('Панель управления пользователями'),
                            message=message,
                            form=form)
 

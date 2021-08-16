@@ -1,5 +1,6 @@
 #  Nikulin Vasily © 2021
 from flask import render_template, abort
+from flask_babel import _
 from flask_login import login_required
 
 from data import db_session
@@ -26,8 +27,8 @@ def company_panel():
 
     evaluate_form(form)
 
-    if form.validate_on_submit() or form.action.data == 'Удалить все компании':
-        if form.action.data == 'Открыть компанию':
+    if form.validate_on_submit() or form.action.data == _('Удалить все компании'):
+        if form.action.data == _('Открыть компанию'):
             if form.title.data and form.user_submitted and form.authors.data:
                 company = Company(
                     session_id=get_session_id(),
@@ -47,8 +48,8 @@ def company_panel():
                     db_sess.add(stocks)
                 db_sess.commit()
                 evaluate_form(form)
-                message = 'Компания добавлена'
-        elif form.action.data == 'Закрыть компанию':
+                message = _('Компания добавлена')
+        elif form.action.data == _('Закрыть компанию'):
             if form.company.data and form.user_submitted:
                 company = form.company.data
                 sector = form.sector.data
@@ -61,10 +62,10 @@ def company_panel():
                     db_sess.delete(company)
                     db_sess.commit()
                     evaluate_form(form)
-                    message = 'Компания удалена'
+                    message = _('Компания удалена')
                 else:
-                    message = 'Компания с указанными данными не существует'
-        elif form.action.data == 'Изменить компанию':
+                    message = _('Компания с указанными данными не существует')
+        elif form.action.data == _('Изменить компанию'):
             if form.company.data and form.user_submitted:
                 company = form.company.data
                 sector = form.sector.data
@@ -93,21 +94,21 @@ def company_panel():
                     db_sess.commit()
                     db_sess.merge(company)
                     db_sess.commit()
-                    message = 'Компания изменена'
+                    message = _('Компания изменена')
                     evaluate_form(form)
                 else:
-                    message = 'Компания с указанными данными не существует'
-        elif form.action.data == 'Удалить все компании':
+                    message = _('Компания с указанными данными не существует')
+        elif form.action.data == _('Удалить все компании'):
             if form.user_submitted and form.accept_delete_all_companies.data:
                 companies = list(db_sess.query(Company).
                                  filter(Company.session_id == get_session_id()))
                 for company in companies:
                     db_sess.delete(company)
                 db_sess.commit()
-                message = 'Все компании удалены'
+                message = _('Все компании удалены')
 
     return render_template("market/company_panel.html",
-                           title='Панель управления компаниями',
+                           title=_('Панель управления компаниями'),
                            message=message,
                            form=form)
 
@@ -136,14 +137,14 @@ def evaluate_form(form):
     )))
     companies.sort()
     form.company.choices = companies
-    if form.action.data in ['Закрыть компанию', 'Изменить компанию']:
+    if form.action.data in [_('Закрыть компанию'), _('Изменить компанию')]:
         if not form.company.data:
             form.user_submitted = 0
             form.company.data = companies[0]
         else:
             form.user_submitted = 1
 
-    if form.action.data == 'Открыть компанию':
+    if form.action.data == _('Открыть компанию'):
         form.company.data = form.company.choices[0]
         if not form.title.data:
             form.user_submitted = 0
@@ -153,7 +154,7 @@ def evaluate_form(form):
             form.user_submitted = 0
         else:
             form.user_submitted = 1
-    elif form.action.data == 'Изменить компанию':
+    elif form.action.data == _('Изменить компанию'):
         if not form.title.data:
             form.user_submitted = 0
             form.title.data = form.company.data
@@ -164,5 +165,5 @@ def evaluate_form(form):
             form.new_sector.data = form.sector.data
         else:
             form.user_submitted = 1
-    elif form.action.data == 'Удалить все компании':
+    elif form.action.data == _('Удалить все компании'):
         form.user_submitted = 1

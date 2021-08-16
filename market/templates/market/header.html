@@ -4,26 +4,30 @@
     <div class="collapse navbar-collapse justify-content-center">
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a href="{{ url('.index') }}" class="nav-link">Главная</a>
+                <a href="{{ url('.index') }}" class="nav-link">
+                    {{ _('Главная') }}
+                </a>
             </li>
             {% if current_user.is_authenticated %}
                 <li class="nav-item">
-                    <a href="{{ url('.sessions') }}" class="nav-link">Фондовые биржи</a>
+                    <a href="{{ url('.sessions') }}" class="nav-link">
+                        {{ _('Фондовые биржи') }}
+                    </a>
                 </li>
                 {% if 'Player' in game_role() %}
                     <li class="nav-item">
                         <a href="{{ url('.news') }}" class="nav-link">
-                            Новости
+                            {{ _('Новости') }}
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="{{ url('.marketplace') }}" class="nav-link">
-                            Торговая площадка
+                            {{ _('Торговая площадка') }}
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="{{ url('.companies') }}" class="nav-link">
-                            Компании
+                            {{ _('Компании') }}
                         </a>
                     </li>
                 {% endif %}
@@ -31,18 +35,18 @@
                     <div class="btn-group nav-item">
                         <a class="btn nav-link dropdown-toggle" data-toggle="dropdown"
                            aria-expanded="false">
-                            Панель управления
+                            {{ _('Панель управления') }}
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 
                             <li class="dropdown-item">
                                 <a href="{{ url('.game_panel') }}" class="nav-link">
-                                    Управление фондовой биржей
+                                    {{ _('Управление фондовой биржей') }}
                                 </a>
                             </li>
                             <li class="dropdown-item">
                                 <a href="{{ url('.user_panel') }}" class="nav-link">
-                                    Управление пользователями
+                                    {{ _('Управление пользователями') }}
                                 </a>
                             </li>
                         </ul>

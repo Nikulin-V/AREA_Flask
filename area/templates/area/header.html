@@ -2,7 +2,7 @@
     <div>
         <a class="navbar-brand" href="{{ url('area.index') }}" style="color: black">
             <img id="logo-header" src="{{ url('static', filename='images/Wolf.png') }}"
-                 alt="Logo">
+                 alt="{{ _( 'Логотип' ) }}">
             &nbsp;AREA
         </a>
     </div>
@@ -11,11 +11,14 @@
         <div class="collapse navbar-collapse justify-content-center">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a href="{{ url('area.index') }}" class="nav-link">Главная</a>
+                    <a href="{{ url('area.index') }}" class="nav-link">
+                        {{ _('Главная') }}
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ url('area.privacy_policy') }}" class="nav-link">Политика
-                        конфиденциальности</a>
+                    <a href="{{ url('area.privacy_policy') }}" class="nav-link">
+                        {{ _('Политика конфиденциальности') }}
+                    </a>
                 </li>
             </ul>
         </div>
@@ -26,15 +29,18 @@
             {{ current_user.surname + ' ' + current_user.name }}
         </a>
         <ul id="username-dropdown" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <li><a class="dropdown-item" href="{{ url('.profile') }}">Профиль</a></li>
-            <li><a class="dropdown-item" href="{{ url('.logout') }}">Выйти</a></li>
+            <li><a class="dropdown-item" href="{{ url('.profile') }}">{{ _('Профиль') }}</a></li>
+            <li><a class="dropdown-item" href="{{ url('.logout') }}">{{ _('Выйти') }}</a></li>
         </ul>
 
     {% else %}
         <div class="navbar-right" style="padding: 5px">
-            <a id="sign-in-btn" class="btn btn-info" href="{{ url('.login') }}">Вход</a>
-            <a id="sign-up-btn" class="btn btn-info"
-               href="{{ url('.register') }}">Регистрация</a>
+            <a id="sign-in-btn" class="btn btn-info" href="{{ url('.login') }}">
+                {{ _('Вход') }}
+            </a>
+            <a id="sign-up-btn" class="btn btn-info" href="{{ url('.register') }}">
+                {{ _('Регистрация') }}
+            </a>
         </div>
     {% endif %}
 

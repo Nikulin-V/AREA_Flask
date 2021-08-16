@@ -1,5 +1,6 @@
 #  Nikulin Vasily © 2021
 from flask import redirect, render_template, request
+from flask_babel import _
 from flask_login import current_user, login_user, login_required, logout_user
 
 from area import area
@@ -24,18 +25,18 @@ def login():
         user = db_sess.query(User).filter(User.email == form.email.data).first()
         if not user:
             return render_template("area/login.html",
-                                   title='Авторизация',
-                                   message="Вы не зарегистрированы в системе",
+                                   title=_('Авторизация'),
+                                   message=_("Вы не зарегистрированы в системе"),
                                    form=form)
         if user.check_password(form.password.data):
             login_user(user, remember=form.remember_me.data)
             return redirect(url(request.args.get('redirect_page') or ".index"))
         return render_template("area/login.html",
-                               title='Авторизация',
-                               message="Неправильный логин или пароль",
+                               title=_('Авторизация'),
+                               message=_("Неправильный логин или пароль"),
                                form=form)
     return render_template("area/login.html",
-                           title='Авторизация',
+                           title=_('Авторизация'),
                            form=form)
 
 

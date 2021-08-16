@@ -1,6 +1,7 @@
 #  Nikulin Vasily © 2021
 import datetime
 
+from flask_babel import lazy_gettext as _l
 from flask_login import current_user, login_required
 from sqlalchemy import or_
 
@@ -401,7 +402,7 @@ def editOffer(json=None):
         db_sess.commit()
 
         for seller_id, stocks_count in sold_stocks.items():
-            stocks_word = morph.parse("акцию")[0].make_agree_with_number(stocks_count).word
+            stocks_word = _l(morph.parse("акцию")[0].make_agree_with_number(stocks_count).word)
             if clients_sid[seller_id]:
                 send_response(
                     'showNotifications',

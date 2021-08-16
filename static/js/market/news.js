@@ -116,7 +116,7 @@ function addNews(page = 0, isFullUpdate = true) {
                         `
                         <table class="dairy-table table-hover table-info">
                             <tr style="background-color: #86CFDA">
-                                <td style="text-align: center;padding: 5px">Новостей нет</td>
+                                <td style="text-align: center;padding: 5px">${_('Новостей нет')}</td>
                             </tr>
                         </table>
                     `)
@@ -129,30 +129,30 @@ function createNews() {
     message =
         `<div>
             <div class="form-floating">
-                <input id="title-input" class="form-control" placeholder="Заголовок" onclick="valid(this)" autocomplete="off">
-                <label for="title-input">Заголовок</label>
+                <input id="title-input" class="form-control" placeholder="${_('Заголовок')}" onclick="valid(this)" autocomplete="off">
+                <label for="title-input">${_('Заголовок')}</label>
             </div>
             <br>
             <div class="form-floating">
-                <textarea id="text-input" class="form-control" placeholder="Текст"></textarea>
-                <label for="text-input">Текст</label>
+                <textarea id="text-input" class="form-control" placeholder="${_('Текст')}"></textarea>
+                <label for="text-input">${_('Текст')}</label>
             </div>
             <br>
             <div class="mb-3">
-                <label for="image-input">Изображение</label>
-                <input type="file" id="image-input" name="illustration" class="form-control" placeholder="Изображение" accept="image/*"  onclick="valid(this)" autocomplete="off">
+                <label for="image-input">${_('Изображение')}</label>
+                <input type="file" id="image-input" name="illustration" class="form-control" placeholder="${_('Изображение')}" accept="image/*"  onclick="valid(this)" autocomplete="off">
                 <div class="invalid-feedback" id="image-feedback"></div>
             </div>
             <br>
             <div class="form-floating">
                 <select id="author-select" class="form-select">
-                    <option>от себя</option>
+                    <option>${_('от себя')}</option>
                 </select>
-                <label for="author-select">Подпись</label>
+                <label for="author-select">${_('Подпись')}</label>
             </div>
         </div>`
     button = document.createElement('button')
-    button.textContent = "Опубликовать"
+    button.textContent = _("Опубликовать")
     button.className = "btn btn-info"
 
     progressBarBack = document.createElement('div')
@@ -193,7 +193,8 @@ function createNews() {
                     if (data["error"]) {
                         document.getElementById('image-input').classList.add('is-invalid')
                         if (data["code"] === 1001) {
-                            document.getElementById('image-feedback').textContent = "Неверный или небезопасный формат файла"
+                            document.getElementById('image-feedback').textContent =
+                                _("Неверный или небезопасный формат файла")
                         }
                         progressBarBack.style.display = "none"
                         progressBar.style.width = "0%"
@@ -211,7 +212,8 @@ function createNews() {
                     }
                 }, () => {
                     document.getElementById('image-input').classList.add('is-invalid')
-                    document.getElementById('image-feedback').textContent = "Файл слишком большой, пожалуйста выберите файл менее 32МБ"
+                    document.getElementById('image-feedback').textContent =
+                        _("Файл слишком большой, пожалуйста выберите файл менее 1МБ")
                     progressBarBack.style.display = "none"
                     progressBar.style.width = "0%"
                     progressBar.setAttribute("aria-valuemin", "0")
@@ -222,7 +224,7 @@ function createNews() {
         } else document.getElementById('title-input').classList.add('is-invalid')
     }
     fillAuthors()
-    showModal(message, 'Новый пост', [button, progressBarBack])
+    showModal(message, _('Новый пост'), [button, progressBarBack])
 }
 
 function fillAuthors(selectedValue = null) {
@@ -233,7 +235,7 @@ function fillAuthors(selectedValue = null) {
                 companyTitle = stocksJson[companyId]['company']
                 if (selectedValue === companyTitle)
                     selectedIndex = companyId
-                $("#author-select").append(new Option('от лица компании "' + companyTitle + '"',
+                $("#author-select").append(new Option(_('от лица компании') + '"' + companyTitle + '"',
                     companyTitle))
             }
             if (selectedValue)
@@ -255,23 +257,23 @@ function editNews(id) {
         `<div>
             <div class="form-floating">
                 <input id="title-input" class="form-control" placeholder="Заголовок" value="${title}" onclick="valid(this)" autocomplete="off">
-                <label for="title-input">Заголовок</label>
+                <label for="title-input">${_('Заголовок')}</label>
             </div>
             <br>
             <div class="form-floating">
                 <textarea id="text-input" class="form-control" placeholder="Текст">${text}</textarea>
-                <label for="text-input">Текст</label>
+                <label for="text-input">${_('Текст')}</label>
             </div>
             <br>
             <div class="mb-3">
-                <label for="image-input">Изображение</label>
-                <input type="file" id="image-input" name="illustration" class="form-control" placeholder="Изображение" accept="image/*" onclick="valid(this)" autocomplete="off">
+                <label for="image-input">${_(Изображение)}</label>
+                <input type="file" id="image-input" name="illustration" class="form-control" placeholder="${_(Изображение)}" accept="image/*" onclick="valid(this)" autocomplete="off">
                 <div class="invalid-feedback" id="image-feedback"></div>
             </div>
             <br>
         </div>`
     button = document.createElement('button')
-    button.textContent = "Сохранить"
+    button.textContent = _("Сохранить")
     button.className = "btn btn-info"
 
     progressBarBack = document.createElement('div')
@@ -288,7 +290,7 @@ function editNews(id) {
     progressBarBack.style.display = "none"
 
     btnClear = document.createElement("clear-image")
-    btnClear.textContent = "Удалить изображение"
+    btnClear.textContent = _("Удалить изображение")
     btnClear.className = "btn btn-info"
     btnClear.onclick = () => {
         news.put(id, null, null, "!clear", null, null, updatePage)
@@ -317,7 +319,8 @@ function editNews(id) {
                     if (data["error"]) {
                         document.getElementById('image-input').classList.add('is-invalid')
                         if (data["code"] === 1001) {
-                            document.getElementById('image-feedback').textContent = "Неверный или небезопасный формат файла"
+                            document.getElementById('image-feedback').textContent =
+                                _("Неверный или небезопасный формат файла")
                         }
                         progressBarBack.style.display = "none"
                         progressBar.style.width = "0%"
@@ -332,7 +335,8 @@ function editNews(id) {
                     }
                 }, () => {
                     document.getElementById('image-input').classList.add('is-invalid')
-                    document.getElementById('image-feedback').textContent = "Файл слишком большой, пожалуйста выберите файл менее 32МБ"
+                    document.getElementById('image-feedback').textContent =
+                        _("Файл слишком большой, пожалуйста выберите файл менее 1МБ")
                     progressBarBack.style.display = "none"
                     progressBar.style.width = "0%"
                     progressBar.setAttribute("aria-valuemin", "0")
@@ -341,7 +345,8 @@ function editNews(id) {
             }
         } else document.getElementById('title-input').classList.add('is-invalid')
     }
-    showModal(message, 'Изменение поста', noImage ? [button, progressBarBack] : [btnClear, button, progressBarBack])
+    showModal(message, _('Изменение поста'), noImage ?
+        [button, progressBarBack] : [btnClear, button, progressBarBack])
 }
 
 function deleteNews(id) {

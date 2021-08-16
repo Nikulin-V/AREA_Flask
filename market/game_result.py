@@ -1,5 +1,6 @@
 #  Nikulin Vasily © 2021
 from flask import render_template, abort, redirect
+from flask_babel import _
 from flask_login import login_required
 
 from data import db_session
@@ -47,5 +48,5 @@ def game_result():
                     players_wallets[wallet_id][0] = i
 
     return render_template("market/session_result.html",
-                           title='Итоги торгов',
+                           title=_('Итоги торгов'),
                            wallets=players_wallets)

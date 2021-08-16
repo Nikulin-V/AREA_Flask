@@ -1,5 +1,6 @@
 #  Nikulin Vasily © 2021
 from flask import render_template, abort
+from flask_babel import lazy_gettext as _
 from flask_login import login_required, current_user
 
 from data import db_session
@@ -69,8 +70,8 @@ def user_panel():
                 item.user_id = current_user.id
                 db_sess.merge(item)
 
-            message = 'Пользователь удалён из игры. Все его акции и предложения на торговой ' \
-                      'площадке перешли в Вашу собственность. '
+            message = _('Пользователь удалён из игры. Все его акции и предложения на торговой '
+                        'площадке перешли в Вашу собственность.')
         db_sess.commit()
         roles = []
         if str(form.user.data) in str(session.admins_ids).split(';'):
@@ -79,9 +80,9 @@ def user_panel():
             roles.append('Игрок')
         if not message:
             if roles:
-                message = f'Текущие роли пользователя: {", ".join(roles)}.'
+                message = _('Текущие роли пользователя:') + ", ".join(roles)
             else:
-                message = 'У пользователя нет ролей.'
+                message = _('У пользователя нет ролей.')
 
     form.user.choices = sorted(list(map(lambda x: (x[0], f'{x[1]} {x[2]}'),
                                         db_sess.query(User.id, User.surname, User.name))),
@@ -90,6 +91,6 @@ def user_panel():
         form.user.data = form.user.choices[0]
 
     return render_template("market/user_panel.html",
-                           title='Панель управления пользователями',
+                           title=_('Панель управления пользователями'),
                            message=message,
                            form=form)

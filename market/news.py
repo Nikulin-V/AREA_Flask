@@ -1,5 +1,6 @@
 #  Nikulin Vasily © 2021
 from flask import render_template, abort
+from flask_babel import _
 from flask_login import login_required
 
 from data.functions import get_game_roles
@@ -13,4 +14,4 @@ def news():
         abort(404)
 
     return render_template("market/news.html",
-                           title='Новости')
+                           title=_('Новости'))

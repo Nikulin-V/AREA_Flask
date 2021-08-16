@@ -8,37 +8,46 @@
 
     <h3 style="text-align: center">{{ title }}</h3>
     {% if not request.MOBILE %}
-        <h5 style="text-align: center">Взнос: {{ new_company_fee }}<span
-                class="material-icons-round md-money">paid</span></h5>
-        <h6 style="text-align: center">Автоматически будет опубликована новость об открытии
-            компании.</h6>
+        <h5 style="text-align: center">
+            {{ _('Взнос') }}: {{ new_company_fee }}
+            <span class="material-icons-round md-money">
+                paid
+            </span>
+        </h5>
+        <h6 style="text-align: center">
+            {{ _('Автоматически будет опубликована новость об открытии компании.') }}
+        </h6>
     {% else %}
-        <h6 style="text-align: center">Взнос: {{ new_company_fee }}<span
-                class="material-icons-round md-money">paid</span></h6>
-        <p style="font-size: .9em; text-align: center">Автоматически будет опубликована новость об
-            открытии компании.</p>
+        <h6 style="text-align: center">Взнос: {{ new_company_fee }}
+            <span class="material-icons-round md-money">paid</span>
+        </h6>
+        <p style="font-size: .9em; text-align: center">
+            {{ _('Автоматически будет опубликована новость об открытии компании.') }}
+        </p>
     {% endif %}
     <hr>
     <div class="form-floating">
         <select id="sector" class="form-select" type="text"></select>
-        <label for="sector">Отрасль</label>
+        <label for="sector">{{ _('Отрасль') }}</label>
     </div>
     <br>
     <div class="form-floating">
-        <input id="title" class="form-control" type="text" placeholder="Название компании">
-        <label for="title">Название компании</label>
+        <input id="title" class="form-control" type="text"
+               placeholder="{{ _('Название компании') }}">
+        <label for="title">{{ _('Название компании') }}</label>
     </div>
     <br>
     <div class="form-floating">
         <textarea id="description" class="form-control" type="text"
-                  placeholder="Описание"></textarea>
-        <label for="description">Описание</label>
+                  placeholder="{{ _('Описание') }}"></textarea>
+        <label for="description">{{ _('Описание') }}</label>
     </div>
     <br>
     <div class="mb-3">
-        <label for="image-input">Логотип</label>
-        <input type="file" id="logo" name="illustration" class="form-control" placeholder="Логотип"
-               accept="image/*" onclick="valid(this)" autocomplete="off">
+        <label for="image-input">{{ _('Логотип') }}</label>
+        <input type="file" id="logo" name="illustration" class="form-control"
+               placeholder="{{ _('Логотип') }}" accept="image/*" onclick="valid(this)"
+               autocomplete="off">
         <div class="invalid-feedback" id="logo-feedback"></div>
     </div>
     <div class="progress" id="progressBarBack" style="display: none">
@@ -47,6 +56,7 @@
              style="width: 0"></div>
     </div>
     <br>
-    <button class="btn btn-info" type="submit" onclick="createCompany(this)">Готово</button>
+    <button class="btn btn-info" type="submit"
+            onclick="createCompany(this)">{{ _('Готово') }}</button>
     <script src="{{ url('static', filename='js/market/create-company.js') }}"></script>
 {% endblock %}

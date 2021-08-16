@@ -22,9 +22,9 @@ function createSession() {
                     document.getElementById('new-session-input').value = ''
                 })
             else if (data['errors'][0] === 'This title has taken.')
-                showModal(createParagraph('Это название занято.'))
+                showModal(createParagraph(_('Это название занято.')))
         })
-    else showModal(createParagraph('Укажите имя новой фондовой биржи.'))
+    else showModal(createParagraph(_('Укажите имя новой фондовой биржи.')))
 }
 
 function deleteSession() {
@@ -32,10 +32,10 @@ function deleteSession() {
     isAccepted = isAcceptedElement.checked
     if (isAccepted)
         sessions.delete()
-        isAcceptedElement.checked = false
+    isAcceptedElement.checked = false
 }
 
-function fillSessions(fn=null) {
+function fillSessions(fn = null) {
     sessions.get(null, function (data) {
         sessionSelect = document.getElementById('session-select')
         while (sessionSelect.options.length > 0)
@@ -59,7 +59,7 @@ function fillSessions(fn=null) {
         if (fn)
             fn()
     })
-    
+
 }
 
 function renderPage() {

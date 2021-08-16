@@ -23,21 +23,25 @@
     </div>
     <div style="background-color: rgba(0,0,0,.1);border: 3px solid white;width: {{ width }};display: block;border-radius: 10px; margin: 30px auto auto;">
         <p style="color:white; font-family: Montserrat, monospace; font-size: 1.2em; vertical-align: baseline; margin: 10px">
-            Вся наша жизнь состоит из различных областей. Их довольно много. Сложно сделать лучше
-            всё и сразу.<br>Мы будем делать это постепенно, частями.
+            {{ _('Вся наша жизнь состоит из различных областей. Их довольно много. Сложно сделать лучше
+            всё и сразу.') }}<br>
+            {{ _('Мы будем делать это постепенно, частями.') }}
         </p>
     </div>
     <div style="background-color: rgba(0,0,0,.1);border: 3px solid white;width: {{ width }};display: block;border-radius: 10px; margin: 30px auto auto;">
         <p style="color:white; font-family: Montserrat, monospace; font-weight: 500; vertical-align: baseline; margin: 10px">
-            Наши системы:
+            {{ _('Наши системы:') }}
         </p>
         <ul>
             <li>
-                <a href="{{ url('market.index') }}" style="color: white">AREA of young brokers</a>
+                <a href="{{ url('market.index') }}" style="color: white">
+                    AREA of young brokers
+                </a>
             </li>
             <li>
-                <a href="{{ url('edu.index') }}" style="color: white">AREA of education (в
-                    разработке)</a>
+                <a href="{{ url('edu.index') }}" style="color: white">
+                    AREA of education {{ _('(в разработке)') }}
+                </a>
             </li>
         </ul>
     </div>

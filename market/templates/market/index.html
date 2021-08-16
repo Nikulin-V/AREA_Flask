@@ -24,18 +24,23 @@
         </div>
     </div>
     <div style="{{ "font-size: .7em;" if request.MOBILE }}padding: 5px;color:white; font-family: Montserrat, monospace; font-weight: 500; vertical-align: baseline;width: {{ width }};background-color: rgba(0,0,0,.3);border: 3px solid white;display: block;border-radius: 10px; margin: 30px auto auto;text-align: justify;">
-        <p style="margin: 5px;">Этот сервис позволяет вам познакомиться с основами фондового рынка.
-            В частности, с торговлей акциями.</p>
-        <p style="margin: 5px;">Здесь вы можете создавать компании или ОАО и управлять ими,
+        <p style="margin: 5px;">
+            {{ _('Этот сервис позволяет вам познакомиться с основами фондового рынка.
+            В частности, с торговлей акциями.') }}
+        </p>
+        <p style="margin: 5px;">
+            {{ _('Здесь вы можете создавать компании или ОАО и управлять ими,
             выпускать новые акции
             и продавать их на торговой площадке, увеличивая баланс на своём счёте.
             Создавайте новости, увеличивая доверие других игроков на бирже к своей
             компании и повышая её прибыль или занижая доверие к другим компаниям.
             Помните: чем больше доверия, тем больше прибыль компании, тем больше стоят её акции
-            на торговой площадке.
+            на торговой площадке.') }}
         </p>
-        <p style="margin: 5px;">Прежде чем начать - прочитайте правила. Мы старались сделать их
-            максимально интересными.</p>
+        <p style="margin: 5px;">
+            {{ _('Прежде чем начать - прочитайте правила. Мы старались сделать их
+            максимально интересными.') }}
+        </p>
     </div>
     <div style="{{ "font-size: .7em;" if request.MOBILE }}padding: 5px 10px 5px 5px;color:white; font-family: Montserrat, monospace; font-weight: 500; vertical-align: baseline;width: {{ width }};background-color: rgba(0,0,0,0.65);border: 3px solid white;display: block;border-radius: 10px; margin: 30px auto auto;text-align: justify;">
         <p style="margin: 5px;text-align: center">Правила торговли на фондовой бирже</p>

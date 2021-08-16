@@ -10,7 +10,7 @@
             {{ form.action.label }}<br>
             {{ form.action(class='form-control') }}<br>
         </div>
-        {% if form.action.data == 'Добавить пользователя' or not form.action.data %}
+        {% if form.action.data == _('Добавить пользователя') or not form.action.data %}
 
             <div>
                 {{ form.game_role.label }}<br>
@@ -21,7 +21,7 @@
                     </div>
                 {% endfor %}
             </div>
-        {% elif form.action.data == 'Изменить пользователя' %}
+        {% elif form.action.data == _('Изменить пользователя') %}
             <div>
                 {{ form.user.label }}<br>
                 {{ form.user(class='form-control') }}
@@ -91,7 +91,7 @@
                     {% endfor %}
                 </div>
             {% endif %}
-        {% elif form.action.data == 'Удалить пользователя' %}
+        {% elif form.action.data == _('Удалить пользователя') %}
             <div>
                 {{ form.user.label }}<br>
                 {{ form.user(class='form-control') }}
@@ -106,15 +106,16 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Подтверждение покупки</h5>
+                        <h5 class="modal-title"
+                            id="exampleModalLabel">{{ _('Подтверждение покупки') }}</h5>
                     </div>
                     <div class="modal-body">
                         <table class="dairy-table table-hover table-info">
                             <tr style="background-color: #86CFDA">
-                                <td style="text-align: center">Компания</td>
-                                <td style="text-align: center">Акции</td>
-                                <td style="text-align: center">Цена за акцию</td>
-                                <td style="text-align: center">Стоимость</td>
+                                <td style="text-align: center">{{ _('Компания') }}</td>
+                                <td style="text-align: center">{{ _('Акции') }}</td>
+                                <td style="text-align: center">{{ _('Цена за акцию') }}</td>
+                                <td style="text-align: center">{{ _('Стоимость') }}</td>
                             </tr>
                             {% for row in cheque %}
                                 <tr>
@@ -125,7 +126,8 @@
                                 </tr>
                             {% endfor %}
                             <tr style="background-color: #86CFDA">
-                                <td colspan="4" style="text-align: center">Итого: <b>{{ total }}</b>
+                                <td colspan="4" style="text-align: center">{{ _('Итого:') }}
+                                    <b>{{ total }}</b>
                                 </td>
                             </tr>
                         </table>
@@ -155,7 +157,8 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Сообщение от сайта</h5>
+                        <h5 class="modal-title"
+                            id="exampleModalLabel">{{ _('Сообщение от сайта') }}</h5>
                         <button type="button" class="close" id="modal-close-btn"
                                 data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>

@@ -4,7 +4,7 @@
     <div class="collapse navbar-collapse justify-content-center">
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a href="{{ url('.index') }}" class="nav-link">Главная</a>
+                <a href="{{ url('.index') }}" class="nav-link">{{ _('Главная') }}</a>
             </li>
 
             {% if current_user.is_authenticated %}
