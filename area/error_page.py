@@ -13,8 +13,8 @@ from tools.url import url
 @area.app_errorhandler(415)
 @area.app_errorhandler(500)
 def error_handler(error):
-    # if error.code == 404:
-    #     return redirect(url("area.error_page"))
+    if error.code == 404:
+        return redirect(url(request.host.split(".")[0].split("-")[0] + ".error_page"))
     return redirect(url(".error_page") + f"?code={error.code}")
 
 
