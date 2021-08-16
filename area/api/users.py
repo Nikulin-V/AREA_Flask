@@ -1,6 +1,4 @@
 #  Nikulin Vasily © 2021
-
-#  Nikulin Vasily © 2021
 from flask_login import login_required, current_user
 
 from area.api import api, socket
