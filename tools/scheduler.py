@@ -78,8 +78,8 @@ class Task(Thread):
             if not self.delete_unused_picture():
                 result = 'Failed'
 
-        log = f'{datetime.datetime.now()}\t|\t{result}\t|\t' \
-              f'{action}\t|\t{model}\t|\t{object_id}\n'
+        log = f'{datetime.datetime.now()}\t|\t{result.ljust(7, " ")}\t|\t' \
+              f'{action.ljust(21, " ")}\t|\t{model.ljust(20, " ")}\t|\t{object_id}\n'
         f = open('logs.txt', 'a')
         f.write(log)
         f.close()

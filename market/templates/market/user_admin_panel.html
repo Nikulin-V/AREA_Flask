@@ -1,4 +1,3 @@
-<!--suppress ALL -->
 {% extends "market/base.html" %}
 
 {% block content %}
@@ -102,14 +101,15 @@
     </form>
     <!-- Подтверждение покупки -->
     {% if purchase %}
-        <div class="modal fade show" id="purchase" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="display: block; background-color: rgba(25, 25, 25, .5)">
+        <div class="modal fade show" id="purchase" tabindex="-1" aria-labelledby="exampleModalLabel"
+             aria-hidden="true" style="display: block; background-color: rgba(25, 25, 25, .5)">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">Подтверждение покупки</h5>
                     </div>
                     <div class="modal-body">
-                        <table  class="dairy-table table-hover table-info">
+                        <table class="dairy-table table-hover table-info">
                             <tr style="background-color: #86CFDA">
                                 <td style="text-align: center">Компания</td>
                                 <td style="text-align: center">Акции</td>
@@ -125,7 +125,8 @@
                                 </tr>
                             {% endfor %}
                             <tr style="background-color: #86CFDA">
-                                <td colspan="4" style="text-align: center">Итого: <b>{{ total }}</b></td>
+                                <td colspan="4" style="text-align: center">Итого: <b>{{ total }}</b>
+                                </td>
                             </tr>
                         </table>
 
@@ -149,12 +150,14 @@
     {% endif %}
     <!-- Всплывающее сообщение -->
     {% if message %}
-        <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+             aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">Сообщение от сайта</h5>
-                        <button type="button" class="close" id="modal-close-btn" data-dismiss="modal" aria-label="Close">
+                        <button type="button" class="close" id="modal-close-btn"
+                                data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
