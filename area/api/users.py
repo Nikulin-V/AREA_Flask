@@ -1,13 +1,13 @@
 #  Nikulin Vasily © 2021
 from flask_login import login_required, current_user
 
-from api import api, sock
+from area.api import api, socket
 from data import db_session
 from data.users import User
 from tools.tools import fillJson, send_response
 
 
-@sock.on('getUsers')
+@socket.on('getUsers')
 @api.route('/api/users', methods=['GET'])
 def getUsers(json=None):
     """
@@ -68,7 +68,7 @@ def getUsers(json=None):
 
 
 # noinspection PyArgumentList
-@sock.on('createUser')
+@socket.on('createUser')
 @api.route('/api/users', methods=['POST'])
 def createUser(json=None):
     """
@@ -152,7 +152,7 @@ def createUser(json=None):
     )
 
 
-@sock.on('editUser')
+@socket.on('editUser')
 @api.route('/api/users', methods=['PUT'])
 @login_required
 def editUser(json=None):
@@ -177,7 +177,7 @@ def editUser(json=None):
     )
 
 
-@sock.on('deleteUser')
+@socket.on('deleteUser')
 @api.route('/api/users', methods=['DELETE'])
 @login_required
 def deleteUser(json=None):

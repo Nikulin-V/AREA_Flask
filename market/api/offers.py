@@ -4,7 +4,7 @@ import datetime
 from flask_login import current_user, login_required
 from sqlalchemy import or_
 
-from api import api, sock, clients_sid
+from area.api import clients_sid
 from config import icons
 from data import db_session
 from data.companies import Company
@@ -14,12 +14,13 @@ from data.scheduled_job import ScheduledJob
 from data.stocks import Stock
 from data.votes import Vote
 from data.wallets import Wallet
+from market.api import api, socket
 from tools.tools import fillJson, send_response
 from tools.url import url
 from tools.words import morph
 
 
-@sock.on('getOffers')
+@socket.on('getOffers')
 @api.route('/api/offers', methods=['GET'])
 def getOffers():
     event_name = 'getOffers'
@@ -51,7 +52,7 @@ def getOffers():
     )
 
 
-@sock.on('createOffer')
+@socket.on('createOffer')
 @api.route('/api/offers', methods=['POST'])
 @login_required
 def createOffer(json=None):
@@ -132,7 +133,7 @@ def createOffer(json=None):
     )
 
 
-@sock.on('editOffer')
+@socket.on('editOffer')
 @api.route('/api/offers', methods=['PUT'])
 @login_required
 def editOffer(json=None):
@@ -430,7 +431,7 @@ def editOffer(json=None):
         )
 
 
-@sock.on('deleteOffer')
+@socket.on('deleteOffer')
 @api.route('/api/offers', methods=['DELETE'])
 @login_required
 def deleteOffer(json=None):

@@ -3,8 +3,6 @@ import datetime
 
 from flask_login import login_required, current_user
 
-from api import api, sock
-from api.companies import deleteCompanyAction
 from config import icons
 from data import db_session
 from data.functions import get_session_id, get_company_id, get_company_title
@@ -13,12 +11,14 @@ from data.offers import Offer
 from data.scheduled_job import ScheduledJob
 from data.stockholders_votes import SVote
 from data.stocks import Stock
+from market.api import api, socket
+from market.api.companies import deleteCompanyAction
 from tools.tools import is_stockholder, votes, is_voted, fillJson, send_response
 from tools.url import url
 from tools.words import morph
 
 
-@sock.on('createStockholdersVoting')
+@socket.on('createStockholdersVoting')
 @api.route('/api/svotes', methods=['POST'])
 @login_required
 def createStockholdersVoting(json=None):
@@ -170,7 +170,7 @@ def createStockholdersVoting(json=None):
     )
 
 
-@sock.on('getStockholdersVotes')
+@socket.on('getStockholdersVotes')
 @api.route('/api/svotes', methods=['GET'])
 @login_required
 def getStockholdersVotes():
@@ -291,7 +291,7 @@ def do_voting_action(voting):
         release_new_stocks(voting, count)
 
 
-@sock.on('voteInStockholdersVoting')
+@socket.on('voteInStockholdersVoting')
 @api.route('/api/svotes', methods=['PUT'])
 @login_required
 def voteInStockholdersVoting(json=None):

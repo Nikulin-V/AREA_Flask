@@ -1,14 +1,14 @@
 #  Nikulin Vasily © 2021
 from flask_login import login_required, current_user
 
-from api import api, sock
 from data import db_session
 from data.functions import get_session_id, get_company_title
 from data.stocks import Stock
+from market.api import api, socket
 from tools.tools import send_response
 
 
-@sock.on('getStocks')
+@socket.on('getStocks')
 @api.route('/api/stocks', methods=['GET'])
 @login_required
 def getStocks():
@@ -41,5 +41,3 @@ def getStocks():
                     for s in sorted(stocks, key=lambda x: get_company_title(x.company_id))]
         }
     )
-
-

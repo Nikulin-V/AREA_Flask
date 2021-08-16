@@ -1,12 +1,11 @@
-<!--suppress ALL -->
 {% extends "area/base.html" %}
 
 {% set width %}
-    {% if not request.MOBILE %}
-        70%
-    {% else %}
-        auto
-    {% endif %}
+{% if not request.MOBILE %}
+    70%
+{% else %}
+    auto
+{% endif %}
 {% endset %}
 
 {% block content %}

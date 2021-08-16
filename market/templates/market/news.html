@@ -3,9 +3,8 @@
 {% block content %}
 
     <script>
-        const imageUploadEndpoint = "{{ url('api.uploadImage') }}"
+        const imageUploadEndpoint = "{{ url('market.api.uploadImage') }}"
     </script>
-
     <div style="position: sticky; top: 0; background-color: white">
         <table class="layout-table" style="width: 100%">
             <tr style="font-size: 1.5em">
@@ -13,8 +12,7 @@
                     <h1>{{ title }}</h1>
                 </td>
                 <td style="text-align: -webkit-center">
-                    <button id="news-update-btn" class="btn btn-info"
-                            onclick="updatePage(); document.getElementById('news-update-btn').style.display = 'none'">
+                    <button id="news-update-btn" class="btn btn-info" onclick="showNewPosts()">
                         Свежие записи <span class="material-icons" style="vertical-align: bottom">update</span>
                     </button>
                 </td>
@@ -28,9 +26,6 @@
         <hr style="margin: 5px 0">
     </div>
 
-    <button id="news-update-btn" class="btn btn-secondary" onclick="window.location.reload()">
-        Свежие записи <span class="material-icons">update</span>
-    </button>
 
     <div class="text-center news">
         <div class="spinner-border text-info" role="status">
@@ -38,5 +33,5 @@
         </div>
     </div>
 
-    <script src="{{ url('static', filename='js/market/' + ('mobile/' if request.MOBILE else '') + 'news.js') }}"></script>
+    <script src="{{ url('static', filename='js/market/news.js') }}"></script>
 {% endblock %}

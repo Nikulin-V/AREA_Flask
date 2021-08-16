@@ -1,4 +1,3 @@
-<!--suppress ALL -->
 {% extends "area/base.html" %}
 
 {% block content %}
@@ -75,7 +74,7 @@
         </div>
         <div>
             {{ form.date_of_birth.label }}<br>
-            {{ form.date_of_birth(class="form-control", value=date if date else '01.01.1970')}}<br>
+            {{ form.date_of_birth(class="form-control", value=date if date else '01.01.1970') }}<br>
             {% for error in form.date_of_birth.errors %}
                 <p class="alert alert-danger" role="alert">
                     {{ error }}
@@ -93,7 +92,7 @@
         </div>
         <div>
             {{ form.role.label }}<br>
-            {{ form.role(class="form-control", value=current_user.role if current_user.role else 'Ученик')  }}<br>
+            {{ form.role(class="form-control", value=current_user.role if current_user.role else 'Ученик') }}<br>
             {% for error in form.role.errors %}
                 <p class="alert alert-danger" role="alert">
                     {{ error }}
@@ -141,12 +140,12 @@
                     </div>
                     <div class="modal-body">
                         {{ message }}
-              </div>
-              <div class="modal-footer" id="modal-ok-btn">
-                <button type="button" class="btn btn-info">ОК</button>
-              </div>
+                    </div>
+                    <div class="modal-footer" id="modal-ok-btn">
+                        <button type="button" class="btn btn-info">ОК</button>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
     {% endif %}
 {% endblock %}

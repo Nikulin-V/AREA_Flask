@@ -21,7 +21,10 @@
 
     <!--suppress JSUnresolvedFunction -->
     <script>
-        let socket = io(window.location.origin, {secure: true, transports: ["polling"]});
+        let socket = io(window.location.origin, {
+            secure: true,
+            transports: ["polling"]
+        });
     </script>
 
     <script src="{{ url('static', filename='js/api/sessions.js') }}"></script>

@@ -8,7 +8,7 @@
     {% endif %}
     {% for day in schedule.keys() %}
         <table class="dairy-table table-hover table-info">
-        <caption style="caption-side: top">{{ day }}</caption>
+            <caption style="caption-side: top">{{ day }}</caption>
             {% if not request.MOBILE %}
                 <tbody style="font-size: .9em">
                 {% if schedule[days[day_id]] %}

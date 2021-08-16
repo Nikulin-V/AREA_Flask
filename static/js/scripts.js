@@ -132,7 +132,7 @@ function createParagraph(message) {
     return p
 }
 
-function fillCompanies () {
+function fillCompanies() {
     stocksJson = stocks.getJson['stocks']
     for (companyId = 0; companyId < stocksJson.length; companyId++) {
         companyTitle = stocksJson[companyId]['company']
@@ -224,10 +224,6 @@ function showNotificationAction(logoSource, author = null, company = null, date,
     });
     notification = toastList[toastList.length - 1]
     notification.show()
-}
-
-function showNewPostsBtn() {
-    document.getElementById('news-update-btn').style.display = "block"
 }
 
 function showConnected(connected = true) {

@@ -21,6 +21,7 @@
     left: auto;
     top: 44px;
 }
+
 .dropdown-menu {
     width: min-content;
     left: auto;
@@ -35,22 +36,6 @@
     margin-right: 5px;
 }
 
-
-#googleBtn {
-    display: inline-block;
-    color: #fff;
-    background-color: #ffffff;
-    border-color: #17a2b8;
-    border-radius: 5px;
-    box-shadow: 1px 1px 1px grey;
-    white-space: nowrap;
-    margin-right: 5px;
-}
-
-#googleBtn:hover {
-    background: #117A8B;
-    cursor: pointer;
-}
 
 span.label {
     font-family: serif;

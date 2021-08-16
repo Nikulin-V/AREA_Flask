@@ -2,10 +2,10 @@
 from flask import request
 from flask_login import login_required, current_user
 
-from api import sock, clients_sid
+from area.api import clients_sid, socket
 
 
-@sock.on('registerUserSessionSID')
+@socket.on('registerUserSessionSID')
 @login_required
 def registerUserSessionSID():
     clients_sid[current_user.id] = request.sid

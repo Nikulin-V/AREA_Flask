@@ -14,9 +14,9 @@
             {{ form.user.label }}<br>
             {{ form.user(class='form-control') }}
             {% for error in form.game_role.errors %}
-                    <div class="alert alert-danger" role="alert">
-                        {{ error }}
-                    </div>
+                <div class="alert alert-danger" role="alert">
+                    {{ error }}
+                </div>
             {% endfor %}
         </div>
         <br>
@@ -33,12 +33,14 @@
     </form>
     <!-- Всплывающее сообщение -->
     {% if message %}
-        <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+             aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">Сообщение от сайта</h5>
-                        <button type="button" class="close" id="modal-close-btn" data-dismiss="modal" aria-label="Close">
+                        <button type="button" class="close" id="modal-close-btn"
+                                data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>

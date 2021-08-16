@@ -10,10 +10,10 @@
     {% for day_id in range(days|length) %}
 
         <table class="dairy-table table-hover table-info">
-        <caption style="caption-side: top">{{ dates[day_id] + ', ' + days[day_id] }}</caption>
-        {% if request.MOBILE %}
-            <tbody style="font-size: .9em">
-        {% endif %}
+            <caption style="caption-side: top">{{ dates[day_id] + ', ' + days[day_id] }}</caption>
+            {% if request.MOBILE %}
+                <tbody style="font-size: .9em">
+            {% endif %}
             {% if schedule[days[day_id]] %}
                 {% for data_id in range(schedule[days[day_id]]|length) %}
 

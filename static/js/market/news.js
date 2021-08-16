@@ -4,28 +4,33 @@
 
 updatePage()
 html = document.getElementsByTagName('html')[0]
-window.addEventListener('scroll', function() {
+window.addEventListener('scroll', function () {
     let height = Math.max(document.body.scrollHeight, document.body.offsetHeight,
-                          html.clientHeight, html.scrollHeight, html.offsetHeight)
+        html.clientHeight, html.scrollHeight, html.offsetHeight)
     if (pageYOffset + window.innerHeight + 1 >= height) {
-        addNews(k)
+        addNews(k, false)
     }
 })
 
-function updatePage() {
-    main = document.getElementsByTagName('main')[0]
-    while (document.getElementsByClassName('news').length > 0)
-        main.removeChild(document.getElementsByClassName('news')[0])
+function updatePage(isFullUpdate = true) {
     k = 0
     was_end = false
-    addNews(k)
+    addNews(k, isFullUpdate)
 }
 
 main = document.getElementsByTagName('main')[0]
-function addNews(page=0) {
+
+function addNews(page = 0, isFullUpdate = true) {
     if (!was_end)
         news.get(page, function (data) {
             if (data['news']) {
+                if (isFullUpdate) {
+                    main = document.getElementsByTagName('main')[0]
+                    while (document.getElementsByClassName('news').length > 0)
+                        main.removeChild(document.getElementsByClassName('news')[0])
+                    document.getElementById('username').scrollIntoView()
+                }
+
                 const newsList = data['news']
                 for (newsId = 0; newsId < newsList.length; newsId++) {
                     const n = Object(newsList[newsId])
@@ -126,9 +131,6 @@ function createNews() {
             <div class="form-floating">
                 <input id="title-input" class="form-control" placeholder="Заголовок" onclick="valid(this)" autocomplete="off">
                 <label for="title-input">Заголовок</label>
-                <div class="invalid-feedback">
-                    Необходимо указать заголовок
-                </div>
             </div>
             <br>
             <div class="form-floating">
@@ -170,6 +172,7 @@ function createNews() {
     button.onclick = function () {
         const title = document.getElementById('title-input').value
         if (title) {
+
             if (document.getElementById('image-input').files.length === 0) {
                 const text = document.getElementById('text-input').value
                 const author = document.getElementById('author-select')
@@ -253,9 +256,6 @@ function editNews(id) {
             <div class="form-floating">
                 <input id="title-input" class="form-control" placeholder="Заголовок" value="${title}" onclick="valid(this)" autocomplete="off">
                 <label for="title-input">Заголовок</label>
-                <div class="invalid-feedback">
-                    Необходимо указать заголовок
-                </div>
             </div>
             <br>
             <div class="form-floating">
@@ -374,4 +374,16 @@ function valid(element) {
     if (element.classList.contains("is-invalid")) {
         element.classList.remove("is-invalid")
     }
+}
+
+function showNewPosts() {
+    let newPostsBtn = document.getElementById('news-update-btn')
+    updatePage();
+    newPostsBtn.style.display = 'none';
+    let usernameBtn = document.getElementById('username')
+    usernameBtn.scrollIntoView()
+}
+
+function showNewPostsBtn() {
+    document.getElementById('news-update-btn').style.display = "block"
 }
