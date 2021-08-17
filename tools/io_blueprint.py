@@ -9,7 +9,8 @@ data_changes_functions = ['createCompany', 'deleteCompany',
                           'createSession', 'editSession', 'deleteSession',
                           'createStockholdersVoting', 'voteInStockholdersVoting',
                           'createUser', 'editUser', 'deleteUser',
-                          'voteInCompaniesVoting']
+                          'voteInCompaniesVoting',
+                          'investWallet']
 
 
 class IOBlueprint:

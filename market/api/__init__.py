@@ -16,4 +16,4 @@ from .sessions import createSession, getSessions, editSession, deleteSession
 from .stocks import getStocks
 from .svotes import createStockholdersVoting, getStockholdersVotes, voteInStockholdersVoting
 from .votes import getCompaniesVotes, voteInCompaniesVoting
-from .wallets import getWallet
+from .wallets import getWalletMoney, getWallets

@@ -22,8 +22,6 @@ from tools.words import morph
 @api.route('/api/svotes', methods=['POST'])
 @login_required
 def createStockholdersVoting(json=None):
-    if json is None:
-        json = dict()
     """
     Create session
 
@@ -44,6 +42,8 @@ def createStockholdersVoting(json=None):
         New voting's id (JSON)
 
     """
+    if json is None:
+        json = dict()
 
     event_name = 'createStockholdersVoting'
     fillJson(json, ['companyId', 'companyTitle', 'action', 'count'])
