@@ -3,8 +3,9 @@
 <html lang="en">
 <!--suppress HtmlRequiredTitleElement-->
 <head>
-    {% include "area/head.html" %}
-    {% block head %}{% endblock head %}
+    {% block head %}
+        {% include "area/head.html" %}
+    {% endblock head %}
     <title>{{ title }}</title>
 </head>
 <body>

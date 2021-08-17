@@ -52,7 +52,8 @@ def getWallets():
         wallet = db_sess.query(Wallet.id).filter(Wallet.user_id == player_id).first()
         wallet = check_wallet(wallet, db_sess, player_id)
         wallets[f'{user.surname} {user.name}'] = wallet.id
-        wallets = dict(sorted(list(wallets.items()), key=lambda x: x[0]))
+        items = wallets.items()
+        wallets = dict(sorted(items, key=lambda x: x[0]))
     return send_response(
         event_name,
         {
@@ -155,7 +156,8 @@ def investWallet(json=None):
             'notifications': [
                 {
                     'logoSource': icons['investment'],
-                    'company': f'Инвестиция: {money}'
+                    'company': f'Инвестиция: '
+                               f'{int(money) if money == int(money) else round(money, 2)}'
                                f'<span class="material-icons-round md-money">paid</span>',
                     'author': f'{current_user.surname} {current_user.name}',
                     'date': datetime.datetime.now().strftime('%d %B'),
