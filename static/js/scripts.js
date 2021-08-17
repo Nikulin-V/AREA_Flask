@@ -4,6 +4,11 @@
 
 // noinspection JSUnresolvedFunction
 
+sessions.get(null, function (data) {
+    adminLinksDiv = document.getElementById('admin-links')
+    adminLinksDiv.style.display = data["isAdmin"] ? "block" : "none"
+})
+
 let dropdownElementList = [].slice.call(document.querySelectorAll('.dropdown-toggle'));
 dropdownElementList.map(function (dropdownToggleEl) {
     return new bootstrap.Dropdown(dropdownToggleEl)
@@ -50,7 +55,7 @@ if (homework_link) {
 /**
  * @param {String | HTMLElement} message
  * @param {string} title
- * @param {HTMLButtonElement[]|HTMLButtonElement} buttons
+ * @param {HTMLButtonElement[]|HTMLButtonElement|String[]|String} buttons
  * @param {boolean} isBuyMode
  */
 function showModal(message,
@@ -87,7 +92,10 @@ function showModal(message,
     while (modalFooter.children.length > 0)
         modalFooter.children[0].remove()
     for (buttonId = 0; buttonId < buttons.length; buttonId++) {
-        modalFooter.appendChild(buttons[buttonId])
+        if ((typeof buttons[buttonId]) === 'object')
+            modalFooter.appendChild(buttons[buttonId])
+        else
+            modalFooter.insertAdjacentHTML('beforeend', buttons[buttonId])
     }
 
 

@@ -65,12 +65,12 @@ function renderUserStocksTable() {
             const row = document.createElement('tr')
 
             row.onclick = function () {
-                    sellStocks(this.company, this.stocks)
-                }
+                sellStocks(this.company, this.stocks)
+            }
             row.addEventListener("mouseout", function () {
                 clicked = false
                 renderElements()
-                
+
                 this.onmouseup = function () {
                     sellStocks(this.company, this.stocks)
                 }
@@ -343,8 +343,8 @@ function createCheque(company, stocks, isBuy) {
 
 function createChequeResponse() {
     if (offers.putJson['message'] === 'Error' &&
-            offers.putJson['errors'][0] === 'Not enough stocks')
-            showModal(createParagraph('На торговой площадке нет свободных акций этой компании'))
+        offers.putJson['errors'][0] === 'Not enough stocks')
+        showModal(createParagraph('На торговой площадке нет свободных акций этой компании'))
     else {
         renderPage()
         offersJson = offers.putJson['offers']
@@ -480,7 +480,7 @@ function sellStocks(company_title, max_stocks) {
     priceLabel.htmlFor = "company-title"
     priceLabel.textContent = "Цена за 1 акцию"
     priceDiv.appendChild(priceLabel)
-    
+
     message.appendChild(companyTitleDiv)
     message.appendChild(document.createElement('br'))
     message.appendChild(stocksCountDiv)
@@ -497,9 +497,9 @@ function sellStocks(company_title, max_stocks) {
         if (stocks <= 0)
             showModal(createParagraph('Количество акций должно быть больше нуля.'))
         else if (price <= 0)
-                showModal(createParagraph('Цена должна быть больше нуля.'))
-            else
-                offers.post(company, stocks, price, checkSellResponse)
+            showModal(createParagraph('Цена должна быть больше нуля.'))
+        else
+            offers.post(company, stocks, price, checkSellResponse)
     }
     buttonAccept.textContent = 'Подтвердить'
 
@@ -539,7 +539,7 @@ function showBuyModal(row) {
     companiesList = []
 
     for (offerId = 0; offerId < offersJson.length; offerId++)
-        if (! (offersJson[offerId]['company'] in companiesList))
+        if (!(offersJson[offerId]['company'] in companiesList))
 
             companiesList.push(offersJson[offerId]['company'])
 
@@ -612,4 +612,68 @@ function checkBuyResponse() {
         offers.put(null, null, 'decline', offers.prevPutJson)
     } else
         closeModalAndRenderPage()
+}
+
+function openInvestForm() {
+    message =
+        `<div>
+            <div class="form-floating">
+                <input class="form-control" list="user-select-options" id="user-select" placeholder="Введите имя пользователя" autocomplete="off">
+                <datalist id="user-select-options">
+                    <option>Загрузка пользователей...</option>
+                </datalist>
+                <label for="user-select">${'Пользователь'}</label>
+            </div>
+            <br>
+            <div class="form-floating">
+                <input id="money-input" class="form-control" placeholder="Сумма">
+                <label for="money-input">${'Сумма'}</label>
+            </div>
+        </div>`
+    fillWallets()
+    button = `<button class="btn btn-info" onclick="invest()">${'Инвестировать'}</button>`
+
+
+    showModal(message, 'Инвестиция', [button])
+}
+
+function fillWallets() {
+    wallet.getWallets(function (data) {
+        let userSelect = document.getElementById('user-select-options')
+        let walletsList = data['wallets']
+        for (walletId = 0; walletId < Object.keys(walletsList).length; walletId++) {
+            let option = new Option()
+            option.value = Object.keys(walletsList)[walletId]
+            option.text = walletsList[Object.keys(walletsList)[walletId]]
+            userSelect.appendChild(option)
+        }
+        userSelect.removeChild(userSelect.querySelector('#user-select-options > option:nth-child(1)'))
+    })
+}
+
+function invest() {
+    let userSelect = document.getElementById('user-select-options')
+    let name = document.getElementById('user-select').value
+    let walletOption = userSelect.querySelector(`#user-select-options > option[value='${name}']`)
+    if (walletOption) {
+        let walletId = walletOption.textContent
+        let money = document.getElementById('money-input').value
+        wallet.patch(walletId, money, investCallback)
+    } else
+        showModal(createParagraph('Кошелёк не найден.'))
+}
+
+function investCallback(data) {
+    if (data['message'] === 'Success')
+        showModal(createParagraph('Инвестиция прошла успешно.'))
+    else if (data['errors'][0] === 'Specify money')
+        showModal(createParagraph('Укажите сумму.'))
+    else if (data['errors'][0] === 'Money must be real number')
+        showModal(createParagraph('Сумма инвестиции должна быть вещественным числом' +
+            ' больше нуля.'))
+    else if (data['errors'][0] === 'Not enough money')
+        showModal(createParagraph('Недостаточно средств.'))
+    else if (data['errors'][0] === 'Wallet not found')
+        showModal(createParagraph('Кошелёк не найден.'))
+    renderPage()
 }

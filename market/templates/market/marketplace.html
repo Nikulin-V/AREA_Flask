@@ -1,18 +1,27 @@
 {% extends "market/base.html" %}
 
 {% block content %}
-    <table style="width: 100%; border: 0">
-        <tr style="{{ "font-size: 1.5em; " if not request.MOBILE }}border: 0">
-            <td style="text-align: left; border: 0">{% if not request.MOBILE %}
-                <h1>{{ title }}</h1>
-            {% else %}
-                <h2>{{ title }}</h2>
-            {% endif %} </td>
-            <td style="text-align: right; border: 0">{% if not request.MOBILE %}
-                <h2 id="balance"></h2>
-            {% else %}
-                <h4 id="balance"></h4>
-            {% endif %}</td>
+    <table class="layout-table" style="width: 100%">
+        <tr style="{{ "font-size: 1.5em; " if not request.MOBILE }}">
+            <td style="text-align: left; width: 1%; white-space: nowrap; padding-right: 30px">
+                {% if not request.MOBILE %}
+                    <h1>{{ title }}</h1>
+                {% else %}
+                    <h2>{{ title }}</h2>
+                {% endif %}
+            </td>
+            <td style="text-align: left">
+                <a onclick="openInvestForm()" class="btn btn-info">
+                    {{ 'Инвестировать' }}
+                </a>
+            </td>
+            <td style="text-align: right; width: 33%">
+                {% if not request.MOBILE %}
+                    <h2 id="balance"></h2>
+                {% else %}
+                    <h4 id="balance"></h4>
+                {% endif %}
+            </td>
         </tr>
     </table>
     <hr>

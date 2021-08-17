@@ -25,5 +25,6 @@ icons = {
     'release_stocks': 'addchart',
     'new_post': 'post_add',
     'new_svoting': 'rule',
-    'deal': 'published_with_changes'
+    'deal': 'published_with_changes',
+    'investment': 'attach_money'
 }
