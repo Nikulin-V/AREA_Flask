@@ -10,11 +10,13 @@
                     <h2>{{ title }}</h2>
                 {% endif %}
             </td>
-            <td style="text-align: left">
-                <a onclick="openInvestForm()" class="btn btn-info">
-                    {{ 'Инвестировать' }}
-                </a>
-            </td>
+            {% if not request.MOBILE %}
+                <td style="text-align: left">
+                    <a onclick="openInvestForm()" class="btn btn-info">
+                        {{ 'Инвестировать' }}
+                    </a>
+                </td>
+            {% endif %}
             <td style="text-align: right; width: 33%">
                 {% if not request.MOBILE %}
                     <h2 id="balance"></h2>
@@ -24,6 +26,12 @@
             </td>
         </tr>
     </table>
+    {% if request.MOBILE %}
+        <a onclick="openInvestForm()" class="btn btn-info" style="font-size: .8em; display: block; padding: .3em .5em;
+    margin: 5px 0;">
+            {{ 'Инвестировать' }}
+        </a>
+    {% endif %}
     <hr>
     <div id="user-stocks"></div>
     <div id="user-sell-stocks"></div>
