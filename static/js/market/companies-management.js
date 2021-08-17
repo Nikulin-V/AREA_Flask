@@ -22,7 +22,7 @@ function createTable() {
 
         const table = main.appendChild(document.createElement('table'));
         table.className = "dairy-table table-hover table-info votings-table"
-        if (window.isMobile)
+        if (isMobile())
             table.style.fontSize = ".7em"
         const caption = table.appendChild(document.createElement('caption'))
         caption.textContent = 'Голосования акционеров'

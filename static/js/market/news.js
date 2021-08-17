@@ -46,14 +46,14 @@ function addNews(page = 0, isFullUpdate = true) {
                                 </div>`
                     else authorButtons = ''
                     likes = parseInt(n.likes) > 0 ? " " + n.likes.toString() : ""
-                    newsFooter = window.isMobile ? `
-                    <table style="width: 100%; border: 0; margin: 5px 0">
+                    newsFooter = `
+                        <table style="width: 100%; border: 0; margin: 5px 0">
                             <tr style="border: 0">
                                 <td rowspan="2" style="text-align: left; border: 0; width: 1%">
                                     ${authorButtons}
                                 </td>
                                 <td style="border: 0">
-                                    <p style="margin-bottom: 0; font-size: .7em; text-align: center">
+                                    <p style="margin-bottom: 0;${isMobile() ? " font-size: .7em;" : "" } text-align: center">
                                         ${n.author}
                                     </p>
                                 </td>
@@ -70,43 +70,20 @@ function addNews(page = 0, isFullUpdate = true) {
                                 </td>
                             </tr>
                         </table>
-                    ` : `
-                    <table style="width: 100%; border: 0; margin: 5px 0">
-                        <tr style="font-size: 1em; border: 0">
-                            <td style="text-align: left; border: 0">
-                                ${authorButtons}
-                            </td>
-                            <td style="text-align: right; border: 0">
-                                <button id="${n.id}-like" onclick="like('${n.id}')" class="btn btn-outline-danger btn-like btn-icon">
-                                    <span id="${n.id}-like-symbol" class="material-icons-round md-red">favorite${n.isLiked ? "" : "_border"}</span>
-                                    <span id="${n.id}-like-counter" class="btn-icon-text">${likes}</span>
-                                </button>
-                            </td>
-                        </tr>
-                    </table>
                     `
-                    main.innerHTML = main.innerHTML +
-                        `
-                        <div class="news" id="${n.id}" style="border: 1px solid black; border-radius: 5px; margin-bottom: 5px; padding: 5px 5px 0 5px">
-                            <table style="width: 100%; border: 0">
-                                <tr style="border: 0">
-                                    <td rowspan="2" style="text-align: left; border: 0; word-wrap: anywhere">
-                                        <h4 id="${n.id}-title">${n.title}</h4>
-                                    </td>
-                                    <td style="text-align: right; border: 0">
-                                        <p style="margin-bottom: 0"><small>${n.author}</small></p>
-                                    </td>
-                                </tr>
-                                <tr style="border: 0">
-                                    <td style="text-align: right; border: 0">
-                                        <p style="margin-bottom: 0"><small> ${n.date}</small></p>
-                                    </td>
-                                </tr>
-                            </table>
-                            <p id="${n.id}-text" style="word-break: break-all; white-space: pre-wrap">${n.message}</p>
-                            ${picture}
-                            ${newsFooter}
-                        </div>
+                    main.innerHTML += `
+                            <div class="news" id="${n.id}" style="border: 1px solid black; border-radius: 5px; margin-bottom: 5px; padding: 5px 5px 0 5px">
+                                <table style="width: 100%; border: 0">
+                                    <tr style="border: 0">
+                                        <td rowspan="2" style="text-align: center; border: 0; word-wrap: anywhere">
+                                            <h4 id="${n.id}-title">${n.title}</h4>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <p id="${n.id}-text" style="word-break: break-all; white-space: pre-wrap">${n.message}</p>
+                                ${picture}
+                                ${newsFooter}
+                            </div>
                         `
                 }
             } else {
