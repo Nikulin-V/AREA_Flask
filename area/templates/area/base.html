@@ -24,11 +24,14 @@
     {% block content %}{% endblock content %}
 </main>
 <div id="notifications" class="position-fixed bottom-0 end-0 p-3" style="z-index: 11"></div>
-<footer class="copy-w3right footer mt-auto">
+<footer class="copy-w3right footer mt-auto" {{ 'style=font-size:.8em' if request.MOBILE }}>
     <div class="container">
         <!--suppress SpellCheckingInspection -->
-        <p class="bottom-w3lnav"><small>Design by <a href="https://vk.com/vasil1y">Nikulin
-            Vasily</a></small></p>
+        <p class="bottom-w3lnav" {{ 'style=padding-bottom:0;height:25px' if request.MOBILE }}>
+            <small>
+                Design by <a href="https://vk.com/vasil1y">Nikulin Vasily</a>
+            </small>
+        </p>
         <p><small>© 2021 AREA. All Rights Reserved</small></p>
     </div>
 </footer>
