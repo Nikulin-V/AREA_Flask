@@ -102,7 +102,7 @@ def voteInCompaniesVoting(json=None):
             }
         )
 
-    sector = db_sess.query(Company).get(companyId)
+    sector = db_sess.query(Company).get(companyId).sector
 
     used_points = sum(map(lambda x: x[0], db_sess.query(Vote.points).filter(
         Vote.session_id == get_session_id(),
@@ -141,6 +141,7 @@ def voteInCompaniesVoting(json=None):
         session_id=get_session_id(),
         user_id=current_user.id,
         company_id=companyId,
+        sector=sector,
         points=points
     )
 
