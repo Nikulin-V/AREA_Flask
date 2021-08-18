@@ -44,15 +44,7 @@ def register():
         user = User(
             surname=form.surname.data,
             name=form.name.data,
-            patronymic=form.patronymic.data,
-            date_of_birth=form.date_of_birth.data,
             email=form.email.data,
-            epos_login=form.epos_login.data,
-            epos_password=form.epos_password.data,
-            school_id=int(db_sess.query(School.id).
-                          filter(School.title == form.school.data).first()[0]),
-            role=form.role.data,
-            about=form.about.data
         )
         user.set_password(form.password.data)
         db_sess.add(user)
