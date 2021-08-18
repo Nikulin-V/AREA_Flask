@@ -16,4 +16,4 @@ def create_company():
 
     return render_template("market/create_company.html",
                            title='Открыть компанию',
-                           new_company_fee=get_constant('NEW_COMPANY_FEE'))
+                           new_company_fee=float(get_constant('NEW_COMPANY_FEE')))

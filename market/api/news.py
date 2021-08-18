@@ -69,7 +69,7 @@ def getNews(json=None):
                 [
                     {
                         'id': n.id,
-                        'author': n.author if n.author != 'от себя'
+                        'header_down': n.author if n.author != 'от себя'
                         else get_signature(n.user_id, n.company_id),
                         'title': n.title,
                         'message': n.message,
@@ -172,9 +172,9 @@ def createNews(json=None):
             'notifications': [
                 {
                     'logoSource': icons['new_post'],
-                    'author': news.author.split(' | ')[0],
-                    'company': None if len(news.author.split(' | ')) == 1
+                    'header_up': None if len(news.author.split(' | ')) == 1
                     else news.author.split(' | ')[1],
+                    'header_down': news.author.split(' | ')[0],
                     'date': news.date.strftime('%d %B'),
                     'time': news.date.strftime('%H:%M'),
                     'message': f'<b>{news.title}</b><br>'

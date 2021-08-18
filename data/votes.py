@@ -13,4 +13,5 @@ class Vote(SqlAlchemyBase):
     session_id = sqlalchemy.Column(sqlalchemy.String, sqlalchemy.ForeignKey("sessions.id"))
     user_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey("users.id"))
     company_id = sqlalchemy.Column(sqlalchemy.String, sqlalchemy.ForeignKey("companies.id"))
+    sector = sqlalchemy.Column(sqlalchemy.String, sqlalchemy.ForeignKey("companies.sector"))
     points = sqlalchemy.Column(sqlalchemy.Integer)

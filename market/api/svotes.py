@@ -157,8 +157,8 @@ def createStockholdersVoting(json=None):
             'notifications': [
                 {
                     'logoSource': icons['new_svoting'],
-                    'company': get_company_title(companyId),
-                    'author': voting.action,
+                    'header_up': get_company_title(companyId),
+                    'header_down': voting.action,
                     'date': datetime.datetime.now().strftime('%d %B'),
                     'time': datetime.datetime.now().strftime('%H:%M'),
                     'redirectLink': f'{url("market.stockholders_voting")}#{voting.id}'
@@ -269,8 +269,8 @@ def release_new_stocks(voting, count):
             'notifications': [
                 {
                     'logoSource': icons['release_stocks'],
-                    'company': news.author,
-                    'author': str(released_stocks_count) + ' ' + morph.parse("акций")[
+                    'header_up': news.author,
+                    'header_down': str(released_stocks_count) + ' ' + morph.parse("акций")[
                         0].make_agree_with_number(released_stocks_count).word,
                     'date': news.date.strftime('%d %B'),
                     'time': news.date.strftime('%H:%M'),

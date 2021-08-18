@@ -14,16 +14,21 @@ from data.votes import Vote
 from data.wallets import Wallet
 
 
-def get_constant(name):
+def get_constant(name, session_id=None):
+    if session_id is None:
+        session_id = get_session_id()
     db_session.global_init('db/database.sqlite')
     db_sess = db_session.create_session()
     constant = db_sess.query(Constant.value). \
         filter(Constant.name == name,
-               Constant.session_id == get_session_id()).first()
+               Constant.session_id == session_id).first()
     if constant:
         constant = constant[0]
-    if int(constant) == float(constant):
-        return int(constant)
+    try:
+        if int(float(constant)) == float(constant):
+            return int(constant)
+    except ValueError:
+        return constant
     return float(constant)
 
 
@@ -82,7 +87,7 @@ def update_market_info():
         wallet = Wallet(
             session_id=get_session_id(),
             user_id=current_user.id,
-            money=get_constant('START_WALLET_MONEY')
+            money=float(get_constant('START_WALLET_MONEY'))
         )
         db_sess.add(wallet)
         db_sess.commit()

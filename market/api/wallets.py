@@ -156,10 +156,10 @@ def investWallet(json=None):
             'notifications': [
                 {
                     'logoSource': icons['investment'],
-                    'company': f'Инвестиция: '
-                               f'{int(money) if money == int(money) else round(money, 2)}'
-                               f'<span class="material-icons-round md-money">paid</span>',
-                    'author': f'{current_user.surname} {current_user.name}',
+                    'header_up': f'Инвестиция: '
+                                 f'{int(money) if money == int(money) else round(money, 2)}'
+                                 f'<span class="material-icons-round md-money">paid</span>',
+                    'header_down': f'{current_user.surname} {current_user.name}',
                     'date': datetime.datetime.now().strftime('%d %B'),
                     'time': datetime.datetime.now().strftime('%H:%M'),
                     'redirectLink': url("market.marketplace")
@@ -178,7 +178,7 @@ def check_wallet(wallet, db_sess, user_id=None):
         wallet = Wallet(
             session_id=get_session_id(),
             user_id=user_id,
-            money=get_constant('START_WALLET_MONEY')
+            money=float(get_constant('START_WALLET_MONEY'))
         )
         db_sess.add(wallet)
         db_sess.commit()

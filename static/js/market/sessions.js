@@ -2,7 +2,7 @@
  * Nikulin Vasily © 2021
  */
 
-fillSessions()
+setTimeout(fillSessions, 100)
 sessionSelect = document.getElementById('session-select')
 sessionSelect.onchange = function () {
     sessionId = sessionSelect.options[sessionSelect.selectedIndex].value
@@ -32,10 +32,10 @@ function deleteSession() {
     isAccepted = isAcceptedElement.checked
     if (isAccepted)
         sessions.delete()
-        isAcceptedElement.checked = false
+    isAcceptedElement.checked = false
 }
 
-function fillSessions(fn=null) {
+function fillSessions(fn = null) {
     sessions.get(null, function (data) {
         sessionSelect = document.getElementById('session-select')
         while (sessionSelect.options.length > 0)
@@ -59,10 +59,9 @@ function fillSessions(fn=null) {
         if (fn)
             fn()
     })
-    
+
 }
 
 function renderPage() {
     fillSessions()
-
 }
