@@ -2,7 +2,7 @@
 import datetime
 
 from flask import render_template, abort
-from flask_babel import _
+from flask_babel import _, lazy_gettext as _l
 from flask_login import login_required
 
 from data import db_session
@@ -75,7 +75,7 @@ def game_panel():
         form.month_duration.data = get_constant('MONTH_DURATION')
 
     if not form.month_duration_unit.data:
-        form.month_duration_unit.data = get_constant('MONTH_DURATION_UNIT')
+        form.month_duration_unit.data = _l(get_constant('MONTH_DURATION_UNIT'))
 
     if not form.property_tax.data and form.property_tax.data != 0:
         form.property_tax.data = get_constant('PROPERTY_TAX')
@@ -87,9 +87,6 @@ def game_panel():
                            title=_('Управление фондовой биржей'),
                            message=message,
                            form=form)
-
-
-# TODO: Перевести
 
 
 def start_working_time():
@@ -152,10 +149,10 @@ def start_property_taxing(db_sess, session_id=None):
 def get_month_duration(session_id):
     month_duration_unit = get_constant('MONTH_DURATION_UNIT', session_id)
     month_duration_value = get_constant('MONTH_DURATION', session_id)
-    if month_duration_unit == 'Дни':
+    if month_duration_unit == _('Дни'):
         return datetime.timedelta(days=month_duration_value)
-    elif month_duration_unit == 'Часы':
+    elif month_duration_unit == _('Часы'):
         return datetime.timedelta(hours=month_duration_value)
-    elif month_duration_unit == 'Минуты':
+    elif month_duration_unit == _('Минуты'):
         return datetime.timedelta(minutes=month_duration_value)
     return datetime.timedelta(seconds=month_duration_value)

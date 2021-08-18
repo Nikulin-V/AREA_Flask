@@ -52,8 +52,9 @@ def getWallets():
         wallet = db_sess.query(Wallet.id).filter(Wallet.user_id == player_id).first()
         wallet = check_wallet(wallet, db_sess, player_id)
         wallets[f'{user.surname} {user.name}'] = wallet.id
-        items = wallets.items()
-        wallets = dict(sorted(items, key=lambda x: x[0]))
+        items = list(wallets.items())
+        items.sort(key=lambda x: x[0])
+        wallets = dict(items)
     return send_response(
         event_name,
         {

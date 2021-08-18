@@ -5,19 +5,18 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: v0.1\n"
+"Project-Id-Version:  v0.1\n"
 "Report-Msgid-Bugs-To: area-supp0rt@yandex.ru\n"
-"POT-Creation-Date: 2021-08-16 23:17+0500\n"
-"PO-Revision-Date: 2021-08-16 23:25+0500\n"
+"POT-Creation-Date: 2021-08-18 22:43+0500\n"
+"PO-Revision-Date: 2021-08-18 22:38+0500\n"
 "Last-Translator: Nikulin Vasiliy, Mark Karlinsky\n"
 "Language: en\n"
 "Language-Team: ru AREA\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.9.1\n"
-"X-Generator: Poedit 2.2\n"
 
 #: area/error_page.py:23
 msgid "Некорректный запрос"
@@ -26,8 +25,8 @@ msgstr "Bad request"
 #: area/error_page.py:24 area/error_page.py:33 area/error_page.py:36
 #: area/error_page.py:39
 msgid ""
-"Попробуйте сделать запрос еще раз. Если проблема повторится, обратитесь в "
-"техподдержку"
+"Попробуйте сделать запрос еще раз. Если проблема повторится, обратитесь в"
+" техподдержку"
 msgstr "Please, try again. If the problem persists, contact support"
 
 #: area/error_page.py:26
@@ -88,12 +87,10 @@ msgstr "The username or password is incorrect"
 
 #: area/privacy_policy.py:11 area/templates/area/header.html:20
 #: area/templates/area/header_mobile.html:24
-#: area/templates/area/privacy_policy.html:31
-#: area/templates/area/privacy_policy.html:36
 msgid "Политика конфиденциальности"
 msgstr "Privacy Policy"
 
-#: area/profile.py:28 market/game_panel.py:47
+#: area/profile.py:28 market/game_panel.py:58
 msgid "Сохранено"
 msgstr "Saved"
 
@@ -122,7 +119,7 @@ msgstr "Passwords don't match"
 msgid "Профиль"
 msgstr "Profile"
 
-#: area/profile.py:83 static/js/market/news.js:276
+#: area/profile.py:83 static/js/market/news.js:253
 msgid "Сохранить"
 msgstr "Save"
 
@@ -140,7 +137,8 @@ msgid "Такой пользователь уже есть"
 msgstr "The user with the provided email already exists"
 
 #: area/templates/area/header.html:5 area/templates/area/header_mobile.html:12
-#: forms/my_company_management.py:16 market/templates/market/create_company.html:47
+#: forms/my_company_management.py:16
+#: market/templates/market/create_company.html:47
 #: market/templates/market/create_company.html:49
 msgid "Логотип"
 msgstr "Logo"
@@ -153,6 +151,17 @@ msgstr "Log out"
 msgid "Вход"
 msgstr "Log in"
 
+#: area/templates/area/index.html:26
+msgid ""
+"Вся наша жизнь состоит из различных областей. Их довольно много. Сложно "
+"сделать лучше\n"
+"            всё и сразу."
+msgstr ""
+
+#: area/templates/area/index.html:28
+msgid "Мы будем делать это постепенно, частями."
+msgstr ""
+
 #: area/templates/area/index.html:33
 msgid "Наши системы:"
 msgstr "Our services:"
@@ -163,22 +172,9 @@ msgstr "(in development)"
 
 #: area/templates/area/login.html:43 area/templates/area/profile.html:138
 #: area/templates/area/register.html:128
-#: market/templates/market/company_panel.html:132
-#: market/templates/market/session_panel.html:69
-#: market/templates/market/session_result.html:42
 #: market/templates/market/sessions.html:58
-#: market/templates/market/user_admin_panel.html:161
-#: market/templates/market/user_panel.html:42
 msgid "Сообщение от сайта"
 msgstr "Technical message"
-
-#: area/templates/area/privacy_policy.html:42
-msgid "Политика в отношении обработки персональных данных"
-msgstr "Personal Data Processing Policy"
-
-#: area/templates/area/privacy_policy.html:47
-msgid "Общие положения"
-msgstr "General Terms"
 
 #: area/templates/area/yandex_58762f224fa898fc.html:4
 msgid "Метрика"
@@ -190,16 +186,31 @@ msgstr "Error while logging in to the EPOS.School"
 
 #: edu/errors.py:9
 msgid ""
-"Попробуйте ещё раз. При повторном возникновении ошибки проверьте пароль от ЭПОС."
-"Школа и обновите его в профиле"
+"Попробуйте ещё раз. При повторном возникновении ошибки проверьте пароль "
+"от ЭПОС.Школа и обновите его в профиле"
 msgstr ""
-"Try again later. If the problem persists, check the password from EPOS.School "
-"and update it in your profile"
+"Try again later. If the problem persists, check the password from "
+"EPOS.School and update it in your profile"
 
 #: edu/templates/edu/area_diary.html:36 edu/templates/edu/epos_diary.html:31
 #: edu/templates/edu/epos_diary.html:52
 msgid "Нет расписания"
 msgstr "No schedule"
+
+#: edu/templates/edu/index.html:27
+msgid ""
+"AREA – Ваш помощник в планировании. Теперь\n"
+"            организация учебного процесса перестанет быть рутиной.\n"
+"            Удобный интерфейс и приятный дизайн - что еще нужно\n"
+"            для комфортной учебы?"
+msgstr ""
+
+#: edu/templates/edu/index.html:35
+msgid ""
+"Мы создаем систему, которая обеспечит\n"
+"            комфортный и продуктивный процесс обучения\n"
+"            как ученикам, так и учителям."
+msgstr ""
 
 #: forms/company_admin_management.py:9 market/company_panel.py:31
 #: market/company_panel.py:147 market/create_company.py:19
@@ -215,7 +226,8 @@ msgstr "Open company"
 msgid "Изменить компанию"
 msgstr "Edit the company"
 
-#: forms/company_admin_management.py:10 market/company_panel.py:52
+#: forms/company_admin_management.py:10 market/api/svotes.py:117
+#: market/api/svotes.py:288 market/company_panel.py:52
 #: market/company_panel.py:140 market/templates/market/company_panel.html:92
 #: static/js/market/companies-management.js:202
 msgid "Закрыть компанию"
@@ -228,17 +240,19 @@ msgid "Удалить все компании"
 msgstr "Delete all companies"
 
 #: forms/company_admin_management.py:11 forms/company_admin_management.py:12
-#: forms/my_company_management.py:12 market/templates/market/create_company.html:31
+#: forms/my_company_management.py:12
+#: market/templates/market/create_company.html:31
 msgid "Отрасль"
 msgstr "Industry"
 
 #: forms/company_admin_management.py:13
 #: market/templates/market/user_admin_panel.html:115
-#: static/js/market/companies-management.js:178 static/js/market/marketplace.js:51
-#: static/js/market/marketplace.js:146 static/js/market/marketplace.js:242
-#: static/js/market/marketplace.js:364 static/js/market/marketplace.js:437
-#: static/js/market/marketplace.js:453 static/js/market/marketplace.js:530
-#: static/js/market/marketplace.js:536 static/js/scripts.js:260
+#: static/js/market/companies-management.js:178
+#: static/js/market/marketplace.js:51 static/js/market/marketplace.js:146
+#: static/js/market/marketplace.js:242 static/js/market/marketplace.js:364
+#: static/js/market/marketplace.js:437 static/js/market/marketplace.js:453
+#: static/js/market/marketplace.js:530 static/js/market/marketplace.js:536
+#: static/js/scripts.js:268
 msgid "Компания"
 msgstr "Company"
 
@@ -248,8 +262,9 @@ msgstr "Company"
 msgid "Название компании"
 msgstr "Company name"
 
-#: forms/company_admin_management.py:16 market/templates/market/sessions.html:42
-#: static/js/market/marketplace.js:410 static/js/market/marketplace.js:505
+#: forms/company_admin_management.py:16
+#: market/templates/market/sessions.html:42 static/js/market/marketplace.js:410
+#: static/js/market/marketplace.js:505
 msgid "Подтвердить"
 msgstr "Confirm"
 
@@ -257,7 +272,7 @@ msgstr "Confirm"
 msgid "Авторы"
 msgstr "Authors"
 
-#: forms/company_admin_management.py:18 forms/config_management.py:17
+#: forms/company_admin_management.py:18 forms/config_management.py:22
 #: forms/my_company_management.py:21 forms/user_admin_management.py:22
 #: forms/user_management.py:16 market/templates/market/create_company.html:60
 msgid "Готово"
@@ -267,9 +282,7 @@ msgstr "Submit"
 msgid ""
 "Игра идёт (когда выключено - на торговой площадке показываются текущие "
 "результаты игры)"
-msgstr ""
-"The game is on (when off, the results of the game are shown on "
-"the market)"
+msgstr "The game is on (when off, the results of the game are shown on the market)"
 
 #: forms/config_management.py:11
 msgid "Начальный баланс на кошельке игрока"
@@ -277,19 +290,51 @@ msgstr "The initial balance of the player"
 
 #: forms/config_management.py:12
 msgid ""
-"Комиссия от сделки (умножается на сумму сделки для вычисления комиссии за 1 "
-"акцию)"
+"Комиссия от сделки (умножается на сумму сделки для вычисления комиссии за"
+" 1 акцию)"
 msgstr ""
-"Transaction fee (multiplied by the transaction total to calculate the "
-"fee per 1 share)"
+"Transaction fee (multiplied by the transaction total to calculate the fee"
+" per 1 share)"
 
 #: forms/config_management.py:14
 msgid "Взнос за создание компании"
 msgstr "Company creation fee"
 
-#: forms/config_management.py:16
+#: forms/config_management.py:15
 msgid "Количество акций, которое игрок получает при создании компании"
 msgstr "The number of shares the player receives when creating a company"
+
+#: forms/config_management.py:17
+msgid "Продолжительность 1 игрового месяца"
+msgstr "Duration of 1 game month"
+
+#: forms/config_management.py:18
+msgid "Ед. изм."
+msgstr "Time units"
+
+#: forms/config_management.py:19 market/game_panel.py:152
+msgid "Дни"
+msgstr "Days"
+
+#: forms/config_management.py:19 market/game_panel.py:154
+msgid "Часы"
+msgstr "Hours"
+
+#: forms/config_management.py:19 market/game_panel.py:156
+msgid "Минуты"
+msgstr "Minutes"
+
+#: forms/config_management.py:19
+msgid "Секунды"
+msgstr "Seconds"
+
+#: forms/config_management.py:20
+msgid "Процентная ставка налога на имущество"
+msgstr "Property tax interest rate"
+
+#: forms/config_management.py:21
+msgid "Процентная ставка подоходного налога"
+msgstr "Income tax interest rate"
 
 #: forms/login.py:10 forms/profile.py:13 forms/register.py:13
 #: forms/user_admin_management.py:16
@@ -309,7 +354,8 @@ msgstr "The password to enter the EPOS.School"
 msgid "Запомнить меня"
 msgstr "Remember me"
 
-#: forms/my_company_management.py:15 market/templates/market/create_company.html:42
+#: forms/my_company_management.py:15
+#: market/templates/market/create_company.html:42
 #: market/templates/market/create_company.html:43
 msgid "Описание"
 msgstr "Description"
@@ -374,24 +420,26 @@ msgstr "Birthdate in the format 01.01.1970"
 msgid "О себе"
 msgstr "About me"
 
-#: forms/user_admin_management.py:9 static/js/market/companies-management.js:208
-#: static/js/scripts.js:261
+#: forms/user_admin_management.py:9
+#: static/js/market/companies-management.js:208 static/js/scripts.js:269
 msgid "Действие"
 msgstr "Action"
 
 #: forms/user_admin_management.py:9
-#: market/templates/market/user_admin_panel.html:13 market/user_admin_panel.py:28
-#: market/user_admin_panel.py:33
+#: market/templates/market/user_admin_panel.html:13
+#: market/user_admin_panel.py:28 market/user_admin_panel.py:33
 msgid "Добавить пользователя"
 msgstr "Add user"
 
 #: forms/user_admin_management.py:10
-#: market/templates/market/user_admin_panel.html:94 market/user_admin_panel.py:48
+#: market/templates/market/user_admin_panel.html:94
+#: market/user_admin_panel.py:48
 msgid "Удалить пользователя"
 msgstr "Delete user"
 
 #: forms/user_admin_management.py:11
-#: market/templates/market/user_admin_panel.html:24 market/user_admin_panel.py:78
+#: market/templates/market/user_admin_panel.html:24
+#: market/user_admin_panel.py:78
 msgid "Изменить пользователя"
 msgstr "Edit user"
 
@@ -402,20 +450,24 @@ msgstr "The user with this email already exists"
 #: forms/user_admin_management.py:19
 msgid "Роли (Введите роли пользователя через пробел (Ученик, Учитель, Админ) )"
 msgstr ""
-"Roles (Enter the user roles separated by a space (Student, Teacher, Admin) )"
+"Roles (Enter the user roles separated by a space (Student, Teacher, "
+"Admin) )"
 
 #: forms/user_admin_management.py:20
 msgid ""
-"Роли в игре (Введите роли пользователя через пробел (Игрок, Эксперт, Админ) )"
+"Роли в игре (Введите роли пользователя через пробел (Игрок, Эксперт, "
+"Админ) )"
 msgstr ""
-"Roles in the game (Enter the user roles separated by a space (Player, Expert,  "
-"Admin) )"
+"Roles in the game (Enter the user roles separated by a space (Player, "
+"Expert,  Admin) )"
 
 #: forms/user_management.py:8
 msgid ""
-"Пользователь (Нажмите на поле и начните вводить фамилию нужного пользователя)"
+"Пользователь (Нажмите на поле и начните вводить фамилию нужного "
+"пользователя)"
 msgstr ""
-"User (Click on the field and start entering the last name of the desired user)"
+"User (Click on the field and start entering the last name of the desired "
+"user)"
 
 #: forms/user_management.py:10
 msgid "Роли в текущей игре"
@@ -435,8 +487,7 @@ msgstr "No roles"
 
 #: forms/user_management.py:14
 msgid "Удалить (Все акции и предложения на торговой площадке переходят Вам)"
-msgstr ""
-"Delete (All their shares and offers on the marketplace will become yours.)"
+msgstr "Delete (All their shares and offers on the marketplace will become yours.)"
 
 #: market/companies.py:15 market/templates/market/header.html:30
 #: market/templates/market/header_mobile.html:29
@@ -479,7 +530,7 @@ msgstr "User management is available only to administrators."
 msgid "Управление фондовой биржей доступно только её создателю."
 msgstr "Stock exchange management is available only to its creator."
 
-#: market/game_panel.py:64 market/templates/market/header.html:44
+#: market/game_panel.py:87 market/templates/market/header.html:44
 #: market/templates/market/header_mobile.html:44
 msgid "Управление фондовой биржей"
 msgstr "Stock exchange management"
@@ -526,8 +577,8 @@ msgstr "User control panel"
 
 #: market/user_panel.py:73
 msgid ""
-"Пользователь удалён из игры. Все его акции и предложения на торговой площадке "
-"перешли в Вашу собственность."
+"Пользователь удалён из игры. Все его акции и предложения на торговой "
+"площадке перешли в Вашу собственность."
 msgstr ""
 "The user was from the game. All their shares and offers on the "
 "marketplace are now yours."
@@ -544,10 +595,38 @@ msgstr "The user has no roles."
 msgid "Управление компаниями"
 msgstr "Company management"
 
+#: market/api/svotes.py:120 market/api/svotes.py:122
+msgid "Выпустить по "
+msgstr "Emit "
+
+#: market/api/svotes.py:120
+msgid " акции на 1 существующую"
+msgstr " shares per 1 existing"
+
+#: market/api/svotes.py:122
+msgid " акций на 1 существующую"
+msgstr " shares per 1 existing"
+
+#: market/api/svotes.py:258
+msgid "Эмиссия акций: "
+msgstr "Issue of shares: "
+
+#: market/api/svotes.py:259
+msgid "Акционеры компании большинством голосов приняли решение о выпуске "
+msgstr "The company's shareholders decided by a majority vote to issue "
+
+#: market/api/svotes.py:260
+msgid " новых акций."
+msgstr " new shares."
+
+#: market/api/svotes.py:290
+msgid "Выпустить"
+msgstr "Emit"
+
 #: market/templates/market/companies.html:38
 msgid ""
-"Введите сюда количество очков доверия, которое Вы хотите присвоить компании и "
-"нажмите на\n"
+"Введите сюда количество очков доверия, которое Вы хотите присвоить "
+"компании и нажмите на\n"
 "    нужную строку."
 msgstr ""
 "Enter the number of trust points that you want to assign to company and "
@@ -555,12 +634,12 @@ msgstr ""
 " the desired line."
 
 #: market/templates/market/companies.html:42
-msgid "Чтобы снять все очки, введите 0."
-msgstr "To remove the points, enter 0."
+msgid "Чтобы снять все очки с компании, введите 0 и нажмите на строку"
+msgstr "To remove the points, enter 0 and click on row"
 
 #: market/templates/market/companies.html:45
-msgid "Имейте ввиду, что у Вас всего 100 очков доверия."
-msgstr "Keep in mind that you only have 100 trust points in total."
+msgid "Имейте ввиду, что у Вас по 100 очков доверия на каждую отрасль."
+msgstr "Keep in mind that you only have 100 trust points for each sector."
 
 #: market/templates/market/companies.html:52
 msgid "Очки"
@@ -568,7 +647,8 @@ msgstr "Points"
 
 #: market/templates/market/companies.html:59
 #: market/templates/market/companies_management.html:33
-#: market/templates/market/marketplace.html:24 market/templates/market/news.html:32
+#: market/templates/market/marketplace.html:41
+#: market/templates/market/news.html:32
 msgid "Загрузка"
 msgstr "Loading"
 
@@ -601,6 +681,33 @@ msgstr "Company management panel"
 #: market/templates/market/header_mobile.html:50
 msgid "Управление пользователями"
 msgstr "User control panel"
+
+#: market/templates/market/index.html:28
+msgid ""
+"Этот сервис позволяет вам познакомиться с основами фондового рынка.\n"
+"            В частности, с торговлей акциями."
+msgstr ""
+
+#: market/templates/market/index.html:32
+msgid ""
+"Здесь вы можете создавать компании или ОАО и управлять ими,\n"
+"            выпускать новые акции\n"
+"            и продавать их на торговой площадке, увеличивая баланс на "
+"своём счёте.\n"
+"            Создавайте новости, увеличивая доверие других игроков на "
+"бирже к своей\n"
+"            компании и повышая её прибыль или занижая доверие к другим "
+"компаниям.\n"
+"            Помните: чем больше доверия, тем больше прибыль компании, тем"
+" больше стоят её акции\n"
+"            на торговой площадке."
+msgstr ""
+
+#: market/templates/market/index.html:41
+msgid ""
+"Прежде чем начать - прочитайте правила. Мы старались сделать их\n"
+"            максимально интересными."
+msgstr ""
 
 #: market/templates/market/news.html:21
 msgid "Создать пост"
@@ -665,83 +772,83 @@ msgstr "Cost"
 msgid "Итого:"
 msgstr "Total:"
 
-#: static/js/scripts.js:237
+#: static/js/scripts.js:245
 msgid "Январь"
 msgstr "January"
 
-#: static/js/scripts.js:237
+#: static/js/scripts.js:245
 msgid "Февраль"
 msgstr "February"
 
-#: static/js/scripts.js:237
+#: static/js/scripts.js:245
 msgid "Март"
 msgstr "March"
 
-#: static/js/scripts.js:237
+#: static/js/scripts.js:245
 msgid "Апрель"
 msgstr "April"
 
-#: static/js/scripts.js:237
+#: static/js/scripts.js:245
 msgid "Май"
 msgstr "May"
 
-#: static/js/scripts.js:237
+#: static/js/scripts.js:245
 msgid "Июнь"
 msgstr "June"
 
-#: static/js/scripts.js:238
+#: static/js/scripts.js:246
 msgid "Июль"
 msgstr "July"
 
-#: static/js/scripts.js:238
+#: static/js/scripts.js:246
 msgid "Август"
 msgstr "August"
 
-#: static/js/scripts.js:238
+#: static/js/scripts.js:246
 msgid "Сентябрь"
 msgstr "September"
 
-#: static/js/scripts.js:238
+#: static/js/scripts.js:246
 msgid "Октябрь"
 msgstr "October"
 
-#: static/js/scripts.js:238
+#: static/js/scripts.js:246
 msgid "Ноябрь"
 msgstr "November"
 
-#: static/js/scripts.js:238
+#: static/js/scripts.js:246
 msgid "Декабрь"
 msgstr "December"
 
-#: static/js/scripts.js:244
+#: static/js/scripts.js:252
 msgid "Соединение восстановлено"
 msgstr "Connection restored"
 
-#: static/js/scripts.js:244
+#: static/js/scripts.js:252
 msgid "Соединение разорвано"
 msgstr "Connection lost"
 
-#: static/js/scripts.js:256
+#: static/js/scripts.js:264
 msgid "Общее доверие"
 msgstr "Total trust"
 
-#: static/js/scripts.js:257
+#: static/js/scripts.js:265
 msgid "Ваше доверие"
 msgstr "Your trust"
 
-#: static/js/scripts.js:259
+#: static/js/scripts.js:267
 msgid "ID Голосования"
 msgstr "Voting ID"
 
-#: static/js/scripts.js:262
+#: static/js/scripts.js:270
 msgid "Голосов"
 msgstr "Votes"
 
-#: static/js/scripts.js:263
+#: static/js/scripts.js:271
 msgid "Ваш выбор"
 msgstr "Your choice"
 
-#: static/js/scripts.js:265
+#: static/js/scripts.js:273
 msgid "Нет открытых голосований"
 msgstr "No active votings"
 
@@ -825,11 +932,11 @@ msgstr "There are no free shares of this company on the market"
 
 #: static/js/market/marketplace.js:354
 msgid ""
-"ВНИМАНИЕ: На торговой площадке не хватает акций. Вам предложены акции, имеющиеся "
-"в наличии."
+"ВНИМАНИЕ: На торговой площадке не хватает акций. Вам предложены акции, "
+"имеющиеся в наличии."
 msgstr ""
-"CAUTION: There is not enough shares on the market. You are offered available "
-"shares."
+"CAUTION: There is not enough shares on the market. You are offered "
+"available shares."
 
 #: static/js/market/marketplace.js:361
 msgid "Чек"
@@ -867,31 +974,31 @@ msgstr "You do not have enough shares of this company."
 msgid "На Вашем счёте недостаточно средств."
 msgstr "You do not have enough money."
 
-#: static/js/market/news.js:155
+#: static/js/market/news.js:132
 msgid "Опубликовать"
 msgstr "Publish"
 
-#: static/js/market/news.js:197 static/js/market/news.js:323
+#: static/js/market/news.js:174 static/js/market/news.js:300
 msgid "Неверный или небезопасный формат файла"
 msgstr "Invalid or potentially unsafe file type"
 
-#: static/js/market/news.js:216 static/js/market/news.js:339
+#: static/js/market/news.js:193 static/js/market/news.js:316
 msgid "Файл слишком большой, пожалуйста выберите файл менее 1МБ"
 msgstr "The file is too large, please select a file less than 1MB"
 
-#: static/js/market/news.js:227
+#: static/js/market/news.js:204
 msgid "Новый пост"
 msgstr "Create post"
 
-#: static/js/market/news.js:238
+#: static/js/market/news.js:215
 msgid "от лица компании"
 msgstr "on behalf of the company"
 
-#: static/js/market/news.js:293
+#: static/js/market/news.js:270
 msgid "Удалить изображение"
 msgstr "Delete image"
 
-#: static/js/market/news.js:348
+#: static/js/market/news.js:325
 msgid "Изменение поста"
 msgstr "Edit post"
 
@@ -902,3 +1009,10 @@ msgstr "This name is taken."
 #: static/js/market/sessions.js:27
 msgid "Укажите имя новой фондовой биржи."
 msgstr "Enter the name of the new stock exchange."
+
+#~ msgid "Политика в отношении обработки персональных данных"
+#~ msgstr "Personal Data Processing Policy"
+
+#~ msgid "Общие положения"
+#~ msgstr "General Terms"
+

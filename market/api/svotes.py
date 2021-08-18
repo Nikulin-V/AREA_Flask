@@ -1,7 +1,7 @@
 #  Nikulin Vasily © 2021
 import datetime
 
-from flask_babel import lazy_gettext as _l
+from flask_babel import _
 from flask_login import login_required, current_user
 
 from config import icons
@@ -114,12 +114,12 @@ def createStockholdersVoting(json=None):
         )
 
     if action == 'closeCompany':
-        action = 'Закрыть компанию'
+        action = _('Закрыть компанию')
     elif action == 'releaseNewStocks':
         if count % 10 <= 4:
-            action = f'Выпустить по {count} акции на 1 существующую'
+            action = _('Выпустить по ') + count + _(' акции на 1 существующую')
         else:
-            action = f'Выпустить по {count} акций на 1 существующую'
+            action = _('Выпустить по ') + count + _(' акций на 1 существующую')
 
     db_sess = db_session.create_session()
 
@@ -255,9 +255,9 @@ def release_new_stocks(voting, count):
         session_id=get_session_id(),
         user_id=None,
         company_id=voting.company_id,
-        title=f'Эмиссия акций: {get_company_title(voting.company_id)}',
-        message=f'Акционеры компании большинством голосов приняли решение о выпуске '
-                f'{released_stocks_count} новых акций.',
+        title=_('Эмиссия акций: ') + get_company_title(voting.company_id),
+        message=_('Акционеры компании большинством голосов приняли решение о выпуске ') +
+                released_stocks_count + _(' новых акций.'),
         date=datetime.datetime.now(),
         author=f'<b>{get_company_title(voting.company_id)}</b>'
     )
@@ -285,9 +285,9 @@ def release_new_stocks(voting, count):
 
 
 def do_voting_action(voting):
-    if voting.action == 'Закрыть компанию':
+    if voting.action == _('Закрыть компанию'):
         deleteCompanyAction(companyId=voting.company_id)
-    elif voting.action.startswith('Выпустить'):
+    elif voting.action.startswith(_('Выпустить')):
         count = int(voting.action.split()[2])
         release_new_stocks(voting, count)
 

@@ -1,5 +1,5 @@
 #  Nikulin Vasily © 2021
-from flask_babel import lazy_gettext as _l
+from flask_babel import lazy_gettext as _l, _
 from flask_wtf import FlaskForm
 from wtforms import SubmitField, FloatField, BooleanField, IntegerField, SelectField
 
@@ -15,7 +15,8 @@ class ConfigManagementForm(FlaskForm):
     start_stocks = IntegerField(_l('Количество акций, которое игрок получает при создании '
                                    'компании'))
     month_duration = IntegerField(_l('Продолжительность 1 игрового месяца'))
-    month_duration_unit = SelectField(_l('Ед. изм.'), choices=['Дни', 'Часы', 'Минуты', 'Секунды'])
+    month_duration_unit = SelectField(_l('Ед. изм.'),
+                                      choices=[_('Дни'), _('Часы'), _('Минуты'), _('Секунды')])
     property_tax = FloatField(_l('Процентная ставка налога на имущество'))
     income_tax = FloatField(_l('Процентная ставка подоходного налога'))
     submit = SubmitField(_l('Готово'))

@@ -3,7 +3,7 @@ from flask_babel import _
 
 HOST = 'area-146.tk'
 DEV_HOST = 'area-146.ru'
-SERVER_NAME = HOST
+SERVER_NAME = DEV_HOST
 SCHEME = 'https' if SERVER_NAME == HOST else 'http'
 
 default_constants = {
@@ -14,14 +14,15 @@ default_constants = {
     'NEW_COMPANY_FEE': 500,
     'START_WALLET_MONEY': 1500,
     'MONTH_DURATION': 1,
-    'MONTH_DURATION_UNIT': 'Дни',
+    'MONTH_DURATION_UNIT': _('Дни'),
     'INCOME_TAX': 0.13,
     'PROPERTY_TAX': 0.02
 }
 
 sectors = sorted(list(map(lambda x: _(x),
-                          ['IT', 'Энергетика', 'Экономика', 'Пищевая промышленность',
-                           'Машиностроение', 'Медицина', 'Туризм', 'Культура', 'Логистика'])))
+                          [_('IT'), _('Энергетика'), _('Экономика'), _('Пищевая промышленность'),
+                           _('Машиностроение'), _('Медицина'), _('Туризм'), _('Культура'),
+                           _('Логистика')])))
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'bmp', 'ico', 'webp'}
 
