@@ -73,51 +73,6 @@
             {% endfor %}
         </div>
         <div>
-            {{ form.date_of_birth.label }}<br>
-            {{ form.date_of_birth(class="form-control", value=date if date else '01.01.1970') }}<br>
-            {% for error in form.date_of_birth.errors %}
-                <p class="alert alert-danger" role="alert">
-                    {{ error }}
-                </p>
-            {% endfor %}
-        </div>
-        <div>
-            {{ form.school.label }}<br>
-            {{ form.school(class="form-control", value=school if school else '') }}<br>
-            {% for error in form.school.errors %}
-                <p class="alert alert-danger" role="alert">
-                    {{ error }}
-                </p>
-            {% endfor %}
-        </div>
-        <div>
-            {{ form.role.label }}<br>
-            {{ form.role(class="form-control", value=current_user.role if current_user.role else 'Ученик') }}<br>
-            {% for error in form.role.errors %}
-                <p class="alert alert-danger" role="alert">
-                    {{ error }}
-                </p>
-            {% endfor %}
-        </div>
-        <div>
-            {{ form.epos_login.label }}<br>
-            {{ form.epos_login(class="form-control", value=current_user.epos_login if current_user.epos_login else '') }}<br>
-            {% for error in form.epos_login.errors %}
-                <p class="alert alert-danger" role="alert">
-                    {{ error }}
-                </p>
-            {% endfor %}
-        </div>
-        <div>
-            {{ form.epos_password.label }}<br>
-            {{ form.epos_password(class="form-control", type="password", value=current_user.epos_password) }}<br>
-            {% for error in form.epos_password.errors %}
-                <p class="alert alert-danger" role="alert">
-                    {{ error }}
-                </p>
-            {% endfor %}
-        </div>
-        <div>
             {{ form.about.label }}<br>
             {{ form.about(class="form-control", value=current_user.about if current_user.about else '') }}<br>
             {% for error in form.about.errors %}
