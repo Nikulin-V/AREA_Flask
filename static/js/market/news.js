@@ -53,8 +53,8 @@ function addNews(page = 0, isFullUpdate = true) {
                                     ${authorButtons}
                                 </td>
                                 <td style="border: 0">
-                                    <p style="margin-bottom: 0;${isMobile() ? " font-size: .7em;" : "" } text-align: center">
-                                        ${n.author}
+                                    <p style="margin-bottom: 0;${isMobile() ? " font-size: .7em;" : ""} text-align: center">
+                                        ${n.header_down}
                                     </p>
                                 </td>
                                 <td rowspan="2" style="text-align: right; border: 0; width: 1px">

@@ -10,7 +10,7 @@ socket.on('renderPage', function () {
 socket.on('showNotifications', function (data) {
     for (i = 0; i < data['notifications'].length; i++) {
         n = Object(data['notifications'][i])
-        showNotifications(n.logoSource, n.author, n.company, n.date, n.time, n.message, n.redirectLink)
+        showNotifications(n.logoSource, n.header_down, n.header_up, n.date, n.time, n.message, n.redirectLink)
     }
 })
 
