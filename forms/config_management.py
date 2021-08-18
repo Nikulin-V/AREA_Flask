@@ -1,7 +1,7 @@
 #  Nikulin Vasily © 2021
 from flask_babel import lazy_gettext as _l
 from flask_wtf import FlaskForm
-from wtforms import SubmitField, FloatField, BooleanField, IntegerField
+from wtforms import SubmitField, FloatField, BooleanField, IntegerField, SelectField
 
 
 class ConfigManagementForm(FlaskForm):
@@ -12,6 +12,10 @@ class ConfigManagementForm(FlaskForm):
     fee = FloatField(_l('Комиссия от сделки '
                         '(умножается на сумму сделки для вычисления комиссии за 1 акцию)'))
     new_company_fee = FloatField(_l('Взнос за создание компании'))
-    start_stocks = IntegerField(
-        _l('Количество акций, которое игрок получает при создании компании'))
+    start_stocks = IntegerField(_l('Количество акций, которое игрок получает при создании '
+                                   'компании'))
+    month_duration = IntegerField(_l('Продолжительность 1 игрового месяца'))
+    month_duration_unit = SelectField(_l('Ед. изм.'), choices=['Дни', 'Часы', 'Минуты', 'Секунды'])
+    property_tax = FloatField(_l('Процентная ставка налога на имущество'))
+    income_tax = FloatField(_l('Процентная ставка подоходного налога'))
     submit = SubmitField(_l('Готово'))

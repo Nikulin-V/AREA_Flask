@@ -1,15 +1,14 @@
 #  Nikulin Vasily © 2021
 from flask_socketio import emit
 
-from tools.scheduler import scheduler
-
 data_changes_functions = ['createCompany', 'deleteCompany',
                           'createNews', 'editNews', 'deleteNews',
                           'createOffer', 'editOffer', 'deleteOffer',
                           'createSession', 'editSession', 'deleteSession',
                           'createStockholdersVoting', 'voteInStockholdersVoting',
                           'createUser', 'editUser', 'deleteUser',
-                          'voteInCompaniesVoting']
+                          'voteInCompaniesVoting',
+                          'investWallet']
 
 
 class IOBlueprint:
@@ -28,6 +27,7 @@ class IOBlueprint:
             def wrap(io):
                 @io.on(key, namespace=self.namespace)
                 def wrapped(*args, **kwargs):
+                    from app import scheduler
                     if not scheduler.works:
                         scheduler.run()
                     if f.__name__ in data_changes_functions:

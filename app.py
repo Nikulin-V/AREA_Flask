@@ -17,6 +17,7 @@ from config import SERVER_NAME, SCHEME
 from data import db_session
 from data.functions import get_game_roles
 from data.users import User
+from tools.scheduler import Scheduler
 from tools.url import url
 
 app = Flask(__name__, subdomain_matching=True)
@@ -38,6 +39,7 @@ socket_ = SocketIO(app, cors_allowed_origins="*")
 
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
+scheduler = Scheduler()
 
 Mobility(app)
 login_manager = LoginManager()
@@ -62,7 +64,7 @@ db_session.global_init('db/database.sqlite')
 
 def main():
     port = int(os.environ.get('PORT', 80))
-    socket_.run(app, host='0.0.0.0', port=port)
+    socket_.run(app, host='0.0.0.0', port=port, debug=True)
 
 
 @babel.localeselector

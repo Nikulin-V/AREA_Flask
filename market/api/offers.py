@@ -9,6 +9,7 @@ from area.api import clients_sid
 from config import icons
 from data import db_session
 from data.companies import Company
+from data.config import Constant
 from data.functions import get_session_id, get_company_title, get_company_id, get_constant
 from data.offers import Offer
 from data.scheduled_job import ScheduledJob
@@ -302,7 +303,7 @@ def editOffer(json=None):
             )
 
             second_cost += int(row['price']) * int(
-                row['stocks']) * get_constant('FEE_FOR_STOCK') * stocks_get_profit
+                row['stocks']) * float(get_constant('FEE_FOR_STOCK')) * stocks_get_profit
             if offer.user_id in sold_stocks.keys():
                 sold_stocks[offer.user_id] += int(row['stocks'])
             else:
@@ -323,7 +324,13 @@ def editOffer(json=None):
                 }
             )
 
-        # Снятие денег, получение акций и начисление комиссии
+        # Снятие денег, уплата подоходного налога, получение акций и начисление комиссии
+        income_tax_percent = float(get_constant('INCOME_TAX'))
+        government_balance = db_sess.query(Constant).filter(
+            Constant.session_id == get_session_id(),
+            Constant.name == 'GOVERNMENT_BALANCE'
+        ).first()
+        government_balance.value = float(government_balance.value)
         for row in cheque:
             offer = db_sess.query(Offer).get(row['id'])
 
@@ -340,7 +347,8 @@ def editOffer(json=None):
                     )))
             )
             offer_first_cost = int(row['stocks']) * int(row['price'])
-            offer_second_cost = offer_first_cost * stocks_get_profit * get_constant('FEE_FOR_STOCK')
+            offer_second_cost = offer_first_cost * stocks_get_profit * float(
+                get_constant('FEE_FOR_STOCK'))
 
             customer_wallet.money -= offer_first_cost + offer_second_cost
 
@@ -348,7 +356,10 @@ def editOffer(json=None):
                 Wallet.session_id == get_session_id(),
                 Wallet.user_id == offer.user_id
             ).first()
-            seller_wallet.money += offer_first_cost
+            income_tax = offer_first_cost * income_tax_percent
+            seller_wallet.money += offer_first_cost - income_tax
+            government_balance.value += income_tax
+            db_sess.merge(government_balance)
 
             # Изменение количества акций на торговой площадке
             if offer.stocks <= int(row['stocks']):
@@ -393,7 +404,7 @@ def editOffer(json=None):
                         Wallet.user_id == stock.user_id
                     ).first()
 
-                    fee = offer_first_cost * stock.stocks * get_constant('FEE_FOR_STOCK')
+                    fee = offer_first_cost * stock.stocks * float(get_constant('FEE_FOR_STOCK'))
 
                     stockholder_wallet.money += fee
                     db_sess.merge(stockholder_wallet)
@@ -411,8 +422,8 @@ def editOffer(json=None):
                         'notifications': [
                             {
                                 'logoSource': icons['deal'],
-                                'company': cheque[0]['company'],
-                                'author': f'Вы продали {stocks_count} {stocks_word}',
+                                'header_up': cheque[0]['company'],
+                                'header_down': f'Вы продали {stocks_count} {stocks_word}',
                                 'date': datetime.datetime.now().strftime('%d %B'),
                                 'time': datetime.datetime.now().strftime('%H:%M'),
                                 'redirectLink': url("market.news")
@@ -571,4 +582,4 @@ def get_offer_fee(company_id, offer_id, buy_stocks):
     )
 
     return int(offer.price) * int(
-        buy_stocks) * get_constant('FEE_FOR_STOCK') * stocks_get_profit
+        buy_stocks) * float(get_constant('FEE_FOR_STOCK')) * stocks_get_profit

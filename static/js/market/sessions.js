@@ -2,7 +2,7 @@
  * Nikulin Vasily © 2021
  */
 
-fillSessions()
+setTimeout(fillSessions, 100)
 sessionSelect = document.getElementById('session-select')
 sessionSelect.onchange = function () {
     sessionId = sessionSelect.options[sessionSelect.selectedIndex].value
@@ -64,5 +64,4 @@ function fillSessions(fn = null) {
 
 function renderPage() {
     fillSessions()
-
 }

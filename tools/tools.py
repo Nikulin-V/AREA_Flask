@@ -35,16 +35,21 @@ def get_object_data_from_request(object_data: dict, keys: list, ):
     return object_data
 
 
-def is_stockholder(company_id):
+def is_stockholder(company_id, user_id=None, session_id=None):
+    if user_id is None:
+        user_id = current_user.id
+    if session_id is None:
+        session_id = current_user.game_session_id
     db_sess = db_session.create_session()
+
     stocks = db_sess.query(Stock).filter(
-        Stock.session_id == get_session_id(),
+        Stock.session_id == session_id,
         Stock.company_id == company_id,
-        Stock.user_id == current_user.id).all()
+        Stock.user_id == user_id).all()
     offers = db_sess.query(Offer).filter(
-        Offer.session_id == get_session_id(),
+        Offer.session_id == session_id,
         Offer.company_id == company_id,
-        Offer.user_id == current_user.id).all()
+        Offer.user_id == user_id).all()
     if stocks or offers:
         return True
     return False
@@ -95,7 +100,7 @@ def deposit_wallet(user_id, money):
         wallet = Wallet(
             session_id=get_session_id(),
             user_id=user_id,
-            money=get_constant('START_WALLET_MONEY')
+            money=float(get_constant('START_WALLET_MONEY'))
         )
         db_sess.add(wallet)
     wallet.money += money

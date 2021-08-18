@@ -7,6 +7,7 @@ from flask_login import login_required, current_user
 from config import sectors, icons
 from data import db_session
 from data.companies import Company
+from data.config import Constant
 from data.db_functions import get_session_id
 from data.functions import get_company_id, get_constant
 from data.news import News
@@ -104,7 +105,7 @@ def createCompany(json=None):
         session_id=get_session_id(),
         user_id=current_user.id,
         company_id=company.id,
-        stocks=get_constant('START_STOCKS')
+        stocks=int(get_constant('START_STOCKS'))
     )
     db_sess.add(stock)
 
@@ -112,12 +113,12 @@ def createCompany(json=None):
         wallet = Wallet(
             session_id=get_session_id(),
             user_id=current_user.id,
-            money=get_constant('START_WALLET_MONEY')
+            money=float(get_constant('START_WALLET_MONEY'))
         )
         db_sess.add(wallet)
         db_sess.commit()
 
-    new_company_fee = get_constant('NEW_COMPANY_FEE')
+    new_company_fee = float(get_constant('NEW_COMPANY_FEE'))
     if wallet.money < new_company_fee:
         db_sess.rollback()
         return send_response(
@@ -146,9 +147,9 @@ def createCompany(json=None):
                 'notifications': [
                     {
                         'logoSource': icons['new_company'],
-                        'author': news.author.split(' | ')[0],
-                        'company': None if len(news.author.split(' | ')) == 1
+                        'header_up': None if len(news.author.split(' | ')) == 1
                         else news.author.split(' | ')[1],
+                        'header_down': news.author.split(' | ')[0],
                         'date': news.date.strftime('%d %B'),
                         'time': news.date.strftime('%H:%M'),
                         'redirectLink': f'{url("market.news")}#{news.id}'
@@ -224,8 +225,19 @@ def deleteCompanyAction(event_name=None, companyId=None, companyTitle=None):
         Offer.company_id == company.id
     ).all()))
 
+    income_tax_percent = float(get_constant('INCOME_TAX'))
+    government_balance = db_sess.query(Constant).filter(
+        Constant.session_id == get_session_id(),
+        Constant.name == 'GOVERNMENT_BALANCE'
+    ).first()
+    government_balance.value = float(government_balance.value)
+    new_company_fee = float(get_constant('NEW_COMPANY_FEE'))
+    income_tax = new_company_fee * income_tax_percent
+    government_balance.value += income_tax
+    db_sess.merge(government_balance)
+
     for stock in stocks:
-        cashback = get_constant('NEW_COMPANY_FEE') * stock.stocks / all_stocks_count
+        cashback = (new_company_fee - income_tax_percent) * stock.stocks / all_stocks_count
         deposit_wallet(stock.user_id, cashback)
 
     delete_all_company_data(company.id)
@@ -252,9 +264,9 @@ def deleteCompanyAction(event_name=None, companyId=None, companyTitle=None):
             'notifications': [
                 {
                     'logoSource': icons['close_company'],
-                    'author': news.author.split(' | ')[0],
-                    'company': None if len(news.author.split(' | ')) == 1
+                    'header_up': None if len(news.author.split(' | ')) == 1
                     else news.author.split(' | ')[1],
+                    'header_down': news.author.split(' | ')[0],
                     'date': news.date.strftime('%d %B'),
                     'time': news.date.strftime('%H:%M'),
                     'redirectLink': f'{url("market.news")}#{news.id}'

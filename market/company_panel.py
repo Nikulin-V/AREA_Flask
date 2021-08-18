@@ -43,7 +43,7 @@ def company_panel():
                         session_id=get_session_id(),
                         user_id=i,
                         company_id=company.id,
-                        stocks=get_constant('START_STOCKS')
+                        stocks=float(get_constant('START_STOCKS'))
                     )
                     db_sess.add(stocks)
                 db_sess.commit()
@@ -88,7 +88,7 @@ def company_panel():
                             session_id=get_session_id(),
                             user_id=i,
                             company_id=company.id,
-                            stocks=get_constant('START_STOCKS')
+                            stocks=float(get_constant('START_STOCKS'))
                         )
                         db_sess.add(stocks)
                     db_sess.commit()

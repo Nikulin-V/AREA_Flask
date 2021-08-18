@@ -56,6 +56,44 @@
                 </div>
             {% endfor %}
         </div>
+
+        <div>
+            {{ form.month_duration.label }}<br>
+            <div style="display: inline-flex">
+                {{ form.month_duration(class='form-control',
+                 style='width: fit-content;text-align: center') }}
+                {{ form.month_duration_unit(class='form-control',
+                 style='width: fit-content; text-align: center') }}
+            </div>
+            {% for error in form.month_duration.errors %}
+                <div class="alert alert-danger" role="alert">
+                    {{ error }}
+                </div>
+            {% endfor %}
+            {% for error in form.month_duration_unit.errors %}
+                <div class="alert alert-danger" role="alert">
+                    {{ error }}
+                </div>
+            {% endfor %}
+        </div>
+        <div>
+            {{ form.property_tax.label }}<br>
+            {{ form.property_tax(class='form-control', style='width: fit-content;text-align: center') }}<br>
+            {% for error in form.property_tax.errors %}
+                <div class="alert alert-danger" role="alert">
+                    {{ error }}
+                </div>
+            {% endfor %}
+        </div>
+        <div>
+            {{ form.income_tax.label }}<br>
+            {{ form.income_tax(class='form-control', style='width: fit-content;text-align: center') }}<br>
+            {% for error in form.income_tax.errors %}
+                <div class="alert alert-danger" role="alert">
+                    {{ error }}
+                </div>
+            {% endfor %}
+        </div>
         {{ form.submit(type="submit", class="btn btn-info") }}
     </form>
     <!-- Всплывающее сообщение -->
@@ -65,12 +103,9 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title"
-                            id="exampleModalLabel">{{ _('Сообщение от сайта') }}</h5>
-                        <button type="button" class="close" id="modal-close-btn"
-                                data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+                        <h5 class="modal-title" id="exampleModalLabel">Сообщение от сайта</h5>
+                        <button type="button" class="btn-close" id="modal-close-btn"
+                                data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         {{ message }}

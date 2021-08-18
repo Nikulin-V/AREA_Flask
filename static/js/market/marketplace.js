@@ -614,3 +614,67 @@ function checkBuyResponse() {
     } else
         closeModalAndRenderPage()
 }
+
+function openInvestForm() {
+    message =
+        `<div>
+            <div class="form-floating">
+                <input class="form-control" list="user-select-options" id="user-select" placeholder="Введите имя пользователя" autocomplete="off">
+                <datalist id="user-select-options">
+                    <option>Загрузка пользователей...</option>
+                </datalist>
+                <label for="user-select">${ _('Пользователь') }</label>
+            </div>
+            <br>
+            <div class="form-floating">
+                <input id="money-input" class="form-control" placeholder="Сумма">
+                <label for="money-input">${ _('Размер инвестиции') }</label>
+            </div>
+        </div>`
+    fillWallets()
+    button = `<button class="btn btn-info" onclick="invest()">${ _('Инвестировать') }</button>`
+
+
+    showModal(message, 'Инвестиция', [button])
+}
+
+function fillWallets() {
+    wallet.getWallets(function (data) {
+        let userSelect = document.getElementById('user-select-options')
+        let walletsList = data['wallets']
+        for (walletId = 0; walletId < Object.keys(walletsList).length; walletId++) {
+            let option = new Option()
+            option.value = Object.keys(walletsList)[walletId]
+            option.text = walletsList[Object.keys(walletsList)[walletId]]
+            userSelect.appendChild(option)
+        }
+        userSelect.removeChild(userSelect.querySelector('#user-select-options > option:nth-child(1)'))
+    })
+}
+
+function invest() {
+    let userSelect = document.getElementById('user-select-options')
+    let name = document.getElementById('user-select').value
+    let walletOption = userSelect.querySelector(`#user-select-options > option[value='${name}']`)
+    if (walletOption) {
+        let walletId = walletOption.textContent
+        let money = document.getElementById('money-input').value
+        wallet.patch(walletId, money, investCallback)
+    } else
+        showModal(createParagraph('Кошелёк не найден.'))
+}
+
+function investCallback(data) {
+    if (data['message'] === 'Success')
+        showModal(createParagraph('Инвестиция прошла успешно.'))
+    else if (data['errors'][0] === 'Specify money')
+        showModal(createParagraph('Укажите сумму.'))
+    else if (data['errors'][0] === 'Money must be real number')
+        showModal(createParagraph('Сумма инвестиции должна быть вещественным числом' +
+            ' больше нуля.'))
+    else if (data['errors'][0] === 'Not enough money')
+        showModal(createParagraph('Недостаточно средств.'))
+    else if (data['errors'][0] === 'Wallet not found')
+        showModal(createParagraph('Кошелёк не найден.'))
+    renderPage()
+}

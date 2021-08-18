@@ -23,8 +23,6 @@ from tools.words import morph
 @api.route('/api/svotes', methods=['POST'])
 @login_required
 def createStockholdersVoting(json=None):
-    if json is None:
-        json = dict()
     """
     Create session
 
@@ -45,6 +43,8 @@ def createStockholdersVoting(json=None):
         New voting's id (JSON)
 
     """
+    if json is None:
+        json = dict()
 
     event_name = 'createStockholdersVoting'
     fillJson(json, ['companyId', 'companyTitle', 'action', 'count'])
@@ -158,8 +158,8 @@ def createStockholdersVoting(json=None):
             'notifications': [
                 {
                     'logoSource': icons['new_svoting'],
-                    'company': get_company_title(companyId),
-                    'author': voting.action,
+                    'header_up': get_company_title(companyId),
+                    'header_down': voting.action,
                     'date': datetime.datetime.now().strftime('%d %B'),
                     'time': datetime.datetime.now().strftime('%H:%M'),
                     'redirectLink': f'{url("market.stockholders_voting")}#{voting.id}'
@@ -270,10 +270,9 @@ def release_new_stocks(voting, count):
             'notifications': [
                 {
                     'logoSource': icons['release_stocks'],
-                    'company': news.author,
-                    'author': str(released_stocks_count) + ' ' + _l(morph.parse("акций")[
-                                                                        0].make_agree_with_number(
-                        released_stocks_count).word),
+                    'header_up': news.author,
+                    'header_down': str(released_stocks_count) + ' ' + morph.parse("акций")[
+                        0].make_agree_with_number(released_stocks_count).word,
                     'date': news.date.strftime('%d %B'),
                     'time': news.date.strftime('%H:%M'),
                     'redirectLink': f'{url("market.marketplace")}#{news.id}'

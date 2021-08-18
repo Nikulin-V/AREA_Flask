@@ -19,6 +19,8 @@
           rel="stylesheet">
     <script src="{{ url_for("babel_catalog") }}"></script>
 
+    {{ super() }}
+
     <!--suppress JSUnresolvedFunction -->
     <script>
         let socket = io(window.location.origin, {

@@ -2,7 +2,7 @@
 
 from flask_login import current_user, login_required
 
-from config import FEE_FOR_STOCK, GAME_RUN, START_STOCKS, NEW_COMPANY_FEE, START_WALLET_MONEY
+from config import default_constants
 from data import db_session
 from data.companies import Company
 from data.config import Constant
@@ -11,7 +11,6 @@ from data.offers import Offer
 from data.sessions import Session
 from data.stockholders_votes import SVote
 from data.stocks import Stock
-from data.transactions import Transaction
 from data.users import User
 from data.votes import Vote
 from data.wallets import Wallet
@@ -94,8 +93,6 @@ def getSessions(json=None):
 @api.route('/api/sessions', methods=['POST'])
 @login_required
 def createSession(json=None):
-    if json is None:
-        json = dict()
     """
     Create session
 
@@ -109,6 +106,8 @@ def createSession(json=None):
         New session's id (JSON)
 
     """
+    if json is None:
+        json = dict()
 
     event_name = 'createSession'
     fillJson(json, ['title'])
@@ -143,32 +142,15 @@ def createSession(json=None):
     db_sess.add(session)
     db_sess.commit()
 
-    fee_for_stock = Constant(
-        session_id=session.id,
-        name='FEE_FOR_STOCK',
-        value=FEE_FOR_STOCK
-    )
-    game_run = Constant(
-        session_id=session.id,
-        name='GAME_RUN',
-        value=GAME_RUN
-    )
-    start_stocks = Constant(
-        session_id=session.id,
-        name='START_STOCKS',
-        value=START_STOCKS
-    )
-    new_company_fee = Constant(
-        session_id=session.id,
-        name='NEW_COMPANY_FEE',
-        value=NEW_COMPANY_FEE
-    )
-    start_wallet_money = Constant(
-        session_id=session.id,
-        name='START_WALLET_MONEY',
-        value=START_WALLET_MONEY
-    )
-    constants = [fee_for_stock, game_run, start_stocks, new_company_fee, start_wallet_money]
+    constants = [
+        Constant(
+            session_id=session.id,
+            name=constant_name,
+            value=constant_value
+        )
+        for constant_name, constant_value in default_constants.items()
+    ]
+
     db_sess.add_all(constants)
     db_sess.commit()
 
@@ -306,7 +288,7 @@ def delete_all_session_data(session_id):
 
     """
     db_sess = db_session.create_session()
-    models = [Company, Offer, News, SVote, Stock, Transaction, Vote, Wallet, Constant]
+    models = [Company, Offer, News, SVote, Stock, Vote, Wallet, Constant]
     items = []
     for model in models:
         items += list(db_sess.query(model).filter(model.session_id == session_id).all())
