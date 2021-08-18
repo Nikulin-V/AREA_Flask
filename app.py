@@ -30,7 +30,7 @@ app.config.update(
     PREFERRED_URL_SCHEME=SCHEME
 )
 
-socket_ = SocketIO(app, cors_allowed_origins="*", debug=True)
+socket_ = SocketIO(app, cors_allowed_origins="*")
 
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
