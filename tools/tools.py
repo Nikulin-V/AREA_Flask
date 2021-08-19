@@ -75,7 +75,7 @@ def is_stockholder(company_id, user_id=None, session_id=None):
 
 def votes(stockholders, company_id):
     if stockholders:
-        stockholders = list(int(s_id) for s_id in str(stockholders).split(';') if s_id)
+        stockholders = list(str(s_id) for s_id in str(stockholders).split(';') if s_id)
     else:
         stockholders = []
 

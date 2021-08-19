@@ -346,6 +346,7 @@ def editOffer(json=None):
                     )))
             )
             offer_first_cost = int(row['stocks']) * int(row['price'])
+            print(offer_first_cost)
             offer_second_cost = offer_first_cost * stocks_get_profit * float(
                 get_constant('FEE_FOR_STOCK'))
 
@@ -397,7 +398,7 @@ def editOffer(json=None):
             ).all())
 
             for stock in all_stocks:
-                if str(stock.user_id) not in [current_user.id, offer.user_id]:
+                if str(stock.user_id) not in [str(current_user.id), str(offer.user_id)]:
                     stockholder_wallet = db_sess.query(Wallet).filter(
                         Wallet.session_id == get_session_id(),
                         Wallet.user_id == stock.user_id

@@ -22,11 +22,14 @@ def game_result():
 
     data = list(db_sess.query(Wallet.user_id, Wallet.money).filter(
         Wallet.session_id == get_session_id()
-    ))
+    ).all())
     data.sort(key=lambda x: -x[1])
     players_wallets = list()
     i = 1
     for user_id, money in data:
+        print(db_sess.query(User.surname, User.name).filter(
+            User.id == user_id
+        ).first())
         user = ' '.join(db_sess.query(User.surname, User.name).filter(
             User.id == user_id
         ).first())

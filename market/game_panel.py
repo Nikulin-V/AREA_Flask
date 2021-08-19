@@ -28,7 +28,7 @@ def game_panel():
             Constant.name == 'GAME_RUN',
             Constant.session_id == get_session_id()
         ).first()
-        if game_run.value == "0" and form.game_run.data:
+        if game_run.value == 0 and form.game_run.data:
             start_working_time()
         game_run.value = 1 if form.game_run.data else 0
         db_sess.merge(game_run)

@@ -2,9 +2,6 @@
 
 {% block content %}
 
-    <script>
-        const imageUploadEndpoint = "{{ url('market.api.uploadImage') }}"
-    </script>
     <link rel="stylesheet" type="text/css" href="{{ url('.static', filename='/css/news.css') }}">
     <div id="news-header">
         <table class="layout-table" style="width: 100%">
@@ -44,5 +41,8 @@
         </div>
     </div>
 
+    <script>
+        const imageUploadEndpoint = "{{ url('market.api.uploadImage') }}"
+    </script>
     <script src="{{ url('static', filename='js/market/news.js') }}"></script>
 {% endblock %}
