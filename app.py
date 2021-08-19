@@ -54,8 +54,8 @@ db_session.global_init('db/database.sqlite')
 
 
 def main():
-    port = int(os.environ.get('PORT', 80))
-    socket_.run(app, host='0.0.0.0', port=port)
+    port = int(os.environ.get('PORT', 443))
+    socket_.run(app, host='0.0.0.0', port=port, keyfile='private.key', certfile='certificate.crt')
 
 
 @login_manager.user_loader

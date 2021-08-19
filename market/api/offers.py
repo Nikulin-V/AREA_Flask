@@ -346,7 +346,6 @@ def editOffer(json=None):
                     )))
             )
             offer_first_cost = int(row['stocks']) * int(row['price'])
-            print(offer_first_cost)
             offer_second_cost = offer_first_cost * stocks_get_profit * float(
                 get_constant('FEE_FOR_STOCK'))
 
