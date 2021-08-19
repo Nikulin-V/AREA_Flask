@@ -1,6 +1,7 @@
 {% extends "area/base.html" %}
 
 {% block content %}
+    <link rel="stylesheet" type="text/css" href="{{ url('.static', filename='/css/profile.css') }}">
     {% if not request.MOBILE %}
         <h1 style="text-align: center">{{ title }}</h1>
     {% else %}
@@ -11,7 +12,7 @@
         {{ form.hidden_tag() }}
         <div>
             {{ form.email.label }}<br>
-            {{ form.email(class="form-control", type="email", value=current_user.email) }}<br>
+            {{ form.email(class="form-control", type="email", value=current_user.email) }}
             {% for error in form.email.errors %}
                 <p class="alert alert-danger" role="alert">
                     {{ error }}
@@ -20,7 +21,7 @@
         </div>
         <div>
             {{ form.old_password.label }}<br>
-            {{ form.old_password(class="form-control", type="password") }}<br>
+            {{ form.old_password(class="form-control", type="password") }}
             {% for error in form.old_password.errors %}
                 <p class="alert alert-danger" role="alert">
                     {{ error }}
@@ -29,7 +30,7 @@
         </div>
         <div>
             {{ form.password.label }}<br>
-            {{ form.password(class="form-control", type="password") }}<br>
+            {{ form.password(class="form-control", type="password") }}
             {% for error in form.password.errors %}
                 <p class="alert alert-danger" role="alert">
                     {{ error }}
@@ -38,7 +39,7 @@
         </div>
         <div>
             {{ form.password_again.label }}<br>
-            {{ form.password_again(class="form-control", type="password") }}<br>
+            {{ form.password_again(class="form-control", type="password") }}
             {% for error in form.password_again.errors %}
                 <p class="alert alert-danger" role="alert">
                     {{ error }}
@@ -47,7 +48,7 @@
         </div>
         <div>
             {{ form.surname.label }}<br>
-            {{ form.surname(class="form-control", value=current_user.surname) }}<br>
+            {{ form.surname(class="form-control", value=current_user.surname) }}
             {% for error in form.surname.errors %}
                 <p class="alert alert-danger" role="alert">
                     {{ error }}
@@ -56,7 +57,7 @@
         </div>
         <div>
             {{ form.name.label }}<br>
-            {{ form.name(class="form-control", value=current_user.name) }}<br>
+            {{ form.name(class="form-control", value=current_user.name) }}
             {% for error in form.name.errors %}
                 <p class="alert alert-danger" role="alert">
                     {{ error }}
@@ -65,7 +66,7 @@
         </div>
         <div>
             {{ form.patronymic.label }}<br>
-            {{ form.patronymic(class="form-control", value=current_user.patronymic if current_user.patronymic else '') }}<br>
+            {{ form.patronymic(class="form-control", value=current_user.patronymic if current_user.patronymic else '') }}
             {% for error in form.patronymic.errors %}
                 <p class="alert alert-danger" role="alert">
                     {{ error }}
@@ -74,7 +75,7 @@
         </div>
         <div>
             {{ form.about.label }}<br>
-            {{ form.about(class="form-control", value=current_user.about if current_user.about else '') }}<br>
+            {{ form.about(class="form-control", value=current_user.about if current_user.about else '') }}
             {% for error in form.about.errors %}
                 <p class="alert alert-danger" role="alert">
                     {{ error }}

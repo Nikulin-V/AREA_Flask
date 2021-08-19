@@ -2,20 +2,26 @@
 
 {% block content %}
     <table style="width: 100%; border: 0">
-        <tr style="{{ "font-size: 1.5em; " if request.MOBILE }}border: 0">
+        <tr style="{{ "font-size: 1.5em; " if not request.MOBILE }}border: 0">
             {% if not request.MOBILE %}
                 <td style="text-align: left; border: 0; width: 1%; padding-right: 30px">
-                    <h1>{{ title }}</h1></td>
-                <td style="text-align: left; border: 0"><a class="btn btn-info"
-                                                           href="{{ url('.create_company') }}">Открыть
-                    компанию</a></td>
+                    <h1>{{ title }}</h1>
+                </td>
+                <td style="text-align: left; border: 0">
+                    <a class="btn btn-info" href="{{ url('.create_company') }}">
+                        Открыть компанию
+                    </a>
+                </td>
             {% else %}
                 <td style="text-align: left; border: 0; width: 1%; padding-right: 30px" colspan="2">
-                    <h3>{{ title }}</h3></td>
+                    <h3>{{ title }}</h3>
+                </td>
             {% endif %}
-            <td style="text-align: right; border: 0"><a style="text-decoration: unset"
-                                                        href="{{ url('.stockholders_voting') }}">Управление
-                компаниями</a></td>
+            <td style="text-align: right; border: 0">
+                <a style="text-decoration: unset" href="{{ url('.stockholders_voting') }}">
+                    Управление компаниями
+                </a>
+            </td>
         </tr>
     </table>
     {% if not request.MOBILE %}

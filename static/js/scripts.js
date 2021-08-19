@@ -3,11 +3,11 @@
  */
 
 // noinspection JSUnresolvedFunction
-
-sessions.get(null, function (data) {
-    adminLinksDiv = document.getElementById('admin-links')
-    adminLinksDiv.style.display = data["isAdmin"] ? "block" : "none"
-})
+if (typeof sessions !== 'undefined')
+    sessions.get(null, function (data) {
+        adminLinksDiv = document.getElementById('admin-links')
+        adminLinksDiv.style.display = data["isAdmin"] ? "block" : "none"
+    })
 
 let dropdownElementList = [].slice.call(document.querySelectorAll('.dropdown-toggle'));
 dropdownElementList.map(function (dropdownToggleEl) {

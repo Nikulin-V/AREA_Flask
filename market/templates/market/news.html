@@ -5,17 +5,21 @@
     <script>
         const imageUploadEndpoint = "{{ url('market.api.uploadImage') }}"
     </script>
-    <div style="position: sticky; top: 0; background-color: white">
+    <link rel="stylesheet" type="text/css" href="{{ url('.static', filename='/css/news.css') }}">
+    <div id="news-header">
         <table class="layout-table" style="width: 100%">
             <tr style="font-size: 1.5em">
                 <td style="text-align: left">
                     <h1>{{ title }}</h1>
                 </td>
-                <td style="text-align: -webkit-center">
-                    <button id="news-update-btn" class="btn btn-info" onclick="showNewPosts()">
-                        Свежие записи <span class="material-icons" style="vertical-align: bottom">update</span>
-                    </button>
-                </td>
+                {% if not request.MOBILE %}
+                    <td style="text-align: -webkit-center">
+                        <button id="news-update-btn" class="btn btn-info" onclick="showNewPosts()">
+                            Свежие записи <span class="material-icons"
+                                                style="vertical-align: bottom">update</span>
+                        </button>
+                    </td>
+                {% endif %}
                 <td style="text-align: right">
                     <button id="create-news" class="btn btn-info" onclick="createNews()">Создать
                         пост
@@ -23,6 +27,13 @@
                 </td>
             </tr>
         </table>
+        {% if request.MOBILE %}
+            <button id="news-update-btn" class="btn btn-info" onclick="showNewPosts()"
+                    style="width: 100%; margin-top: 3px">
+                Свежие записи
+                <span class="material-icons" style="vertical-align: bottom">update</span>
+            </button>
+        {% endif %}
         <hr style="margin: 5px 0">
     </div>
 

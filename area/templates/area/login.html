@@ -1,13 +1,9 @@
 {% extends "area/base.html" %}
 
 {% block content %}
+    <link rel="stylesheet" type="text/css" href="{{ url('.static', filename='css/login.css') }}">
     <div id="login-form">
-        {% if not request.MOBILE %}
-            <h1 style="text-align: center">{{ title }}</h1>
-        {% else %}
-            <h3>{{ title }}</h3>
-        {% endif %}
-        <br>
+        <h1 style="text-align: center">{{ title }}</h1>
         <form action="" method="post">
             {{ form.hidden_tag() }}
             <div>
@@ -28,8 +24,14 @@
                     </div>
                 {% endfor %}
             </div>
-            <div{% if request.MOBILE %}
-                style="width: 100vw"{% endif %}>{{ form.remember_me() }} {{ form.remember_me.label }}</div>
+            <div class="form-check form-switch"
+                    {% if request.MOBILE %}
+                 style="width: 100vw"
+                    {% endif %}>
+                {{ form.remember_me(class="form-check-input", id="remember-me") }}
+                {{ form.remember_me.label(class="form-check-label", for="remember-me") }}
+            </div>
+            <br>
             <div>{{ form.submit(type="submit", class="btn btn-info") }}</div>
         </form>
     </div>

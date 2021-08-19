@@ -3,7 +3,8 @@ from flask import Blueprint
 
 from .api import api, socket
 
-area = Blueprint('area', __name__, template_folder='templates')
+area = Blueprint('area', __name__, template_folder='templates', static_folder='static',
+                 static_url_path='/area/static')
 area.register_blueprint(api)
 
 from .index import index

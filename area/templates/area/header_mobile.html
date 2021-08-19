@@ -15,11 +15,24 @@
             </li>
             {% block header_content %}
                 <li>
-                    <a class="menu__item" href="{{ url('area.index') }}">Главная</a>
+                    <a class="menu__item" href="{{ url('area.index') }}">
+                        Главная
+                    </a>
                 </li>
                 <li>
-                    <a class="menu__item" href="{{ url('area.privacy_policy') }}">Политика
-                        конфиденциальности</a>
+                    <a class="menu__item" href="{{ url('market.index') }}">
+                        AREA of young brokers
+                    </a>
+                </li>
+                <li>
+                    <a class="menu__item" href="{{ url('edu.index') }}">
+                        AREA of education
+                    </a>
+                </li>
+                <li>
+                    <a class="menu__item" href="{{ url('area.privacy_policy') }}">
+                        Политика конфиденциальности
+                    </a>
                 </li>
             {% endblock header_content %}
         </ul>
