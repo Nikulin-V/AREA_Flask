@@ -10,6 +10,7 @@ from tools.url import url
 @area.app_errorhandler(403)
 @area.app_errorhandler(404)
 @area.app_errorhandler(408)
+@area.app_errorhandler(413)
 @area.app_errorhandler(415)
 @area.app_errorhandler(500)
 def error_handler(error):
@@ -31,6 +32,8 @@ global_messages = {
     408: ['Превышено время ожидания',
           'Попробуйте сделать запрос еще раз. Если проблема повторится, обратитесь в '
           'техподдержку'],
+    413: ['Превышен размер файла',
+          'Попробуйте загрузить файл поменьше'],
     415: ['Неподдерживаемый формат файла',
           'Попробуйте сделать запрос еще раз. Если проблема повторится, обратитесь в '
           'техподдержку'],
