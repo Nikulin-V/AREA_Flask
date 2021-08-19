@@ -1,0 +1,15 @@
+/*
+ * Nikulin Vasily © 2021
+ */
+
+#register-form {
+    width: 70%;
+    margin: calc(10vh) 15%;
+}
+
+@media screen and (max-width: 980px) {
+    #register-form {
+        width: 100%;
+        margin: 25px 0 0 0;
+    }
+}

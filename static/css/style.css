@@ -109,12 +109,23 @@ main {
 #error-title {
     color: #162730;
     font-family: ‘Righteous’, cursive;
-    font-size: 50px; font-weight: normal;
+    font-size: 50px;
+    font-weight: normal;
     line-height: 60px;
     margin: 10px 0 20px;
     text-transform: uppercase;
     text-shadow: 2px 2px 0 #000;
     text-align: center;
+}
+
+@media screen and (max-width: 980px) {
+    #error-block {
+        top: 10%;
+    }
+
+    #error-title {
+        font-size: 30px;
+    }
 }
 
 #error-message {
@@ -238,6 +249,7 @@ main {
     vertical-align: sub;
     font-size: 1.2em;
 }
+
 .btn-icon-text {
     vertical-align: top;
 }

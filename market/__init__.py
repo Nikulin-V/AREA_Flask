@@ -3,7 +3,8 @@ from flask import Blueprint
 
 from .api import api, socket
 
-market = Blueprint('market', __name__, subdomain='market', template_folder='templates')
+market = Blueprint('market', __name__, subdomain='market', template_folder='templates',
+                   static_folder='static', static_url_path='/market/static')
 market.register_blueprint(api)
 
 from .index import index

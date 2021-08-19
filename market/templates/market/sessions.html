@@ -1,39 +1,27 @@
 {% extends "market/base.html" %}
 
 {% block content %}
+    <link rel="stylesheet" type="text/css"
+          href="{{ url('.static', filename='/css/sessions.css') }}">
     <h1 style="text-align: center">{{ title }}</h1>
     <hr>
-    {% if not request.MOBILE %}
-        <br>
-    {% endif %}
     <div class="form-floating">
         <select class="form-select" id="session-select"></select>
         <label for="session-select">Текущая фондовая биржа</label>
     </div>
-    {% if not request.MOBILE %}
-        <br>
-    {% endif %}
     <hr>
-    {% if not request.MOBILE %}
-        <br>
-    {% endif %}
     <div class="form-floating">
         <input class="form-control" id="new-session-input" placeholder="Имя новой фондовой биржи"
                autocomplete="off">
         <label for="new-session-input">Имя новой фондовой биржи</label>
     </div>
-    <br>
     <button class="btn btn-info" id="submit"
             onclick="createSession()"{{ 'style="margin-bottom: 10px"' if not request.MOBILE }}>
         Создать фондовую биржу
     </button>
     <hr>
-    {% if not request.MOBILE %}
-        <br>
-    {% endif %}
     <div id="delete-session" style="border: red 1px solid; border-radius: 10px; padding: 10px">
         <h4>Удалить текущую игру</h4>
-        <br>
         <div class="form-check">
             <input class="form-check-input" type="checkbox" id="delete-session-checkbox"
                    autocomplete="off">
@@ -41,8 +29,7 @@
                 Подтвердить
             </label>
         </div>
-        <br>
-        <button class="btn btn-info btn-danger" id="delete-session-btn" onclick="deleteSession()">
+        <button class="btn btn-danger" id="delete-session-btn" onclick="deleteSession()">
             Удалить текущую фондовую биржу
         </button>
     </div>
