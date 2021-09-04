@@ -186,7 +186,7 @@ class Task(Thread):
                 all_stocks = list(db_sess.query(Stock).filter(
                     Stock.session_id == session_id,
                     Stock.company_id == company_id
-                ).all()) + list(db_sess.query(Offer.stocks).filter(
+                ).all()) + list(db_sess.query(Offer).filter(
                     Offer.session_id == session_id,
                     Offer.company_id == company_id
                 ).all())
