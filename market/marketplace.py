@@ -4,10 +4,11 @@ from flask_login import login_required
 
 from data.functions import get_game_roles
 from market import market
-from tools.tools import game_running_required
+from tools.tools import game_running_required, roles_required
 
 
 @market.route('/marketplace', methods=['GET', 'POST'])
+@roles_required('user', 'player')
 @login_required
 @game_running_required
 def marketplace():

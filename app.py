@@ -22,7 +22,7 @@ app = Flask(__name__, subdomain_matching=True)
 app.config.update(
     SERVER_NAME=SERVER_NAME,
     SECRET_KEY='area_secret_key',
-    SQLALCHEMY_DATABASE_URI='sqlite:///db/database.db',
+    SQLALCHEMY_DATABASE_URI='sqlite:///db/database.sqlite',
     SQLALCHEMY_TRACK_MODIFICATIONS=False,
     SESSION_COOKIE_DOMAIN=SERVER_NAME,
     SESSION_COOKIE_HTTPONLY=False,
@@ -50,6 +50,7 @@ login_manager.init_app(app)
 
 app.jinja_env.globals.update(url=url)
 app.jinja_env.globals.update(game_role=get_game_roles)
+app.jinja_env.globals.update(has_role=get_game_roles)
 db_session.global_init('db/database.sqlite')
 
 

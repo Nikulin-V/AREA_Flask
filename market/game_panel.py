@@ -10,9 +10,11 @@ from data.functions import get_game_roles, get_session_id, get_constant
 from data.scheduled_job import ScheduledJob
 from forms.config_management import ConfigManagementForm
 from market import market
+from tools.tools import roles_required
 
 
 @market.route('/game-panel', methods=['GET', 'POST'])
+@roles_required('user', 'player')
 @login_required
 def game_panel():
     if 'Admin' not in get_game_roles():

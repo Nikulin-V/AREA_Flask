@@ -10,9 +10,11 @@ from data.groups import Group
 from data.homeworks import Homework
 from data.students import Student
 from edu import edu
+from tools.tools import roles_required
 
 
 @edu.route('/area-diary')
+@roles_required('user', 'student')
 @login_required
 def area_diary():
     repair_dependencies_students_and_groups()

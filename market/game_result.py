@@ -7,9 +7,11 @@ from data.functions import get_constant, get_game_roles, get_session_id
 from data.users import User
 from data.wallets import Wallet
 from market import market
+from tools.tools import roles_required
 
 
 @market.route('/game-result')
+@roles_required('player')
 @login_required
 def game_result():
     if get_constant('GAME_RUN'):
