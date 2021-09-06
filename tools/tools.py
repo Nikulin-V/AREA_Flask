@@ -3,8 +3,8 @@ import functools
 import os
 
 import flask
-from flask import request, jsonify, redirect
-from flask_login import current_user
+from flask import request, jsonify, redirect, abort
+from flask_login import current_user, AnonymousUserMixin
 from flask_socketio import emit
 
 from config import HOST, DEV_HOST
@@ -140,3 +140,33 @@ def game_running_required(func):
         return redirect('/game-result')
 
     return game_running_wrapper
+
+
+def roles_required(*roles):
+    def decorator(func):
+        @functools.wraps(func)
+        def decorated_view(*args, **kwargs):
+            if isinstance(current_user, AnonymousUserMixin):
+                return abort(401)
+            if all([current_user.has_role(role)] for role in roles):
+                return func(*args, **kwargs)
+            return abort(403)
+
+        return decorated_view
+
+    return decorator
+
+
+def roles_accepted(*roles):
+    def decorator(func):
+        @functools.wraps(func)
+        def decorated_view(*args, **kwargs):
+            if isinstance(current_user, AnonymousUserMixin):
+                return abort(401)
+            if any([current_user.has_role(role)] for role in roles):
+                return func(*args, **kwargs)
+            return abort(403)
+
+        return decorated_view
+
+    return decorator

@@ -6,7 +6,9 @@ from flask_login import UserMixin
 from sqlalchemy_serializer import SerializerMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 
+from . import db_session
 from .db_session import SqlAlchemyBase
+from .roles import RolesUsers, Role
 
 
 class User(SqlAlchemyBase, UserMixin, SerializerMixin):
@@ -29,9 +31,16 @@ class User(SqlAlchemyBase, UserMixin, SerializerMixin):
     school_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey("schools.id"))
     about = sqlalchemy.Column(sqlalchemy.Text)
 
-    role = sqlalchemy.Column(sqlalchemy.String)
     game_session_id = sqlalchemy.Column(sqlalchemy.String, sqlalchemy.ForeignKey("sessions.id"),
                                         default='77777777')
+
+    def has_role(self, role_name):
+        db_sess = db_session.create_session()
+        for role_id in db_sess.query(RolesUsers.role_id).filter(
+                RolesUsers.user_id == self.id).all():
+            if db_sess.query(Role).get(role_id).name == role_name:
+                return True
+        return False
 
     def set_password(self, password):
         self.hashed_password = generate_password_hash(password)

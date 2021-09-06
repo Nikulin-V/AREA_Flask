@@ -4,11 +4,13 @@ from flask_login import login_required, current_user
 
 from edu import edu
 from tools.epos import EPOS
+from tools.tools import roles_required
 
 epos = EPOS()
 
 
 @edu.route('/epos-diary')
+@roles_required('user', 'student')
 @login_required
 def epos_diary():
     if not current_user.is_authenticated:
