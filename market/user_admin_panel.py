@@ -7,12 +7,12 @@ from data.functions import get_game_roles
 from data.users import User
 from forms.user_management import UserManagementForm
 from market import market
-
-
 # noinspection PyArgumentList
+from tools.tools import roles_required
 
 
 @market.route('/user-panel', methods=['GET', 'POST'])
+@roles_required('user', 'player')
 @login_required
 def user_panel():
     if 'Admin' not in get_game_roles():

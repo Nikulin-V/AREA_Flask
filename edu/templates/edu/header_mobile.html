@@ -5,7 +5,7 @@
         <a class="menu__item" href="{{ url('.index') }}">Главная</a>
     </li>
     {% if current_user.is_authenticated %}
-        {% if 'Ученик' in current_user.role %}
+        {% if current_user.has_role('student') %}
             <li>
                 <a class="menu__item" href="{{ url('.area_diary') }}">Дневник AREA</a>
             </li>

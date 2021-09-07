@@ -10,10 +10,12 @@ from data.stocks import Stock
 from data.users import User
 from forms.company_admin_management import CompanyAdminManagementForm
 from market import market
-
-
 # noinspection PyArgumentList
+from tools.tools import roles_required
+
+
 @market.route('/company-panel', methods=['GET', 'POST'])
+@roles_required('user', 'player')
 @login_required
 def company_panel():
     if 'Admin' not in get_game_roles():
