@@ -2,12 +2,11 @@
 import os
 
 from flask import Flask, redirect, url_for, Blueprint
-from flask_admin import AdminIndexView, expose, Admin, helpers
-from flask_login import LoginManager, current_user
+from flask_admin import AdminIndexView, expose, Admin
+from flask_login import LoginManager, current_user, logout_user
 from flask_mail import Mail
 from flask_migrate import Migrate
 from flask_mobility.mobility import Mobility
-from flask_security import SQLAlchemyUserDatastore, Security, logout_user
 from flask_socketio import SocketIO
 from flask_sqlalchemy import SQLAlchemy
 
@@ -17,7 +16,6 @@ import market
 from config import SERVER_NAME, SCHEME
 from data import db_session
 from data.functions import get_game_roles
-from data.role import Role
 from data.users import User
 from tools.admin import connect_models
 from tools.scheduler import Scheduler
@@ -72,10 +70,6 @@ def add_admin_panel():
     admin_bp = Blueprint('admin-panel', __name__, url_prefix='/admin')
     app.register_blueprint(admin_bp, url_prefix="/admin")
 
-    user_datastore = SQLAlchemyUserDatastore(db, User, Role)
-    security = Security(app, user_datastore)
-
-    # Переадресация страниц (используется в шаблонах)
     class MyAdminIndexView(AdminIndexView):
         @expose('/')
         def index(self):
@@ -98,23 +92,9 @@ def add_admin_panel():
         def reset_page(self):
             return redirect(url_for('.index'))
 
-    # Create admin
     admin = Admin(app, index_view=MyAdminIndexView(),
                   base_template='admin/master-extended.html')
-
-    # Add view
     connect_models(admin)
-
-    # define a context processor for merging flask-admin's template context into the
-    # flask-security views.
-    @security.context_processor
-    def security_context_processor():
-        return dict(
-            admin_base_template=admin.base_template,
-            admin_view=admin.index_view,
-            h=helpers,
-            get_url=url_for
-        )
 
 
 @login_manager.user_loader
