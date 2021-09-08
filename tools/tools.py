@@ -7,50 +7,11 @@ from flask import request, jsonify, redirect, abort
 from flask_login import current_user, AnonymousUserMixin
 from flask_socketio import emit
 
-from config import HOST, DEV_HOST
 from data import db_session
 from data.functions import get_session_id, get_constant
 from data.offers import Offer
 from data.stocks import Stock
 from data.wallets import Wallet
-
-
-def use_subdomains(subdomains=None):
-    if subdomains is None:
-        subdomains = ['area']
-
-    def subdomains_decorator(func):
-
-        def subdomains_wrapper(*args, **kwargs):
-            subdomain = get_subdomain()
-            if subdomain in subdomains:
-                return func(*args, **kwargs)
-            else:
-                return 'Неверный поддомен сайта'
-
-        return subdomains_wrapper
-
-    return subdomains_decorator
-
-
-def get_subdomain():
-    host = request.host
-    if host == HOST or host == DEV_HOST:
-        return 'area'
-    elif host.endswith(HOST) or host.split(':')[0].endswith(HOST) or \
-            host.endswith(DEV_HOST) or host.split(':')[0].endswith(DEV_HOST):
-        return host.split('.')[0]
-
-
-def get_object_data_from_request(object_data: dict, keys: list, ):
-    if object_data is None:
-        object_data = {}
-
-    for key in keys:
-        if key not in object_data.keys():
-            object_data[key] = request.args.get(key)
-
-    return object_data
 
 
 def is_stockholder(company_id, user_id=None, session_id=None):

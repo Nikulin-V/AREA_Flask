@@ -2,11 +2,13 @@
 import sqlalchemy as sa
 import sqlalchemy.ext.declarative as dec
 import sqlalchemy.orm as orm
-from sqlalchemy.orm import Session
-
-SqlAlchemyBase = dec.declarative_base()
+from sqlalchemy import MetaData
+from sqlalchemy.orm import Session, scoped_session, sessionmaker
 
 __factory = None
+
+SqlAlchemyBase = dec.declarative_base()
+metadata = MetaData()
 
 
 def global_init(db_file):
@@ -24,7 +26,10 @@ def global_init(db_file):
     engine = sa.create_engine(conn_str, echo=False)
     __factory = orm.sessionmaker(bind=engine, autoflush=False)
 
-    SqlAlchemyBase.metadata.create_all(engine)
+    db_session = scoped_session(sessionmaker(autoflush=False, bind=engine))
+
+    SqlAlchemyBase.query = db_session.query_property()
+    metadata.create_all(engine)
 
 
 def create_session() -> Session:

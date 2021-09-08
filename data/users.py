@@ -28,7 +28,7 @@ class User(SqlAlchemyBase, UserMixin, SerializerMixin):
     epos_login = sqlalchemy.Column(sqlalchemy.String)
     epos_password = sqlalchemy.Column(sqlalchemy.String)
 
-    school_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey("schools.id"))
+    school_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey('schools.id'))
     about = sqlalchemy.Column(sqlalchemy.Text)
 
     game_session_id = sqlalchemy.Column(sqlalchemy.String, sqlalchemy.ForeignKey("sessions.id"),
@@ -47,3 +47,6 @@ class User(SqlAlchemyBase, UserMixin, SerializerMixin):
 
     def check_password(self, password):
         return check_password_hash(self.hashed_password, password)
+
+    def __str__(self):
+        return f'{self.surname} {self.name} | {self.email}'

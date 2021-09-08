@@ -15,4 +15,6 @@ class Company(SqlAlchemyBase):
     description = sqlalchemy.Column(sqlalchemy.Text)
     sector = sqlalchemy.Column(sqlalchemy.String)
     logo_url = sqlalchemy.Column(sqlalchemy.String, nullable=True)
-    authors_ids = sqlalchemy.Column(sqlalchemy.String, nullable=True)
+
+    def __str__(self):
+        return self.title
