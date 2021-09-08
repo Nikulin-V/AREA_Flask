@@ -1,11 +1,11 @@
-selenium~=3.141.0
-SQLAlchemy~=1.4.23
-Werkzeug~=2.0.1
-WTForms~=2.3.3
-Flask~=2.0.1
-vk~=2.0.2
+selenium
+SQLAlchemy
+Werkzeug
+WTForms
+Flask
+vk
 vk-api
-Pillow~=8.3.2
+Pillow
 email-validator
 flask-admin
 flask-security
@@ -19,5 +19,5 @@ flask-babel
 flask-cors
 sqlalchemy-serializer
 requests
-pymorphy2~=0.9.1
+pymorphy2
 eventlet
