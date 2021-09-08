@@ -1,0 +1,20 @@
+{% extends 'admin/master.html' %}
+{% block body %}
+    {{ super() }}
+    <div class="row-fluid">
+
+        <div>
+            {% if current_user.is_authenticated %}
+                <div>
+                    <h2>Logged in User details</h2>
+                    <ul>
+                        <li>Surname: {{ current_user.surname }}</li>
+                        <li>Name: {{ current_user.name }}</li>
+                        <li>Email: {{ current_user.email }}</li>
+                    </ul>
+                </div>
+            {% endif %}
+        </div>
+
+    </div>
+{% endblock body %}
