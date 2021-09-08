@@ -1,9 +1,9 @@
 #  Nikulin Vasily © 2021
 import os
 
-from flask import Flask, redirect, url_for, Blueprint
-from flask_admin import AdminIndexView, expose, Admin
-from flask_login import LoginManager, current_user, logout_user
+from flask import Flask, redirect, Blueprint
+from flask_admin import Admin
+from flask_login import LoginManager
 from flask_mail import Mail
 from flask_migrate import Migrate
 from flask_mobility.mobility import Mobility
@@ -20,6 +20,9 @@ from data.users import User
 from tools.admin import connect_models
 from tools.scheduler import Scheduler
 from tools.url import url
+import eventlet
+
+eventlet.monkey_patch()
 
 app = Flask(__name__, subdomain_matching=True)
 app.config.update(
@@ -68,30 +71,7 @@ def add_admin_panel():
     admin_bp = Blueprint('admin-panel', __name__, url_prefix='/admin')
     app.register_blueprint(admin_bp, url_prefix="/admin")
 
-    class MyAdminIndexView(AdminIndexView):
-        @expose('/')
-        def index(self):
-            if not current_user.is_authenticated:
-                return redirect(url_for('.login_page'))
-            return super(MyAdminIndexView, self).index()
-
-        @expose('/login/', methods=('GET', 'POST'))
-        def login_page(self):
-            if current_user.is_authenticated:
-                return redirect(url_for('.index'))
-            return super(MyAdminIndexView, self).index()
-
-        @expose('/logout/')
-        def logout_page(self):
-            logout_user()
-            return redirect(url_for('.index'))
-
-        @expose('/reset/')
-        def reset_page(self):
-            return redirect(url_for('.index'))
-
-    admin = Admin(app, index_view=MyAdminIndexView(),
-                  base_template='admin/master-extended.html')
+    admin = Admin(app, base_template='admin/master-extended.html')
     connect_models(admin)
 
 
