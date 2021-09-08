@@ -29,7 +29,9 @@ def login():
                                    form=form)
         if user.check_password(form.password.data):
             login_user(user, remember=form.remember_me.data)
-            return redirect(url(request.args.get('redirect_page') or ".index"))
+            redirect_page = request.args.get('redirect_page')
+            redirect_page = 'admin.index' if redirect_page == 'area.error_page' else redirect_page
+            return redirect(url(redirect_page or ".index"))
         return render_template("area/login.html",
                                title='Авторизация',
                                message="Неправильный логин или пароль",

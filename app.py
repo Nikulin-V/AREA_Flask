@@ -1,8 +1,10 @@
 #  Nikulin Vasily © 2021
 import os
 
-from flask import Flask, redirect
-from flask_login import LoginManager
+from flask import Flask, redirect, url_for, Blueprint
+from flask_admin import AdminIndexView, expose, Admin
+from flask_login import LoginManager, current_user, logout_user
+from flask_mail import Mail
 from flask_migrate import Migrate
 from flask_mobility.mobility import Mobility
 from flask_socketio import SocketIO
@@ -15,6 +17,7 @@ from config import SERVER_NAME, SCHEME
 from data import db_session
 from data.functions import get_game_roles
 from data.users import User
+from tools.admin import connect_models
 from tools.scheduler import Scheduler
 from tools.url import url
 
@@ -29,12 +32,14 @@ app.config.update(
     MAX_CONTENT_LENGTH=32 * 1024 * 1024,
     PREFERRED_URL_SCHEME=SCHEME
 )
+app.config.from_pyfile('config-extended.py')
 
 socket_ = SocketIO(app, cors_allowed_origins="*")
 
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 scheduler = Scheduler()
+mail = Mail(app)
 
 services = [area.area, market.market, edu.edu]
 for service in services:
@@ -59,6 +64,37 @@ def main():
     socket_.run(app, host='0.0.0.0', port=port, keyfile='private.key', certfile='certificate.crt')
 
 
+def add_admin_panel():
+    admin_bp = Blueprint('admin-panel', __name__, url_prefix='/admin')
+    app.register_blueprint(admin_bp, url_prefix="/admin")
+
+    class MyAdminIndexView(AdminIndexView):
+        @expose('/')
+        def index(self):
+            if not current_user.is_authenticated:
+                return redirect(url_for('.login_page'))
+            return super(MyAdminIndexView, self).index()
+
+        @expose('/login/', methods=('GET', 'POST'))
+        def login_page(self):
+            if current_user.is_authenticated:
+                return redirect(url_for('.index'))
+            return super(MyAdminIndexView, self).index()
+
+        @expose('/logout/')
+        def logout_page(self):
+            logout_user()
+            return redirect(url_for('.index'))
+
+        @expose('/reset/')
+        def reset_page(self):
+            return redirect(url_for('.index'))
+
+    admin = Admin(app, index_view=MyAdminIndexView(),
+                  base_template='admin/master-extended.html')
+    connect_models(admin)
+
+
 @login_manager.user_loader
 def load_user(user_id):
     db_sess = db_session.create_session()
@@ -71,4 +107,5 @@ def secrets_of_literacy():
 
 
 if __name__ == '__main__':
+    add_admin_panel()
     main()

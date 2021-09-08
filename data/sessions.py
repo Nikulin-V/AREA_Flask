@@ -14,3 +14,6 @@ class Session(SqlAlchemyBase, SerializerMixin):
     title = sqlalchemy.Column(sqlalchemy.String, unique=True)
     admins_ids = sqlalchemy.Column(sqlalchemy.String)
     players_ids = sqlalchemy.Column(sqlalchemy.String)
+
+    def __str__(self):
+        return self.title
