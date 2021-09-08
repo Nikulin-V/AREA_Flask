@@ -30,8 +30,7 @@ app.config.update(
     SESSION_COOKIE_DOMAIN=SERVER_NAME,
     SESSION_COOKIE_HTTPONLY=False,
     MAX_CONTENT_LENGTH=32 * 1024 * 1024,
-    PREFERRED_URL_SCHEME=SCHEME,
-    DEBUG=True
+    PREFERRED_URL_SCHEME=SCHEME
 )
 app.config.from_pyfile('config-extended.py')
 
@@ -62,8 +61,7 @@ db_session.global_init('db/database.sqlite')
 
 def main():
     port = int(os.environ.get('PORT', 443))
-    socket_.run(app, host='0.0.0.0', port=port, debug=True,
-                keyfile='private.key', certfile='certificate.crt')
+    socket_.run(app, host='0.0.0.0', port=port, keyfile='private.key', certfile='certificate.crt')
 
 
 def add_admin_panel():
