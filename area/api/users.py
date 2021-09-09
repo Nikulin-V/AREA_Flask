@@ -3,6 +3,7 @@ from flask_login import login_required, current_user
 
 from area.api import api, socket
 from data import db_session
+from data.roles import RolesUsers, Role
 from data.users import User
 from tools.tools import fillJson, send_response
 
@@ -61,7 +62,7 @@ def getUsers(json=None):
             'message': 'Success',
             'users':
                 [item.to_dict(only=('id', 'surname', 'name', 'patronymic', 'date_of_birth', 'email',
-                                    'school_id', 'about', 'role', 'game_user_id'))
+                                    'school_id', 'about', 'game_user_id'))
                  for item in users]
         }
     )
@@ -106,7 +107,7 @@ def createUser(json=None):
 
     event_name = 'createUser'
     keys = ['surname', 'name', 'patronymic', 'date_of_birth', 'email', 'password', 'epos_login',
-            'epos_password', 'school_id', 'about', 'role', 'game_session_id']
+            'epos_password', 'school_id', 'about', 'game_session_id', 'roles']
     fillJson(json, keys)
 
     user_data = dict()
@@ -125,7 +126,7 @@ def createUser(json=None):
             }
         )
 
-    user_data = User(
+    user = User(
         surname=user_data['surname'],
         name=user_data['name'],
         patronymic=user_data['patronymic'],
@@ -135,12 +136,19 @@ def createUser(json=None):
         epos_password=user_data['epos_password'],
         school_id=user_data['school_id'],
         about=user_data['about'],
-        role=user_data['role'],
         game_session_id=user_data['game_session_id']
     )
-    user_data.set_password(user_data['password'])
+    user.set_password(user_data['password'])
 
     db_sess.add(user_data)
+    db_sess.commit()
+
+    for role_name in user_data['roles']:
+        role = RolesUsers(
+            user_id=user.id,
+            role_id=db_sess.query(Role.id).filter(Role.name == role_name)
+        )
+        db_sess.add(role)
     db_sess.commit()
 
     return send_response(

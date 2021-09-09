@@ -1,6 +1,7 @@
 #  Nikulin Vasily © 2021
 import os
 
+import eventlet
 from flask import Flask, redirect, Blueprint
 from flask_admin import Admin
 from flask_login import LoginManager
@@ -20,7 +21,6 @@ from data.users import User
 from tools.admin import connect_models
 from tools.scheduler import Scheduler
 from tools.url import url
-import eventlet
 
 eventlet.monkey_patch()
 

@@ -118,7 +118,7 @@ def roles_required(*roles):
     return decorator
 
 
-def roles_accepted(*roles):
+def roles_allowed(*roles):
     def decorator(func):
         @functools.wraps(func)
         def decorated_view(*args, **kwargs):

@@ -3,6 +3,7 @@ from uuid import uuid4
 
 import sqlalchemy
 from flask_login import UserMixin
+from sqlalchemy.orm import relationship
 from sqlalchemy_serializer import SerializerMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -29,6 +30,8 @@ class User(SqlAlchemyBase, UserMixin, SerializerMixin):
     epos_password = sqlalchemy.Column(sqlalchemy.String)
 
     school_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey('schools.id'))
+    school = relationship('School', primaryjoin='User.school_id == School.id')
+
     about = sqlalchemy.Column(sqlalchemy.Text)
 
     game_session_id = sqlalchemy.Column(sqlalchemy.String, sqlalchemy.ForeignKey("sessions.id"),

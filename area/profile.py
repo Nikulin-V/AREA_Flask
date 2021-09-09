@@ -8,13 +8,13 @@ from data.schools import School
 from edu import edu
 from forms.profile import ProfileForm
 from market import market
-from tools.tools import roles_accepted
+from tools.tools import roles_allowed
 from tools.url import url
 
 
 @area.route('/profile', methods=['GET', 'POST'])
 @login_required
-@roles_accepted('user')
+@roles_allowed('user')
 def profile():
     form = ProfileForm()
     db_sess = db_session.create_session()

@@ -4,7 +4,7 @@
 
 let users = Object()
 
-users.get = function (fn=null) {
+users.get = function (fn = null) {
     if (fn)
         users.getFn = fn
     else
@@ -18,12 +18,12 @@ socket.on('getUsers', function (data) {
         users.getFn(data)
 })
 
-
-users.post = function (companyTitle=null,
-                     title=null,
-                     message=null,
-                     imageUrl=null,
-                     fn=null) {
+// TODO: fix json
+users.post = function (companyTitle = null,
+                       title = null,
+                       message = null,
+                       imageUrl = null,
+                       fn = null) {
     if (fn)
         users.postFn = fn
     else
@@ -43,8 +43,8 @@ socket.on('createUser', function (data) {
 })
 
 
-users.put = function (sessionId=null,
-                     fn=null) {
+users.put = function (sessionId = null,
+                      fn = null) {
     if (fn)
         users.putFn = fn
     else
@@ -61,8 +61,8 @@ socket.on('editUser', function (data) {
 })
 
 
-users.delete = function (identifier=null,
-                        fn=null) {
+users.delete = function (identifier = null,
+                         fn = null) {
     if (fn)
         users.deleteFn = fn
     else

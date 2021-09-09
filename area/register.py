@@ -43,10 +43,12 @@ def register():
             name=form.name.data,
             email=form.email.data,
         )
+
         user.set_password(form.password.data)
         db_sess.add(user)
+        db_sess.commit()
 
-        roles = ['user', 'player']
+        roles = ['user', 'student', 'player']
         for role_name in roles:
             role = RolesUsers(
                 user_id=user.id,
