@@ -44,14 +44,6 @@ migrate = Migrate(app, db)
 scheduler = Scheduler()
 mail = Mail(app)
 
-services = [area.area, market.market, edu.edu]
-for service in services:
-    app.register_blueprint(service)
-
-sockets = [area.socket, market.socket, edu.socket]
-for socket in sockets:
-    socket_ = socket.init_io(socket_)
-
 Mobility(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -88,4 +80,13 @@ def secrets_of_literacy():
 
 if __name__ == '__main__':
     add_admin_panel()
+
+    services = [area.area, market.market, edu.edu]
+    for service in services:
+        app.register_blueprint(service)
+
+    sockets = [area.socket, market.socket, edu.socket]
+    for socket in sockets:
+        socket_ = socket.init_io(socket_)
+
     main()

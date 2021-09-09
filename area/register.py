@@ -4,7 +4,6 @@ from flask_login import current_user, login_user
 
 from area import area
 from data import db_session
-from data.roles import RolesUsers, Role
 from data.sessions import Session
 from data.users import User
 from edu import edu
@@ -48,15 +47,8 @@ def register():
         db_sess.add(user)
         db_sess.commit()
 
-        roles = ['user', 'student', 'player']
-        for role_name in roles:
-            role = RolesUsers(
-                user_id=user.id,
-                role_id=db_sess.query(Role.id).filter(Role.name == role_name)
-            )
-            db_sess.add(role)
+        user.add_roles(['student', 'player'])
 
-        db_sess.commit()
         login_user(user)
         session = db_sess.query(Session).get('77777777')
         session.players_ids = ';'.join(session.players_ids.split(';') + [str(current_user.id)])

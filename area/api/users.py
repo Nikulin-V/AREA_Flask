@@ -141,7 +141,7 @@ def createUser(json=None):
     )
     user.set_password(user_data['password'])
 
-    db_sess.add(user_data)
+    db_sess.add(user)
     db_sess.commit()
 
     for role_name in user_data['roles']:

@@ -18,17 +18,17 @@ socket.on('getUsers', function (data) {
         users.getFn(data)
 })
 
-// TODO: fix json
 users.post = function (email = null,
                        password = null,
                        surname = null,
                        name = null,
-                       patronymic=null,
-                       date_of_birth=null,
-                       epos_login=null,
-                       epos_password=null,
-                       school_id=null,
-                       about=null,
+                       patronymic = null,
+                       date_of_birth = null,
+                       epos_login = null,
+                       epos_password = null,
+                       school_id = null,
+                       roles = ['user'],
+                       about = null,
                        fn = null) {
     if (fn)
         users.postFn = fn
@@ -44,6 +44,7 @@ users.post = function (email = null,
         'epos_login': epos_login,
         'epos_password': epos_password,
         'school_id': school_id,
+        'roles': roles,
         'about': about
     })
 }

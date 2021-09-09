@@ -18,21 +18,23 @@ socket.on('getTeachers', function (data) {
 })
 
 teachers.post = function (surname = null,
-                       name = null,
-                       patronymic=null,
-                       fn = null) {
+                          name = null,
+                          patronymic = null,
+                          roles = ['user', 'teacher'],
+                          fn = null) {
     if (fn)
         teachers.postFn = fn
     else
         teachers.postFn = null
     let email = translit(surname) + translit(name)[0].toUpperCase() + '@area-146.tk'
-    let password = translit(surname) + translit(name)[0].toUpperCase() + 'password'
+    let password = translit(surname) + translit(name)[0].toUpperCase() + '_password'
     socket.emit('createUser', {
         'email': email,
         'password': password,
         'surname': surname,
         'name': name,
         'patronymic': patronymic,
+        'roles': roles,
         'school_id': 'current'
     })
 }
@@ -43,7 +45,55 @@ socket.on('createUser', function (data) {
         teachers.postFn(data)
 })
 
-function translit(word){
+teachers.put = function (surname = null,
+                         name = null,
+                         patronymic = null,
+                         roles = ['user', 'teacher'],
+                         fn = null) {
+    if (fn)
+        teachers.putFn = fn
+    else
+        teachers.putFn = null
+
+    socket.emit('editTeacher', {
+        'surname': surname,
+        'name': name,
+        'patronymic': patronymic,
+        'roles': roles
+    })
+}
+
+socket.on('editTeacher', function (data) {
+    teachers.putJson = data
+    if (teachers.putFn)
+        teachers.putFn(data)
+})
+
+teachers.delete = function (surname = null,
+                            name = null,
+                            patronymic = null,
+                            roles = null,
+                            fn = null) {
+    if (fn)
+        teachers.putFn = fn
+    else
+        teachers.putFn = null
+
+    socket.emit('deleteTeacher', {
+        'surname': surname,
+        'name': name,
+        'patronymic': patronymic,
+        'roles': roles
+    })
+}
+
+socket.on('deleteTeacher', function (data) {
+    teachers.putJson = data
+    if (teachers.putFn)
+        teachers.putFn(data)
+})
+
+function translit(word) {
     let answer = '';
     const converter = {
         'а': 'a', 'б': 'b', 'в': 'v', 'г': 'g', 'д': 'd',
@@ -63,13 +113,13 @@ function translit(word){
         'Э': 'E', 'Ю': 'Yu', 'Я': 'Ya'
     };
 
-    for (let i = 0; i < word.length; ++i ) {
-		if (converter[word[i]] === undefined){
-			answer += word[i];
-		} else {
-			answer += converter[word[i]];
-		}
-	}
+    for (let i = 0; i < word.length; ++i) {
+        if (converter[word[i]] === undefined) {
+            answer += word[i];
+        } else {
+            answer += converter[word[i]];
+        }
+    }
 
-	return answer;
+    return answer;
 }

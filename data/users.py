@@ -45,6 +45,36 @@ class User(SqlAlchemyBase, UserMixin, SerializerMixin):
                 return True
         return False
 
+    def add_roles(self, roles):
+        if 'user' not in roles and not self.has_role('user'):
+            roles.append('user')
+        db_sess = db_session.create_session()
+        for role_name in roles:
+            if not self.has_role(role_name):
+                role = RolesUsers(
+                    user_id=self.id,
+                    role_id=db_sess.query(Role.id).filter(Role.name == role_name)
+                )
+                db_sess.add(role)
+        db_sess.commit()
+
+    def clear_roles(self, roles=None):
+        db_sess = db_session.create_session()
+        if roles is None:
+            roles = db_sess.query(RolesUsers).filter(RolesUsers.user_id == self.id).all()
+        else:
+            roles_ids = list(map(lambda x: x[0],
+                                 db_sess.query(Role.id).filter(Role.name.in_(roles)).all()))
+            roles = db_sess.query(RolesUsers).filter(RolesUsers.user_id == self.id,
+                                                     RolesUsers.role_id.in_(roles_ids)).all()
+        for role_user in roles:
+            db_sess.delete(role_user)
+        db_sess.commit()
+
+    def set_roles(self, roles):
+        self.clear_roles()
+        self.add_roles(roles)
+
     def set_password(self, password):
         self.hashed_password = generate_password_hash(password)
 
