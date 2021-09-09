@@ -76,3 +76,49 @@ function renderStaffTable() {
     }
     document.getElementById('staff-table-span').appendChild(staffTable)
 }
+
+function createTeacher() {
+    message =
+        `<div>
+            <div class="form-floating">
+                <input id="surname-input" class="form-control" placeholder="Фамилия" autocomplete="off">
+                <label for="surname-input">Фамилия</label>
+            </div>
+            <br>
+            <div class="form-floating">
+                <input id="name-input" class="form-control" placeholder="Имя">
+                <label for="name-input">Имя</label>
+            </div>
+            <br>
+            <div class="form-floating">
+                <input id="patronymic-input" class="form-control" placeholder="Отчество" autocomplete="off">
+                <label for="patronymic-input">Отчество</label>
+            </div>
+            <br>
+            
+        </div>`
+    button = document.createElement('button')
+    button.textContent = "Добавить"
+    button.className = "btn btn-info"
+
+
+    button.onclick = function () {
+        const title = document.getElementById('surname-input').value
+        if (title) {
+
+            if (document.getElementById('patronymic-input').files.length === 0) {
+                const surname = document.getElementById('surname-input').value
+                const name = document.getElementById('name-input').value
+                const patronymic = document.getElementById('patronymic-input').value
+
+                teachers.post(surname, name, patronymic, renderPage)
+                closeModal()
+            } else {
+
+                button.style.display = "none"
+
+            }
+        } else document.getElementById('surname-input').classList.add('is-invalid')
+    }
+    showModal(message, 'Новый сотрудник', [button])
+}

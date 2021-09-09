@@ -19,20 +19,32 @@ socket.on('getUsers', function (data) {
 })
 
 // TODO: fix json
-users.post = function (companyTitle = null,
-                       title = null,
-                       message = null,
-                       imageUrl = null,
+users.post = function (email = null,
+                       password = null,
+                       surname = null,
+                       name = null,
+                       patronymic=null,
+                       date_of_birth=null,
+                       epos_login=null,
+                       epos_password=null,
+                       school_id=null,
+                       about=null,
                        fn = null) {
     if (fn)
         users.postFn = fn
     else
         users.postFn = null
     socket.emit('createUser', {
-        'companyTitle': companyTitle,
-        'title': title,
-        'message': message,
-        'imageUrl': imageUrl
+        'email': email,
+        'password': password,
+        'surname': surname,
+        'name': name,
+        'patronymic': patronymic,
+        'date_of_birth': date_of_birth,
+        'epos_login': epos_login,
+        'epos_password': epos_password,
+        'school_id': school_id,
+        'about': about
     })
 }
 

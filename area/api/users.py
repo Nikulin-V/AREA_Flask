@@ -95,7 +95,6 @@ def createUser(json=None):
         epos_password (string) - password of epos system\n
         school_id (int) - id of user's school\n
         about (string) - info about user\n
-        role (string) - user's role\n
         game_session_id (string) - id of user's current game session
 
     Returns:
@@ -134,7 +133,9 @@ def createUser(json=None):
         email=user_data['email'],
         epos_login=user_data['epos_login'],
         epos_password=user_data['epos_password'],
-        school_id=user_data['school_id'],
+        school_id=user_data['school_id']
+        if user_data['school_id'] != 'current'
+        else current_user.school_id,
         about=user_data['about'],
         game_session_id=user_data['game_session_id']
     )
