@@ -16,5 +16,3 @@ socket.on('getTeachers', function (data) {
     if (teachers.getFn)
         teachers.getFn()
 })
-
-// TODO: add creating teacher

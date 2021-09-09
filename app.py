@@ -48,7 +48,7 @@ services = [area.area, market.market, edu.edu]
 for service in services:
     app.register_blueprint(service)
 
-sockets = [area.socket, market.socket]
+sockets = [area.socket, market.socket, edu.socket]
 for socket in sockets:
     socket_ = socket.init_io(socket_)
 

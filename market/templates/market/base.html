@@ -1,41 +1,15 @@
 {% extends "area/base.html" %}
 
 {% block head %}
-    <!--suppress SpellCheckingInspection -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"
-            integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA=="
-            crossorigin="anonymous"></script>
-
-    <!-- Google material icons -->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-          rel="stylesheet">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round"
-          rel="stylesheet">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined"
-          rel="stylesheet">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp"
-          rel="stylesheet">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Two+Tone"
-          rel="stylesheet">
 
     {{ super() }}
 
-    <!--suppress JSUnresolvedFunction -->
-    <script>
-        let socket = io(window.location.origin, {
-            secure: true,
-            transports: ["polling"]
-        });
-    </script>
-
     <script src="{{ url('static', filename='js/api/sessions.js') }}"></script>
-    <script src="{{ url('static', filename='js/api/socket.js') }}"></script>
     <script src="{{ url('static', filename='js/api/companies.js') }}"></script>
     <script src="{{ url('static', filename='js/api/news.js') }}"></script>
     <script src="{{ url('static', filename='js/api/offers.js') }}"></script>
     <script src="{{ url('static', filename='js/api/stocks.js') }}"></script>
     <script src="{{ url('static', filename='js/api/svotes.js') }}"></script>
-    <script src="{{ url('static', filename='js/api/users.js') }}"></script>
     <script src="{{ url('static', filename='js/api/votes.js') }}"></script>
     <script src="{{ url('static', filename='js/api/wallets.js') }}"></script>
 {% endblock %}

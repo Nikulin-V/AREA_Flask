@@ -12,6 +12,11 @@
             <li>
                 <a class="menu__item" href="{{ url('.epos_diary') }}">Дневник ЭПОСа</a>
             </li>
+        {% elif current_user.has_role('head_teacher') or
+            current_user.has_role('director') %}
+            <li>
+                <a class="menu__item" href="{{ url('.staff') }}">Персонал</a>
+            </li>
         {% endif %}
     {% endif %}
 {% endblock %}

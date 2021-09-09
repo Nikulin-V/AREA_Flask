@@ -2,7 +2,7 @@
 HOST = 'area-146.tk'
 DEV_HOST = 'area-146.ru'
 SERVER_NAME = HOST
-SCHEME = 'https' if SERVER_NAME == HOST else 'http'
+SCHEME = 'https'
 
 default_constants = {
     'GOVERNMENT_BALANCE': 0,
