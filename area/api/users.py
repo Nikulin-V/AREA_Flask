@@ -3,7 +3,6 @@ from flask_login import login_required, current_user
 
 from area.api import api, socket
 from data import db_session
-from data.roles import RolesUsers, Role
 from data.users import User
 from tools.tools import fillJson, send_response
 
@@ -144,13 +143,7 @@ def createUser(json=None):
     db_sess.add(user)
     db_sess.commit()
 
-    for role_name in user_data['roles']:
-        role = RolesUsers(
-            user_id=user.id,
-            role_id=db_sess.query(Role.id).filter(Role.name == role_name)
-        )
-        db_sess.add(role)
-    db_sess.commit()
+    user.add_roles(user_data['roles'])
 
     return send_response(
         event_name,
