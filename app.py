@@ -55,8 +55,6 @@ db_session.global_init('db/database.sqlite')
 
 
 def main():
-    # noinspection PyUnresolvedReferences
-    db_sess = db_session.create_session()
     port = int(os.environ.get('PORT', 443 if SCHEME == 'https' else 80))
     socket_.run(app, host='0.0.0.0', port=port, keyfile='private.key', certfile='certificate.crt')
 
