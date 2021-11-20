@@ -19,10 +19,14 @@
                                   class="spinner-border spinner-border-sm" role="status"></span>
                         </a>
                     </li>
-                {% elif current_user.has_role('head_teacher') or
+                {% endif %}
+                {% if current_user.has_role('head_teacher') or
                  current_user.has_role('director') %}
                     <li class="nav-item">
                         <a href="{{ url('.staff') }}" class="nav-link">Персонал</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ url('.classes') }}" class="nav-link">Классы</a>
                     </li>
                 {% endif %}
             {% endif %}

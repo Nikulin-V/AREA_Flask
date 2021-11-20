@@ -5,8 +5,8 @@ from flask import render_template
 from flask_login import login_required, current_user
 
 from data import db_session
+from data.classes import Group
 from data.db_functions import repair_dependencies_students_and_groups
-from data.groups import Group
 from data.homeworks import Homework
 from data.students import Student
 from edu import edu

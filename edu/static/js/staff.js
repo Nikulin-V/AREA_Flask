@@ -2,9 +2,6 @@
  * Nikulin Vasily © 2021
  */
 
-// TODO: add creating teacher
-
-
 renderPage()
 
 function renderPage() {

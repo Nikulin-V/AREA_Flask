@@ -4,8 +4,8 @@
 
 let sessions = Object()
 
-sessions.get = function (title=null,
-                     fn=null) {
+sessions.get = function (title = null,
+                         fn = null) {
     if (fn)
         sessions.getFn = fn
     else
@@ -20,8 +20,8 @@ socket.on('getSessions', function (data) {
 })
 
 
-sessions.post = function (title=null,
-                     fn=null) {
+sessions.post = function (title = null,
+                          fn = null) {
     if (fn)
         sessions.postFn = fn
     else
@@ -39,10 +39,10 @@ socket.on('createSession', function (data) {
 
 
 sessions.put = function (
-                        title=null,
-                        adminsIds=null,
-                        usersIds=null,
-                        fn=null) {
+    title = null,
+    adminsIds = null,
+    usersIds = null,
+    fn = null) {
     if (fn)
         sessions.putFn = fn
     else
@@ -61,7 +61,7 @@ socket.on('editSession', function (data) {
 })
 
 
-sessions.delete = function (fn=null) {
+sessions.delete = function (fn = null) {
     if (fn)
         sessions.deleteFn = fn
     else

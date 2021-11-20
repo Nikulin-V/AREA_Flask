@@ -6,10 +6,10 @@ from edu import edu
 from tools.tools import roles_required, roles_allowed
 
 
-@edu.route('/staff')
+@edu.route('/classes')
 @roles_required('user')
 @roles_allowed('head_teacher', 'director')
 @login_required
-def staff():
-    return render_template('edu/staff.html',
-                           title='Персонал')
+def classes():
+    return render_template('edu/classes.html',
+                           title='Классы')

@@ -1,5 +1,13 @@
 {% extends "area/base.html" %}
 
+{% block head %}
+
+    {% include 'area/head.html' %}
+    <script src="{{ url('.static', filename='js/api/teachers.js') }}"></script>
+    <script src="{{ url('.static', filename='js/api/classes.js') }}"></script>
+
+{% endblock head %}
+
 {% block header %}
     {% if not request.MOBILE %}
         {% include "edu/header.html" %}

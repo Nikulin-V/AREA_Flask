@@ -4,9 +4,9 @@ from flask_admin.contrib.sqla import ModelView
 from flask_login import current_user
 
 from data import db_session
+from data.classes import Class, Group, ClassLesson, GroupLesson
 from data.companies import Company
 from data.config import Constant
-from data.groups import Group
 from data.homeworks import Homework
 from data.news import News
 from data.roles import Role, RolesUsers
@@ -51,7 +51,7 @@ def connect_models(admin):
 
     admin_models = [(User, UserView), RolesUsers, Role, ScheduledJob]
     market_models = [Session, Constant, (News, NewsView), Company, Stock, Wallet]
-    edu_models = [School, Group, Homework]
+    edu_models = [School, Class, Group, ClassLesson, GroupLesson, Homework]
 
     categories = {
         'Admin': admin_models,

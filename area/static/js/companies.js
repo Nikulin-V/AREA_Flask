@@ -3,6 +3,7 @@
  */
 
 renderPage()
+
 function renderPage() {
     votes.get(createTable)
     companies.get()
@@ -31,7 +32,7 @@ function createTable() {
             const tr = thead.appendChild(document.createElement('tr'));
 
             tableData = []
-            for (i = 0;i < Object.keys(votesJson[sectors[sectorId]]).length; i++) {
+            for (i = 0; i < Object.keys(votesJson[sectors[sectorId]]).length; i++) {
                 v = votesJson[sectors[sectorId]][i]
                 if (v["user_points"] === 0)
                     v["user_points"] = '-'
@@ -95,14 +96,14 @@ function changeVotingValues(companyTitle, points, data) {
         if (points === 0) {
             if (tr.children[2].textContent !== "-")
                 tr.children[1].textContent = (parseInt(tr.children[1].textContent) -
-                parseInt(tr.children[2].textContent)).toString()
+                    parseInt(tr.children[2].textContent)).toString()
             tr.children[2].textContent = '-'
         } else {
             if (tr.children[2].textContent === "-")
                 tr.children[1].textContent = (parseInt(tr.children[1].textContent) + points).toString()
             else
                 tr.children[1].textContent = (parseInt(tr.children[1].textContent) -
-                parseInt(tr.children[2].textContent) + points).toString()
+                    parseInt(tr.children[2].textContent) + points).toString()
             tr.children[2].textContent = points.toString()
         }
     } else {
@@ -125,7 +126,7 @@ function changeVotingValues(companyTitle, points, data) {
         votes.get()
         sectors = Object.keys(votes.getJson['votes'])
 
-        for (sectorId = 0; sectorId < sectors.length; sectorId++){
+        for (sectorId = 0; sectorId < sectors.length; sectorId++) {
             for (companyId = 0; companyId < votes.getJson['votes'][sectors[sectorId]].length;
                  companyId++) {
 

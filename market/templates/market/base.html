@@ -4,14 +4,14 @@
 
     {{ super() }}
 
-    <script src="{{ url('static', filename='js/api/sessions.js') }}"></script>
-    <script src="{{ url('static', filename='js/api/companies.js') }}"></script>
-    <script src="{{ url('static', filename='js/api/news.js') }}"></script>
-    <script src="{{ url('static', filename='js/api/offers.js') }}"></script>
-    <script src="{{ url('static', filename='js/api/stocks.js') }}"></script>
-    <script src="{{ url('static', filename='js/api/svotes.js') }}"></script>
-    <script src="{{ url('static', filename='js/api/votes.js') }}"></script>
-    <script src="{{ url('static', filename='js/api/wallets.js') }}"></script>
+    <script src="{{ url('.static', filename='js/api/sessions.js') }}"></script>
+    <script src="{{ url('.static', filename='js/api/companies.js') }}"></script>
+    <script src="{{ url('.static', filename='js/api/news.js') }}"></script>
+    <script src="{{ url('.static', filename='js/api/offers.js') }}"></script>
+    <script src="{{ url('.static', filename='js/api/stocks.js') }}"></script>
+    <script src="{{ url('.static', filename='js/api/svotes.js') }}"></script>
+    <script src="{{ url('.static', filename='js/api/votes.js') }}"></script>
+    <script src="{{ url('.static', filename='js/api/wallets.js') }}"></script>
 {% endblock %}
 
 {% block header %}

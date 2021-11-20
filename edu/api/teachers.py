@@ -45,7 +45,7 @@ def getTeachers():
 @socket.on('editTeacher')
 @api.route('/api/teachers', methods=['PUT'])
 @roles_allowed('head_teacher', 'director')
-def putTeachers(json=None):
+def editTeacher(json=None):
     event_name = 'editTeacher'
 
     db_sess = db_session.create_session()
@@ -77,7 +77,7 @@ def putTeachers(json=None):
 @socket.on('deleteTeacher')
 @api.route('/api/teachers', methods=['DELETE'])
 @roles_allowed('head_teacher', 'director')
-def deleteTeachers(json=None):
+def deleteTeacher(json=None):
     event_name = 'deleteTeacher'
 
     db_sess = db_session.create_session()

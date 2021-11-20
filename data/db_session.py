@@ -28,6 +28,9 @@ def global_init(db_file):
 
     db_session = scoped_session(sessionmaker(autoflush=False, bind=engine))
 
+    # noinspection PyUnresolvedReferences
+    from . import __all_models
+
     SqlAlchemyBase.query = db_session.query_property()
     metadata.create_all(engine)
 

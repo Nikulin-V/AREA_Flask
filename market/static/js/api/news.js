@@ -4,8 +4,8 @@
 
 let news = Object()
 
-news.get = function (page=0,
-                     fn=null) {
+news.get = function (page = 0,
+                     fn = null) {
     if (fn)
         news.getFn = fn
     else
@@ -22,12 +22,12 @@ socket.on('getNews', function (data) {
 })
 
 
-news.post = function (companyTitle=null,
-                     title=null,
-                     message=null,
-                     imagePath=null,
-                     jobId=null,
-                     fn=null) {
+news.post = function (companyTitle = null,
+                      title = null,
+                      message = null,
+                      imagePath = null,
+                      jobId = null,
+                      fn = null) {
     if (fn)
         news.postFn = fn
     else
@@ -48,13 +48,13 @@ socket.on('createNews', function (data) {
 })
 
 
-news.put = function (identifier=null,
-                     title=null,
-                     message=null,
-                     imagePath=null,
-                     isLike=null,
-                     jobId=null,
-                     fn=null) {
+news.put = function (identifier = null,
+                     title = null,
+                     message = null,
+                     imagePath = null,
+                     isLike = null,
+                     jobId = null,
+                     fn = null) {
     if (fn)
         news.putFn = fn
     else
@@ -80,8 +80,8 @@ socket.on('editNews', function (data) {
 })
 
 
-news.delete = function (identifier=null,
-                        fn=null) {
+news.delete = function (identifier = null,
+                        fn = null) {
     if (fn)
         news.deleteFn = fn
     else
@@ -115,7 +115,7 @@ news.uploadImage = (image, progress = null, fn = null, fnTooLarge = null) => {
         xhr: () => {
             let xhr = $.ajaxSettings.xhr()
             xhr.upload.addEventListener('progress', e => {
-                if(e.lengthComputable) {
+                if (e.lengthComputable) {
                     const percent = Math.ceil(e.loaded / e.total * 100)
 
                     progress(percent)

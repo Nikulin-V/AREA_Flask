@@ -1,9 +1,9 @@
 #  Nikulin Vasily © 2021
 from flask_login import current_user
 
-from data.groups import Group
+from data.classes import Group
+from data.db_session import create_session
 from data.students import Student
-from .db_session import create_session
 
 
 def repair_dependencies_students_and_groups():

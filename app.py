@@ -17,7 +17,6 @@ import market
 from config import SERVER_NAME, SCHEME
 from data import db_session
 from data.functions import get_game_roles
-from data.users import User
 from tools.admin import connect_models
 from tools.scheduler import Scheduler
 from tools.url import url
@@ -55,7 +54,9 @@ db_session.global_init('db/database.sqlite')
 
 
 def main():
-    port = int(os.environ.get('PORT', 443))
+    # noinspection PyUnresolvedReferences
+    db_sess = db_session.create_session()
+    port = int(os.environ.get('PORT', 443 if SCHEME == 'https' else 80))
     socket_.run(app, host='0.0.0.0', port=port, keyfile='private.key', certfile='certificate.crt')
 
 
@@ -79,6 +80,7 @@ def secrets_of_literacy():
 
 
 if __name__ == '__main__':
+    print('https://area-146.ru')
     add_admin_panel()
 
     services = [area.area, market.market, edu.edu]

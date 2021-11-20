@@ -9,4 +9,5 @@ socket = IOBlueprint()
 
 CORS(api)
 
-from .teachers import getTeachers
+from .classes import getClasses, createClass, deleteClass
+from .teachers import getTeachers, editTeacher, deleteTeacher

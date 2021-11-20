@@ -9,7 +9,7 @@
 let companies = Object()
 
 // Get current session companies
-companies.get = function (fn=null) {
+companies.get = function (fn = null) {
     if (fn)
         companies.getFn = fn
     else
@@ -23,11 +23,11 @@ socket.on('getCompanies', function (data) {
         companies.getFn()
 })
 
-companies.post = function (sector=null,
-                           title=null,
-                           description=null,
-                           logoPath=null,
-                           fn=null) {
+companies.post = function (sector = null,
+                           title = null,
+                           description = null,
+                           logoPath = null,
+                           fn = null) {
     if (fn)
         companies.postFn = fn
     else
@@ -46,13 +46,13 @@ socket.on('createCompany', function (data) {
         companies.postFn()
 })
 
-companies.delete = function (companyTitle=null,
-                             fn=null) {
+companies.delete = function (companyTitle = null,
+                             fn = null) {
     if (fn)
         companies.deleteFn = fn
     else
         companies.deleteFn = null
-    socket.emit('deleteCompany',{
+    socket.emit('deleteCompany', {
         'companyId': null,
         'companyTitle': companyTitle
     })
@@ -122,7 +122,7 @@ companies.uploadImage = (image, progress = null, fn = null, fnTooLarge = null) =
         xhr: () => {
             let xhr = $.ajaxSettings.xhr()
             xhr.upload.addEventListener('progress', e => {
-                if(e.lengthComputable) {
+                if (e.lengthComputable) {
                     const percent = Math.ceil(e.loaded / e.total * 100)
 
                     progress(percent)
