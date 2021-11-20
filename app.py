@@ -17,6 +17,7 @@ import market
 from config import SERVER_NAME, SCHEME
 from data import db_session
 from data.functions import get_game_roles
+from data.users import User
 from tools.admin import connect_models
 from tools.scheduler import Scheduler
 from tools.url import url
