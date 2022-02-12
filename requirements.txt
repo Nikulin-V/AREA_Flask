@@ -21,3 +21,4 @@ sqlalchemy-serializer
 requests
 pymorphy2
 eventlet
+wtforms
