@@ -47,11 +47,16 @@ function renderStaffTable() {
         staffTableTheadisHeadTeacher.textContent = "Завуч"
         staffTableTheadisHeadTeacher.style.textAlign = "center"
         staffTableTheadisHeadTeacher.style.padding = "5px"
+        staffTableHours = document.createElement('td')
+        staffTableHours.textContent = "Часы"
+        staffTableHours.style.textAlign = "center"
+        staffTableHours.style.padding = "5px"
         staffTableThead.appendChild(staffTableTheadSurname)
         staffTableThead.appendChild(staffTableTheadName)
         staffTableThead.appendChild(staffTableTheadPatronymic)
         staffTableThead.appendChild(staffTableTheadisTeacher)
         staffTableThead.appendChild(staffTableTheadisHeadTeacher)
+        staffTableThead.appendChild(staffTableHours)
         staffTableTbody = document.createElement('tbody')
 
         staff = teachers.getJson['users']
@@ -59,9 +64,6 @@ function renderStaffTable() {
         for (let userId = 0; userId < staff.length; userId++) {
             const row = document.createElement('tr')
 
-            row.onclick = function () {
-                editTeacher(this.company, this.stocks)
-            }
             row.addEventListener("mouseout", function () {
                 clicked = false
                 renderPage()
@@ -77,7 +79,7 @@ function renderStaffTable() {
                 const td = document.createElement('td')
                 td.style.textAlign = "center"
                 td.textContent = "Редактировать"
-                td.colSpan = 5
+                td.colSpan = 6
                 this.onmouseup = function () {
                     clicked = false
                     editTeacher(this.surname, this.name, this.patronymic, this.isTeacher, this.isHeadTeacher)
@@ -114,6 +116,12 @@ function renderStaffTable() {
             row.isHeadTeacher = staff[userId]['roles'].indexOf("head_teacher") !== -1
             td5.style.textAlign = "center"
             row.appendChild(td5)
+
+            td6 = document.createElement('td')
+            td6.textContent = staff[userId]['hours'] !== 0 ? staff[userId]['hours'] : '—'
+            row.hours = staff[userId]['hours']
+            td6.style.textAlign = "center"
+            row.appendChild(td6)
 
             staffTableTbody.appendChild(row)
         }
@@ -274,5 +282,5 @@ function editTeacher(surname = null,
             closeModal()
         }
     }
-    showModal(message, 'Новый сотрудник', [buttonSave, buttonDelete])
+    showModal(message, 'Изменение сотрудника', [buttonSave, buttonDelete])
 }

@@ -2,6 +2,7 @@
 from flask_login import current_user
 
 from data import db_session
+from data.homeworks import Workload
 from data.roles import Role
 from data.users import User
 from edu.api import api, socket
@@ -31,6 +32,8 @@ def getTeachers():
         teacher_dict = teacher.to_dict(only=('id', 'surname', 'name', 'patronymic', 'date_of_birth',
                                              'email', 'school_id', 'about', 'game_session_id'))
         teacher_dict['roles'] = teacher_roles
+        teacher_dict['hours'] = sum(map(lambda x: x[0], db_sess.query(Workload.hours).filter(
+            Workload.teacher_id == teacher_dict['id']).all()))
         teachers_data.append(teacher_dict)
 
     return send_response(

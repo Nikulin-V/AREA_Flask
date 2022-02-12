@@ -3,8 +3,10 @@
 {% block head %}
 
     {% include 'area/head.html' %}
+    <script src="{{ url('.static', filename='js/api/info.js') }}"></script>
     <script src="{{ url('.static', filename='js/api/teachers.js') }}"></script>
     <script src="{{ url('.static', filename='js/api/classes.js') }}"></script>
+    <script src="{{ url('.static', filename='js/api/workload.js') }}"></script>
 
 {% endblock head %}
 

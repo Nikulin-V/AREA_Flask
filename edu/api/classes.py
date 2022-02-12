@@ -3,7 +3,9 @@ from flask_login import current_user
 
 from data import db_session
 from data.classes import Class
+from data.users import User
 from edu.api import api, socket
+from edu.api.workload import get_teacher_id
 from tools.tools import send_response, fillJson, roles_allowed
 
 
@@ -27,7 +29,11 @@ def getClasses():
             'classes': [
                 {
                     'number': c.number,
-                    'letter': c.letter
+                    'letter': c.letter,
+                    'teacher': None if c.teacher_id is None else
+                    ' '.join([db_sess.query(User).get(c.teacher_id).surname,
+                              db_sess.query(User).get(c.teacher_id).name,
+                              db_sess.query(User).get(c.teacher_id).patronymic])
                 }
                 for c in classes
             ]
@@ -43,7 +49,7 @@ def createClass(json=None):
         json = dict()
 
     event_name = 'createClass'
-    fillJson(json, ['number', 'letter'])
+    fillJson(json, ['number', 'letter', 'teacher'])
 
     if not (json['number'] and json['letter']):
         return send_response(
@@ -58,7 +64,8 @@ def createClass(json=None):
     school_class = Class(
         number=int(json['number']),
         letter=json['letter'],
-        school_id=current_user.school_id
+        school_id=current_user.school_id,
+        teacher_id=get_teacher_id(json['teacher'])
     )
 
     # TODO: Обработать ошибку в JS
@@ -106,11 +113,13 @@ def editClass(json=None):
     school_class = db_sess.query(Class).filter(
         Class.number == int(json['old_number']),
         Class.letter == json['old_letter'],
+        Class.teacher_id == get_teacher_id(json['old_teacher']),
         Class.school_id == current_user.school_id
     ).first()
 
     school_class.letter = json['letter']
     school_class.number = json['number']
+    school_class.teacher_id = get_teacher_id(json['teacher'])
 
     db_sess.merge(school_class)
     db_sess.commit()
@@ -137,7 +146,8 @@ def deleteClass(json=None):
     school_class = db_sess.query(Class).filter(
         Class.number == int(json['number']),
         Class.letter == json['letter'],
-        Class.school_id == current_user.school_id
+        Class.school_id == current_user.school_id,
+        Class.teacher_id == get_teacher_id(json['teacher'])
     ).first()
 
     db_sess.delete(school_class)

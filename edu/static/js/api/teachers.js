@@ -75,9 +75,9 @@ teachers.delete = function (surname = null,
                             roles = null,
                             fn = null) {
     if (fn)
-        teachers.putFn = fn
+        teachers.deleteFn = fn
     else
-        teachers.putFn = null
+        teachers.deleteFn = null
 
     socket.emit('deleteTeacher', {
         'surname': surname,
@@ -88,9 +88,9 @@ teachers.delete = function (surname = null,
 }
 
 socket.on('deleteTeacher', function (data) {
-    teachers.putJson = data
-    if (teachers.putFn)
-        teachers.putFn(data)
+    teachers.deleteJson = data
+    if (teachers.deleteFn)
+        teachers.deleteFn(data)
 })
 
 function translit(word) {

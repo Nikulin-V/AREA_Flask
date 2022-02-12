@@ -13,3 +13,4 @@ from .epos_diary import epos_diary
 from .errors import error_page
 from .classes import classes
 from .staff import staff
+from .workload import workload

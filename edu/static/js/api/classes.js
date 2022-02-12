@@ -28,6 +28,7 @@ classes.post = function (number = null,
     socket.emit('createClass', {
         'number': number,
         'letter': letter,
+        'teacher': teacher
     })
 }
 
@@ -39,8 +40,10 @@ socket.on('createClass', function (data) {
 
 classes.put = function (old_number = null,
                         old_letter = null,
+                        old_teacher = null,
                         number = null,
                         letter = null,
+                        teacher = null,
                         fn = null) {
     if (fn)
         classes.putFn = fn
@@ -50,8 +53,10 @@ classes.put = function (old_number = null,
     socket.emit('editClass', {
         'old_number': old_number,
         'old_letter': old_letter,
+        'old_teacher': old_teacher,
         'number': number,
         'letter': letter,
+        'teacher': teacher
     })
 }
 
@@ -65,49 +70,19 @@ classes.delete = function (number = null,
                            letter = null,
                            fn = null) {
     if (fn)
-        classes.putFn = fn
+        classes.deleteFn = fn
     else
-        classes.putFn = null
+        classes.deleteFn = null
 
     socket.emit('deleteClass', {
         'number': number,
         'letter': letter,
+        'teacher': teacher
     })
 }
 
 socket.on('deleteClass', function (data) {
-    classes.putJson = data
-    if (classes.putFn)
-        classes.putFn(data)
+    classes.deleteJson = data
+    if (classes.deleteFn)
+        classes.deleteFn(data)
 })
-
-function translit(word) {
-    let answer = '';
-    const converter = {
-        'а': 'a', 'б': 'b', 'в': 'v', 'г': 'g', 'д': 'd',
-        'е': 'e', 'ё': 'e', 'ж': 'zh', 'з': 'z', 'и': 'i',
-        'й': 'y', 'к': 'k', 'л': 'l', 'м': 'm', 'н': 'n',
-        'о': 'o', 'п': 'p', 'р': 'r', 'с': 's', 'т': 't',
-        'у': 'u', 'ф': 'f', 'х': 'h', 'ц': 'c', 'ч': 'ch',
-        'ш': 'sh', 'щ': 'sch', 'ь': '', 'ы': 'y', 'ъ': '',
-        'э': 'e', 'ю': 'yu', 'я': 'ya',
-
-        'А': 'A', 'Б': 'B', 'В': 'V', 'Г': 'G', 'Д': 'D',
-        'Е': 'E', 'Ё': 'E', 'Ж': 'Zh', 'З': 'Z', 'И': 'I',
-        'Й': 'Y', 'К': 'K', 'Л': 'L', 'М': 'M', 'Н': 'N',
-        'О': 'O', 'П': 'P', 'Р': 'R', 'С': 'S', 'Т': 'T',
-        'У': 'U', 'Ф': 'F', 'Х': 'H', 'Ц': 'C', 'Ч': 'Ch',
-        'Ш': 'Sh', 'Щ': 'Sch', 'Ь': '', 'Ы': 'Y', 'Ъ': '',
-        'Э': 'E', 'Ю': 'Yu', 'Я': 'Ya'
-    };
-
-    for (let i = 0; i < word.length; ++i) {
-        if (converter[word[i]] === undefined) {
-            answer += word[i];
-        } else {
-            answer += converter[word[i]];
-        }
-    }
-
-    return answer;
-}

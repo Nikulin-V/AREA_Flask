@@ -12,13 +12,14 @@
                 {% endif %}
             </td>
             <td style="text-align: right; border: 0">
-                <a class="btn btn-info" id="add-class" onclick="createClass()">
+                <a class="btn btn-info" id="add-teacher" onclick="createWorkload()">
                     Добавить
                 </a>
             </td>
         </tr>
     </table>
     <hr>
-    <div class="row row-cols-1 row-cols-md-2 g-4" id="classes-table"></div>
-    <script src="{{ url('.static', filename='js/classes.js') }}"></script>
+    <span id="workload-table-span"></span>
+    <div id="total-div" style="margin-top: 20px"></div>
+    <script src="{{ url('.static', filename='js/workload.js') }}"></script>
 {% endblock %}

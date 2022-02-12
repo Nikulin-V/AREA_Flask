@@ -7,7 +7,7 @@ from data import db_session
 from data.classes import Class, Group, ClassLesson, GroupLesson
 from data.companies import Company
 from data.config import Constant
-from data.homeworks import Homework
+from data.homeworks import Homework, Subject, Workload
 from data.news import News
 from data.roles import Role, RolesUsers
 from data.scheduled_job import ScheduledJob
@@ -51,7 +51,7 @@ def connect_models(admin):
 
     admin_models = [(User, UserView), RolesUsers, Role, ScheduledJob]
     market_models = [Session, Constant, (News, NewsView), Company, Stock, Wallet]
-    edu_models = [School, Class, Group, ClassLesson, GroupLesson, Homework]
+    edu_models = [School, Class, Group, ClassLesson, GroupLesson, Homework, Subject, Workload]
 
     categories = {
         'Admin': admin_models,

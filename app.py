@@ -56,7 +56,8 @@ db_session.global_init('db/database.sqlite')
 
 def main():
     port = int(os.environ.get('PORT', 443 if SCHEME == 'https' else 80))
-    socket_.run(app, host='0.0.0.0', port=port, keyfile='private.key', certfile='certificate.crt')
+    socket_.run(app, host='0.0.0.0', port=port, server_side=True,
+                keyfile='certificates/private.key', certfile='certificates/certificate.crt')
 
 
 def add_admin_panel():
