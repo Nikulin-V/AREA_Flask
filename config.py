@@ -1,6 +1,6 @@
 #  Nikulin Vasily © 2021
 HOST = 'area-146.tk'
-DEV_HOST = 'du-area.herokuapp.com'
+DEV_HOST = 'area-146.ru'
 SERVER_NAME = DEV_HOST
 SCHEME = 'https'
 
