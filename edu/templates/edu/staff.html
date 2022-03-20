@@ -19,6 +19,10 @@
         </tr>
     </table>
     <hr>
-    <span id="staff-table-span"></span>
+    <div id="staff-table-span" class="text-center">
+        <div id="spinner" class="spinner-border text-info" role="status">
+            <span class="visually-hidden">Загрузка...</span>
+        </div>
+    </div>
     <script src="{{ url('.static', filename='js/staff.js') }}"></script>
 {% endblock %}

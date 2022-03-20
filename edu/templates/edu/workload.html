@@ -19,7 +19,11 @@
         </tr>
     </table>
     <hr>
-    <span id="workload-table-span"></span>
+    <div id="workload-table-span" class="text-center">
+        <div class="spinner-border text-info" role="status">
+            <span class="visually-hidden">Загрузка...</span>
+        </div>
+    </div>
     <div id="total-div" style="margin-top: 20px"></div>
     <script src="{{ url('.static', filename='js/workload.js') }}"></script>
 {% endblock %}

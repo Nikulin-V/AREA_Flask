@@ -10,9 +10,10 @@ function renderPage() {
 
 function renderStaffTable() {
     table = document.getElementById('staff-table-span')
-    if (table)
-        while (table.children.length > 0)
-            table.removeChild(table.children[0])
+
+    previousTable = document.getElementById('staff-table')
+    if (previousTable)
+        table.removeChild(table.children[0])
 
     staffTable = document.createElement('table')
     staffTable.id = "staff-table"
@@ -129,7 +130,6 @@ function renderStaffTable() {
         staffTable.appendChild(staffTableThead)
         staffTable.appendChild(staffTableTbody)
     } else {
-
         staffTableThead = document.createElement('thead')
         staffTableThead.style.backgroundColor = "#86CFDA"
         staffTableTheadNotStaff = document.createElement('td')
@@ -139,6 +139,11 @@ function renderStaffTable() {
         staffTableThead.appendChild(staffTableTheadNotStaff)
         staffTable.appendChild(staffTableThead)
     }
+
+    spinner = document.getElementById('spinner')
+    if (spinner)
+        table.removeChild(table.children[0])
+
     document.getElementById('staff-table-span').appendChild(staffTable)
 }
 

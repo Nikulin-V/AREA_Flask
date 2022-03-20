@@ -139,6 +139,11 @@ function renderWorkloadTable() {
         workloadTableThead.appendChild(workloadTableTheadNotWorkload)
         workloadTable.appendChild(workloadTableThead)
     }
+
+    spinner = document.getElementById('spinner')
+    if (spinner)
+        table.removeChild(table.children[0])
+
     document.getElementById('workload-table-span').appendChild(workloadTable)
 }
 
