@@ -1,5 +1,4 @@
 #  Nikulin Vasily © 2021
-import os
 
 import eventlet
 from flask import Flask, redirect, Blueprint
@@ -14,7 +13,7 @@ from flask_sqlalchemy import SQLAlchemy
 import area
 import edu
 import market
-from config import SERVER_NAME, SCHEME
+from config import SERVER_NAME, SCHEME, SECRET_KEY, DEBUG, PORT
 from data import db_session
 from data.functions import get_game_roles
 from data.users import User
@@ -27,13 +26,14 @@ eventlet.monkey_patch()
 app = Flask(__name__, subdomain_matching=True)
 app.config.update(
     SERVER_NAME=SERVER_NAME,
-    SECRET_KEY='area_secret_key',
+    SECRET_KEY=SECRET_KEY,
     SQLALCHEMY_DATABASE_URI='sqlite:///db/database.sqlite',
     SQLALCHEMY_TRACK_MODIFICATIONS=False,
     SESSION_COOKIE_DOMAIN=SERVER_NAME,
     SESSION_COOKIE_HTTPONLY=False,
     MAX_CONTENT_LENGTH=32 * 1024 * 1024,
-    PREFERRED_URL_SCHEME=SCHEME
+    PREFERRED_URL_SCHEME=SCHEME,
+    DEBUG=DEBUG
 )
 app.config.from_pyfile('config-extended.py')
 
@@ -55,8 +55,7 @@ db_session.global_init('db/database.sqlite')
 
 
 def main():
-    port = int(os.environ.get('PORT', 443 if SCHEME == 'https' else 80))
-    socket_.run(app, host='0.0.0.0', port=port, server_side=True,
+    socket_.run(app, host='0.0.0.0', port=PORT, server_side=True,
                 keyfile='certificates/private.key', certfile='certificates/certificate.crt')
 
 
@@ -80,7 +79,8 @@ def secrets_of_literacy():
 
 
 if __name__ == '__main__':
-    print('https://area-146.ru')
+
+    print(f'{SCHEME}://area-146.{"ru" if DEBUG else "tk"}')
     add_admin_panel()
 
     services = [area.area, market.market, edu.edu]

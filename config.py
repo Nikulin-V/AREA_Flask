@@ -1,8 +1,21 @@
 #  Nikulin Vasily © 2021
+import os
+from pathlib import Path
+
+from dotenv import load_dotenv
+
+BASE_DIR = Path(__file__).resolve().parent
+
+load_dotenv(os.path.join(BASE_DIR, '.env'))
+
 HOST = 'area-146.tk'
 DEV_HOST = 'area-146.ru'
-SERVER_NAME = DEV_HOST
-SCHEME = 'https'
+SCHEME = os.environ.get('SCHEME')
+SECRET_KEY = os.environ.get('SECRET_KEY')
+DEBUG = True if os.environ.get('DEBUG').lower() in ['1', 'true', 't'] else False
+
+SERVER_NAME = DEV_HOST if DEBUG else HOST
+PORT = 443 if SCHEME == 'https' else 80
 
 default_constants = {
     'GOVERNMENT_BALANCE': 0,
