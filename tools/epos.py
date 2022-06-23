@@ -19,7 +19,7 @@ class EPOS:
         :return: Сессия браузера (WebDriver)
         """
         opts = webdriver.ChromeOptions()
-        opts.headless = True
+        opts.headless = False
 
         self.driver = webdriver.Chrome(options=opts)
 
@@ -65,7 +65,9 @@ class EPOS:
 
     def get_cookies(self, login: str, password: str):
         self.driver.get('https://school.permkrai.ru')
-        login_button = self.driver.find_element_by_xpath("(//div[@class='_2WG0s']//a)[2]")
+        login_button = WebDriverWait(self.driver, 10).until(
+            ec.presence_of_element_located((By.XPATH,
+                                            "//h1[@class='_1HQNC']/following-sibling::button[1]")))
         login_button.click()
 
         login_button = self.driver.find_element_by_xpath('//div[contains(text(),"Вход с паролем")]')
@@ -82,6 +84,12 @@ class EPOS:
         email_input.send_keys(login)
         password_input.send_keys(password)
         login_btn.click()
+
+        if self.driver.title == 'Региональный сервис аутентификации и авторизации гражданина ' \
+                                'Пермского края':
+            login_button = self.driver.find_element_by_xpath("(//a[contains(@class,'button "
+                                                             "button--invert')])[2]")
+            login_button.click()
 
         if self.driver.title != 'ЭПОС.Школа':
             self.driver.close()

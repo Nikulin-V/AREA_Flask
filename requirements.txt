@@ -5,7 +5,7 @@ WTForms~=2.3.3
 Flask~=2.0.1
 vk~=2.0.2
 vk-api
-Pillow~=8.2.0
+Pillow
 email-validator
 flask-admin
 flask-security
